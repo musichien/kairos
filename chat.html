@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>개인용 Ollama 채팅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .login-container h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        .password-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .password-input:focus {
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: #dc3545;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 800px;
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            display: none;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .logout-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .chat-header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .chat-header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 15px 20px;
+            border-radius: 20px;
+            word-wrap: break-word;
+            line-height: 1.5;
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 5px;
+        }
+
+        .message.ai .message-content {
+            background: white;
+            color: #333;
+            border: 1px solid #e9ecef;
+            border-bottom-left-radius: 5px;
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 10px;
+        }
+
+        .message.user .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.ai .message-avatar {
+            background: #28a745;
+            color: white;
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .chat-form {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .api-status {
+            background: #e8f5e8;
+            color: #28a745;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        .error-status {
+            background: #ffe8e8;
+            color: #dc3545;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 15px 20px;
+            background: white;
+            border: 1px solid #e9ecef;
+            border-radius: 20px;
+            border-bottom-left-radius: 5px;
+            margin-bottom: 20px;
+            color: #666;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <!-- 로그인 화면 -->
+    <div class="login-container" id="loginContainer">
+        <h1>🔒 개인용 채팅</h1>
+        <input type="password" class="password-input" id="passwordInput" placeholder="비밀번호를 입력하세요" onkeypress="handleKeyPress(event)">
+        <button class="login-btn" onclick="login()">로그인</button>
+        <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <!-- 채팅 화면 -->
+    <div class="chat-container" id="chatContainer">
+        <div class="chat-header">
+            <button class="logout-btn" onclick="logout()">로그아웃</button>
+            <h1>🤖 개인용 Ollama 채팅</h1>
+            <p>AI와 자유롭게 대화하세요</p>
+        </div>
+        
+        <div class="chat-messages" id="chatMessages">
+            <div class="api-status">
+                ✅ Ollama API 서버 연결됨: https://eb3f9d86fe6b.ngrok-free.app
+            </div>
+            <div class="message ai">
+                <div class="message-avatar">AI</div>
+                <div class="message-content">
+                    안녕하세요! 저는 Ollama AI입니다. 무엇을 도와드릴까요? 😊
+                </div>
+            </div>
+        </div>
+
+        <div class="typing-indicator" id="typingIndicator">
+            AI가 응답을 생성하고 있습니다...
+        </div>
+
+        <div class="chat-input-container">
+            <form class="chat-form" id="chatForm">
+                <input type="text" class="chat-input" id="chatInput" placeholder="메시지를 입력하세요..." autocomplete="off">
+                <button type="submit" class="send-btn" id="sendBtn">
+                    <span id="sendText">전송</span>
+                    <span id="sendLoading" class="loading" style="display: none;"></span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 비밀번호 설정
+        const CORRECT_PASSWORD = 'king';
+        
+        // 로그인 상태 확인
+        if (sessionStorage.getItem('authenticated') === 'true') {
+            showChat();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                login();
+            }
+        }
+
+        function login() {
+            const password = document.getElementById('passwordInput').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (password === CORRECT_PASSWORD) {
+                sessionStorage.setItem('authenticated', 'true');
+                showChat();
+            } else {
+                errorMessage.textContent = '비밀번호가 올바르지 않습니다.';
+                document.getElementById('passwordInput').value = '';
+            }
+        }
+
+        function logout() {
+            sessionStorage.removeItem('authenticated');
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginContainer').style.display = 'block';
+            document.getElementById('chatContainer').style.display = 'none';
+        }
+
+        function showChat() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('chatContainer').style.display = 'flex';
+        }
+
+        // 채팅 기능
+        const chatForm = document.getElementById('chatForm');
+        const chatInput = document.getElementById('chatInput');
+        const chatMessages = document.getElementById('chatMessages');
+        const sendBtn = document.getElementById('sendBtn');
+        const sendText = document.getElementById('sendText');
+        const sendLoading = document.getElementById('sendLoading');
+        const typingIndicator = document.getElementById('typingIndicator');
+
+        // Ollama API 서버 URL
+        const OLLAMA_API_URL = 'https://eb3f9d86fe6b.ngrok-free.app';
+
+        chatForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const message = chatInput.value.trim();
+            if (!message) return;
+
+            // 사용자 메시지 추가
+            addMessage('user', message);
+            chatInput.value = '';
+
+            // 로딩 상태
+            setLoading(true);
+            typingIndicator.style.display = 'block';
+
+            try {
+                const response = await fetch(`${OLLAMA_API_URL}/v1/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer your-secret-key-here'
+                    },
+                    body: JSON.stringify({
+                        model: 'jinbora/deepseek-r1-Bllossom:8b',
+                        messages: [
+                            {
+                                role: 'user',
+                                content: message
+                            }
+                        ],
+                        temperature: 0.7
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                const aiResponse = data.choices[0].message.content;
+
+                // AI 응답 추가
+                addMessage('ai', aiResponse);
+
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('ai', '죄송합니다. 오류가 발생했습니다. 다시 시도해주세요.');
+            } finally {
+                setLoading(false);
+                typingIndicator.style.display = 'none';
+            }
+        });
+
+        function addMessage(role, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const avatar = document.createElement('div');
+            avatar.className = 'message-avatar';
+            avatar.textContent = role === 'user' ? '나' : 'AI';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(avatar);
+            messageDiv.appendChild(contentDiv);
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function setLoading(loading) {
+            sendBtn.disabled = loading;
+            if (loading) {
+                sendText.style.display = 'none';
+                sendLoading.style.display = 'inline-block';
+            } else {
+                sendText.style.display = 'inline';
+                sendLoading.style.display = 'none';
+            }
+        }
+
+        // Enter 키로 전송
+        chatInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                chatForm.dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html> 
