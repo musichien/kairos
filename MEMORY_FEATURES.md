@@ -132,6 +132,13 @@ Your memories are automatically saved, but you can also:
 - [ ] **Offline memory** - Work without internet
 - [ ] **Multi-device sync** - Memories across all devices
 
+### Phase 5: Embodied Identity & Self-Restoration
+- [ ] **Embodied Self-Simulation**
+- [ ] **Identity Reinforcement Prompts**
+- [ ] **Embodiment-Augmented Memory Visualization**
+- [ ] **Role-play Session Mode**
+- [ ] **Embodied Learning Feedback Loop**
+
 ## 🛠️ Memory Troubleshooting
 
 ### "AI doesn't remember what I told it"

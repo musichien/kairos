@@ -114,6 +114,13 @@ You'll see the **Kairos Memory Interface** where you can chat with an AI that re
 - [ ] **Accessibility improvements**
 - [ ] **Multi-language support**
 
+### Phase 5: Embodied Identity & Self-Restoration
+- [ ] **Embodied Self-Simulation**
+- [ ] **Identity Reinforcement Prompts**
+- [ ] **Embodiment-Augmented Memory Visualization**
+- [ ] **Role-play Session Mode**
+- [ ] **Embodied Learning Feedback Loop**
+
 ## 🛠️ Troubleshooting
 
 ### "Cannot connect to Ollama"

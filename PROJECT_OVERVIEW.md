@@ -152,6 +152,13 @@ Kairos is built on clinical research showing that:
 - **Family Sharing**: Secure sharing with family members
 - **Medical Integration**: Healthcare provider dashboard
 
+#### Phase 5: Embodied Identity & Self-Restoration
+- **Embodied Self-Simulation**
+- **Identity Reinforcement Prompts**
+- **Embodiment-Augmented Memory Visualization**
+- **Role-play Session Mode**
+- **Embodied Learning Feedback Loop**
+
 ## 🤝 Contributing
 
 ### Open Research
