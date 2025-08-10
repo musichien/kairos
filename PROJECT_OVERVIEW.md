@@ -161,6 +161,15 @@ Kairos is built on clinical research showing that:
 
 *Research Foundation: This phase integrates embodied AI research from [DeepMind's Genie3](https://github.com/deepmind/genie3), cognitive science on embodied memory, and therapeutic role-play methodologies to create a comprehensive identity restoration system. See [PHASE5_RESEARCH_FOUNDATION.md](PHASE5_RESEARCH_FOUNDATION.md) for detailed academic references.*
 
+#### Phase 6: On-Device AI Optimization and Real-Time Multimodal Integration
+- **Flash Memory-Based Model Execution** - Based on ["LLM in a Flash: Efficient Large Language Model Inference with Limited Memory"](https://arxiv.org/abs/2312.11514) (Apple, 2023)
+- **On-Device Inference Optimization** - Leveraging ["Introducing Apple's On-Device and Server Foundation Models"](https://machinelearning.apple.com/research/foundation-models) (Apple, 2024)
+- **FastVLM-Based Vision-Language Integration** - Inspired by ["Updates to Apple's On-Device and Server Foundation Language Models"](https://machinelearning.apple.com/research/updates-to-apple-foundation-models) (Apple, 2024)
+- **Real-Time Translation and Image Processing** - Building on ["Apple AI Strategy: On-Device Architecture & Privacy"](https://machinelearning.apple.com/research/apple-ai-strategy) (Apple, 2024)
+- **Model Size Reduction and Power Optimization** - Based on ["A Comprehensive Survey on On-Device AI Models"](https://arxiv.org/abs/2401.10169) (Zhang et al., 2024)
+
+*Research Foundation: This phase leverages Apple's cutting-edge on-device AI research, including flash memory optimization, real-time multimodal processing, and privacy-preserving inference. See [PHASE6_RESEARCH_FOUNDATION.md](PHASE6_RESEARCH_FOUNDATION.md) for detailed technical implementation and academic references.*
+
 ## 🤝 Contributing
 
 ### Open Research
