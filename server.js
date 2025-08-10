@@ -15,6 +15,9 @@ const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGIN
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
+// 정적 파일 서빙 설정
+app.use(express.static('.'));
+
 // CORS 설정 (보안 강화)
 app.use(cors({
   origin: function (origin, callback) {
@@ -57,6 +60,11 @@ function authenticateToken(req, res, next) {
 
 // Ollama 서버 URL (기본값: localhost:11434)
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
+
+// 루트 경로 - 메모리 채팅 인터페이스로 리다이렉트
+app.get('/', (req, res) => {
+  res.redirect('/memory_chat_interface.html');
+});
 
 // 기본 모델 설정
 const DEFAULT_MODEL = 'jinbora/deepseek-r1-Bllossom:8b';
