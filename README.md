@@ -115,11 +115,13 @@ You'll see the **Kairos Memory Interface** where you can chat with an AI that re
 - [ ] **Multi-language support**
 
 ### Phase 5: Embodied Identity & Self-Restoration
-- [ ] **Embodied Self-Simulation**
-- [ ] **Identity Reinforcement Prompts**
-- [ ] **Embodiment-Augmented Memory Visualization**
-- [ ] **Role-play Session Mode**
-- [ ] **Embodied Learning Feedback Loop**
+- [ ] **Embodied Self-Simulation** - Based on DeepMind's Genie3 (Generative Interactive Environments) for 3D world simulation and embodied AI research
+- [ ] **Identity Reinforcement Prompts** - Leveraging self-supervised learning from "Self-Supervised Learning of Pretext-Invariant Representations" (Chen et al., 2020)
+- [ ] **Embodiment-Augmented Memory Visualization** - Inspired by "Embodied Cognition and the Neural Basis of Memory" (Glenberg, 2010) and spatial memory research
+- [ ] **Role-play Session Mode** - Building on "The Role of Simulation in Social Cognition" (Goldman, 2006) and therapeutic role-play methodologies
+- [ ] **Embodied Learning Feedback Loop** - Based on "Embodied Learning: Why at School the Mind Needs the Body" (Glenberg et al., 2013) and adaptive learning systems
+
+*Research Foundation: This phase integrates embodied AI research from DeepMind's Genie3, cognitive science on embodied memory, and therapeutic role-play methodologies to create a comprehensive identity restoration system.*
 
 ## 🛠️ Troubleshooting
 
