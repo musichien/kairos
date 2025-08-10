@@ -302,10 +302,9 @@
                     <div class="form-group">
                         <label for="model">모델:</label>
                         <select id="model">
-                            <option value="jinbora/deepseek-r1-Bllossom:8b">jinbora/deepseek-r1-Bllossom:8b</option>
-                            <option value="llama3.2:latest">llama3.2:latest</option>
-                            <option value="mistral:latest">mistral:latest</option>
+                            <option value="">모델을 선택하세요...</option>
                         </select>
+                        <button class="btn btn-secondary" onclick="loadModels()" style="margin-top: 5px; width: 100%;">🔄 모델 목록 새로고침</button>
                     </div>
                     <button class="btn" onclick="testConnection()">🔗 연결 테스트</button>
                 </div>
@@ -384,6 +383,60 @@
             setTimeout(() => {
                 statusDiv.remove();
             }, 5000);
+        }
+
+        // 모델 목록 로드
+        async function loadModels() {
+            const config = getConfig();
+            
+            try {
+                showStatus('🔄 모델 목록을 가져오는 중...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/models`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    populateModelSelect(data.models);
+                    showStatus(`✅ ${data.models.length}개의 모델을 찾았습니다`, 'success');
+                } else {
+                    showStatus('❌ 모델 목록 로드 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 모델 목록 로드 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 모델 선택 옵션 채우기
+        function populateModelSelect(models) {
+            const modelSelect = document.getElementById('model');
+            
+            // 기존 옵션들 제거 (첫 번째 "모델을 선택하세요" 옵션 제외)
+            while (modelSelect.children.length > 1) {
+                modelSelect.removeChild(modelSelect.lastChild);
+            }
+            
+            // 새 모델들 추가
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.name;
+                option.textContent = `${model.name} (${formatFileSize(model.size)})`;
+                modelSelect.appendChild(option);
+            });
+        }
+
+        // 파일 크기 포맷팅
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
         }
 
         // 연결 테스트
@@ -701,6 +754,9 @@
         window.onload = function() {
             // 사용자 ID 변경 시 메모리 통계 로드
             userIdInput.addEventListener('change', loadMemoryStats);
+            
+            // 초기 모델 목록 로드
+            setTimeout(loadModels, 500);
             
             // 초기 메모리 통계 로드
             setTimeout(loadMemoryStats, 1000);

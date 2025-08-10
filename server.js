@@ -18,15 +18,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // 정적 파일 서빙 설정
 app.use(express.static('.'));
 
-// CORS 설정 (보안 강화)
+// CORS 설정 (개발용 - 모든 origin 허용)
 app.use(cors({
-  origin: function (origin, callback) {
-    if (ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
+  origin: true,
   credentials: true
 }));
 
@@ -260,6 +254,33 @@ app.get('/health', (req, res) => {
     timestamp: new Date().toISOString(),
     ollama_url: OLLAMA_URL
   });
+});
+
+// 설치된 모델 목록 조회 엔드포인트
+app.get('/api/models', async (req, res) => {
+  try {
+    const response = await axios.get(`${OLLAMA_URL}/api/tags`, {
+      timeout: 10000
+    });
+    
+    const models = response.data.models.map(model => ({
+      name: model.name,
+      model: model.model,
+      size: model.size,
+      modified_at: model.modified_at
+    }));
+    
+    res.json({ models });
+  } catch (error) {
+    console.error('모델 목록 조회 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '모델 목록 조회 실패: ' + error.message,
+        type: 'server_error',
+        code: 'models_fetch_failed'
+      }
+    });
+  }
 });
 
 // 메모리 관리 API 엔드포인트들
