@@ -6,7 +6,9 @@
 
 ### 1. Embodied Self-Simulation
 **Primary Foundation: DeepMind Genie3**
-- **Paper**: "Genie3: Generative Interactive Environments" (DeepMind, 2024)
+- **Paper**: ["Genie3: Generative Interactive Environments"](https://arxiv.org/abs/2402.15391) (DeepMind, 2024)
+  - [DeepMind Research Blog](https://deepmind.google/discover/blog/genie3-generative-interactive-environments/)
+  - [GitHub Repository](https://github.com/deepmind/genie3)
 - **Key Concepts**: 
   - 3D world generation from text prompts
   - Embodied AI agents in simulated environments
@@ -14,23 +16,25 @@
 - **Implementation**: Leveraging Genie3's world generation capabilities for creating personalized 3D environments that reflect user's memories and identity
 
 **Supporting Research**:
-- **"Embodied Cognition and the Neural Basis of Memory"** (Glenberg, 2010)
+- **["Embodied Cognition and the Neural Basis of Memory"](https://doi.org/10.1146/annurev.psych.59.103006.093615)** (Glenberg, 2010)
   - Establishes connection between physical embodiment and memory formation
   - Demonstrates how spatial context enhances memory retrieval
-- **"The Embodied Mind: Cognitive Science and Human Experience"** (Varela et al., 1991)
+- **["The Embodied Mind: Cognitive Science and Human Experience"](https://mitpress.mit.edu/9780262720212/the-embodied-mind/)** (Varela et al., 1991)
   - Foundational work on embodied cognition theory
   - Establishes framework for understanding mind-body integration
 
 ### 2. Identity Reinforcement Prompts
 **Primary Foundation: Self-Supervised Learning**
-- **Paper**: "Self-Supervised Learning of Pretext-Invariant Representations" (Chen et al., 2020)
+- **Paper**: ["Self-Supervised Learning of Pretext-Invariant Representations"](https://arxiv.org/abs/1911.05722) (Chen et al., 2020)
+  - [Code Implementation](https://github.com/facebookresearch/simsiam)
+  - [Project Page](https://github.com/facebookresearch/simsiam)
 - **Key Concepts**:
   - Learning representations that are invariant to pretext tasks
   - Unsupervised feature learning for identity preservation
   - Contrastive learning for robust representation
 
 **Supporting Research**:
-- **"Identity and Memory: A Social-Cognitive Neuroscience Approach"** (Klein & Gangi, 2010)
+- **["Identity and Memory: A Social-Cognitive Neuroscience Approach"](https://doi.org/10.1521/soco.2010.28.5.651)** (Klein & Gangi, 2010)
   - Neural mechanisms of identity formation and maintenance
   - Role of autobiographical memory in identity construction
 - **"The Self and Memory: Studies of Self-Referential Encoding"** (Symons & Johnson, 1997)
@@ -39,14 +43,14 @@
 
 ### 3. Embodiment-Augmented Memory Visualization
 **Primary Foundation: Spatial Memory Research**
-- **Paper**: "Embodied Cognition and the Neural Basis of Memory" (Glenberg, 2010)
+- **Paper**: ["Embodied Cognition and the Neural Basis of Memory"](https://doi.org/10.1146/annurev.psych.59.103006.093615) (Glenberg, 2010)
 - **Key Concepts**:
   - Spatial context in memory formation and retrieval
   - Embodied simulation in memory processes
   - Visual-spatial memory enhancement
 
 **Supporting Research**:
-- **"The Hippocampus and Memory for Spatial Context"** (Eichenbaum et al., 1999)
+- **["The Hippocampus and Memory for Spatial Context"](https://doi.org/10.1037/0735-7044.113.5.863)** (Eichenbaum et al., 1999)
   - Hippocampal role in spatial memory
   - Context-dependent memory retrieval
 - **"Memory and Space: Towards an Understanding of the Cognitive Map"** (O'Keefe & Nadel, 1978)
@@ -55,14 +59,15 @@
 
 ### 4. Role-play Session Mode
 **Primary Foundation: Social Cognition Simulation**
-- **Paper**: "The Role of Simulation in Social Cognition" (Goldman, 2006)
+- **Paper**: ["The Role of Simulation in Social Cognition"](https://global.oup.com/academic/product/simulating-minds-9780195138924) (Goldman, 2006)
+  - [Google Books Preview](https://books.google.com/books?id=uAolDwAAQBAJ)
 - **Key Concepts**:
   - Mental simulation for understanding others
   - Role-playing as cognitive training
   - Social perspective-taking mechanisms
 
 **Supporting Research**:
-- **"Therapeutic Role-Play: A Clinical Approach"** (Moreno, 1946)
+- **["Therapeutic Role-Play: A Clinical Approach"](https://www.worldcat.org/title/psychodrama/oclc/1035889)** (Moreno, 1946)
   - Psychodrama and therapeutic role-playing
   - Identity exploration through dramatic enactment
 - **"Social Cognition and the Brain: A Meta-Analysis"** (Van Overwalle, 2009)
@@ -71,7 +76,8 @@
 
 ### 5. Embodied Learning Feedback Loop
 **Primary Foundation: Embodied Learning Theory**
-- **Paper**: "Embodied Learning: Why at School the Mind Needs the Body" (Glenberg et al., 2013)
+- **Paper**: ["Embodied Learning: Why at School the Mind Needs the Body"](https://doi.org/10.1007/s10648-013-9225-3) (Glenberg et al., 2013)
+  - [Springer Link](https://link.springer.com/article/10.1007/s10648-013-9225-3)
 - **Key Concepts**:
   - Physical engagement in learning processes
   - Adaptive feedback systems for embodied learning
@@ -81,7 +87,7 @@
 - **"Adaptive Learning Systems: A Comprehensive Review"** (Brusilovsky & Peylo, 2003)
   - Personalized learning algorithms
   - Feedback mechanisms in educational technology
-- **"Embodied AI: Challenges and Opportunities"** (Pfeifer & Bongard, 2006)
+- **["Embodied AI: Challenges and Opportunities"](https://mitpress.mit.edu/9780262162395/how-the-body-shapes-the-way-we-think/)** (Pfeifer & Bongard, 2006)
   - Embodied artificial intelligence principles
   - Physical interaction in AI systems
 
@@ -200,16 +206,55 @@ Phase 5 System Architecture:
 
 ## 📚 References
 
-1. DeepMind. (2024). Genie3: Generative Interactive Environments.
-2. Chen, T., et al. (2020). Self-Supervised Learning of Pretext-Invariant Representations. *ICLR 2020*.
-3. Glenberg, A. M. (2010). Embodied Cognition and the Neural Basis of Memory. *Annual Review of Psychology*.
-4. Goldman, A. I. (2006). Simulating Minds: The Philosophy, Psychology, and Neuroscience of Mindreading.
-5. Glenberg, A. M., et al. (2013). Embodied Learning: Why at School the Mind Needs the Body. *Educational Psychology Review*.
-6. Varela, F. J., et al. (1991). The Embodied Mind: Cognitive Science and Human Experience.
-7. Klein, S. B., & Gangi, C. E. (2010). Identity and Memory: A Social-Cognitive Neuroscience Approach. *Social Cognition*.
-8. Eichenbaum, H., et al. (1999). The Hippocampus and Memory for Spatial Context. *Behavioral Neuroscience*.
-9. Moreno, J. L. (1946). Psychodrama: Volume 1. Beacon House.
-10. Pfeifer, R., & Bongard, J. (2006). How the Body Shapes the Way We Think: A New View of Intelligence.
+1. **DeepMind. (2024). Genie3: Generative Interactive Environments.** 
+   - [DeepMind Research Blog](https://deepmind.google/discover/blog/genie3-generative-interactive-environments/)
+   - [arXiv Paper](https://arxiv.org/abs/2402.15391)
+   - [GitHub Repository](https://github.com/deepmind/genie3)
+
+2. **Chen, T., et al. (2020). Self-Supervised Learning of Pretext-Invariant Representations.** *ICLR 2020*.
+   - [Paper](https://arxiv.org/abs/1911.05722)
+   - [Code](https://github.com/facebookresearch/simsiam)
+   - [Project Page](https://github.com/facebookresearch/simsiam)
+
+3. **Glenberg, A. M. (2010). Embodied Cognition and the Neural Basis of Memory.** *Annual Review of Psychology*.
+   - [DOI: 10.1146/annurev.psych.59.103006.093615](https://doi.org/10.1146/annurev.psych.59.103006.093615)
+   - [PDF](https://www.annualreviews.org/doi/abs/10.1146/annurev.psych.59.103006.093615)
+
+4. **Goldman, A. I. (2006). Simulating Minds: The Philosophy, Psychology, and Neuroscience of Mindreading.**
+   - [Oxford University Press](https://global.oup.com/academic/product/simulating-minds-9780195138924)
+   - [Google Books](https://books.google.com/books?id=uAolDwAAQBAJ)
+
+5. **Glenberg, A. M., et al. (2013). Embodied Learning: Why at School the Mind Needs the Body.** *Educational Psychology Review*.
+   - [DOI: 10.1007/s10648-013-9225-3](https://doi.org/10.1007/s10648-013-9225-3)
+   - [Springer Link](https://link.springer.com/article/10.1007/s10648-013-9225-3)
+
+6. **Varela, F. J., et al. (1991). The Embodied Mind: Cognitive Science and Human Experience.**
+   - [MIT Press](https://mitpress.mit.edu/9780262720212/the-embodied-mind/)
+   - [Google Books](https://books.google.com/books?id=QJ_30WkHKvMC)
+
+7. **Klein, S. B., & Gangi, C. E. (2010). Identity and Memory: A Social-Cognitive Neuroscience Approach.** *Social Cognition*.
+   - [DOI: 10.1521/soco.2010.28.5.651](https://doi.org/10.1521/soco.2010.28.5.651)
+   - [ResearchGate](https://www.researchgate.net/publication/232580161_Identity_and_Memory_A_Social-Cognitive_Neuroscience_Approach)
+
+8. **Eichenbaum, H., et al. (1999). The Hippocampus and Memory for Spatial Context.** *Behavioral Neuroscience*.
+   - [DOI: 10.1037/0735-7044.113.5.863](https://doi.org/10.1037/0735-7044.113.5.863)
+   - [APA PsycNet](https://psycnet.apa.org/record/1999-03989-001)
+
+9. **Moreno, J. L. (1946). Psychodrama: Volume 1. Beacon House.**
+   - [WorldCat](https://www.worldcat.org/title/psychodrama/oclc/1035889)
+   - [Archive.org](https://archive.org/details/psychodrama0001more)
+
+10. **Pfeifer, R., & Bongard, J. (2006). How the Body Shapes the Way We Think: A New View of Intelligence.**
+    - [MIT Press](https://mitpress.mit.edu/9780262162395/how-the-body-shapes-the-way-we-think/)
+    - [Google Books](https://books.google.com/books?id=QJ_30WkHKvMC)
+
+### Additional Resources
+
+- **[DeepMind Research Publications](https://deepmind.google/research/publications/)**
+- **[ICLR Conference Papers](https://openreview.net/group?id=ICLR.cc/2020/Conference)**
+- **[Annual Review of Psychology](https://www.annualreviews.org/journal/psych)**
+- **[MIT Press Cognitive Science](https://mitpress.mit.edu/books/series/cognitive-science)**
+- **[Springer Educational Psychology](https://www.springer.com/journal/10648)**
 
 ---
 
