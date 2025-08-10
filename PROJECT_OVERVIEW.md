@@ -153,13 +153,13 @@ Kairos is built on clinical research showing that:
 - **Medical Integration**: Healthcare provider dashboard
 
 #### Phase 5: Embodied Identity & Self-Restoration
-- **Embodied Self-Simulation** - Based on DeepMind's Genie3 (Generative Interactive Environments) for 3D world simulation and embodied AI research
-- **Identity Reinforcement Prompts** - Leveraging self-supervised learning from "Self-Supervised Learning of Pretext-Invariant Representations" (Chen et al., 2020)
-- **Embodiment-Augmented Memory Visualization** - Inspired by "Embodied Cognition and the Neural Basis of Memory" (Glenberg, 2010) and spatial memory research
-- **Role-play Session Mode** - Building on "The Role of Simulation in Social Cognition" (Goldman, 2006) and therapeutic role-play methodologies
-- **Embodied Learning Feedback Loop** - Based on "Embodied Learning: Why at School the Mind Needs the Body" (Glenberg et al., 2013) and adaptive learning systems
+- **Embodied Self-Simulation** - Based on [DeepMind's Genie3](https://arxiv.org/abs/2402.15391) (Generative Interactive Environments) for 3D world simulation and embodied AI research
+- **Identity Reinforcement Prompts** - Leveraging self-supervised learning from ["Self-Supervised Learning of Pretext-Invariant Representations"](https://arxiv.org/abs/1911.05722) (Chen et al., 2020)
+- **Embodiment-Augmented Memory Visualization** - Inspired by ["Embodied Cognition and the Neural Basis of Memory"](https://doi.org/10.1146/annurev.psych.59.103006.093615) (Glenberg, 2010) and spatial memory research
+- **Role-play Session Mode** - Building on ["The Role of Simulation in Social Cognition"](https://global.oup.com/academic/product/simulating-minds-9780195138924) (Goldman, 2006) and therapeutic role-play methodologies
+- **Embodied Learning Feedback Loop** - Based on ["Embodied Learning: Why at School the Mind Needs the Body"](https://doi.org/10.1007/s10648-013-9225-3) (Glenberg et al., 2013) and adaptive learning systems
 
-*Research Foundation: This phase integrates embodied AI research from DeepMind's Genie3, cognitive science on embodied memory, and therapeutic role-play methodologies to create a comprehensive identity restoration system.*
+*Research Foundation: This phase integrates embodied AI research from [DeepMind's Genie3](https://github.com/deepmind/genie3), cognitive science on embodied memory, and therapeutic role-play methodologies to create a comprehensive identity restoration system. See [PHASE5_RESEARCH_FOUNDATION.md](PHASE5_RESEARCH_FOUNDATION.md) for detailed academic references.*
 
 ## 🤝 Contributing
 
