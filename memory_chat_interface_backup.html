@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ollama API 서버 - 메모리 기능 포함 채팅</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            min-height: 600px;
+        }
+
+        .sidebar {
+            background: #f8f9fa;
+            padding: 20px;
+            border-right: 1px solid #e9ecef;
+        }
+
+        .chat-area {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+
+        .config-section {
+            margin-bottom: 30px;
+        }
+
+        .config-section h3 {
+            color: #495057;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #495057;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-danger {
+            background: #dc3545;
+        }
+
+        .memory-stats {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .memory-stats h4 {
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8f9fa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            max-width: 80%;
+        }
+
+        .message.user {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.assistant {
+            background: white;
+            border: 1px solid #e9ecef;
+            color: #495057;
+        }
+
+        .message.system {
+            background: #e3f2fd;
+            border: 1px solid #bbdefb;
+            color: #1976d2;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        .message-header {
+            font-size: 0.8em;
+            opacity: 0.7;
+            margin-bottom: 5px;
+        }
+
+        .chat-input {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e9ecef;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .input-group button {
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .status {
+            padding: 10px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #e9ecef;
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+            animation: progress-animation 2s ease-in-out infinite;
+        }
+
+        .retry-button {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .retry-button:hover {
+            background: #c82333;
+        }
+
+        @keyframes progress-animation {
+            0% { width: 0%; }
+            50% { width: 70%; }
+            100% { width: 100%; }
+        }
+
+        .memory-item {
+            background: white;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+            font-size: 14px;
+        }
+
+        .memory-item .timestamp {
+            font-size: 0.8em;
+            color: #6c757d;
+            margin-bottom: 5px;
+        }
+
+        .memory-item .content {
+            color: #495057;
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                order: 2;
+            }
+            
+            .chat-area {
+                order: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Ollama API 서버</h1>
+            <p>메모리 기능이 포함된 AI 채팅 인터페이스</p>
+        </div>
+
+        <div class="main-content">
+            <div class="sidebar">
+                <div class="config-section">
+                    <h3>⚙️ 설정</h3>
+                    <div class="form-group">
+                        <label for="apiUrl">API URL:</label>
+                        <input type="text" id="apiUrl" value="http://localhost:3000" placeholder="API URL을 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="apiKey">API 키:</label>
+                        <input type="text" id="apiKey" value="your-secret-key-here" placeholder="API 키를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="userId">사용자 ID:</label>
+                        <input type="text" id="userId" value="user_001" placeholder="사용자 ID를 입력하세요">
+                    </div>
+                    <div class="form-group">
+                        <label for="timeout">타임아웃 (초):</label>
+                        <input type="number" id="timeout" value="90" min="30" max="300" placeholder="90">
+                    </div>
+                    <div class="form-group">
+                        <label for="model">모델:</label>
+                        <select id="model">
+                            <option value="">모델을 선택하세요...</option>
+                        </select>
+                        <button class="btn btn-secondary" id="refreshModelsBtn" style="margin-top: 5px; width: 100%;">🔄 모델 목록 새로고침</button>
+                    </div>
+                    <button class="btn" id="testConnectionBtn">🔗 연결 테스트</button>
+                </div>
+
+                <div class="config-section">
+                    <h3>🧠 메모리 관리</h3>
+                    <button class="btn" id="loadMemoryStatsBtn">📊 통계 조회</button>
+                    <button class="btn" id="loadUserMemoryBtn">📖 메모리 조회</button>
+                    <button class="btn btn-secondary" id="addFactBtn">➕ 사실 추가</button>
+                    <button class="btn btn-secondary" id="addPreferenceBtn">➕ 선호도 추가</button>
+                    <button class="btn btn-danger" id="deleteMemoryBtn">🗑️ 메모리 삭제</button>
+                </div>
+
+                <div class="memory-stats" id="memoryStats" style="display: none;">
+                    <h4>📊 메모리 통계</h4>
+                    <div id="statsContent"></div>
+                </div>
+            </div>
+
+            <div class="chat-area">
+                <div class="chat-messages" id="chatMessages">
+                    <div class="message system">
+                        <div class="message-header">시스템</div>
+                        <div class="message-content">안녕하세요! 메모리 기능이 포함된 AI 채팅에 오신 것을 환영합니다. 사용자 ID를 설정하고 대화를 시작해보세요.</div>
+                    </div>
+                    <div class="message system">
+                        <div class="message-header">시스템</div>
+                        <div class="message-content">💡 팁: 모델 목록이 자동으로 로드됩니다. 만약 로드되지 않는다면 "🔄 모델 목록 새로고침" 버튼을 클릭해보세요.</div>
+                    </div>
+                </div>
+
+                <div class="loading" id="loading">
+                    <div>🤔 AI가 생각 중입니다...</div>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                </div>
+
+                <div class="chat-input">
+                    <div class="input-group">
+                        <input type="text" id="messageInput" placeholder="메시지를 입력하세요..." onkeypress="handleKeyPress(event)">
+                        <button id="sendMessageBtn">전송</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 전역 변수
+        let currentUserId = 'user_001';
+        let memoryData = null;
+
+        // DOM 요소들
+        const apiUrlInput = document.getElementById('apiUrl');
+        const apiKeyInput = document.getElementById('apiKey');
+        const userIdInput = document.getElementById('userId');
+        const timeoutInput = document.getElementById('timeout');
+        const modelSelect = document.getElementById('model');
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const loading = document.getElementById('loading');
+        const memoryStats = document.getElementById('memoryStats');
+        const statsContent = document.getElementById('statsContent');
+
+        // 설정값 가져오기
+        function getConfig() {
+            return {
+                apiUrl: apiUrlInput.value.trim(),
+                apiKey: apiKeyInput.value.trim(),
+                userId: userIdInput.value.trim(),
+                timeout: parseInt(timeoutInput.value) || 90,
+                model: modelSelect.value
+            };
+        }
+
+        // 상태 메시지 표시
+        function showStatus(message, type = 'info') {
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            chatMessages.appendChild(statusDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            
+            setTimeout(() => {
+                statusDiv.remove();
+            }, 5000);
+        }
+
+        // 모델 목록 로드
+        async function loadModels() {
+            const config = getConfig();
+            
+            // API URL 검증
+            if (!config.apiUrl || config.apiUrl === '') {
+                showStatus('❌ API URL을 입력해주세요', 'error');
+                return;
+            }
+            
+                        try {
+                showStatus('🔄 모델 목록을 가져오는 중...', 'info');
+                
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/api/models`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.models && data.models.length > 0) {
+                        populateModelSelect(data.models);
+                        showStatus(`✅ ${data.models.length}개의 모델을 찾았습니다`, 'success');
+                    } else {
+                        showStatus('⚠️ 설치된 모델이 없습니다. Ollama에서 모델을 다운로드해주세요.', 'info');
+                    }
+                } else {
+                    const errorText = await response.text();
+                    showStatus(`❌ 모델 목록 로드 실패: HTTP ${response.status}`, 'error');
+                    console.error('Response error:', errorText);
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 모델 목록 로드 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                    showStatus('❌ 서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 모델 목록 로드 실패: ${error.message}`, 'error');
+                }
+                console.error('Fetch error:', error);
+            }
+        }
+
+        // 메시지 추가
+        function addMessage(role, content, showRetry = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            header.textContent = role === 'user' ? '사용자' : role === 'assistant' ? 'AI' : '시스템';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(header);
+            messageDiv.appendChild(contentDiv);
+            
+            // 재시도 버튼 추가 (시스템 메시지이고 showRetry가 true인 경우)
+            if (role === 'system' && showRetry) {
+                const retryButton = document.createElement('button');
+                retryButton.className = 'retry-button';
+                retryButton.textContent = '🔄 재시도';
+                retryButton.onclick = () => {
+                    messageDiv.remove();
+                    sendMessage();
+                };
+                messageDiv.appendChild(retryButton);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 모델 선택 옵션 채우기
+        function populateModelSelect(models) {
+            const modelSelect = document.getElementById('model');
+            
+            // 기존 옵션들 제거 (첫 번째 "모델을 선택하세요" 옵션 제외)
+            while (modelSelect.children.length > 1) {
+                modelSelect.removeChild(modelSelect.lastChild);
+            }
+            
+            // 새 모델들 추가
+            models.forEach(model => {
+                const option = document.createElement('option');
+                option.value = model.name;
+                option.textContent = `${model.name} (${formatFileSize(model.size)})`;
+                modelSelect.appendChild(option);
+            });
+            
+            // 기본 모델 자동 선택
+            if (models.length > 0) {
+                // jinbora/deepseek-r1-Bllossom:8b 모델이 있으면 우선 선택
+                const preferredModel = models.find(model => 
+                    model.name.includes('jinbora/deepseek-r1-Bllossom:8b') ||
+                    model.name.includes('deepseek') ||
+                    model.name.includes('llama') ||
+                    model.name.includes('mistral')
+                );
+                
+                if (preferredModel) {
+                    modelSelect.value = preferredModel.name;
+                    showStatus(`✅ 기본 모델 선택됨: ${preferredModel.name}`, 'success');
+                } else {
+                    // 첫 번째 모델 선택
+                    modelSelect.value = models[0].name;
+                    showStatus(`✅ 모델 선택됨: ${models[0].name}`, 'success');
+                }
+            }
+        }
+
+        // 파일 크기 포맷팅
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // 연결 테스트
+        async function testConnection() {
+            const config = getConfig();
+            
+            try {
+                showStatus('🔗 서버에 연결 중...', 'info');
+                
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/health`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    showStatus(`✅ 연결 성공! 서버 상태: ${data.status}`, 'success');
+                } else {
+                    showStatus('❌ 연결 실패: 서버 응답 오류', 'error');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 연결 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 연결 실패: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // 메모리 통계 로드
+        async function loadMemoryStats() {
+            const config = getConfig();
+            
+            try {
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/stats`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    const stats = await response.json();
+                    displayMemoryStats(stats);
+                    showStatus('✅ 메모리 통계 로드 완료', 'success');
+                } else {
+                    showStatus('❌ 메모리 통계 로드 실패', 'error');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 메모리 통계 로드 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 메모리 통계 로드 실패: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // 메모리 통계 표시
+        function displayMemoryStats(stats) {
+            statsContent.innerHTML = `
+                <div class="stat-item">
+                    <span>총 대화:</span>
+                    <span class="stat-value">${stats.totalConversations}</span>
+                </div>
+                <div class="stat-item">
+                    <span>총 사실:</span>
+                    <span class="stat-value">${stats.totalFacts}</span>
+                </div>
+                <div class="stat-item">
+                    <span>총 선호도:</span>
+                    <span class="stat-value">${stats.totalPreferences}</span>
+                </div>
+                <div class="stat-item">
+                    <span>생성일:</span>
+                    <span class="stat-value">${new Date(stats.createdAt).toLocaleDateString()}</span>
+                </div>
+                <div class="stat-item">
+                    <span>최종 업데이트:</span>
+                    <span class="stat-value">${new Date(stats.lastUpdated).toLocaleDateString()}</span>
+                </div>
+            `;
+            memoryStats.style.display = 'block';
+        }
+
+        // 사용자 메모리 로드
+        async function loadUserMemory() {
+            const config = getConfig();
+            
+            try {
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    memoryData = await response.json();
+                    displayMemoryData(memoryData);
+                    showStatus('✅ 사용자 메모리 로드 완료', 'success');
+                } else {
+                    showStatus('❌ 사용자 메모리 로드 실패', 'error');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 사용자 메모리 로드 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 사용자 메모리 로드 실패: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // 메모리 데이터 표시
+        function displayMemoryData(memory) {
+            // 사이드바에 메모리 내용 표시
+            const sidebar = document.querySelector('.sidebar');
+            
+            // 기존 메모리 표시 영역 제거
+            const existingMemoryDisplay = document.getElementById('memoryDisplay');
+            if (existingMemoryDisplay) {
+                existingMemoryDisplay.remove();
+            }
+
+            const memoryDisplay = document.createElement('div');
+            memoryDisplay.id = 'memoryDisplay';
+            memoryDisplay.className = 'config-section';
+            memoryDisplay.innerHTML = '<h3>📖 메모리 내용</h3>';
+
+            // 사실들 표시
+            if (memory.facts.length > 0) {
+                memoryDisplay.innerHTML += '<h4>사실들:</h4>';
+                memory.facts.forEach(fact => {
+                    memoryDisplay.innerHTML += `
+                        <div class="memory-item">
+                            <div class="timestamp">${new Date(fact.timestamp).toLocaleString()}</div>
+                            <div class="content">${fact.content}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            // 선호도들 표시
+            if (memory.preferences.length > 0) {
+                memoryDisplay.innerHTML += '<h4>선호도:</h4>';
+                memory.preferences.forEach(pref => {
+                    memoryDisplay.innerHTML += `
+                        <div class="memory-item">
+                            <div class="timestamp">${new Date(pref.timestamp).toLocaleString()}</div>
+                            <div class="content">${pref.preference}: ${pref.value}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            sidebar.appendChild(memoryDisplay);
+        }
+
+        // 사실 추가
+        async function addFact() {
+            const fact = prompt('추가할 사실을 입력하세요:');
+            if (!fact) return;
+
+            const category = prompt('카테고리를 입력하세요 (기본값: general):') || 'general';
+            const config = getConfig();
+
+            try {
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/facts`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({ fact, category }),
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    showStatus('✅ 사실 추가 완료', 'success');
+                    loadMemoryStats();
+                } else {
+                    showStatus('❌ 사실 추가 실패', 'error');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 사실 추가 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 사실 추가 실패: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // 선호도 추가
+        async function addPreference() {
+            const preference = prompt('선호도 항목을 입력하세요 (예: 프로그래밍 언어):');
+            if (!preference) return;
+
+            const value = prompt('선호도 값을 입력하세요 (예: Python, JavaScript):');
+            if (!value) return;
+
+            const config = getConfig();
+
+            try {
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/preferences`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({ preference, value }),
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    showStatus('✅ 선호도 추가 완료', 'success');
+                    loadMemoryStats();
+                } else {
+                    showStatus('❌ 선호도 추가 실패', 'error');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 선호도 추가 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 선호도 추가 실패: ${error.message}`, 'error');
+                }
+            }
+        }
+
+        // 메모리 삭제
+        async function deleteMemory() {
+            if (!confirm('정말로 모든 메모리를 삭제하시겠습니까?')) return;
+
+            const config = getConfig();
+
+            try {
+                // 타임아웃 설정 (30초)
+                const timeoutDuration = 30000;
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+                
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    showStatus('✅ 메모리 삭제 완료', 'success');
+                    memoryStats.style.display = 'none';
+                    const memoryDisplay = document.getElementById('memoryDisplay');
+                    if (memoryDisplay) memoryDisplay.remove();
+                } else {
+                    showStatus('❌ 메모리 삭제 실패', 'error');
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    showStatus('❌ 메모리 삭제 시간이 초과되었습니다. 다시 시도해주세요.', 'error');
+                } else {
+                    showStatus(`❌ 메모리 삭제 실패: ${error.message}`, 'error`);
+                }
+            }
+        }
+
+        // 메시지 추가
+        function addMessage(role, content, showRetry = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}`;
+            
+            const header = document.createElement('div');
+            header.className = 'message-header';
+            header.textContent = role === 'user' ? '사용자' : role === 'assistant' ? 'AI' : '시스템';
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.textContent = content;
+            
+            messageDiv.appendChild(header);
+            messageDiv.appendChild(contentDiv);
+            
+            // 재시도 버튼 추가 (시스템 메시지이고 showRetry가 true인 경우)
+            if (role === 'system' && showRetry) {
+                const retryButton = document.createElement('button');
+                retryButton.className = 'retry-button';
+                retryButton.textContent = '🔄 재시도';
+                retryButton.onclick = () => {
+                    messageDiv.remove();
+                    sendMessage();
+                };
+                messageDiv.appendChild(retryButton);
+            }
+            
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 메시지 전송
+        async function sendMessage() {
+            const message = messageInput.value.trim();
+            if (!message) return;
+
+            const config = getConfig();
+            
+            // 사용자 메시지 표시
+            addMessage('user', message);
+            messageInput.value = '';
+
+            // 로딩 표시
+            loading.style.display = 'block';
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            // 타임아웃 설정 (사용자 설정값 사용)
+            const timeoutDuration = config.timeout * 1000;
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeoutDuration);
+
+            // 타임아웃의 1/3 지점에서 경고 메시지 표시
+            const warningTimeout = setTimeout(() => {
+                if (loading.style.display !== 'none') {
+                    showStatus('⚠️ 응답이 오래 걸리고 있습니다. 잠시만 기다려주세요...', 'info');
+                }
+            }, timeoutDuration / 3);
+
+            try {
+                const response = await fetch(`${config.apiUrl}/v1/chat/completions`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        model: config.model,
+                        messages: [{ role: 'user', content: message }],
+                        temperature: 0.7,
+                        user_id: config.userId
+                    }),
+                    signal: controller.signal
+                });
+
+                // 타임아웃 취소
+                clearTimeout(timeoutId);
+                clearTimeout(warningTimeout);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    const aiResponse = data.choices[0].message.content;
+                    addMessage('assistant', aiResponse);
+                    
+                    // 메모리 통계 업데이트
+                    setTimeout(() => loadMemoryStats(), 1000);
+                } else {
+                    const errorData = await response.json();
+                    addMessage('system', `오류: ${errorData.error?.message || '알 수 없는 오류'}`);
+                }
+            } catch (error) {
+                if (error.name === 'AbortError') {
+                    addMessage('system', '❌ 요청 시간이 초과되었습니다. 다시 시도해주세요.', true);
+                } else {
+                    addMessage('system', `연결 오류: ${error.message}`, true);
+                }
+            } finally {
+                clearTimeout(warningTimeout);
+                loading.style.display = 'none';
+            }
+        }
+
+        // 엔터키 처리
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // 페이지 로드 시 초기화
+        window.onload = function() {
+            // 사용자 ID 변경 시 메모리 통계 로드
+            userIdInput.addEventListener('change', loadMemoryStats);
+            
+            // 버튼 이벤트 리스너 추가
+            document.getElementById('refreshModelsBtn').addEventListener('click', loadModels);
+            document.getElementById('testConnectionBtn').addEventListener('click', testConnection);
+            document.getElementById('loadMemoryStatsBtn').addEventListener('click', loadMemoryStats);
+            document.getElementById('loadUserMemoryBtn').addEventListener('click', loadUserMemory);
+            document.getElementById('addFactBtn').addEventListener('click', addFact);
+            document.getElementById('addPreferenceBtn').addEventListener('click', addPreference);
+            document.getElementById('deleteMemoryBtn').addEventListener('click', deleteMemory);
+            document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+            
+            // 초기 모델 목록 로드
+            setTimeout(loadModels, 500);
+            
+            // 초기 메모리 통계 로드
+            setTimeout(loadMemoryStats, 1000);
+        };
+    </script>
+</body>
+</html> 
