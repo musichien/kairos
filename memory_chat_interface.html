@@ -306,6 +306,78 @@
             color: #495057;
         }
 
+        .emotion-breakdown {
+            margin-top: 10px;
+        }
+
+        .emotion-item {
+            background: #f8f9fa;
+            padding: 5px 10px;
+            margin: 2px 0;
+            border-radius: 3px;
+            font-size: 12px;
+            display: inline-block;
+            margin-right: 5px;
+        }
+
+        .timeline-event {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #667eea;
+        }
+
+        .event-date {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 14px;
+        }
+
+        .event-type {
+            color: #6c757d;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .event-description {
+            margin: 5px 0;
+            color: #495057;
+        }
+
+        .event-emotion {
+            color: #28a745;
+            font-size: 12px;
+        }
+
+        .pattern-item {
+            background: #f8f9fa;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border-left: 4px solid #ffc107;
+        }
+
+        .pattern-topics {
+            font-weight: bold;
+            color: #495057;
+        }
+
+        .pattern-emotion {
+            color: #6c757d;
+            font-size: 12px;
+        }
+
+        .pattern-frequency {
+            color: #28a745;
+            font-size: 12px;
+        }
+
+        .pattern-date {
+            color: #6c757d;
+            font-size: 11px;
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -376,7 +448,7 @@
                 </div>
 
                 <div class="config-section">
-                    <h3 id="memoryManageTitle">🧠 메모리 관리</h3>
+                    <h3 id="memoryManageTitle">🧠 Memory Management</h3>
                     <button class="btn" id="loadMemoryStatsBtn">📊 Memory Statistics</button>
                     <div class="help-text" id="statsHelp"></div>
                     <button class="btn" id="loadUserMemoryBtn">📖 View Memory</button>
@@ -387,6 +459,24 @@
                     <div class="help-text" id="addPrefHelp"></div>
                     <button class="btn btn-danger" id="deleteMemoryBtn">🗑️ Delete Memory</button>
                     <div class="help-text" id="deleteMemHelp"></div>
+                </div>
+
+                <div class="config-section">
+                    <h3 id="advancedMemoryTitle">🧠 Advanced Memory & Context</h3>
+                    <button class="btn" id="loadEmotionalStatsBtn">😊 Emotional Analysis</button>
+                    <div class="help-text" id="emotionalHelp"></div>
+                    <button class="btn" id="loadTimelineBtn">📅 Life Timeline</button>
+                    <div class="help-text" id="timelineHelp"></div>
+                    <button class="btn" id="loadPatternsBtn">🔍 Context Patterns</button>
+                    <div class="help-text" id="patternsHelp"></div>
+                    <button class="btn btn-secondary" id="addRelationshipBtn">👥 Add Relationship</button>
+                    <div class="help-text" id="relationshipHelp"></div>
+                    <button class="btn btn-secondary" id="addGoalBtn">🎯 Add Goal</button>
+                    <div class="help-text" id="goalHelp"></div>
+                    <button class="btn btn-secondary" id="addInterestBtn">⭐ Add Interest</button>
+                    <div class="help-text" id="interestHelp"></div>
+                    <button class="btn btn-secondary" id="addLongTermMemoryBtn">💾 Add Long-term Memory</button>
+                    <div class="help-text" id="longTermHelp"></div>
                 </div>
 
                 <div class="memory-stats" id="memoryStats" style="display: none;">
@@ -523,7 +613,22 @@
                 modelSelected: '✅ Model selected: {model}',
                 responseDelay: '⚠️ Response is taking longer than expected. Please wait...',
                 connectionError: 'Connection error: {error}',
-                unknownError: 'Unknown error'
+                unknownError: 'Unknown error',
+                advancedMemoryTitle: '🧠 Advanced Memory & Context',
+                emotionalAnalysis: '😊 Emotional Analysis',
+                lifeTimeline: '📅 Life Timeline',
+                contextPatterns: '🔍 Context Patterns',
+                addRelationship: '👥 Add Relationship',
+                addGoal: '🎯 Add Goal',
+                addInterest: '⭐ Add Interest',
+                addLongTermMemory: '💾 Add Long-term Memory',
+                emotionalHelp: 'Analyze emotional states and trends over time.',
+                timelineHelp: 'View life events timeline with emotional impact.',
+                patternsHelp: 'Explore conversation patterns and context.',
+                relationshipHelp: 'Add important relationships and connections.',
+                goalHelp: 'Set and track personal goals and objectives.',
+                interestHelp: 'Add interests, hobbies, and preferences.',
+                longTermHelp: 'Store important long-term memories and experiences.'
             },
             fr: {
                 title: '🧠 Chat IA pour le soutien cognitif (Kairos)',
@@ -572,7 +677,22 @@
                 modelSelected: '✅ Modèle sélectionné : {model}',
                 responseDelay: '⚠️ La réponse prend plus de temps que prévu. Veuillez patienter...',
                 connectionError: 'Erreur de connexion : {error}',
-                unknownError: 'Erreur inconnue'
+                unknownError: 'Erreur inconnue',
+                advancedMemoryTitle: '🧠 Mémoire Avancée et Contexte',
+                emotionalAnalysis: '😊 Analyse Émotionnelle',
+                lifeTimeline: '📅 Chronologie de Vie',
+                contextPatterns: '🔍 Modèles de Contexte',
+                addRelationship: '👥 Ajouter Relation',
+                addGoal: '🎯 Ajouter Objectif',
+                addInterest: '⭐ Ajouter Intérêt',
+                addLongTermMemory: '💾 Ajouter Mémoire Longue Durée',
+                emotionalHelp: 'Analyser les états émotionnels et tendances dans le temps.',
+                timelineHelp: 'Voir la chronologie des événements de vie avec impact émotionnel.',
+                patternsHelp: 'Explorer les modèles de conversation et contexte.',
+                relationshipHelp: 'Ajouter des relations et connexions importantes.',
+                goalHelp: 'Définir et suivre les objectifs personnels.',
+                interestHelp: 'Ajouter intérêts, passe-temps et préférences.',
+                longTermHelp: 'Stocker des souvenirs et expériences importants à long terme.'
             },
             ko: {
                 title: '🧠 인지기능 개선 AI 채팅 (Kairos)',
@@ -621,7 +741,22 @@
                 modelSelected: '✅ 모델 선택됨: {model}',
                 responseDelay: '⚠️ 응답이 오래 걸리고 있습니다. 잠시만 기다려주세요...',
                 connectionError: '연결 오류: {error}',
-                unknownError: '알 수 없는 오류'
+                unknownError: '알 수 없는 오류',
+                advancedMemoryTitle: '🧠 고급 메모리 및 맥락',
+                emotionalAnalysis: '😊 감정 분석',
+                lifeTimeline: '📅 인생 타임라인',
+                contextPatterns: '🔍 맥락 패턴',
+                addRelationship: '👥 관계 추가',
+                addGoal: '🎯 목표 추가',
+                addInterest: '⭐ 관심사 추가',
+                addLongTermMemory: '💾 장기 기억 추가',
+                emotionalHelp: '시간에 따른 감정 상태와 트렌드를 분석합니다.',
+                timelineHelp: '감정적 영향을 포함한 인생 사건 타임라인을 봅니다.',
+                patternsHelp: '대화 패턴과 맥락을 탐색합니다.',
+                relationshipHelp: '중요한 관계와 연결을 추가합니다.',
+                goalHelp: '개인 목표와 계획을 설정하고 추적합니다.',
+                interestHelp: '관심사, 취미, 선호도를 추가합니다.',
+                longTermHelp: '중요한 장기 기억과 경험을 저장합니다.'
             },
             ja: {
                 title: '🧠 認知機能サポートAIチャット (Kairos)',
@@ -670,7 +805,22 @@
                 modelSelected: '✅ モデルが選択されました：{model}',
                 responseDelay: '⚠️ 応答に時間がかかっています。しばらくお待ちください...',
                 connectionError: '接続エラー：{error}',
-                unknownError: '不明なエラー'
+                unknownError: '不明なエラー',
+                advancedMemoryTitle: '🧠 高度なメモリとコンテキスト',
+                emotionalAnalysis: '😊 感情分析',
+                lifeTimeline: '📅 人生タイムライン',
+                contextPatterns: '🔍 コンテキストパターン',
+                addRelationship: '👥 関係性追加',
+                addGoal: '🎯 目標追加',
+                addInterest: '⭐ 興味追加',
+                addLongTermMemory: '💾 長期記憶追加',
+                emotionalHelp: '時間経過による感情状態とトレンドを分析します。',
+                timelineHelp: '感情的影響を含む人生イベントのタイムラインを表示します。',
+                patternsHelp: '会話パターンとコンテキストを探索します。',
+                relationshipHelp: '重要な関係性とつながりを追加します。',
+                goalHelp: '個人の目標と計画を設定・追跡します。',
+                interestHelp: '興味、趣味、好みを追加します。',
+                longTermHelp: '重要な長期記憶と経験を保存します。'
             },
             zh: {
                 title: '🧠 认知功能提升AI聊天 (Kairos)',
@@ -719,7 +869,22 @@
                 modelSelected: '✅ 已选择模型：{model}',
                 responseDelay: '⚠️ 响应时间较长，请稍候...',
                 connectionError: '连接错误：{error}',
-                unknownError: '未知错误'
+                unknownError: '未知错误',
+                advancedMemoryTitle: '🧠 高级记忆与上下文',
+                emotionalAnalysis: '😊 情感分析',
+                lifeTimeline: '📅 人生时间线',
+                contextPatterns: '🔍 上下文模式',
+                addRelationship: '👥 添加关系',
+                addGoal: '🎯 添加目标',
+                addInterest: '⭐ 添加兴趣',
+                addLongTermMemory: '💾 添加长期记忆',
+                emotionalHelp: '分析随时间变化的情感状态和趋势。',
+                timelineHelp: '查看包含情感影响的人生事件时间线。',
+                patternsHelp: '探索对话模式和上下文。',
+                relationshipHelp: '添加重要的关系和连接。',
+                goalHelp: '设置和跟踪个人目标和计划。',
+                interestHelp: '添加兴趣、爱好和偏好。',
+                longTermHelp: '存储重要的长期记忆和经验。'
             }
         };
 
@@ -766,6 +931,42 @@
                 statsLabels[2].textContent = t.totalPreferences;
                 statsLabels[3].textContent = t.createdDate;
                 statsLabels[4].textContent = t.lastUpdated;
+            }
+            
+            // Update advanced memory section
+            const advancedMemoryTitle = document.getElementById('advancedMemoryTitle');
+            if (advancedMemoryTitle) advancedMemoryTitle.textContent = t.advancedMemoryTitle;
+            
+            // Update advanced memory buttons
+            const advancedButtons = {
+                'loadEmotionalStatsBtn': t.emotionalAnalysis,
+                'loadTimelineBtn': t.lifeTimeline,
+                'loadPatternsBtn': t.contextPatterns,
+                'addRelationshipBtn': t.addRelationship,
+                'addGoalBtn': t.addGoal,
+                'addInterestBtn': t.addInterest,
+                'addLongTermMemoryBtn': t.addLongTermMemory
+            };
+            
+            for (const [id, text] of Object.entries(advancedButtons)) {
+                const element = document.getElementById(id);
+                if (element) element.textContent = text;
+            }
+            
+            // Update help texts
+            const helpTexts = {
+                'emotionalHelp': t.emotionalHelp,
+                'timelineHelp': t.timelineHelp,
+                'patternsHelp': t.patternsHelp,
+                'relationshipHelp': t.relationshipHelp,
+                'goalHelp': t.goalHelp,
+                'interestHelp': t.interestHelp,
+                'longTermHelp': t.longTermHelp
+            };
+            
+            for (const [id, text] of Object.entries(helpTexts)) {
+                const element = document.getElementById(id);
+                if (element) element.textContent = text;
             }
         }
 
@@ -1209,6 +1410,318 @@
             }
         }
 
+        // 감정 상태 통계 조회 / Load emotional stats / Charger les statistiques émotionnelles / 感情統計読み込み / 加载情感统计
+        async function loadEmotionalStats() {
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/emotions`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                });
+
+                if (response.ok) {
+                    const emotionalStats = await response.json();
+                    displayEmotionalStats(emotionalStats);
+                    showStatus('✅ 감정 상태 통계 로드 완료', 'success');
+                } else {
+                    showStatus('❌ 감정 상태 통계 로드 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 감정 상태 통계 로드 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 감정 상태 통계 표시 / Display emotional stats / Afficher les statistiques émotionnelles / 感情統計表示 / 显示情感统计
+        function displayEmotionalStats(stats) {
+            const emotionalDisplay = document.createElement('div');
+            emotionalDisplay.id = 'emotionalDisplay';
+            emotionalDisplay.className = 'memory-item';
+            emotionalDisplay.innerHTML = `
+                <h4>😊 감정 상태 분석</h4>
+                <div class="stat-item">
+                    <span>총 감정 기록:</span>
+                    <span class="stat-value">${stats.totalEmotions}</span>
+                </div>
+                <div class="stat-item">
+                    <span>주요 감정:</span>
+                    <span class="stat-value">${stats.dominantEmotion}</span>
+                </div>
+                <div class="stat-item">
+                    <span>감정 분포:</span>
+                    <div class="emotion-breakdown">
+                        ${Object.entries(stats.emotionBreakdown).map(([emotion, count]) => 
+                            `<div class="emotion-item">${emotion}: ${count}</div>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+            
+            // 기존 표시 제거
+            const existingDisplay = document.getElementById('emotionalDisplay');
+            if (existingDisplay) existingDisplay.remove();
+            
+            memoryStats.appendChild(emotionalDisplay);
+            memoryStats.style.display = 'block';
+        }
+
+        // 인생 사건 타임라인 조회 / Load life timeline / Charger la chronologie de vie / 人生タイムライン読み込み / 加载人生时间线
+        async function loadTimeline() {
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/timeline`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                });
+
+                if (response.ok) {
+                    const timelineData = await response.json();
+                    displayTimeline(timelineData.timeline);
+                    showStatus('✅ 인생 사건 타임라인 로드 완료', 'success');
+                } else {
+                    showStatus('❌ 인생 사건 타임라인 로드 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 인생 사건 타임라인 로드 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 인생 사건 타임라인 표시 / Display timeline / Afficher la chronologie / タイムライン表示 / 显示时间线
+        function displayTimeline(timeline) {
+            const timelineDisplay = document.createElement('div');
+            timelineDisplay.id = 'timelineDisplay';
+            timelineDisplay.className = 'memory-item';
+            
+            let timelineHTML = '<h4>📅 인생 사건 타임라인</h4>';
+            
+            if (timeline.length === 0) {
+                timelineHTML += '<p>아직 기록된 인생 사건이 없습니다.</p>';
+            } else {
+                timeline.forEach(event => {
+                    const date = new Date(event.timestamp).toLocaleDateString();
+                    timelineHTML += `
+                        <div class="timeline-event">
+                            <div class="event-date">${date}</div>
+                            <div class="event-type">${event.type}</div>
+                            <div class="event-description">${event.description}</div>
+                            <div class="event-emotion">감정: ${event.emotionalImpact}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            timelineDisplay.innerHTML = timelineHTML;
+            
+            // 기존 표시 제거
+            const existingDisplay = document.getElementById('timelineDisplay');
+            if (existingDisplay) existingDisplay.remove();
+            
+            memoryStats.appendChild(timelineDisplay);
+            memoryStats.style.display = 'block';
+        }
+
+        // 맥락 패턴 분석 조회 / Load context patterns / Charger les modèles de contexte / コンテキストパターン読み込み / 加载上下文模式
+        async function loadPatterns() {
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/patterns`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    }
+                });
+
+                if (response.ok) {
+                    const patternsData = await response.json();
+                    displayPatterns(patternsData.patterns);
+                    showStatus('✅ 맥락 패턴 분석 로드 완료', 'success');
+                } else {
+                    showStatus('❌ 맥락 패턴 분석 로드 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 맥락 패턴 분석 로드 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 맥락 패턴 분석 표시 / Display patterns / Afficher les modèles / パターン表示 / 显示模式
+        function displayPatterns(patterns) {
+            const patternsDisplay = document.createElement('div');
+            patternsDisplay.id = 'patternsDisplay';
+            patternsDisplay.className = 'memory-item';
+            
+            let patternsHTML = '<h4>🔍 맥락 패턴 분석</h4>';
+            
+            if (patterns.length === 0) {
+                patternsHTML += '<p>아직 분석된 맥락 패턴이 없습니다.</p>';
+            } else {
+                patterns.forEach(pattern => {
+                    const date = new Date(pattern.timestamp).toLocaleDateString();
+                    patternsHTML += `
+                        <div class="pattern-item">
+                            <div class="pattern-topics">주제: ${pattern.topics.join(', ')}</div>
+                            <div class="pattern-emotion">감정: ${pattern.emotionalState}</div>
+                            <div class="pattern-frequency">빈도: ${pattern.frequency}</div>
+                            <div class="pattern-date">날짜: ${date}</div>
+                        </div>
+                    `;
+                });
+            }
+            
+            patternsDisplay.innerHTML = patternsHTML;
+            
+            // 기존 표시 제거
+            const existingDisplay = document.getElementById('patternsDisplay');
+            if (existingDisplay) existingDisplay.remove();
+            
+            memoryStats.appendChild(patternsDisplay);
+            memoryStats.style.display = 'block';
+        }
+
+        // 관계 정보 추가 / Add relationship / Ajouter une relation / 関係性追加 / 添加关系
+        async function addRelationship() {
+            const person = prompt('관계를 추가할 사람의 이름을 입력하세요:');
+            if (!person) return;
+            
+            const relationship = prompt('관계를 입력하세요 (예: 친구, 가족, 동료):');
+            if (!relationship) return;
+            
+            const details = prompt('추가 세부사항을 입력하세요 (선택사항):');
+            
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/relationships`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        person: person,
+                        relationship: relationship,
+                        details: details || {}
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus('✅ 관계 정보 추가 완료', 'success');
+                } else {
+                    showStatus('❌ 관계 정보 추가 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 관계 정보 추가 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 목표 추가 / Add goal / Ajouter un objectif / 目標追加 / 添加目标
+        async function addGoal() {
+            const goal = prompt('목표를 입력하세요:');
+            if (!goal) return;
+            
+            const category = prompt('카테고리를 입력하세요 (예: career, health, education):');
+            const deadline = prompt('마감일을 입력하세요 (YYYY-MM-DD, 선택사항):');
+            
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/goals`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        goal: goal,
+                        category: category || 'general',
+                        deadline: deadline || null
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus('✅ 목표 추가 완료', 'success');
+                } else {
+                    showStatus('❌ 목표 추가 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 목표 추가 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 관심사 추가 / Add interest / Ajouter un intérêt / 興味追加 / 添加兴趣
+        async function addInterest() {
+            const interest = prompt('관심사를 입력하세요:');
+            if (!interest) return;
+            
+            const category = prompt('카테고리를 입력하세요 (예: hobby, skill, topic):');
+            
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/interests`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        interest: interest,
+                        category: category || 'general'
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus('✅ 관심사 추가 완료', 'success');
+                } else {
+                    showStatus('❌ 관심사 추가 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 관심사 추가 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 장기 기억 추가 / Add long-term memory / Ajouter une mémoire à long terme / 長期記憶追加 / 添加长期记忆
+        async function addLongTermMemory() {
+            const memory = prompt('장기 기억을 입력하세요:');
+            if (!memory) return;
+            
+            const category = prompt('카테고리를 입력하세요 (예: experience, achievement, lesson):');
+            const importance = prompt('중요도를 입력하세요 (high, medium, low):');
+            
+            const config = getConfig();
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/longterm`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        memory: memory,
+                        category: category || 'general',
+                        importance: importance || 'medium'
+                    })
+                });
+
+                if (response.ok) {
+                    showStatus('✅ 장기 기억 추가 완료', 'success');
+                } else {
+                    showStatus('❌ 장기 기억 추가 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 장기 기억 추가 실패: ${error.message}`, 'error');
+            }
+        }
+
         // 메시지 추가 / Add message / Ajouter un message / メッセージ追加 / 添加消息
         function addMessage(role, content, showRetry = false) {
             const messageDiv = document.createElement('div');
@@ -1345,6 +1858,15 @@
             document.getElementById('addPreferenceBtn').addEventListener('click', addPreference);
             document.getElementById('deleteMemoryBtn').addEventListener('click', deleteMemory);
             document.getElementById('sendMessageBtn').addEventListener('click', sendMessage);
+            
+            // 고급 메모리 기능 이벤트 리스너 추가
+            document.getElementById('loadEmotionalStatsBtn').addEventListener('click', loadEmotionalStats);
+            document.getElementById('loadTimelineBtn').addEventListener('click', loadTimeline);
+            document.getElementById('loadPatternsBtn').addEventListener('click', loadPatterns);
+            document.getElementById('addRelationshipBtn').addEventListener('click', addRelationship);
+            document.getElementById('addGoalBtn').addEventListener('click', addGoal);
+            document.getElementById('addInterestBtn').addEventListener('click', addInterest);
+            document.getElementById('addLongTermMemoryBtn').addEventListener('click', addLongTermMemory);
             
             // 초기 모델 목록 로드
             setTimeout(loadModels, 500);

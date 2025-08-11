@@ -91,13 +91,14 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
       });
     }
 
-    // 메모리 컨텍스트 추가 (user_id가 제공된 경우)
+    // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)
     let enhancedMessages = [...messages];
     if (user_id) {
       try {
-        const memoryContext = await memoryManager.generateContext(user_id, 3);
+        const currentMessage = messages[messages.length - 1]?.content || '';
+        const memoryContext = await memoryManager.generateIntelligentContext(user_id, currentMessage, 3);
         enhancedMessages = [...memoryContext, ...messages];
-        console.log(`🧠 사용자 ${user_id}의 메모리 컨텍스트 추가됨 (${memoryContext.length}개 항목)`);
+        console.log(`🧠 사용자 ${user_id}의 지능형 메모리 컨텍스트 추가됨 (${memoryContext.length}개 항목)`);
       } catch (error) {
         console.error('메모리 컨텍스트 로드 실패:', error.message);
       }
@@ -416,18 +417,199 @@ app.get('/api/memory', authenticateToken, async (req, res) => {
   }
 });
 
+// 감정 상태 통계 조회
+app.get('/api/memory/:userId/emotions', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const emotionalStats = await memoryManager.getEmotionalStats(userId);
+    res.json(emotionalStats);
+  } catch (error) {
+    console.error('감정 상태 통계 조회 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '감정 상태 통계 조회 실패: ' + error.message,
+        type: 'server_error',
+        code: 'emotional_stats_failed'
+      }
+    });
+  }
+});
+
+// 인생 사건 타임라인 조회
+app.get('/api/memory/:userId/timeline', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const timeline = await memoryManager.getLifeEventTimeline(userId);
+    res.json({ timeline });
+  } catch (error) {
+    console.error('인생 사건 타임라인 조회 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '인생 사건 타임라인 조회 실패: ' + error.message,
+        type: 'server_error',
+        code: 'timeline_failed'
+      }
+    });
+  }
+});
+
+// 맥락 패턴 분석 조회
+app.get('/api/memory/:userId/patterns', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const patterns = await memoryManager.getContextPatterns(userId);
+    res.json({ patterns });
+  } catch (error) {
+    console.error('맥락 패턴 분석 조회 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '맥락 패턴 분석 조회 실패: ' + error.message,
+        type: 'server_error',
+        code: 'patterns_failed'
+      }
+    });
+  }
+});
+
+// 관계 정보 추가
+app.post('/api/memory/:userId/relationships', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { person, relationship, details = {} } = req.body;
+    
+    if (!person || !relationship) {
+      return res.status(400).json({
+        error: {
+          message: 'person and relationship are required',
+          type: 'invalid_request_error',
+          code: 'missing_relationship_data'
+        }
+      });
+    }
+
+    const relationshipEntry = await memoryManager.addRelationship(userId, person, relationship, details);
+    res.json(relationshipEntry);
+  } catch (error) {
+    console.error('관계 정보 추가 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '관계 정보 추가 실패: ' + error.message,
+        type: 'server_error',
+        code: 'relationship_add_failed'
+      }
+    });
+  }
+});
+
+// 목표 추가
+app.post('/api/memory/:userId/goals', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { goal, category = 'general', deadline = null } = req.body;
+    
+    if (!goal) {
+      return res.status(400).json({
+        error: {
+          message: 'goal is required',
+          type: 'invalid_request_error',
+          code: 'missing_goal'
+        }
+      });
+    }
+
+    const goalEntry = await memoryManager.addGoal(userId, goal, category, deadline);
+    res.json(goalEntry);
+  } catch (error) {
+    console.error('목표 추가 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '목표 추가 실패: ' + error.message,
+        type: 'server_error',
+        code: 'goal_add_failed'
+      }
+    });
+  }
+});
+
+// 관심사 추가
+app.post('/api/memory/:userId/interests', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { interest, category = 'general' } = req.body;
+    
+    if (!interest) {
+      return res.status(400).json({
+        error: {
+          message: 'interest is required',
+          type: 'invalid_request_error',
+          code: 'missing_interest'
+        }
+      });
+    }
+
+    const interestEntry = await memoryManager.addInterest(userId, interest, category);
+    res.json(interestEntry);
+  } catch (error) {
+    console.error('관심사 추가 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '관심사 추가 실패: ' + error.message,
+        type: 'server_error',
+        code: 'interest_add_failed'
+      }
+    });
+  }
+});
+
+// 장기 기억 추가
+app.post('/api/memory/:userId/longterm', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { memory, category = 'general', importance = 'medium' } = req.body;
+    
+    if (!memory) {
+      return res.status(400).json({
+        error: {
+          message: 'memory is required',
+          type: 'invalid_request_error',
+          code: 'missing_memory'
+        }
+      });
+    }
+
+    const longTermMemory = await memoryManager.addLongTermMemory(userId, memory, category, importance);
+    res.json(longTermMemory);
+  } catch (error) {
+    console.error('장기 기억 추가 에러:', error.message);
+    res.status(500).json({
+      error: {
+        message: '장기 기억 추가 실패: ' + error.message,
+        type: 'server_error',
+        code: 'longterm_memory_add_failed'
+      }
+    });
+  }
+});
+
 // 서버 상태 확인
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
     version: '2.0.0',
     endpoints: {
-      '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (메모리 기능 포함)',
+      '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
       '/api/memory/:userId': '사용자 메모리 조회',
       '/api/memory/:userId/stats': '메모리 통계 조회',
+      '/api/memory/:userId/emotions': '감정 상태 통계 조회',
+      '/api/memory/:userId/timeline': '인생 사건 타임라인 조회',
+      '/api/memory/:userId/patterns': '맥락 패턴 분석 조회',
       '/api/memory/:userId/facts': '사실 추가',
       '/api/memory/:userId/preferences': '선호도 추가',
+      '/api/memory/:userId/relationships': '관계 정보 추가',
+      '/api/memory/:userId/goals': '목표 추가',
+      '/api/memory/:userId/interests': '관심사 추가',
+      '/api/memory/:userId/longterm': '장기 기억 추가',
       '/api/memory': '모든 사용자 목록',
       '/health': '서버 상태 확인'
     }
