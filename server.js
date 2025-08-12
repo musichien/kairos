@@ -4,14 +4,17 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
+const path = require('path');
 require('dotenv').config();
 
 const MemoryManager = require('./memory');
 const SecurityManager = require('./security');
+const CognitiveTrainingManager = require('./cognitive_training');
 
 const app = express();
 const memoryManager = new MemoryManager();
 const securityManager = new SecurityManager();
+const cognitiveTrainingManager = new CognitiveTrainingManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -24,7 +27,8 @@ app.use(helmet({
     directives: {
       defaultSrc: ["'self'"],
       styleSrc: ["'self'", "'unsafe-inline'"],
-      scriptSrc: ["'self'"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      scriptSrcAttr: ["'unsafe-inline'"],
       imgSrc: ["'self'", "data:", "https:"],
       connectSrc: ["'self'", "http://localhost:11434"]
     }
@@ -825,11 +829,190 @@ app.delete('/api/security/memory/:userId', authenticateToken, async (req, res) =
   }
 });
 
+// 🧠 인지 훈련 API 엔드포인트들
+
+// 개인화된 인지 훈련 생성
+app.post('/api/cognitive/training/:userId', authenticateToken, [
+  body('trainingType').optional().isIn(['memoryRecall', 'patternRecognition', 'cognitiveStimulation', 'attentionTraining']),
+  body('difficulty').optional().isIn(['easy', 'medium', 'hard'])
+], validateInput, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { trainingType = 'memoryRecall', difficulty = 'medium' } = req.body;
+
+    // 사용자 메모리 데이터 로드
+    const memoryData = memoryManager.getUserMemory(userId);
+    if (!memoryData) {
+      return res.status(404).json({
+        error: {
+          message: '사용자 메모리를 찾을 수 없습니다.',
+          type: 'not_found',
+          code: 'user_memory_not_found'
+        }
+      });
+    }
+
+    // 개인화된 훈련 생성
+    const training = cognitiveTrainingManager.generatePersonalizedTraining(
+      userId, 
+      memoryData, 
+      trainingType, 
+      difficulty
+    );
+
+    // 훈련 기록 저장
+    console.log('💾 Saving training record for user:', userId);
+    const saveResult = cognitiveTrainingManager.saveTrainingRecord(userId, training);
+    console.log('💾 Save result:', saveResult);
+
+    res.json({
+      message: '개인화된 인지 훈련이 생성되었습니다.',
+      training: training,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('인지 훈련 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '인지 훈련 생성 실패',
+        type: 'server_error',
+        code: 'cognitive_training_generation_failed'
+      }
+    });
+  }
+});
+
+// 훈련 결과 제출 및 평가
+app.post('/api/cognitive/training/:userId/:trainingId/submit', authenticateToken, [
+  body('answers').isArray().notEmpty()
+], validateInput, async (req, res) => {
+  try {
+    const { userId, trainingId } = req.params;
+    const { answers } = req.body;
+
+    // 훈련 기록에서 해당 훈련 찾기
+    console.log('🔍 Looking for training:', trainingId, 'for user:', userId);
+    const trainingRecords = cognitiveTrainingManager.getTrainingRecords(userId);
+    console.log('🔍 Found training records:', trainingRecords.length);
+    console.log('🔍 Training IDs:', trainingRecords.map(t => t.id));
+    const training = trainingRecords.find(t => t.id === trainingId);
+    console.log('🔍 Training found:', training ? 'yes' : 'no');
+
+    if (!training) {
+      return res.status(404).json({
+        error: {
+          message: '훈련을 찾을 수 없습니다.',
+          type: 'not_found',
+          code: 'training_not_found'
+        }
+      });
+    }
+
+    // 훈련 결과 평가
+    const result = cognitiveTrainingManager.evaluateTrainingResult(training, answers);
+    
+    // 훈련 업데이트
+    training.score = result.score;
+    training.maxScore = result.maxScore;
+    training.completed = true;
+    training.result = result;
+    training.completedAt = new Date().toISOString();
+
+    // 훈련 기록 저장
+    cognitiveTrainingManager.saveTrainingRecord(userId, training);
+
+    res.json({
+      message: '훈련 결과가 평가되었습니다.',
+      result: result,
+      training: training,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('훈련 결과 평가 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '훈련 결과 평가 실패',
+        type: 'server_error',
+        code: 'training_evaluation_failed'
+      }
+    });
+  }
+});
+
+// 사용자 훈련 기록 조회
+app.get('/api/cognitive/training/:userId/records', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const records = cognitiveTrainingManager.getTrainingRecords(userId);
+
+    res.json({
+      message: '훈련 기록을 조회했습니다.',
+      records: records,
+      totalCount: records.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('훈련 기록 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '훈련 기록 조회 실패',
+        type: 'server_error',
+        code: 'training_records_fetch_failed'
+      }
+    });
+  }
+});
+
+// 훈련 통계 조회
+app.get('/api/cognitive/training/:userId/stats', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const stats = cognitiveTrainingManager.generateTrainingStats(userId);
+
+    res.json({
+      message: '훈련 통계를 조회했습니다.',
+      stats: stats,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('훈련 통계 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '훈련 통계 조회 실패',
+        type: 'server_error',
+        code: 'training_stats_fetch_failed'
+      }
+    });
+  }
+});
+
+// 훈련 템플릿 정보 조회
+app.get('/api/cognitive/training/templates', authenticateToken, async (req, res) => {
+  try {
+    const templates = cognitiveTrainingManager.trainingTemplates;
+
+    res.json({
+      message: '훈련 템플릿 정보를 조회했습니다.',
+      templates: templates,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('훈련 템플릿 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '훈련 템플릿 조회 실패',
+        type: 'server_error',
+        code: 'training_templates_fetch_failed'
+      }
+    });
+  }
+});
+
 // 서버 상태 확인
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '2.0.0',
+    version: '3.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -845,6 +1028,16 @@ app.get('/', (req, res) => {
       '/api/memory/:userId/interests': '관심사 추가',
       '/api/memory/:userId/longterm': '장기 기억 추가',
       '/api/memory': '모든 사용자 목록',
+      '/api/cognitive/training/:userId': '개인화된 인지 훈련 생성',
+      '/api/cognitive/training/:userId/:trainingId/submit': '훈련 결과 제출 및 평가',
+      '/api/cognitive/training/:userId/records': '사용자 훈련 기록 조회',
+      '/api/cognitive/training/:userId/stats': '훈련 통계 조회',
+      '/api/cognitive/training/templates': '훈련 템플릿 정보 조회',
+      '/api/security/status': '보안 상태 조회',
+      '/api/security/config': '보안 설정 업데이트',
+      '/api/security/backup/:userId': '암호화된 메모리 백업',
+      '/api/security/restore/:userId': '메모리 복원',
+      '/api/security/memory/:userId': '안전한 메모리 삭제',
       '/health': '서버 상태 확인'
     }
   });

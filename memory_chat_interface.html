@@ -12,234 +12,701 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Arial', 'Helvetica', sans-serif;
+            background: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            font-size: 16px;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            display: flex;
+            height: 100vh;
             background: white;
-            border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
         }
 
         .header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: #2c3e50;
             color: white;
             padding: 20px;
             text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
 
         .header h1 {
-            font-size: 2em;
-            margin-bottom: 10px;
+            font-size: 2.2em;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #ecf0f1;
         }
 
         .header p {
             opacity: 0.9;
+            font-size: 1.1em;
+            color: #bdc3c7;
         }
 
         .main-content {
-            display: grid;
-            grid-template-columns: 300px 1fr;
-            min-height: 600px;
+            display: flex;
+            margin-top: 100px;
+            height: calc(100vh - 100px);
         }
 
         .sidebar {
-            background: #f8f9fa;
-            padding: 20px;
-            border-right: 1px solid #e9ecef;
+            width: 400px;
+            background: #ecf0f1;
+            border-right: 3px solid #3498db;
+            overflow-y: auto;
+            padding: 25px;
+            position: fixed;
+            left: 0;
+            top: 100px;
+            height: calc(100vh - 100px);
         }
 
         .chat-area {
+            margin-left: 400px;
+            flex: 1;
             display: flex;
             flex-direction: column;
-            height: 600px;
+            height: calc(100vh - 100px);
         }
 
         .config-section {
             margin-bottom: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 6px solid #3498db;
         }
 
         .config-section h3 {
-            color: #495057;
+            color: #2c3e50;
             margin-bottom: 15px;
-            font-size: 1.1em;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .config-section h3::before {
+            content: "⚙️";
+            font-size: 1.4em;
         }
 
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
 
         .form-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #495057;
-            font-weight: 500;
+            margin-bottom: 8px;
+            color: #2c3e50;
+            font-weight: bold;
+            font-size: 1.1em;
         }
 
         .form-group input, .form-group select {
             width: 100%;
-            padding: 10px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 12px 16px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
         }
 
         .help-text {
             margin-top: 6px;
-            color: #6c757d;
-            font-size: 12px;
+            color: #7f8c8d;
+            font-size: 14px;
             line-height: 1.4;
+            font-style: italic;
         }
 
         .btn {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #3498db;
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 16px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 16px;
+            font-weight: bold;
             transition: all 0.3s ease;
             width: 100%;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .btn:hover {
+            background: #2980b9;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: #95a5a6;
+        }
+
+        .btn-secondary:hover {
+            background: #7f8c8d;
         }
 
         .btn-danger {
-            background: #dc3545;
+            background: #e74c3c;
+        }
+
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-success {
+            background: #27ae60;
+        }
+
+        .btn-success:hover {
+            background: #229954;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+        }
+
+        .btn-warning:hover {
+            background: #e67e22;
+        }
+
+        .btn-primary {
+            background: #3498db;
+        }
+
+        .btn-primary:hover {
+            background: #2980b9;
         }
 
         .memory-stats {
             background: white;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 6px solid #27ae60;
         }
 
         .memory-stats h4 {
-            color: #495057;
-            margin-bottom: 10px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .memory-stats h4::before {
+            content: "📊";
+            font-size: 1.4em;
         }
 
         .stat-item {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 5px;
-            font-size: 14px;
+            margin-bottom: 10px;
+            font-size: 16px;
+            padding: 8px 0;
+            border-bottom: 2px solid #ecf0f1;
+        }
+
+        .stat-item:last-child {
+            border-bottom: none;
         }
 
         .stat-value {
             font-weight: bold;
-            color: #667eea;
+            color: #27ae60;
+            font-size: 1.1em;
         }
 
         .chat-messages {
             flex: 1;
-            padding: 20px;
+            padding: 25px;
             overflow-y: auto;
             background: #f8f9fa;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 12px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #ecf0f1;
+            border-radius: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #bdc3c7;
+            border-radius: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: #95a5a6;
         }
 
         .message {
-            margin-bottom: 15px;
-            padding: 15px;
-            border-radius: 10px;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 15px;
             max-width: 80%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            position: relative;
+            animation: messageSlideIn 0.3s ease-out;
+        }
+
+        @keyframes messageSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .message.user {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #3498db;
             color: white;
             margin-left: auto;
+            border-bottom-right-radius: 8px;
         }
 
         .message.assistant {
             background: white;
-            border: 1px solid #e9ecef;
-            color: #495057;
+            border: 2px solid #ecf0f1;
+            color: #2c3e50;
+            border-bottom-left-radius: 8px;
         }
 
         .message.system {
-            background: #e3f2fd;
-            border: 1px solid #bbdefb;
-            color: #1976d2;
+            background: #e8f4fd;
+            border: 2px solid #3498db;
+            color: #2c3e50;
             font-style: italic;
-            font-size: 0.9em;
+            font-size: 1em;
+            max-width: 90%;
+            margin: 0 auto 20px auto;
+            text-align: center;
         }
 
         .message-header {
-            font-size: 0.8em;
-            opacity: 0.7;
-            margin-bottom: 5px;
+            font-size: 0.9em;
+            opacity: 0.8;
+            margin-bottom: 8px;
+            font-weight: bold;
         }
 
         .chat-input {
-            padding: 20px;
+            padding: 25px;
             background: white;
-            border-top: 1px solid #e9ecef;
+            border-top: 3px solid #ecf0f1;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.1);
         }
 
         .input-group {
             display: flex;
-            gap: 10px;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .training-controls {
+            margin-bottom: 18px;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 18px;
+            border-radius: 12px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .training-select {
+            width: 100%;
+            margin-bottom: 12px;
+            padding: 12px 16px;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            border-radius: 8px;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.95);
+            color: #2c3e50;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+
+        .training-select:focus {
+            outline: none;
+            border-color: rgba(255, 255, 255, 0.9);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .training-section {
+            background: #3498db;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            color: white;
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .training-section::before {
+            content: "🧠";
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .training-question {
+            background: white;
+            color: #2c3e50;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-left: 6px solid #3498db;
+            font-size: 16px;
+        }
+
+        .training-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .training-option {
+            padding: 16px 20px;
+            border: 3px solid #bdc3c7;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            font-weight: bold;
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .training-option:hover {
+            border-color: #3498db;
+            background-color: #e8f4fd;
+            transform: translateX(8px);
+        }
+
+        .training-option.selected {
+            border-color: #3498db;
+            background: #3498db;
+            color: white;
+            transform: translateX(8px);
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        }
+
+        .training-feedback {
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-weight: bold;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .training-feedback.correct {
+            background: #d4edda;
+            color: #155724;
+            border-left: 6px solid #27ae60;
+        }
+
+        .training-feedback.correct::before {
+            content: "✅";
+            font-size: 1.3em;
+        }
+
+        .training-feedback.incorrect {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 6px solid #e74c3c;
+        }
+
+        .training-feedback.incorrect::before {
+            content: "❌";
+            font-size: 1.3em;
         }
 
         .input-group input {
             flex: 1;
-            padding: 12px;
-            border: 1px solid #ced4da;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 16px 20px;
+            border: 3px solid #bdc3c7;
+            border-radius: 12px;
+            font-size: 18px;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            min-height: 60px;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.2);
         }
 
         .input-group button {
-            padding: 12px 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 16px 24px;
+            background: #3498db;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 12px;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            min-width: 100px;
+            min-height: 60px;
+        }
+
+        .input-group button:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+        }
+
+        .input-group button:active {
+            transform: translateY(0);
+        }
+
+        /* 반응형 디자인 / Responsive Design */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 350px;
+            }
+            
+            .chat-area {
+                margin-left: 350px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+                margin-top: 80px;
+            }
+
+            .sidebar {
+                width: 100%;
+                position: relative;
+                height: auto;
+                max-height: 400px;
+                overflow-y: auto;
+            }
+
+            .chat-area {
+                margin-left: 0;
+                height: calc(100vh - 480px);
+            }
+
+            .header {
+                padding: 15px 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .header p {
+                font-size: 1em;
+            }
+
+            .config-section {
+                padding: 18px;
+                margin-bottom: 20px;
+            }
+
+            .btn {
+                padding: 14px 18px;
+                font-size: 15px;
+                min-height: 45px;
+            }
+
+            .message {
+                max-width: 90%;
+                padding: 18px;
+                font-size: 15px;
+            }
+
+            .input-group {
+                gap: 12px;
+            }
+
+            .input-group input {
+                padding: 14px 16px;
+                font-size: 16px;
+                min-height: 50px;
+            }
+
+            .input-group button {
+                padding: 14px 20px;
+                font-size: 16px;
+                min-width: 80px;
+                min-height: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-content {
+                margin-top: 70px;
+            }
+
+            .sidebar {
+                max-height: 350px;
+                padding: 20px;
+            }
+
+            .chat-area {
+                height: calc(100vh - 420px);
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .config-section h3 {
+                font-size: 1.2em;
+            }
+
+            .form-group label {
+                font-size: 1em;
+            }
+
+            .form-group input, .form-group select {
+                padding: 12px 14px;
+                font-size: 15px;
+            }
+
+            .btn {
+                padding: 12px 16px;
+                font-size: 14px;
+                margin-bottom: 10px;
+                min-height: 40px;
+            }
+
+            .message {
+                max-width: 95%;
+                padding: 15px;
+                font-size: 14px;
+            }
+
+            .input-group input {
+                padding: 12px 14px;
+                font-size: 15px;
+                min-height: 45px;
+            }
+
+            .input-group button {
+                padding: 12px 16px;
+                font-size: 15px;
+                min-width: 70px;
+                min-height: 45px;
+            }
         }
 
         .status {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 5px;
-            font-size: 14px;
+            padding: 16px 20px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            animation: statusSlideIn 0.3s ease-out;
+        }
+
+        @keyframes statusSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .status.success {
             background: #d4edda;
             color: #155724;
-            border: 1px solid #c3e6cb;
+            border-left: 6px solid #27ae60;
+        }
+
+        .status.success::before {
+            content: "✅";
+            font-size: 1.2em;
         }
 
         .status.error {
             background: #f8d7da;
             color: #721c24;
-            border: 1px solid #f5c6cb;
+            border-left: 6px solid #e74c3c;
+        }
+
+        .status.error::before {
+            content: "❌";
+            font-size: 1.2em;
         }
 
         .status.info {
             background: #d1ecf1;
             color: #0c5460;
-            border: 1px solid #bee5eb;
+            border-left: 6px solid #3498db;
+        }
+
+        .status.info::before {
+            content: "ℹ️";
+            font-size: 1.2em;
         }
 
         .loading {
@@ -396,14 +863,14 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1 id="mainTitle">🧠 Ollama API 서버</h1>
-            <p id="subtitle">메모리 기능이 포함된 AI 채팅 인터페이스</p>
+            <h1 id="mainTitle">🧠 Kairos Cognitive Enhancement Platform</h1>
+            <p id="subtitle">Advanced AI-Powered Memory & Cognitive Training System</p>
         </div>
 
         <div class="main-content">
             <div class="sidebar">
                 <div class="config-section">
-                    <h3 id="settingsTitle">⚙️ 설정</h3>
+                    <h3 id="settingsTitle">⚙️ System Configuration</h3>
                     <div class="form-group">
                         <label for="languageSelect" id="labelLanguage">언어 / Language / Langue / 言語 / 语言</label>
                         <select id="languageSelect">
@@ -462,7 +929,7 @@
                 </div>
 
                 <div class="config-section">
-                    <h3 id="advancedMemoryTitle">🧠 Advanced Memory & Context</h3>
+                    <h3 id="advancedMemoryTitle">🧠 Advanced Memory & Contextualization</h3>
                     <button class="btn" id="loadEmotionalStatsBtn">😊 Emotional Analysis</button>
                     <div class="help-text" id="emotionalHelp"></div>
                     <button class="btn" id="loadTimelineBtn">📅 Life Timeline</button>
@@ -479,6 +946,30 @@
                     <div class="help-text" id="longTermHelp"></div>
                 </div>
 
+                <div class="config-section">
+                    <h3 id="cognitiveTrainingTitle">🧠 Cognitive Enhancement Training</h3>
+                    <div class="training-controls">
+                        <select id="trainingType" class="training-select">
+                            <option value="memoryRecall">Memory Recall Training</option>
+                            <option value="patternRecognition">Pattern Recognition</option>
+                            <option value="cognitiveStimulation">Cognitive Stimulation</option>
+                            <option value="attentionTraining">Attention Training</option>
+                        </select>
+                        <select id="trainingDifficulty" class="training-select">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <button class="btn btn-primary" id="startTrainingBtn">🎯 Start Training</button>
+                    </div>
+                    <button class="btn" id="loadTrainingStatsBtn">📈 Training Statistics</button>
+                    <div class="help-text" id="trainingStatsHelp"></div>
+                    <button class="btn" id="loadTrainingRecordsBtn">📋 Training Records</button>
+                    <div class="help-text" id="trainingRecordsHelp"></div>
+                    <button class="btn" id="loadTrainingTemplatesBtn">📚 Training Guide</button>
+                    <div class="help-text" id="trainingTemplatesHelp"></div>
+                </div>
+
                 <div class="memory-stats" id="memoryStats" style="display: none;">
                     <h4>📊 Memory Statistics</h4>
                     <div id="statsContent"></div>
@@ -488,17 +979,17 @@
             <div class="chat-area">
                 <div class="chat-messages" id="chatMessages">
                     <div class="message system">
-                        <div class="message-header">시스템</div>
-                        <div class="message-content" id="welcomeMessage">안녕하세요! 메모리 기능이 포함된 AI 채팅에 오신 것을 환영합니다. 사용자 ID를 설정하고 대화를 시작해보세요.</div>
+                        <div class="message-header">System</div>
+                        <div class="message-content" id="welcomeMessage">Welcome to the Kairos Cognitive Enhancement Platform! Set your user ID and start your cognitive training journey.</div>
                     </div>
                     <div class="message system">
-                        <div class="message-header">시스템</div>
-                        <div class="message-content" id="tipMessage">💡 팁: 모델 목록이 자동으로 로드됩니다. 만약 로드되지 않는다면 "🔄 모델 목록 새로고침" 버튼을 클릭해보세요.</div>
+                        <div class="message-header">System</div>
+                        <div class="message-content" id="tipMessage">💡 Tip: Model list will be loaded automatically. If not loaded, click the "🔄 Refresh Model List" button.</div>
                     </div>
                 </div>
 
                 <div class="loading" id="loading">
-                    <div>🤔 AI가 생각 중입니다...</div>
+                    <div>🤔 AI is thinking...</div>
                     <div class="progress-bar">
                         <div class="progress-fill"></div>
                     </div>
@@ -1722,6 +2213,402 @@
             }
         }
 
+        // 🧠 인지 훈련 관련 함수들
+
+        // 인지 훈련 시작
+        async function startCognitiveTraining() {
+            const config = getConfig();
+            const trainingType = document.getElementById('trainingType').value;
+            const difficulty = document.getElementById('trainingDifficulty').value;
+
+            try {
+                showStatus('🎯 인지 훈련을 생성하고 있습니다...', 'info');
+                console.log('🧠 Starting cognitive training with:', { trainingType, difficulty, userId: config.userId });
+
+                const response = await fetch(`${config.apiUrl}/api/cognitive/training/${config.userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        trainingType: trainingType,
+                        difficulty: difficulty
+                    })
+                });
+
+                console.log('🧠 Response status:', response.status);
+                console.log('🧠 Response ok:', response.ok);
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('🧠 Training data received:', data);
+                    console.log('🧠 Training exercise:', data.training?.exercise);
+                    
+                    if (data.training && data.training.exercise) {
+                        displayTraining(data.training);
+                        showStatus('✅ 인지 훈련이 생성되었습니다!', 'success');
+                    } else {
+                        console.error('🧠 No training exercise found in response');
+                        showStatus('❌ 훈련 데이터가 올바르지 않습니다', 'error');
+                    }
+                } else {
+                    const errorData = await response.json();
+                    console.error('🧠 Training generation failed:', errorData);
+                    showStatus('❌ 인지 훈련 생성 실패', 'error');
+                }
+            } catch (error) {
+                console.error('🧠 Training error:', error);
+                showStatus(`❌ 인지 훈련 생성 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 훈련 표시
+        function displayTraining(training) {
+            console.log('🧠 Displaying training:', training);
+            const exercise = training.exercise;
+            console.log('🧠 Exercise:', exercise);
+            
+            if (!exercise) {
+                console.error('🧠 No exercise found in training');
+                return;
+            }
+            
+            const chatMessages = document.getElementById('chatMessages');
+            console.log('🧠 Chat messages element:', chatMessages);
+            
+            // 훈련 섹션 생성
+            const trainingSection = document.createElement('div');
+            trainingSection.className = 'training-section';
+            trainingSection.innerHTML = `
+                <h4>🧠 ${exercise.title}</h4>
+                <p>${exercise.description}</p>
+                <p><strong>시간 제한:</strong> ${exercise.timeLimit}초</p>
+                <p><strong>최대 점수:</strong> ${exercise.maxScore}점</p>
+            `;
+
+            console.log('🧠 Questions:', exercise.questions);
+            
+            // 질문들 표시
+            if (exercise.questions && exercise.questions.length > 0) {
+                exercise.questions.forEach((question, index) => {
+                    console.log(`🧠 Processing question ${index}:`, question);
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'training-question';
+                    questionDiv.innerHTML = `
+                        <h5>질문 ${index + 1}</h5>
+                        <p>${question.question}</p>
+                        ${generateQuestionInput(question, index)}
+                    `;
+                    trainingSection.appendChild(questionDiv);
+                });
+            } else {
+                console.error('🧠 No questions found in exercise');
+            }
+
+            // 제출 버튼
+            const submitButton = document.createElement('button');
+            submitButton.className = 'btn btn-primary';
+            submitButton.textContent = '📝 훈련 제출';
+            submitButton.onclick = () => submitTraining(training.id);
+            trainingSection.appendChild(submitButton);
+
+            chatMessages.appendChild(trainingSection);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+            console.log('🧠 Training section added to chat');
+        }
+
+        // 질문 입력 생성
+        function generateQuestionInput(question, index) {
+            switch (question.type) {
+                case 'multiple_choice':
+                    return `
+                        <div class="training-options">
+                            ${question.options.map((option, optIndex) => `
+                                <div class="training-option" onclick="selectOption(${index}, ${optIndex})" data-question="${index}" data-option="${optIndex}">
+                                    ${option}
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                case 'true_false':
+                    return `
+                        <div class="training-options">
+                            <div class="training-option" onclick="selectOption(${index}, true)" data-question="${index}" data-option="true">맞음</div>
+                            <div class="training-option" onclick="selectOption(${index}, false)" data-question="${index}" data-option="false">틀림</div>
+                        </div>
+                    `;
+                case 'fill_blank':
+                case 'open_ended':
+                    return `
+                        <textarea id="answer-${index}" placeholder="답변을 입력하세요..." style="width: 100%; min-height: 60px; padding: 8px; border: 1px solid #ddd; border-radius: 4px;"></textarea>
+                    `;
+                default:
+                    return '<p>지원하지 않는 질문 유형입니다.</p>';
+            }
+        }
+
+        // 옵션 선택
+        function selectOption(questionIndex, optionIndex) {
+            // 기존 선택 제거
+            document.querySelectorAll(`[data-question="${questionIndex}"]`).forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // 새 선택 표시
+            const selectedElement = document.querySelector(`[data-question="${questionIndex}"][data-option="${optionIndex}"]`);
+            if (selectedElement) {
+                selectedElement.classList.add('selected');
+            }
+        }
+
+        // 훈련 제출
+        async function submitTraining(trainingId) {
+            const config = getConfig();
+            const answers = [];
+
+            // 모든 질문의 답변 수집
+            const questions = document.querySelectorAll('.training-question');
+            questions.forEach((questionDiv, index) => {
+                const selectedOption = questionDiv.querySelector('.training-option.selected');
+                const textAnswer = questionDiv.querySelector('textarea');
+
+                if (selectedOption) {
+                    const optionIndex = selectedOption.getAttribute('data-option');
+                    answers.push(optionIndex === 'true' ? true : optionIndex === 'false' ? false : optionIndex);
+                } else if (textAnswer) {
+                    answers.push(textAnswer.value);
+                } else {
+                    answers.push('');
+                }
+            });
+
+            try {
+                showStatus('📝 훈련 결과를 평가하고 있습니다...', 'info');
+
+                const response = await fetch(`${config.apiUrl}/api/cognitive/training/${config.userId}/${trainingId}/submit`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        answers: answers
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayTrainingResult(data.result);
+                    showStatus('✅ 훈련 결과가 평가되었습니다!', 'success');
+                } else {
+                    showStatus('❌ 훈련 결과 평가 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 훈련 결과 평가 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 훈련 결과 표시
+        function displayTrainingResult(result) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const resultDiv = document.createElement('div');
+            resultDiv.className = 'training-section';
+            resultDiv.innerHTML = `
+                <h4>📊 훈련 결과</h4>
+                <p><strong>점수:</strong> ${result.score}/${result.maxScore} (${result.completionRate.toFixed(1)}%)</p>
+                <p><strong>성과:</strong> ${getPerformanceText(result.performance)}</p>
+                <h5>피드백:</h5>
+            `;
+
+            result.feedback.forEach((feedback, index) => {
+                const feedbackDiv = document.createElement('div');
+                feedbackDiv.className = `training-feedback ${feedback.correct ? 'correct' : 'incorrect'}`;
+                feedbackDiv.innerHTML = `
+                    <p><strong>질문 ${index + 1}:</strong> ${feedback.feedback}</p>
+                    ${!feedback.correct && feedback.correctAnswer ? `<p><strong>정답:</strong> ${feedback.correctAnswer}</p>` : ''}
+                `;
+                resultDiv.appendChild(feedbackDiv);
+            });
+
+            chatMessages.appendChild(resultDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 성과 텍스트 변환
+        function getPerformanceText(performance) {
+            const performanceMap = {
+                'excellent': '우수',
+                'good': '좋음',
+                'fair': '보통',
+                'needs_improvement': '개선 필요',
+                'poor': '부족'
+            };
+            return performanceMap[performance] || performance;
+        }
+
+        // 훈련 통계 조회
+        async function loadTrainingStats() {
+            const config = getConfig();
+
+            try {
+                showStatus('📈 훈련 통계를 조회하고 있습니다...', 'info');
+
+                const response = await fetch(`${config.apiUrl}/api/cognitive/training/${config.userId}/stats`, {
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayTrainingStats(data.stats);
+                    showStatus('✅ 훈련 통계를 조회했습니다!', 'success');
+                } else {
+                    showStatus('❌ 훈련 통계 조회 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 훈련 통계 조회 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 훈련 통계 표시
+        function displayTrainingStats(stats) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const statsDiv = document.createElement('div');
+            statsDiv.className = 'message system';
+            statsDiv.innerHTML = `
+                <div class="message-header">훈련 통계</div>
+                <div class="message-content">
+                    <h4>🧠 인지 훈련 통계</h4>
+                    <p><strong>총 훈련 수:</strong> ${stats.totalTrainings}</p>
+                    <p><strong>완료된 훈련:</strong> ${stats.completedTrainings}</p>
+                    <p><strong>평균 점수:</strong> ${stats.averageScore}점</p>
+                    <p><strong>최고 점수:</strong> ${stats.bestScore}점</p>
+                    <p><strong>가장 많이 한 훈련:</strong> ${stats.mostFrequentType}</p>
+                    <p><strong>향상 추세:</strong> ${getImprovementText(stats.improvementTrend)}</p>
+                    ${stats.lastTraining ? `<p><strong>마지막 훈련:</strong> ${new Date(stats.lastTraining).toLocaleString('ko-KR')}</p>` : ''}
+                </div>
+            `;
+
+            chatMessages.appendChild(statsDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 향상 추세 텍스트 변환
+        function getImprovementText(trend) {
+            const trendMap = {
+                'improving': '향상 중',
+                'stable': '안정적',
+                'declining': '감소 중'
+            };
+            return trendMap[trend] || trend;
+        }
+
+        // 훈련 기록 조회
+        async function loadTrainingRecords() {
+            const config = getConfig();
+
+            try {
+                showStatus('📋 훈련 기록을 조회하고 있습니다...', 'info');
+
+                const response = await fetch(`${config.apiUrl}/api/cognitive/training/${config.userId}/records`, {
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayTrainingRecords(data.records);
+                    showStatus('✅ 훈련 기록을 조회했습니다!', 'success');
+                } else {
+                    showStatus('❌ 훈련 기록 조회 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 훈련 기록 조회 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 훈련 기록 표시
+        function displayTrainingRecords(records) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const recordsDiv = document.createElement('div');
+            recordsDiv.className = 'message system';
+            recordsDiv.innerHTML = `
+                <div class="message-header">훈련 기록</div>
+                <div class="message-content">
+                    <h4>📋 인지 훈련 기록 (총 ${records.length}개)</h4>
+                    ${records.slice(-5).map(record => `
+                        <div style="border: 1px solid #ddd; padding: 10px; margin: 5px 0; border-radius: 4px;">
+                            <p><strong>훈련 유형:</strong> ${record.exercise.title}</p>
+                            <p><strong>난이도:</strong> ${record.difficulty}</p>
+                            <p><strong>점수:</strong> ${record.score || 0}/${record.maxScore || 0}</p>
+                            <p><strong>완료 여부:</strong> ${record.completed ? '완료' : '진행 중'}</p>
+                            <p><strong>날짜:</strong> ${new Date(record.timestamp).toLocaleString('ko-KR')}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            chatMessages.appendChild(recordsDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // 훈련 템플릿 조회
+        async function loadTrainingTemplates() {
+            const config = getConfig();
+
+            try {
+                showStatus('📚 훈련 가이드를 조회하고 있습니다...', 'info');
+
+                const response = await fetch(`${config.apiUrl}/api/cognitive/training/templates`, {
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayTrainingTemplates(data.templates);
+                    showStatus('✅ 훈련 가이드를 조회했습니다!', 'success');
+                } else {
+                    showStatus('❌ 훈련 가이드 조회 실패', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 훈련 가이드 조회 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 훈련 템플릿 표시
+        function displayTrainingTemplates(templates) {
+            const chatMessages = document.getElementById('chatMessages');
+            
+            const templatesDiv = document.createElement('div');
+            templatesDiv.className = 'message system';
+            templatesDiv.innerHTML = `
+                <div class="message-header">훈련 가이드</div>
+                <div class="message-content">
+                    <h4>📚 인지 훈련 가이드</h4>
+                    ${Object.entries(templates).map(([key, template]) => `
+                        <div style="border: 1px solid #ddd; padding: 15px; margin: 10px 0; border-radius: 8px;">
+                            <h5>${template.name}</h5>
+                            <p>${template.description}</p>
+                            <p><strong>카테고리:</strong> ${template.categories.join(', ')}</p>
+                            <p><strong>난이도:</strong> ${template.difficulty.join(', ')}</p>
+                            <p><strong>유형:</strong> ${template.types.join(', ')}</p>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+
+            chatMessages.appendChild(templatesDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
         // 메시지 추가 / Add message / Ajouter un message / メッセージ追加 / 添加消息
         function addMessage(role, content, showRetry = false) {
             const messageDiv = document.createElement('div');
@@ -1867,6 +2754,11 @@
             document.getElementById('addGoalBtn').addEventListener('click', addGoal);
             document.getElementById('addInterestBtn').addEventListener('click', addInterest);
             document.getElementById('addLongTermMemoryBtn').addEventListener('click', addLongTermMemory);
+            
+            // 인지 훈련 기능 이벤트 리스너 추가
+            document.getElementById('startTrainingBtn').addEventListener('click', startCognitiveTraining);
+            document.getElementById('loadTrainingStatsBtn').addEventListener('click', loadTrainingStats);
+            document.getElementById('loadTrainingRecordsBtn').addEventListener('click', loadTrainingRecords);
             
             // 초기 모델 목록 로드
             setTimeout(loadModels, 500);

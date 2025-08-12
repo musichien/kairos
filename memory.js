@@ -64,6 +64,12 @@ class MemoryManager {
   async addConversation(userId, messages, response) {
     const memory = await this.loadUserMemory(userId);
     
+    // 배열이 undefined인 경우 초기화
+    if (!memory.conversations) memory.conversations = [];
+    if (!memory.emotionalStates) memory.emotionalStates = [];
+    if (!memory.lifeEvents) memory.lifeEvents = [];
+    if (!memory.contextPatterns) memory.contextPatterns = [];
+    
     // 감정 상태 분석
     const emotionalState = this.analyzeEmotionalState(messages, response);
     
@@ -614,6 +620,17 @@ class MemoryManager {
     
     let context = [];
     
+    // 배열이 undefined인 경우 초기화
+    if (!memory.emotionalStates) memory.emotionalStates = [];
+    if (!memory.lifeEvents) memory.lifeEvents = [];
+    if (!memory.contextPatterns) memory.contextPatterns = [];
+    if (!memory.conversations) memory.conversations = [];
+    if (!memory.facts) memory.facts = [];
+    if (!memory.preferences) memory.preferences = [];
+    if (!memory.relationships) memory.relationships = [];
+    if (!memory.goals) memory.goals = [];
+    if (!memory.interests) memory.interests = [];
+    
     // 현재 감정 상태 분석
     const currentEmotionalState = this.analyzeEmotionalState([{ content: currentMessage }], null);
     
@@ -630,10 +647,12 @@ class MemoryManager {
     // 최근 대화들 (감정 상태 포함)
     const recentConversations = memory.conversations.slice(-maxConversations);
     for (const conv of recentConversations) {
-      context.push({
-        role: 'system',
-        content: `이전 대화 (${new Date(conv.timestamp).toLocaleString()}, 감정: ${conv.emotionalState.primary}): ${conv.summary}`
-      });
+      if (conv && conv.emotionalState && conv.summary) {
+        context.push({
+          role: 'system',
+          content: `이전 대화 (${new Date(conv.timestamp).toLocaleString()}, 감정: ${conv.emotionalState.primary}): ${conv.summary}`
+        });
+      }
     }
 
     // 감정 상태 정보
@@ -799,16 +818,16 @@ class MemoryManager {
     const memory = await this.loadUserMemory(userId);
     return {
       userId: userId,
-      totalConversations: memory.conversations.length,
-      totalFacts: memory.facts.length,
-      totalPreferences: memory.preferences.length,
-      totalLifeEvents: memory.lifeEvents.length,
-      totalEmotionalStates: memory.emotionalStates.length,
-      totalRelationships: memory.relationships.length,
-      totalGoals: memory.goals.length,
-      totalInterests: memory.interests.length,
-      totalMemories: memory.memories.length,
-      totalContextPatterns: memory.contextPatterns.length,
+      totalConversations: (memory.conversations || []).length,
+      totalFacts: (memory.facts || []).length,
+      totalPreferences: (memory.preferences || []).length,
+      totalLifeEvents: (memory.lifeEvents || []).length,
+      totalEmotionalStates: (memory.emotionalStates || []).length,
+      totalRelationships: (memory.relationships || []).length,
+      totalGoals: (memory.goals || []).length,
+      totalInterests: (memory.interests || []).length,
+      totalMemories: (memory.memories || []).length,
+      totalContextPatterns: (memory.contextPatterns || []).length,
       createdAt: memory.createdAt,
       lastUpdated: memory.lastUpdated
     };
@@ -817,11 +836,13 @@ class MemoryManager {
   // 감정 상태 통계
   async getEmotionalStats(userId) {
     const memory = await this.loadUserMemory(userId);
-    const emotions = memory.emotionalStates;
+    const emotions = memory.emotionalStates || [];
     
     const emotionCounts = {};
     emotions.forEach(emotion => {
-      emotionCounts[emotion.primary] = (emotionCounts[emotion.primary] || 0) + 1;
+      if (emotion && emotion.primary) {
+        emotionCounts[emotion.primary] = (emotionCounts[emotion.primary] || 0) + 1;
+      }
     });
     
     // 빈 객체인 경우 기본값 설정
@@ -842,13 +863,15 @@ class MemoryManager {
   // 인생 사건 타임라인
   async getLifeEventTimeline(userId) {
     const memory = await this.loadUserMemory(userId);
-    return memory.lifeEvents.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    const lifeEvents = memory.lifeEvents || [];
+    return lifeEvents.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
   }
 
   // 맥락 패턴 분석
   async getContextPatterns(userId) {
     const memory = await this.loadUserMemory(userId);
-    return memory.contextPatterns.sort((a, b) => b.frequency - a.frequency);
+    const contextPatterns = memory.contextPatterns || [];
+    return contextPatterns.sort((a, b) => b.frequency - a.frequency);
   }
 
   // 모든 사용자 목록
