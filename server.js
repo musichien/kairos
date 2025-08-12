@@ -1,54 +1,156 @@
 const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
+require('dotenv').config();
+
 const MemoryManager = require('./memory');
+const SecurityManager = require('./security');
 
 const app = express();
 const memoryManager = new MemoryManager();
+const securityManager = new SecurityManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key-here';
-const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['*'];
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:3000'];
+
+// 보안 미들웨어 설정
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "'unsafe-inline'"],
+      scriptSrc: ["'self'"],
+      imgSrc: ["'self'", "data:", "https:"],
+      connectSrc: ["'self'", "http://localhost:11434"]
+    }
+  },
+  hsts: {
+    maxAge: 31536000,
+    includeSubDomains: true,
+    preload: true
+  }
+}));
+
+// 요청 제한 설정
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15분
+  max: 100, // 최대 100개 요청
+  message: {
+    error: {
+      message: '너무 많은 요청이 발생했습니다. 잠시 후 다시 시도해주세요.',
+      type: 'rate_limit_error',
+      code: 'too_many_requests'
+    }
+  },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+app.use(limiter);
 
 // 미들웨어 설정
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-// 정적 파일 서빙 설정
-app.use(express.static('.'));
-
-// CORS 설정 (개발용 - 모든 origin 허용)
-app.use(cors({
-  origin: true,
-  credentials: true
+// 정적 파일 서빙 설정 (보안 강화)
+app.use(express.static('.', {
+  setHeaders: (res, path) => {
+    if (path.endsWith('.html')) {
+      res.setHeader('X-Content-Type-Options', 'nosniff');
+      res.setHeader('X-Frame-Options', 'DENY');
+    }
+  }
 }));
 
-// 인증 미들웨어
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+// CORS 설정 (프로덕션 환경 고려)
+app.use(cors({
+  origin: function (origin, callback) {
+    // 로컬 개발 환경 허용
+    if (!origin || ALLOWED_ORIGINS.includes('*') || ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS 정책에 의해 차단되었습니다.'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
 
-  if (!token) {
-    return res.status(401).json({
+// 보안 강화된 인증 미들웨어
+async function authenticateToken(req, res, next) {
+  try {
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];
+
+    if (!token) {
+      await securityManager.logAuditEvent('AUTH_FAILED', req.ip || 'unknown', {
+        reason: 'missing_token',
+        userAgent: req.get('User-Agent')
+      });
+      
+      return res.status(401).json({
+        error: {
+          message: 'Access token required',
+          type: 'authentication_error',
+          code: 'missing_token'
+        }
+      });
+    }
+
+    // 토큰 검증
+    if (token !== SECRET_KEY) {
+      await securityManager.logAuditEvent('AUTH_FAILED', req.ip || 'unknown', {
+        reason: 'invalid_token',
+        userAgent: req.get('User-Agent')
+      });
+      
+      return res.status(403).json({
+        error: {
+          message: 'Invalid access token',
+          type: 'authentication_error',
+          code: 'invalid_token'
+        }
+      });
+    }
+
+    // 성공적인 인증 로그
+    await securityManager.logAuditEvent('AUTH_SUCCESS', req.ip || 'unknown', {
+      userAgent: req.get('User-Agent'),
+      endpoint: req.path
+    });
+
+    next();
+  } catch (error) {
+    console.error('🔒 인증 미들웨어 오류:', error);
+    res.status(500).json({
       error: {
-        message: 'Access token required',
-        type: 'authentication_error',
-        code: 'missing_token'
+        message: 'Authentication service error',
+        type: 'server_error',
+        code: 'auth_service_error'
       }
     });
   }
+}
 
-  if (token !== SECRET_KEY) {
-    return res.status(403).json({
+// 입력 검증 미들웨어
+function validateInput(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
       error: {
-        message: 'Invalid access token',
-        type: 'authentication_error',
-        code: 'invalid_token'
+        message: 'Invalid input data',
+        type: 'validation_error',
+        code: 'invalid_input',
+        details: errors.array()
       }
     });
   }
-
   next();
 }
 
@@ -586,6 +688,138 @@ app.post('/api/memory/:userId/longterm', authenticateToken, async (req, res) => 
         message: '장기 기억 추가 실패: ' + error.message,
         type: 'server_error',
         code: 'longterm_memory_add_failed'
+      }
+    });
+  }
+});
+
+// 보안 상태 조회
+app.get('/api/security/status', authenticateToken, async (req, res) => {
+  try {
+    const securityStatus = securityManager.getSecurityStatus();
+    res.json({
+      security: securityStatus,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('보안 상태 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '보안 상태 조회 실패',
+        type: 'server_error',
+        code: 'security_status_failed'
+      }
+    });
+  }
+});
+
+// 보안 설정 업데이트
+app.post('/api/security/config', authenticateToken, [
+  body('encryptionEnabled').optional().isBoolean(),
+  body('auditLogging').optional().isBoolean(),
+  body('maxLoginAttempts').optional().isInt({ min: 1, max: 10 }),
+  body('lockoutDuration').optional().isInt({ min: 300000, max: 3600000 }) // 5분~1시간
+], validateInput, async (req, res) => {
+  try {
+    const { encryptionEnabled, auditLogging, maxLoginAttempts, lockoutDuration } = req.body;
+    
+    const configUpdate = {};
+    if (encryptionEnabled !== undefined) configUpdate.encryptionEnabled = encryptionEnabled;
+    if (auditLogging !== undefined) configUpdate.auditLogging = auditLogging;
+    if (maxLoginAttempts !== undefined) configUpdate.maxLoginAttempts = maxLoginAttempts;
+    if (lockoutDuration !== undefined) configUpdate.lockoutDuration = lockoutDuration;
+    
+    securityManager.updateSecurityConfig(configUpdate);
+    
+    res.json({
+      message: '보안 설정이 업데이트되었습니다.',
+      updatedConfig: configUpdate,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('보안 설정 업데이트 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '보안 설정 업데이트 실패',
+        type: 'server_error',
+        code: 'security_config_update_failed'
+      }
+    });
+  }
+});
+
+// 메모리 백업 (암호화된 상태로)
+app.post('/api/security/backup/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const backupPath = path.join(__dirname, 'backups', `${userId}_backup_${Date.now()}.enc`);
+    
+    await securityManager.backupMemory(userId, backupPath);
+    
+    res.json({
+      message: '메모리 백업이 완료되었습니다.',
+      backupPath: backupPath,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('메모리 백업 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '메모리 백업 실패',
+        type: 'server_error',
+        code: 'backup_failed'
+      }
+    });
+  }
+});
+
+// 메모리 복원
+app.post('/api/security/restore/:userId', authenticateToken, [
+  body('backupPath').isString().notEmpty()
+], validateInput, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { backupPath } = req.body;
+    
+    await securityManager.restoreMemory(userId, backupPath);
+    
+    res.json({
+      message: '메모리 복원이 완료되었습니다.',
+      userId: userId,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('메모리 복원 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '메모리 복원 실패',
+        type: 'server_error',
+        code: 'restore_failed'
+      }
+    });
+  }
+});
+
+// 안전한 메모리 삭제
+app.delete('/api/security/memory/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    await securityManager.secureDeleteMemory(userId);
+    
+    res.json({
+      message: '메모리가 안전하게 삭제되었습니다.',
+      userId: userId,
+      deletionMethod: 'secure_overwrite',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('안전한 메모리 삭제 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '메모리 삭제 실패',
+        type: 'server_error',
+        code: 'secure_delete_failed'
       }
     });
   }
