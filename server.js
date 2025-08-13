@@ -10,11 +10,13 @@ require('dotenv').config();
 const MemoryManager = require('./memory');
 const SecurityManager = require('./security');
 const CognitiveTrainingManager = require('./cognitive_training');
+const MultimodalIntegrationManager = require('./multimodal_integration');
 
 const app = express();
 const memoryManager = new MemoryManager();
 const securityManager = new SecurityManager();
 const cognitiveTrainingManager = new CognitiveTrainingManager();
+const multimodalManager = new MultimodalIntegrationManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -1008,11 +1010,329 @@ app.get('/api/cognitive/training/templates', authenticateToken, async (req, res)
   }
 });
 
+// ===== 멀티모달 통합 API 엔드포인트 =====
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 25 * 1024 * 1024 } });
+
+// 음성 처리 API
+app.post('/api/multimodal/voice/process', authenticateToken, upload.single('audioFile'), async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const audioFile = req.file;
+    
+    if (!userId || !audioFile) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 오디오 파일이 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_voice_data'
+        }
+      });
+    }
+
+    const result = await multimodalManager.processVoiceInput(userId, audioFile);
+    res.json(result);
+  } catch (error) {
+    console.error('음성 처리 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '음성 처리 실패',
+        type: 'server_error',
+        code: 'voice_processing_failed'
+      }
+    });
+  }
+});
+
+// 음성 합성 API
+app.post('/api/multimodal/voice/synthesize', authenticateToken, async (req, res) => {
+  try {
+    const { userId, text, voiceType } = req.body;
+    
+    if (!userId || !text) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 텍스트가 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_synthesis_data'
+        }
+      });
+    }
+
+    const result = await multimodalManager.generateVoiceResponse(userId, text, voiceType);
+    res.json(result);
+  } catch (error) {
+    console.error('음성 합성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '음성 합성 실패',
+        type: 'server_error',
+        code: 'voice_synthesis_failed'
+      }
+    });
+  }
+});
+
+// 영상 처리 API
+app.post('/api/multimodal/video/process', authenticateToken, upload.single('videoFile'), async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const videoFile = req.file;
+    
+    if (!userId || !videoFile) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 비디오 파일이 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_video_data'
+        }
+      });
+    }
+
+    const result = await multimodalManager.processVideoInput(userId, videoFile);
+    res.json(result);
+  } catch (error) {
+    console.error('영상 처리 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '영상 처리 실패',
+        type: 'server_error',
+        code: 'video_processing_failed'
+      }
+    });
+  }
+});
+
+// 영상 프레임 추출 API
+app.post('/api/multimodal/video/frames', authenticateToken, upload.single('videoFile'), async (req, res) => {
+  try {
+    const { userId, frameRate } = req.body;
+    const videoFile = req.file;
+    
+    if (!userId || !videoFile) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 비디오 파일이 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_video_data'
+        }
+      });
+    }
+
+    const result = await multimodalManager.extractVideoFrames(userId, videoFile, frameRate);
+    res.json(result);
+  } catch (error) {
+    console.error('프레임 추출 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '프레임 추출 실패',
+        type: 'server_error',
+        code: 'frame_extraction_failed'
+      }
+    });
+  }
+});
+
+// 센서 데이터 처리 API
+app.post('/api/multimodal/sensors/process', authenticateToken, async (req, res) => {
+  try {
+    const { userId, sensorData } = req.body;
+    
+    if (!userId || !sensorData) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 센서 데이터가 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_sensor_data'
+        }
+      });
+    }
+
+    const result = await multimodalManager.processSensorData(userId, sensorData);
+    res.json(result);
+  } catch (error) {
+    console.error('센서 데이터 처리 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '센서 데이터 처리 실패',
+        type: 'server_error',
+        code: 'sensor_processing_failed'
+      }
+    });
+  }
+});
+
+// 센서 히스토리 조회 API
+app.get('/api/multimodal/sensors/:userId/history', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { sensorType, timeRange } = req.query;
+
+    const result = await multimodalManager.getSensorHistory(userId, sensorType, timeRange);
+    res.json(result);
+  } catch (error) {
+    console.error('센서 히스토리 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '센서 히스토리 조회 실패',
+        type: 'server_error',
+        code: 'sensor_history_fetch_failed'
+      }
+    });
+  }
+});
+
+// 웨어러블 기기 연결 API
+app.post('/api/multimodal/wearables/connect', authenticateToken, async (req, res) => {
+  try {
+    const { userId, deviceType, deviceConfig } = req.body;
+    
+    if (!userId || !deviceType) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 기기 유형이 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_device_info'
+        }
+      });
+    }
+
+    const result = await multimodalManager.connectWearableDevice(userId, deviceType, deviceConfig);
+    res.json(result);
+  } catch (error) {
+    console.error('웨어러블 기기 연결 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '웨어러블 기기 연결 실패',
+        type: 'server_error',
+        code: 'wearable_connection_failed'
+      }
+    });
+  }
+});
+
+// 웨어러블 데이터 조회 API
+app.get('/api/multimodal/wearables/:userId/data', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { deviceType } = req.query;
+
+    const result = await multimodalManager.getWearableData(userId, deviceType);
+    res.json(result);
+  } catch (error) {
+    console.error('웨어러블 데이터 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '웨어러블 데이터 조회 실패',
+        type: 'server_error',
+        code: 'wearable_data_fetch_failed'
+      }
+    });
+  }
+});
+
+// 건강 데이터 처리 API
+app.post('/api/multimodal/health/process', authenticateToken, async (req, res) => {
+  try {
+    const { userId, healthData } = req.body;
+    
+    if (!userId || !healthData) {
+      return res.status(400).json({
+        error: {
+          message: '사용자 ID와 건강 데이터가 필요합니다.',
+          type: 'invalid_request_error',
+          code: 'missing_health_data'
+        }
+      });
+    }
+
+    const result = await multimodalManager.processHealthData(userId, healthData);
+    res.json(result);
+  } catch (error) {
+    console.error('건강 데이터 처리 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '건강 데이터 처리 실패',
+        type: 'server_error',
+        code: 'health_processing_failed'
+      }
+    });
+  }
+});
+
+// 건강 리포트 생성 API
+app.get('/api/multimodal/health/:userId/report', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { reportType } = req.query;
+
+    const result = await multimodalManager.getHealthReport(userId, reportType);
+    res.json(result);
+  } catch (error) {
+    console.error('건강 리포트 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '건강 리포트 생성 실패',
+        type: 'server_error',
+        code: 'health_report_failed'
+      }
+    });
+  }
+});
+
+// 멀티모달 컨텍스트 생성 API
+app.post('/api/multimodal/context/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+
+    const result = await multimodalManager.generateMultimodalContext(userId);
+    res.json(result);
+  } catch (error) {
+    console.error('멀티모달 컨텍스트 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '멀티모달 컨텍스트 생성 실패',
+        type: 'server_error',
+        code: 'multimodal_context_failed'
+      }
+    });
+  }
+});
+
+// 멀티모달 상태 조회 API
+app.get('/api/multimodal/status', authenticateToken, async (req, res) => {
+  try {
+    const status = {
+      voiceProcessor: 'active',
+      videoProcessor: 'active',
+      sensorManager: 'active',
+      wearableManager: 'active',
+      healthMonitor: 'active',
+      activeConnections: multimodalManager.activeConnections.size,
+      timestamp: new Date().toISOString()
+    };
+
+    res.json({
+      message: '멀티모달 통합 시스템 상태를 조회했습니다.',
+      status: status
+    });
+  } catch (error) {
+    console.error('멀티모달 상태 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '멀티모달 상태 조회 실패',
+        type: 'server_error',
+        code: 'multimodal_status_failed'
+      }
+    });
+  }
+});
+
 // 서버 상태 확인
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '3.0.0',
+    version: '4.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -1033,6 +1353,18 @@ app.get('/', (req, res) => {
       '/api/cognitive/training/:userId/records': '사용자 훈련 기록 조회',
       '/api/cognitive/training/:userId/stats': '훈련 통계 조회',
       '/api/cognitive/training/templates': '훈련 템플릿 정보 조회',
+      '/api/multimodal/voice/process': '음성 처리',
+      '/api/multimodal/voice/synthesize': '음성 합성',
+      '/api/multimodal/video/process': '영상 처리',
+      '/api/multimodal/video/frames': '영상 프레임 추출',
+      '/api/multimodal/sensors/process': '센서 데이터 처리',
+      '/api/multimodal/sensors/:userId/history': '센서 히스토리 조회',
+      '/api/multimodal/wearables/connect': '웨어러블 기기 연결',
+      '/api/multimodal/wearables/:userId/data': '웨어러블 데이터 조회',
+      '/api/multimodal/health/process': '건강 데이터 처리',
+      '/api/multimodal/health/:userId/report': '건강 리포트 생성',
+      '/api/multimodal/context/:userId': '멀티모달 컨텍스트 생성',
+      '/api/multimodal/status': '멀티모달 상태 조회',
       '/api/security/status': '보안 상태 조회',
       '/api/security/config': '보안 설정 업데이트',
       '/api/security/backup/:userId': '암호화된 메모리 백업',
@@ -1043,9 +1375,13 @@ app.get('/', (req, res) => {
   });
 });
 
-app.listen(PORT, '0.0.0.0', () => {
+const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🚀 Ollama API 서버가 포트 ${PORT}에서 실행 중입니다.`);
   console.log(`📡 Ollama 서버 URL: ${OLLAMA_URL}`);
   console.log(`🔗 OpenAI 호환 엔드포인트: http://localhost:${PORT}/v1/chat/completions`);
   console.log(`🧪 테스트 엔드포인트: http://localhost:${PORT}/api/generate`);
+  console.log(`🔊 멀티모달 통합 시스템이 초기화되었습니다.`);
+  
+  // WebSocket 서버 초기화
+  multimodalManager.initializeWebSocket(server);
 }); 

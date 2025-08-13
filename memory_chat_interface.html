@@ -974,6 +974,98 @@
                     <h4>📊 Memory Statistics</h4>
                     <div id="statsContent"></div>
                 </div>
+
+                <!-- 멀티모달 통합 섹션 -->
+                <div class="section" id="multimodalSection">
+                    <h3 id="multimodalTitle">🔊 Multimodal Integration</h3>
+                    
+                    <!-- 음성 처리 -->
+                    <div class="subsection" id="voiceSection" style="display: none;">
+                        <h4 id="voiceTitle">🎤 Voice Processing</h4>
+                        <div class="form-group">
+                            <label for="voiceInput" id="voiceInputLabel">Voice Input:</label>
+                            <input type="file" id="voiceInput" accept="audio/*" />
+                        </div>
+                        <div class="button-group">
+                            <button id="processVoiceBtn" class="btn btn-primary">Process Voice</button>
+                            <button id="synthesizeVoiceBtn" class="btn btn-secondary">Synthesize Voice</button>
+                        </div>
+                    </div>
+
+                    <!-- 영상 처리 -->
+                    <div class="subsection" id="videoSection" style="display: none;">
+                        <h4 id="videoTitle">📹 Video Processing</h4>
+                        <div class="form-group">
+                            <label for="videoInput" id="videoInputLabel">Video Input:</label>
+                            <input type="file" id="videoInput" accept="video/*" />
+                        </div>
+                        <div class="button-group">
+                            <button id="processVideoBtn" class="btn btn-primary">Process Video</button>
+                            <button id="extractFramesBtn" class="btn btn-secondary">Extract Frames</button>
+                        </div>
+                    </div>
+
+                    <!-- 센서 데이터 -->
+                    <div class="subsection" id="sensorSection">
+                        <h4 id="sensorTitle">📡 Sensor Data</h4>
+                        <div class="form-group">
+                            <label for="sensorType" id="sensorTypeLabel">Sensor Type:</label>
+                            <select id="sensorType">
+                                <option value="temperature">Temperature</option>
+                                <option value="humidity">Humidity</option>
+                                <option value="light">Light</option>
+                                <option value="motion">Motion</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="processSensorBtn" class="btn btn-primary">Process Sensor Data</button>
+                            <button id="loadSensorHistoryBtn" class="btn btn-secondary">Sensor History</button>
+                        </div>
+                    </div>
+
+                    <!-- 웨어러블 기기 -->
+                    <div class="subsection" id="wearableSection">
+                        <h4 id="wearableTitle">⌚ Wearable Devices</h4>
+                        <div class="form-group">
+                            <label for="deviceType" id="deviceTypeLabel">Device Type:</label>
+                            <select id="deviceType">
+                                <option value="smartwatch">Smartwatch</option>
+                                <option value="fitness_tracker">Fitness Tracker</option>
+                                <option value="health_monitor">Health Monitor</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="connectWearableBtn" class="btn btn-primary">Connect Device</button>
+                            <button id="getWearableDataBtn" class="btn btn-secondary">Get Data</button>
+                        </div>
+                    </div>
+
+                    <!-- 건강 모니터링 -->
+                    <div class="subsection" id="healthSection">
+                        <h4 id="healthTitle">❤️ Health Monitoring</h4>
+                        <div class="form-group">
+                            <label for="reportType" id="reportTypeLabel">Report Type:</label>
+                            <select id="reportType">
+                                <option value="daily">Daily</option>
+                                <option value="weekly">Weekly</option>
+                                <option value="monthly">Monthly</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="processHealthBtn" class="btn btn-primary">Process Health Data</button>
+                            <button id="generateHealthReportBtn" class="btn btn-secondary">Generate Report</button>
+                        </div>
+                    </div>
+
+                    <!-- 멀티모달 컨텍스트 -->
+                    <div class="subsection" id="contextSection">
+                        <h4 id="contextTitle">🔗 Multimodal Context</h4>
+                        <div class="button-group">
+                            <button id="generateContextBtn" class="btn btn-primary">Generate Context</button>
+                            <button id="checkMultimodalStatusBtn" class="btn btn-secondary">Check Status</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="chat-area">
@@ -1119,7 +1211,41 @@
                 relationshipHelp: 'Add important relationships and connections.',
                 goalHelp: 'Set and track personal goals and objectives.',
                 interestHelp: 'Add interests, hobbies, and preferences.',
-                longTermHelp: 'Store important long-term memories and experiences.'
+                longTermHelp: 'Store important long-term memories and experiences.',
+                multimodalTitle: '🔊 Multimodal Integration',
+                voiceTitle: '🎤 Voice Processing',
+                voiceInputLabel: 'Voice Input:',
+                processVoice: 'Process Voice',
+                synthesizeVoice: 'Synthesize Voice',
+                videoTitle: '📹 Video Processing',
+                videoInputLabel: 'Video Input:',
+                processVideo: 'Process Video',
+                extractFrames: 'Extract Frames',
+                sensorTitle: '📡 Sensor Data',
+                sensorTypeLabel: 'Sensor Type:',
+                temperature: 'Temperature',
+                humidity: 'Humidity',
+                light: 'Light',
+                motion: 'Motion',
+                processSensorData: 'Process Sensor Data',
+                sensorHistory: 'Sensor History',
+                wearableTitle: '⌚ Wearable Devices',
+                deviceTypeLabel: 'Device Type:',
+                smartwatch: 'Smartwatch',
+                fitnessTracker: 'Fitness Tracker',
+                healthMonitor: 'Health Monitor',
+                connectDevice: 'Connect Device',
+                getData: 'Get Data',
+                healthTitle: '❤️ Health Monitoring',
+                reportTypeLabel: 'Report Type:',
+                daily: 'Daily',
+                weekly: 'Weekly',
+                monthly: 'Monthly',
+                processHealthData: 'Process Health Data',
+                generateReport: 'Generate Report',
+                contextTitle: '🔗 Multimodal Context',
+                generateContext: 'Generate Context',
+                checkStatus: 'Check Status'
             },
             fr: {
                 title: '🧠 Chat IA pour le soutien cognitif (Kairos)',
@@ -1183,7 +1309,41 @@
                 relationshipHelp: 'Ajouter des relations et connexions importantes.',
                 goalHelp: 'Définir et suivre les objectifs personnels.',
                 interestHelp: 'Ajouter intérêts, passe-temps et préférences.',
-                longTermHelp: 'Stocker des souvenirs et expériences importants à long terme.'
+                longTermHelp: 'Stocker des souvenirs et expériences importants à long terme.',
+                multimodalTitle: '🔊 Intégration Multimodale',
+                voiceTitle: '🎤 Traitement Vocal',
+                voiceInputLabel: 'Entrée Vocale:',
+                processVoice: 'Traiter la Voix',
+                synthesizeVoice: 'Synthétiser la Voix',
+                videoTitle: '📹 Traitement Vidéo',
+                videoInputLabel: 'Entrée Vidéo:',
+                processVideo: 'Traiter la Vidéo',
+                extractFrames: 'Extraire les Images',
+                sensorTitle: '📡 Données de Capteurs',
+                sensorTypeLabel: 'Type de Capteur:',
+                temperature: 'Température',
+                humidity: 'Humidité',
+                light: 'Lumière',
+                motion: 'Mouvement',
+                processSensorData: 'Traiter les Données de Capteurs',
+                sensorHistory: 'Historique des Capteurs',
+                wearableTitle: '⌚ Dispositifs Portables',
+                deviceTypeLabel: 'Type d\'Appareil:',
+                smartwatch: 'Montre Connectée',
+                fitnessTracker: 'Traqueur de Fitness',
+                healthMonitor: 'Moniteur de Santé',
+                connectDevice: 'Connecter l\'Appareil',
+                getData: 'Obtenir les Données',
+                healthTitle: '❤️ Surveillance de Santé',
+                reportTypeLabel: 'Type de Rapport:',
+                daily: 'Quotidien',
+                weekly: 'Hebdomadaire',
+                monthly: 'Mensuel',
+                processHealthData: 'Traiter les Données de Santé',
+                generateReport: 'Générer le Rapport',
+                contextTitle: '🔗 Contexte Multimodal',
+                generateContext: 'Générer le Contexte',
+                checkStatus: 'Vérifier le Statut'
             },
             ko: {
                 title: '🧠 인지기능 개선 AI 채팅 (Kairos)',
@@ -1247,7 +1407,41 @@
                 relationshipHelp: '중요한 관계와 연결을 추가합니다.',
                 goalHelp: '개인 목표와 계획을 설정하고 추적합니다.',
                 interestHelp: '관심사, 취미, 선호도를 추가합니다.',
-                longTermHelp: '중요한 장기 기억과 경험을 저장합니다.'
+                longTermHelp: '중요한 장기 기억과 경험을 저장합니다.',
+                multimodalTitle: '🔊 멀티모달 통합',
+                voiceTitle: '🎤 음성 처리',
+                voiceInputLabel: '음성 입력:',
+                processVoice: '음성 처리',
+                synthesizeVoice: '음성 합성',
+                videoTitle: '📹 영상 처리',
+                videoInputLabel: '영상 입력:',
+                processVideo: '영상 처리',
+                extractFrames: '프레임 추출',
+                sensorTitle: '📡 센서 데이터',
+                sensorTypeLabel: '센서 유형:',
+                temperature: '온도',
+                humidity: '습도',
+                light: '조도',
+                motion: '동작',
+                processSensorData: '센서 데이터 처리',
+                sensorHistory: '센서 히스토리',
+                wearableTitle: '⌚ 웨어러블 기기',
+                deviceTypeLabel: '기기 유형:',
+                smartwatch: '스마트워치',
+                fitnessTracker: '피트니스 트래커',
+                healthMonitor: '건강 모니터',
+                connectDevice: '기기 연결',
+                getData: '데이터 조회',
+                healthTitle: '❤️ 건강 모니터링',
+                reportTypeLabel: '리포트 유형:',
+                daily: '일일',
+                weekly: '주간',
+                monthly: '월간',
+                processHealthData: '건강 데이터 처리',
+                generateReport: '리포트 생성',
+                contextTitle: '🔗 멀티모달 컨텍스트',
+                generateContext: '컨텍스트 생성',
+                checkStatus: '상태 확인'
             },
             ja: {
                 title: '🧠 認知機能サポートAIチャット (Kairos)',
@@ -1311,7 +1505,41 @@
                 relationshipHelp: '重要な関係性とつながりを追加します。',
                 goalHelp: '個人の目標と計画を設定・追跡します。',
                 interestHelp: '興味、趣味、好みを追加します。',
-                longTermHelp: '重要な長期記憶と経験を保存します。'
+                longTermHelp: '重要な長期記憶と経験を保存します。',
+                multimodalTitle: '🔊 マルチモーダル統合',
+                voiceTitle: '🎤 音声処理',
+                voiceInputLabel: '音声入力:',
+                processVoice: '音声処理',
+                synthesizeVoice: '音声合成',
+                videoTitle: '📹 動画処理',
+                videoInputLabel: '動画入力:',
+                processVideo: '動画処理',
+                extractFrames: 'フレーム抽出',
+                sensorTitle: '📡 センサーデータ',
+                sensorTypeLabel: 'センサータイプ:',
+                temperature: '温度',
+                humidity: '湿度',
+                light: '照度',
+                motion: '動作',
+                processSensorData: 'センサーデータ処理',
+                sensorHistory: 'センサー履歴',
+                wearableTitle: '⌚ ウェアラブルデバイス',
+                deviceTypeLabel: 'デバイスタイプ:',
+                smartwatch: 'スマートウォッチ',
+                fitnessTracker: 'フィットネストラッカー',
+                healthMonitor: '健康モニター',
+                connectDevice: 'デバイス接続',
+                getData: 'データ取得',
+                healthTitle: '❤️ 健康モニタリング',
+                reportTypeLabel: 'レポートタイプ:',
+                daily: '日次',
+                weekly: '週次',
+                monthly: '月次',
+                processHealthData: '健康データ処理',
+                generateReport: 'レポート生成',
+                contextTitle: '🔗 マルチモーダルコンテキスト',
+                generateContext: 'コンテキスト生成',
+                checkStatus: '状態確認'
             },
             zh: {
                 title: '🧠 认知功能提升AI聊天 (Kairos)',
@@ -1375,7 +1603,41 @@
                 relationshipHelp: '添加重要的关系和连接。',
                 goalHelp: '设置和跟踪个人目标和计划。',
                 interestHelp: '添加兴趣、爱好和偏好。',
-                longTermHelp: '存储重要的长期记忆和经验。'
+                longTermHelp: '存储重要的长期记忆和经验。',
+                multimodalTitle: '🔊 多模态集成',
+                voiceTitle: '🎤 语音处理',
+                voiceInputLabel: '语音输入:',
+                processVoice: '语音处理',
+                synthesizeVoice: '语音合成',
+                videoTitle: '📹 视频处理',
+                videoInputLabel: '视频输入:',
+                processVideo: '视频处理',
+                extractFrames: '帧提取',
+                sensorTitle: '📡 传感器数据',
+                sensorTypeLabel: '传感器类型:',
+                temperature: '温度',
+                humidity: '湿度',
+                light: '光照',
+                motion: '运动',
+                processSensorData: '传感器数据处理',
+                sensorHistory: '传感器历史',
+                wearableTitle: '⌚ 可穿戴设备',
+                deviceTypeLabel: '设备类型:',
+                smartwatch: '智能手表',
+                fitnessTracker: '健身追踪器',
+                healthMonitor: '健康监测器',
+                connectDevice: '连接设备',
+                getData: '获取数据',
+                healthTitle: '❤️ 健康监测',
+                reportTypeLabel: '报告类型:',
+                daily: '每日',
+                weekly: '每周',
+                monthly: '每月',
+                processHealthData: '健康数据处理',
+                generateReport: '生成报告',
+                contextTitle: '🔗 多模态上下文',
+                generateContext: '生成上下文',
+                checkStatus: '检查状态'
             }
         };
 
@@ -1458,6 +1720,67 @@
             for (const [id, text] of Object.entries(helpTexts)) {
                 const element = document.getElementById(id);
                 if (element) element.textContent = text;
+            }
+            
+            // Update multimodal section
+            const multimodalTitle = document.getElementById('multimodalTitle');
+            if (multimodalTitle) multimodalTitle.textContent = t.multimodalTitle;
+            
+            // Update multimodal subsections
+            const multimodalElements = {
+                'voiceTitle': t.voiceTitle,
+                'voiceInputLabel': t.voiceInputLabel,
+                'processVoiceBtn': t.processVoice,
+                'synthesizeVoiceBtn': t.synthesizeVoice,
+                'videoTitle': t.videoTitle,
+                'videoInputLabel': t.videoInputLabel,
+                'processVideoBtn': t.processVideo,
+                'extractFramesBtn': t.extractFrames,
+                'sensorTitle': t.sensorTitle,
+                'sensorTypeLabel': t.sensorTypeLabel,
+                'processSensorBtn': t.processSensorData,
+                'loadSensorHistoryBtn': t.sensorHistory,
+                'wearableTitle': t.wearableTitle,
+                'deviceTypeLabel': t.deviceTypeLabel,
+                'connectWearableBtn': t.connectDevice,
+                'getWearableDataBtn': t.getData,
+                'healthTitle': t.healthTitle,
+                'reportTypeLabel': t.reportTypeLabel,
+                'processHealthBtn': t.processHealthData,
+                'generateHealthReportBtn': t.generateReport,
+                'contextTitle': t.contextTitle,
+                'generateContextBtn': t.generateContext,
+                'checkMultimodalStatusBtn': t.checkStatus
+            };
+            
+            for (const [id, text] of Object.entries(multimodalElements)) {
+                const element = document.getElementById(id);
+                if (element) element.textContent = text;
+            }
+            
+            // Update sensor type options
+            const sensorType = document.getElementById('sensorType');
+            if (sensorType) {
+                sensorType.options[0].textContent = t.temperature;
+                sensorType.options[1].textContent = t.humidity;
+                sensorType.options[2].textContent = t.light;
+                sensorType.options[3].textContent = t.motion;
+            }
+            
+            // Update device type options
+            const deviceType = document.getElementById('deviceType');
+            if (deviceType) {
+                deviceType.options[0].textContent = t.smartwatch;
+                deviceType.options[1].textContent = t.fitnessTracker;
+                deviceType.options[2].textContent = t.healthMonitor;
+            }
+            
+            // Update report type options
+            const reportType = document.getElementById('reportType');
+            if (reportType) {
+                reportType.options[0].textContent = t.daily;
+                reportType.options[1].textContent = t.weekly;
+                reportType.options[2].textContent = t.monthly;
             }
         }
 
@@ -2215,6 +2538,408 @@
 
         // 🧠 인지 훈련 관련 함수들
 
+        // 🔊 멀티모달 통합 관련 함수들
+        async function processVoiceInput() {
+            const config = getConfig();
+            const voiceInput = document.getElementById('voiceInput');
+            
+            if (!voiceInput.files[0]) {
+                showStatus('❌ 음성 파일을 선택해주세요.', 'error');
+                return;
+            }
+            
+            try {
+                showStatus('🎤 음성을 처리하고 있습니다...', 'info');
+                
+                const formData = new FormData();
+                formData.append('audioFile', voiceInput.files[0]);
+                formData.append('userId', config.userId);
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/voice/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 음성 처리 완료!', 'success');
+                    addMessage('system', `음성 인식 결과: ${result.text} (신뢰도: ${result.confidence})`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 음성 처리 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 음성 처리 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function synthesizeVoice() {
+            const config = getConfig();
+            const text = prompt('음성으로 변환할 텍스트를 입력하세요:');
+            
+            if (!text) return;
+            
+            try {
+                showStatus('🎤 음성을 합성하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/voice/synthesize`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        text: text,
+                        voiceType: 'natural'
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 음성 합성 완료!', 'success');
+                    addMessage('system', `음성 파일 생성: ${result.audioFile}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 음성 합성 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 음성 합성 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function processVideoInput() {
+            const config = getConfig();
+            const videoInput = document.getElementById('videoInput');
+            
+            if (!videoInput.files[0]) {
+                showStatus('❌ 비디오 파일을 선택해주세요.', 'error');
+                return;
+            }
+            
+            try {
+                showStatus('📹 비디오를 처리하고 있습니다...', 'info');
+                
+                const formData = new FormData();
+                formData.append('videoFile', videoInput.files[0]);
+                formData.append('userId', config.userId);
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/video/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 비디오 처리 완료!', 'success');
+                    addMessage('system', `비디오 분석: ${result.analysis.objects.join(', ')} 감지됨`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 비디오 처리 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 비디오 처리 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function extractVideoFrames() {
+            const config = getConfig();
+            const videoInput = document.getElementById('videoInput');
+            
+            if (!videoInput.files[0]) {
+                showStatus('❌ 비디오 파일을 선택해주세요.', 'error');
+                return;
+            }
+            
+            try {
+                showStatus('📹 프레임을 추출하고 있습니다...', 'info');
+                
+                const formData = new FormData();
+                formData.append('videoFile', videoInput.files[0]);
+                formData.append('userId', config.userId);
+                formData.append('frameRate', '1');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/video/frames`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    },
+                    body: formData
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 프레임 추출 완료!', 'success');
+                    addMessage('system', `${result.frames.length}개의 프레임이 추출되었습니다.`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 프레임 추출 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 프레임 추출 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function processSensorData() {
+            const config = getConfig();
+            const sensorType = document.getElementById('sensorType').value;
+            
+            try {
+                showStatus('📡 센서 데이터를 처리하고 있습니다...', 'info');
+                
+                const sensorData = {
+                    type: sensorType,
+                    value: Math.random() * 100,
+                    timestamp: new Date().toISOString()
+                };
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/sensors/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        sensorData: sensorData
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 센서 데이터 처리 완료!', 'success');
+                    addMessage('system', `센서 데이터 처리됨: ${sensorType}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 센서 데이터 처리 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 센서 데이터 처리 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadSensorHistory() {
+            const config = getConfig();
+            const sensorType = document.getElementById('sensorType').value;
+            
+            try {
+                showStatus('📡 센서 히스토리를 로드하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/sensors/${config.userId}/history?sensorType=${sensorType}&timeRange=24h`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 센서 히스토리 로드 완료!', 'success');
+                    addMessage('system', `${result.history.length}개의 센서 데이터 기록을 찾았습니다.`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 센서 히스토리 로드 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 센서 히스토리 로드 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function connectWearableDevice() {
+            const config = getConfig();
+            const deviceType = document.getElementById('deviceType').value;
+            
+            try {
+                showStatus('⌚ 웨어러블 기기를 연결하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/wearables/connect`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        deviceType: deviceType,
+                        deviceConfig: {
+                            autoConnect: true,
+                            dataInterval: 60
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 웨어러블 기기 연결 완료!', 'success');
+                    addMessage('system', `${deviceType} 기기가 연결되었습니다.`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 웨어러블 기기 연결 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 웨어러블 기기 연결 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function getWearableData() {
+            const config = getConfig();
+            const deviceType = document.getElementById('deviceType').value;
+            
+            try {
+                showStatus('⌚ 웨어러블 데이터를 가져오고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/wearables/${config.userId}/data?deviceType=${deviceType}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 웨어러블 데이터 로드 완료!', 'success');
+                    addMessage('system', `심박수: ${result.data.heartRate} BPM, 걸음수: ${result.data.steps}걸음`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 웨어러블 데이터 로드 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 웨어러블 데이터 로드 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function processHealthData() {
+            const config = getConfig();
+            
+            try {
+                showStatus('❤️ 건강 데이터를 처리하고 있습니다...', 'info');
+                
+                const healthData = {
+                    heartRate: Math.floor(Math.random() * 40) + 60,
+                    steps: Math.floor(Math.random() * 1000) + 5000,
+                    sleepHours: Math.floor(Math.random() * 3) + 6,
+                    calories: Math.floor(Math.random() * 500) + 1500
+                };
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/health/process`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        healthData: healthData
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 건강 데이터 처리 완료!', 'success');
+                    addMessage('system', `건강 점수: ${result.analysis.overallHealth}/100`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 건강 데이터 처리 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 건강 데이터 처리 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function generateHealthReport() {
+            const config = getConfig();
+            const reportType = document.getElementById('reportType').value;
+            
+            try {
+                showStatus('❤️ 건강 리포트를 생성하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/health/${config.userId}/report?reportType=${reportType}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 건강 리포트 생성 완료!', 'success');
+                    addMessage('system', `${reportType} 건강 리포트: 평균 심박수 ${result.report.summary.averageHeartRate} BPM`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 건강 리포트 생성 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 건강 리포트 생성 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function generateMultimodalContext() {
+            const config = getConfig();
+            
+            try {
+                showStatus('🔗 멀티모달 컨텍스트를 생성하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/context/${config.userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 멀티모달 컨텍스트 생성 완료!', 'success');
+                    addMessage('system', '멀티모달 컨텍스트가 생성되었습니다. 음성, 영상, 센서, 웨어러블, 건강 데이터가 통합되었습니다.');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 멀티모달 컨텍스트 생성 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 멀티모달 컨텍스트 생성 오류: ${error.message}`, 'error');
+            }
+        }
+
+        async function checkMultimodalStatus() {
+            const config = getConfig();
+            
+            try {
+                showStatus('🔗 멀티모달 상태를 확인하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/multimodal/status`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 멀티모달 상태 확인 완료!', 'success');
+                    addMessage('system', `멀티모달 시스템 상태: 연결 ${result.status.activeConnections}개`);
+                    // 작동 확인된 섹션만 노출
+                    document.getElementById('sensorSection').style.display = 'block';
+                    document.getElementById('wearableSection').style.display = 'block';
+                    document.getElementById('healthSection').style.display = 'block';
+                    document.getElementById('contextSection').style.display = 'block';
+                    // 파일 업로드 기반(음성/영상)은 현재 비활성화 유지
+                    document.getElementById('voiceSection').style.display = 'none';
+                    document.getElementById('videoSection').style.display = 'none';
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 멀티모달 상태 확인 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 멀티모달 상태 확인 오류: ${error.message}`, 'error');
+            }
+        }
+
         // 인지 훈련 시작
         async function startCognitiveTraining() {
             const config = getConfig();
@@ -2755,10 +3480,24 @@
             document.getElementById('addInterestBtn').addEventListener('click', addInterest);
             document.getElementById('addLongTermMemoryBtn').addEventListener('click', addLongTermMemory);
             
-            // 인지 훈련 기능 이벤트 리스너 추가
-            document.getElementById('startTrainingBtn').addEventListener('click', startCognitiveTraining);
-            document.getElementById('loadTrainingStatsBtn').addEventListener('click', loadTrainingStats);
-            document.getElementById('loadTrainingRecordsBtn').addEventListener('click', loadTrainingRecords);
+                    // 인지 훈련 기능 이벤트 리스너 추가
+        document.getElementById('startTrainingBtn').addEventListener('click', startCognitiveTraining);
+        document.getElementById('loadTrainingStatsBtn').addEventListener('click', loadTrainingStats);
+        document.getElementById('loadTrainingRecordsBtn').addEventListener('click', loadTrainingRecords);
+        
+        // 멀티모달 통합 기능 이벤트 리스너 추가
+        document.getElementById('processVoiceBtn').addEventListener('click', processVoiceInput);
+        document.getElementById('synthesizeVoiceBtn').addEventListener('click', synthesizeVoice);
+        document.getElementById('processVideoBtn').addEventListener('click', processVideoInput);
+        document.getElementById('extractFramesBtn').addEventListener('click', extractVideoFrames);
+        document.getElementById('processSensorBtn').addEventListener('click', processSensorData);
+        document.getElementById('loadSensorHistoryBtn').addEventListener('click', loadSensorHistory);
+        document.getElementById('connectWearableBtn').addEventListener('click', connectWearableDevice);
+        document.getElementById('getWearableDataBtn').addEventListener('click', getWearableData);
+        document.getElementById('processHealthBtn').addEventListener('click', processHealthData);
+        document.getElementById('generateHealthReportBtn').addEventListener('click', generateHealthReport);
+        document.getElementById('generateContextBtn').addEventListener('click', generateMultimodalContext);
+        document.getElementById('checkMultimodalStatusBtn').addEventListener('click', checkMultimodalStatus);
             
             // 초기 모델 목록 로드
             setTimeout(loadModels, 500);
