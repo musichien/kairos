@@ -1066,6 +1066,109 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- 문화 및 언어 최적화 섹션 -->
+                <div class="config-section" id="culturalSection">
+                    <h3 id="culturalTitle">🌍 Cultural & Language Optimization</h3>
+                    
+                    <!-- 언어 및 격식 수준 설정 -->
+                    <div class="subsection">
+                        <h4>Language & Formality Settings</h4>
+                        <div class="form-group">
+                            <label for="culturalLanguage">Language:</label>
+                            <select id="culturalLanguage" class="form-control">
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                                <option value="ko">한국어</option>
+                                <option value="ja">日本語</option>
+                                <option value="zh">中文</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="culturalFormality">Formality Level:</label>
+                            <select id="culturalFormality" class="form-control">
+                                <option value="casual">Casual</option>
+                                <option value="polite">Polite</option>
+                                <option value="formal">Formal</option>
+                                <option value="respectful">Respectful</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="userAge">User Age (for respectful addressing):</label>
+                            <input type="number" id="userAge" class="form-control" placeholder="Enter age" min="1" max="120">
+                        </div>
+                        <div class="button-group">
+                            <button id="saveCulturalPrefsBtn" class="btn btn-primary">Save Preferences</button>
+                            <button id="loadCulturalPrefsBtn" class="btn btn-secondary">Load Preferences</button>
+                        </div>
+                    </div>
+
+                    <!-- 문화적 표현 생성 -->
+                    <div class="subsection">
+                        <h4>Cultural Expression Generation</h4>
+                        <div class="form-group">
+                            <label for="responseType">Response Type:</label>
+                            <select id="responseType" class="form-control">
+                                <option value="greeting">Greeting</option>
+                                <option value="agreement">Agreement</option>
+                                <option value="disagreement">Disagreement</option>
+                                <option value="gratitude">Gratitude</option>
+                                <option value="apology">Apology</option>
+                                <option value="encouragement">Encouragement</option>
+                                <option value="sympathy">Sympathy</option>
+                                <option value="humor">Humor</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="generateCulturalResponseBtn" class="btn btn-primary">Generate Response</button>
+                            <button id="generateGreetingBtn" class="btn btn-secondary">Generate Greeting</button>
+                        </div>
+                    </div>
+
+                    <!-- 대화 시작어 생성 -->
+                    <div class="subsection">
+                        <h4>Conversation Starters</h4>
+                        <div class="form-group">
+                            <label for="conversationTopic">Topic:</label>
+                            <select id="conversationTopic" class="form-control">
+                                <option value="general">General</option>
+                                <option value="health">Health</option>
+                                <option value="family">Family</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="generateConversationStarterBtn" class="btn btn-primary">Generate Starter</button>
+                        </div>
+                    </div>
+
+                    <!-- 문화적 예절 정보 -->
+                    <div class="subsection">
+                        <h4>Cultural Etiquette</h4>
+                        <div class="form-group">
+                            <label for="etiquetteContext">Context:</label>
+                            <select id="etiquetteContext" class="form-control">
+                                <option value="general">General</option>
+                                <option value="elderly">Elderly Respect</option>
+                                <option value="communication">Communication</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="getCulturalEtiquetteBtn" class="btn btn-primary">Get Etiquette Info</button>
+                        </div>
+                    </div>
+
+                    <!-- 문화적 컨텍스트 적용 -->
+                    <div class="subsection">
+                        <h4>Apply Cultural Context</h4>
+                        <div class="form-group">
+                            <label for="messageToEnhance">Message to Enhance:</label>
+                            <textarea id="messageToEnhance" class="form-control" placeholder="Enter a message to apply cultural context..." rows="3"></textarea>
+                        </div>
+                        <div class="button-group">
+                            <button id="applyCulturalContextBtn" class="btn btn-primary">Apply Cultural Context</button>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="chat-area">
@@ -1245,7 +1348,41 @@
                 generateReport: 'Generate Report',
                 contextTitle: '🔗 Multimodal Context',
                 generateContext: 'Generate Context',
-                checkStatus: 'Check Status'
+                checkStatus: 'Check Status',
+                culturalTitle: '🌍 Cultural & Language Optimization',
+                languageSettings: 'Language & Formality Settings',
+                culturalLanguage: 'Language:',
+                culturalFormality: 'Formality Level:',
+                userAge: 'User Age (for respectful addressing):',
+                savePreferences: 'Save Preferences',
+                loadPreferences: 'Load Preferences',
+                culturalExpression: 'Cultural Expression Generation',
+                responseType: 'Response Type:',
+                greeting: 'Greeting',
+                agreement: 'Agreement',
+                disagreement: 'Disagreement',
+                gratitude: 'Gratitude',
+                apology: 'Apology',
+                encouragement: 'Encouragement',
+                sympathy: 'Sympathy',
+                humor: 'Humor',
+                generateResponse: 'Generate Response',
+                generateGreeting: 'Generate Greeting',
+                conversationStarters: 'Conversation Starters',
+                conversationTopic: 'Topic:',
+                general: 'General',
+                health: 'Health',
+                family: 'Family',
+                generateStarter: 'Generate Starter',
+                culturalEtiquette: 'Cultural Etiquette',
+                etiquetteContext: 'Context:',
+                elderly: 'Elderly Respect',
+                communication: 'Communication',
+                getEtiquetteInfo: 'Get Etiquette Info',
+                applyCulturalContext: 'Apply Cultural Context',
+                messageToEnhance: 'Message to Enhance:',
+                enterMessageToEnhance: 'Enter a message to apply cultural context...',
+                applyContext: 'Apply Cultural Context'
             },
             fr: {
                 title: '🧠 Chat IA pour le soutien cognitif (Kairos)',
@@ -1343,7 +1480,41 @@
                 generateReport: 'Générer le Rapport',
                 contextTitle: '🔗 Contexte Multimodal',
                 generateContext: 'Générer le Contexte',
-                checkStatus: 'Vérifier le Statut'
+                checkStatus: 'Vérifier le Statut',
+                culturalTitle: '🌍 Optimisation Culturelle et Linguistique',
+                languageSettings: 'Paramètres de Langue et de Formalité',
+                culturalLanguage: 'Langue :',
+                culturalFormality: 'Niveau de Formalité :',
+                userAge: 'Âge de l\'Utilisateur (pour l\'adresse respectueuse) :',
+                savePreferences: 'Sauvegarder les Préférences',
+                loadPreferences: 'Charger les Préférences',
+                culturalExpression: 'Génération d\'Expressions Culturelles',
+                responseType: 'Type de Réponse :',
+                greeting: 'Salutation',
+                agreement: 'Accord',
+                disagreement: 'Désaccord',
+                gratitude: 'Gratitude',
+                apology: 'Apologie',
+                encouragement: 'Encouragement',
+                sympathy: 'Sympathie',
+                humor: 'Humeur',
+                generateResponse: 'Générer une Réponse',
+                generateGreeting: 'Générer une Salutation',
+                conversationStarters: 'Amorces de Conversation',
+                conversationTopic: 'Sujet :',
+                general: 'Général',
+                health: 'Santé',
+                family: 'Famille',
+                generateStarter: 'Générer une Amorce',
+                culturalEtiquette: 'Étiquette Culturelle',
+                etiquetteContext: 'Contexte :',
+                elderly: 'Respect des Personnes Âgées',
+                communication: 'Communication',
+                getEtiquetteInfo: 'Obtenir les Informations d\'Étiquette',
+                applyCulturalContext: 'Appliquer le Contexte Culturel',
+                messageToEnhance: 'Message à Améliorer :',
+                enterMessageToEnhance: 'Entrez un message pour appliquer le contexte culturel...',
+                applyContext: 'Appliquer le Contexte Culturel'
             },
             ko: {
                 title: '🧠 인지기능 개선 AI 채팅 (Kairos)',
@@ -1441,7 +1612,41 @@
                 generateReport: '리포트 생성',
                 contextTitle: '🔗 멀티모달 컨텍스트',
                 generateContext: '컨텍스트 생성',
-                checkStatus: '상태 확인'
+                checkStatus: '상태 확인',
+                culturalTitle: '🌍 문화 및 언어 최적화',
+                languageSettings: '언어 및 격식 수준 설정',
+                culturalLanguage: '언어:',
+                culturalFormality: '격식 수준:',
+                userAge: '사용자 나이 (존칭어 사용용):',
+                savePreferences: '선호도 저장',
+                loadPreferences: '선호도 불러오기',
+                culturalExpression: '문화적 표현 생성',
+                responseType: '응답 유형:',
+                greeting: '인사',
+                agreement: '동의',
+                disagreement: '반대',
+                gratitude: '감사',
+                apology: '사과',
+                encouragement: '격려',
+                sympathy: '동정',
+                humor: '유머',
+                generateResponse: '응답 생성',
+                generateGreeting: '인사말 생성',
+                conversationStarters: '대화 시작어',
+                conversationTopic: '주제:',
+                general: '일반',
+                health: '건강',
+                family: '가족',
+                generateStarter: '시작어 생성',
+                culturalEtiquette: '문화적 예절',
+                etiquetteContext: '맥락:',
+                elderly: '노인 존중',
+                communication: '소통',
+                getEtiquetteInfo: '예절 정보 조회',
+                applyCulturalContext: '문화적 컨텍스트 적용',
+                messageToEnhance: '향상할 메시지:',
+                enterMessageToEnhance: '문화적 컨텍스트를 적용할 메시지를 입력하세요...',
+                applyContext: '문화적 컨텍스트 적용'
             },
             ja: {
                 title: '🧠 認知機能サポートAIチャット (Kairos)',
@@ -1539,7 +1744,41 @@
                 generateReport: 'レポート生成',
                 contextTitle: '🔗 マルチモーダルコンテキスト',
                 generateContext: 'コンテキスト生成',
-                checkStatus: '状態確認'
+                checkStatus: '状態確認',
+                culturalTitle: '🌍 文化的・言語的最適化',
+                languageSettings: '言語・敬語レベル設定',
+                culturalLanguage: '言語:',
+                culturalFormality: '敬語レベル:',
+                userAge: 'ユーザー年齢 (敬語使用用):',
+                savePreferences: '設定保存',
+                loadPreferences: '設定読み込み',
+                culturalExpression: '文化的表現生成',
+                responseType: '応答タイプ:',
+                greeting: '挨拶',
+                agreement: '同意',
+                disagreement: '反対',
+                gratitude: '感謝',
+                apology: '謝罪',
+                encouragement: '励まし',
+                sympathy: '同情',
+                humor: 'ユーモア',
+                generateResponse: '応答生成',
+                generateGreeting: '挨拶生成',
+                conversationStarters: '会話の始め方',
+                conversationTopic: 'トピック:',
+                general: '一般的',
+                health: '健康',
+                family: '家族',
+                generateStarter: '始め方生成',
+                culturalEtiquette: '文化的マナー',
+                etiquetteContext: 'コンテキスト:',
+                elderly: '高齢者への敬意',
+                communication: 'コミュニケーション',
+                getEtiquetteInfo: 'マナー情報取得',
+                applyCulturalContext: '文化的コンテキスト適用',
+                messageToEnhance: '改善するメッセージ:',
+                enterMessageToEnhance: '文化的コンテキストを適用するメッセージを入力してください...',
+                applyContext: '文化的コンテキスト適用'
             },
             zh: {
                 title: '🧠 认知功能提升AI聊天 (Kairos)',
@@ -1637,7 +1876,41 @@
                 generateReport: '生成报告',
                 contextTitle: '🔗 多模态上下文',
                 generateContext: '生成上下文',
-                checkStatus: '检查状态'
+                checkStatus: '检查状态',
+                culturalTitle: '🌍 文化与语言优化',
+                languageSettings: '语言与礼貌级别设置',
+                culturalLanguage: '语言:',
+                culturalFormality: '礼貌级别:',
+                userAge: '用户年龄 (用于敬语):',
+                savePreferences: '保存偏好',
+                loadPreferences: '加载偏好',
+                culturalExpression: '文化表达生成',
+                responseType: '回应类型:',
+                greeting: '问候',
+                agreement: '同意',
+                disagreement: '不同意',
+                gratitude: '感谢',
+                apology: '道歉',
+                encouragement: '鼓励',
+                sympathy: '同情',
+                humor: '幽默',
+                generateResponse: '生成回应',
+                generateGreeting: '生成问候',
+                conversationStarters: '对话开场白',
+                conversationTopic: '话题:',
+                general: '一般',
+                health: '健康',
+                family: '家庭',
+                generateStarter: '生成开场白',
+                culturalEtiquette: '文化礼仪',
+                etiquetteContext: '上下文:',
+                elderly: '对长者的尊重',
+                communication: '沟通',
+                getEtiquetteInfo: '获取礼仪信息',
+                applyCulturalContext: '应用文化上下文',
+                messageToEnhance: '要增强的消息:',
+                enterMessageToEnhance: '输入要应用文化上下文的消息...',
+                applyContext: '应用文化上下文'
             }
         };
 
@@ -1782,6 +2055,71 @@
                 reportType.options[1].textContent = t.weekly;
                 reportType.options[2].textContent = t.monthly;
             }
+            
+            // Update cultural optimization section
+            const culturalTitle = document.getElementById('culturalTitle');
+            if (culturalTitle) culturalTitle.textContent = t.culturalTitle;
+            
+            // Update cultural optimization subsections
+            const culturalElements = {
+                'languageSettings': t.languageSettings,
+                'culturalLanguage': t.culturalLanguage,
+                'culturalFormality': t.culturalFormality,
+                'userAge': t.userAge,
+                'saveCulturalPrefsBtn': t.savePreferences,
+                'loadCulturalPrefsBtn': t.loadPreferences,
+                'culturalExpression': t.culturalExpression,
+                'responseType': t.responseType,
+                'generateCulturalResponseBtn': t.generateResponse,
+                'generateGreetingBtn': t.generateGreeting,
+                'conversationStarters': t.conversationStarters,
+                'conversationTopic': t.conversationTopic,
+                'generateConversationStarterBtn': t.generateStarter,
+                'culturalEtiquette': t.culturalEtiquette,
+                'etiquetteContext': t.etiquetteContext,
+                'getCulturalEtiquetteBtn': t.getEtiquetteInfo,
+                'applyCulturalContext': t.applyCulturalContext,
+                'messageToEnhance': t.messageToEnhance,
+                'applyCulturalContextBtn': t.applyContext
+            };
+            
+            for (const [id, text] of Object.entries(culturalElements)) {
+                const element = document.getElementById(id);
+                if (element) element.textContent = text;
+            }
+            
+            // Update response type options
+            const responseType = document.getElementById('responseType');
+            if (responseType) {
+                responseType.options[0].textContent = t.greeting;
+                responseType.options[1].textContent = t.agreement;
+                responseType.options[2].textContent = t.disagreement;
+                responseType.options[3].textContent = t.gratitude;
+                responseType.options[4].textContent = t.apology;
+                responseType.options[5].textContent = t.encouragement;
+                responseType.options[6].textContent = t.sympathy;
+                responseType.options[7].textContent = t.humor;
+            }
+            
+            // Update conversation topic options
+            const conversationTopic = document.getElementById('conversationTopic');
+            if (conversationTopic) {
+                conversationTopic.options[0].textContent = t.general;
+                conversationTopic.options[1].textContent = t.health;
+                conversationTopic.options[2].textContent = t.family;
+            }
+            
+            // Update etiquette context options
+            const etiquetteContext = document.getElementById('etiquetteContext');
+            if (etiquetteContext) {
+                etiquetteContext.options[0].textContent = t.general;
+                etiquetteContext.options[1].textContent = t.elderly;
+                etiquetteContext.options[2].textContent = t.communication;
+            }
+            
+            // Update placeholders
+            const messageToEnhance = document.getElementById('messageToEnhance');
+            if (messageToEnhance) messageToEnhance.placeholder = t.enterMessageToEnhance;
         }
 
         // 모델 목록 로드 / Load model list / Charger la liste des modèles / モデル一覧を読み込む / 加载模型列表
@@ -2940,6 +3278,260 @@
             }
         }
 
+        // 문화적 선호도 저장
+        async function saveCulturalPreferences() {
+            const config = getConfig();
+            const language = document.getElementById('culturalLanguage').value;
+            const formality = document.getElementById('culturalFormality').value;
+            const age = document.getElementById('userAge').value;
+
+            try {
+                showStatus('🌍 문화적 선호도를 저장하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/preferences/${config.userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        language: language,
+                        formalityLevel: formality,
+                        age: age ? parseInt(age) : null
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 문화적 선호도가 저장되었습니다!', 'success');
+                    addMessage('system', `문화적 설정 저장됨: ${language}, ${formality}${age ? `, ${age}세` : ''}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 선호도 저장 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 문화적 선호도 저장 오류: ${error.message}`, 'error');
+            }
+        }
+
+        // 문화적 선호도 불러오기
+        async function loadCulturalPreferences() {
+            const config = getConfig();
+            
+            try {
+                showStatus('🌍 문화적 선호도를 불러오고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/preferences/${config.userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result.preferences) {
+                        document.getElementById('culturalLanguage').value = result.preferences.language || 'en';
+                        document.getElementById('culturalFormality').value = result.preferences.formalityLevel || 'polite';
+                        document.getElementById('userAge').value = result.preferences.age || '';
+                        showStatus('✅ 문화적 선호도가 불러와졌습니다!', 'success');
+                        addMessage('system', `문화적 설정 로드됨: ${result.preferences.language}, ${result.preferences.formalityLevel}${result.preferences.age ? `, ${result.preferences.age}세` : ''}`);
+                    } else {
+                        showStatus('ℹ️ 저장된 문화적 선호도가 없습니다', 'info');
+                    }
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 선호도 불러오기 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 문화적 선호도 불러오기 실패: ${error.message}`, 'error');
+            }
+        }
+
+        // 문화적 응답 생성
+        async function generateCulturalResponse() {
+            const config = getConfig();
+            const language = document.getElementById('culturalLanguage').value;
+            const formality = document.getElementById('culturalFormality').value;
+            const responseType = document.getElementById('responseType').value;
+
+            try {
+                showStatus('🌍 문화적 응답을 생성하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/response`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        language: language,
+                        formalityLevel: formality,
+                        responseType: responseType
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 문화적 응답이 생성되었습니다!', 'success');
+                    addMessage('system', `문화적 응답 (${language}, ${formality}): ${result.response}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 응답 생성 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 문화적 응답 생성 오류: ${error.message}`, 'error');
+            }
+        }
+
+        // 문화적 인사말 생성
+        async function generateCulturalGreeting() {
+            const config = getConfig();
+            const language = document.getElementById('culturalLanguage').value;
+            const formality = document.getElementById('culturalFormality').value;
+
+            try {
+                showStatus('🌍 문화적 인사말을 생성하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/greeting`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        language: language,
+                        formalityLevel: formality,
+                        timeOfDay: true
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 문화적 인사말이 생성되었습니다!', 'success');
+                    addMessage('system', `문화적 인사말 (${language}, ${formality}): ${result.greeting}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 인사말 생성 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 문화적 인사말 생성 오류: ${error.message}`, 'error');
+            }
+        }
+
+        // 문화적 대화 시작어 생성
+        async function generateConversationStarter() {
+            const config = getConfig();
+            const language = document.getElementById('culturalLanguage').value;
+            const formality = document.getElementById('culturalFormality').value;
+            const topic = document.getElementById('conversationTopic').value;
+
+            try {
+                showStatus('🌍 문화적 대화 시작어를 생성하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/starter/${topic}`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        language: language,
+                        formalityLevel: formality
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 문화적 대화 시작어가 생성되었습니다!', 'success');
+                    addMessage('system', `문화적 대화 시작어 (${language}, ${formality}, ${topic}): ${result.starter}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 대화 시작어 생성 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 문화적 대화 시작어 생성 오류: ${error.message}`, 'error');
+            }
+        }
+
+        // 문화적 예절 정보 조회
+        async function getCulturalEtiquette() {
+            const config = getConfig();
+            const language = document.getElementById('culturalLanguage').value;
+            const context = document.getElementById('etiquetteContext').value;
+
+            try {
+                showStatus('🌍 문화적 예절 정보를 조회하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/etiquette/${language}/${context}`, 'GET', {
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 문화적 예절 정보가 조회되었습니다!', 'success');
+                    
+                    let etiquetteText = `문화적 예절 (${language}, ${context}):\n`;
+                    for (const [key, value] of Object.entries(result.etiquette)) {
+                        etiquetteText += `• ${key}: ${value}\n`;
+                    }
+                    
+                    addMessage('system', etiquetteText);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 예절 정보 조회 실패: ${errorData.error?.message}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ 문화적 예절 정보 조회 오류: ${error.message}`, 'error');
+            }
+        }
+
+        // 문화적 컨텍스트 적용
+        async function applyCulturalContext() {
+            const config = getConfig();
+            const language = document.getElementById('culturalLanguage').value;
+            const formality = document.getElementById('culturalFormality').value;
+            const message = document.getElementById('messageToEnhance').value;
+            const age = document.getElementById('userAge').value;
+
+            if (!message.trim()) {
+                showStatus('❌ 향상할 메시지를 입력해주세요', 'error');
+                return;
+            }
+
+            try {
+                showStatus('🌍 문화적 컨텍스트를 적용하고 있습니다...', 'info');
+                
+                const response = await fetch(`${config.apiUrl}/api/cultural/context`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    body: JSON.stringify({
+                        language: language,
+                        formalityLevel: formality,
+                        message: message,
+                        userAge: age ? parseInt(age) : null
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ 문화적 컨텍스트가 적용되었습니다!', 'success');
+                    addMessage('system', `원본 메시지: ${result.originalMessage}`);
+                    addMessage('system', `향상된 메시지: ${result.enhancedMessage}`);
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`❌ 문화적 컨텍스트 적용 실패: ${errorData.error?.message}`, 'error');
+            }
+            } catch (error) {
+                showStatus(`❌ 문화적 컨텍스트 적용 오류: ${error.message}`, 'error');
+            }
+        }
+
         // 인지 훈련 시작
         async function startCognitiveTraining() {
             const config = getConfig();
@@ -3498,6 +4090,15 @@
         document.getElementById('generateHealthReportBtn').addEventListener('click', generateHealthReport);
         document.getElementById('generateContextBtn').addEventListener('click', generateMultimodalContext);
         document.getElementById('checkMultimodalStatusBtn').addEventListener('click', checkMultimodalStatus);
+        
+        // 문화 및 언어 최적화 기능 이벤트 리스너 추가
+        document.getElementById('saveCulturalPrefsBtn').addEventListener('click', saveCulturalPreferences);
+        document.getElementById('loadCulturalPrefsBtn').addEventListener('click', loadCulturalPreferences);
+        document.getElementById('generateCulturalResponseBtn').addEventListener('click', generateCulturalResponse);
+        document.getElementById('generateGreetingBtn').addEventListener('click', generateCulturalGreeting);
+        document.getElementById('generateConversationStarterBtn').addEventListener('click', generateConversationStarter);
+        document.getElementById('getCulturalEtiquetteBtn').addEventListener('click', getCulturalEtiquette);
+        document.getElementById('applyCulturalContextBtn').addEventListener('click', applyCulturalContext);
             
             // 초기 모델 목록 로드
             setTimeout(loadModels, 500);

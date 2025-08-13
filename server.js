@@ -11,12 +11,14 @@ const MemoryManager = require('./memory');
 const SecurityManager = require('./security');
 const CognitiveTrainingManager = require('./cognitive_training');
 const MultimodalIntegrationManager = require('./multimodal_integration');
+const CulturalOptimizationManager = require('./cultural_optimization');
 
 const app = express();
 const memoryManager = new MemoryManager();
 const securityManager = new SecurityManager();
 const cognitiveTrainingManager = new CognitiveTrainingManager();
 const multimodalManager = new MultimodalIntegrationManager();
+const culturalManager = new CulturalOptimizationManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -207,6 +209,29 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
         const memoryContext = await memoryManager.generateIntelligentContext(user_id, currentMessage, 3);
         enhancedMessages = [...memoryContext, ...messages];
         console.log(`🧠 사용자 ${user_id}의 지능형 메모리 컨텍스트 추가됨 (${memoryContext.length}개 항목)`);
+        
+        // 문화적 최적화 컨텍스트 추가
+        try {
+          const culturalPreferences = await culturalManager.loadCulturalPreferences(user_id);
+          if (culturalPreferences && culturalPreferences.language) {
+            const culturalPrompt = culturalManager.generateCulturalPrompt(
+              culturalPreferences.language, 
+              culturalPreferences.formalityLevel || 'polite',
+              { age: culturalPreferences.age }
+            );
+            
+            // 시스템 메시지로 문화적 컨텍스트 추가
+            const culturalSystemMessage = {
+              role: 'system',
+              content: culturalPrompt
+            };
+            
+            enhancedMessages.unshift(culturalSystemMessage);
+            console.log(`🌍 사용자 ${user_id}의 문화적 최적화 컨텍스트 추가됨 (${culturalPreferences.language}, ${culturalPreferences.formalityLevel || 'polite'})`);
+          }
+        } catch (culturalError) {
+          console.error('문화적 컨텍스트 로드 실패:', culturalError.message);
+        }
       } catch (error) {
         console.error('메모리 컨텍스트 로드 실패:', error.message);
       }
@@ -1328,11 +1353,356 @@ app.get('/api/multimodal/status', authenticateToken, async (req, res) => {
   }
 });
 
+// 문화 및 언어 최적화 API 엔드포인트
+app.get('/api/cultural/profile/:language', authenticateToken, async (req, res) => {
+  try {
+    const { language } = req.params;
+    const profile = culturalManager.getCulturalProfile(language);
+    
+    res.json({
+      message: `${language} 문화 프로필을 조회했습니다.`,
+      profile: profile
+    });
+  } catch (error) {
+    console.error('문화 프로필 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '문화 프로필 조회 실패',
+        type: 'server_error',
+        code: 'cultural_profile_failed'
+      }
+    });
+  }
+});
+
+app.get('/api/cultural/style/:language/:formality', authenticateToken, async (req, res) => {
+  try {
+    const { language, formality } = req.params;
+    const style = culturalManager.getConversationStyle(language, formality);
+    
+    res.json({
+      message: `${language} ${formality} 대화 스타일을 조회했습니다.`,
+      style: style
+    });
+  } catch (error) {
+    console.error('대화 스타일 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '대화 스타일 조회 실패',
+        type: 'server_error',
+        code: 'conversation_style_failed'
+      }
+    });
+  }
+});
+
+app.post('/api/cultural/greeting', authenticateToken, [
+  body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { language, formalityLevel, timeOfDay } = req.body;
+    const greeting = culturalManager.generateGreeting(language, formalityLevel, timeOfDay);
+    
+    res.json({
+      message: '문화적 인사말을 생성했습니다.',
+      greeting: greeting,
+      language: language,
+      formalityLevel: formalityLevel
+    });
+  } catch (error) {
+    console.error('인사말 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '인사말 생성 실패',
+        type: 'server_error',
+        code: 'greeting_generation_failed'
+      }
+    });
+  }
+});
+
+app.post('/api/cultural/response', authenticateToken, [
+  body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.'),
+  body('responseType').isIn(['agreement', 'disagreement', 'gratitude', 'apology', 'encouragement', 'sympathy', 'humor']).withMessage('올바른 응답 유형을 선택해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { language, formalityLevel, responseType } = req.body;
+    const response = culturalManager.generateResponsePattern(language, formalityLevel, responseType);
+    
+    res.json({
+      message: '문화적 응답 패턴을 생성했습니다.',
+      response: response,
+      language: language,
+      formalityLevel: formalityLevel,
+      responseType: responseType
+    });
+  } catch (error) {
+    console.error('응답 패턴 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '응답 패턴 생성 실패',
+        type: 'server_error',
+        code: 'response_pattern_failed'
+      }
+    });
+  }
+});
+
+app.post('/api/cultural/context', authenticateToken, [
+  body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.'),
+  body('message').notEmpty().withMessage('메시지를 입력해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { language, formalityLevel, message, userAge } = req.body;
+    const enhancedMessage = culturalManager.applyCulturalContext(language, formalityLevel, message, userAge);
+    
+    res.json({
+      message: '문화적 컨텍스트를 적용했습니다.',
+      originalMessage: message,
+      enhancedMessage: enhancedMessage,
+      language: language,
+      formalityLevel: formalityLevel
+    });
+  } catch (error) {
+    console.error('문화적 컨텍스트 적용 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '문화적 컨텍스트 적용 실패',
+        type: 'server_error',
+        code: 'cultural_context_failed'
+      }
+    });
+  }
+});
+
+app.post('/api/cultural/starter/:topic', authenticateToken, [
+  body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { topic } = req.params;
+    const { language, formalityLevel } = req.body;
+    const starter = culturalManager.generateConversationStarter(language, formalityLevel, topic);
+    
+    res.json({
+      message: '문화적 대화 시작어를 생성했습니다.',
+      starter: starter,
+      topic: topic,
+      language: language,
+      formalityLevel: formalityLevel
+    });
+  } catch (error) {
+    console.error('대화 시작어 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '대화 시작어 생성 실패',
+        type: 'server_error',
+        code: 'conversation_starter_failed'
+      }
+    });
+  }
+});
+
+app.get('/api/cultural/etiquette/:language/:context', authenticateToken, async (req, res) => {
+  try {
+    const { language, context } = req.params;
+    const etiquette = culturalManager.getCulturalEtiquette(language, context);
+    
+    res.json({
+      message: `${language} ${context} 예절 정보를 조회했습니다.`,
+      etiquette: etiquette
+    });
+  } catch (error) {
+    console.error('예절 정보 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '예절 정보 조회 실패',
+        type: 'server_error',
+        code: 'etiquette_info_failed'
+      }
+    });
+  }
+});
+
+app.post('/api/cultural/preferences/:userId', authenticateToken, [
+  body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.'),
+  body('preferences').isObject().withMessage('선호도 정보를 입력해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const { language, formalityLevel, preferences } = req.body;
+    
+    const saved = await culturalManager.saveCulturalPreferences(userId, {
+      language,
+      formalityLevel,
+      ...preferences
+    });
+    
+    if (saved) {
+      res.json({
+        message: '문화적 선호도를 저장했습니다.',
+        userId: userId,
+        preferences: { language, formalityLevel, ...preferences }
+      });
+    } else {
+      res.status(500).json({
+        error: {
+          message: '문화적 선호도 저장 실패',
+          type: 'server_error',
+          code: 'preferences_save_failed'
+        }
+      });
+    }
+  } catch (error) {
+    console.error('문화적 선호도 저장 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '문화적 선호도 저장 실패',
+        type: 'server_error',
+        code: 'preferences_save_failed'
+      }
+    });
+  }
+});
+
+app.get('/api/cultural/preferences/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const preferences = await culturalManager.loadCulturalPreferences(userId);
+    
+    if (preferences) {
+      res.json({
+        message: '문화적 선호도를 조회했습니다.',
+        userId: userId,
+        preferences: preferences
+      });
+    } else {
+      res.json({
+        message: '저장된 문화적 선호도가 없습니다.',
+        userId: userId,
+        preferences: null
+      });
+    }
+  } catch (error) {
+    console.error('문화적 선호도 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '문화적 선호도 조회 실패',
+        type: 'server_error',
+        code: 'preferences_load_failed'
+      }
+    });
+  }
+});
+
+app.post('/api/cultural/prompt', authenticateToken, [
+  body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { language, formalityLevel, userContext } = req.body;
+    const prompt = culturalManager.generateCulturalPrompt(language, formalityLevel, userContext || {});
+    
+    res.json({
+      message: '문화적 AI 프롬프트를 생성했습니다.',
+      prompt: prompt,
+      language: language,
+      formalityLevel: formalityLevel,
+      userContext: userContext || {}
+    });
+  } catch (error) {
+    console.error('문화적 AI 프롬프트 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '문화적 AI 프롬프트 생성 실패',
+        type: 'server_error',
+        code: 'cultural_prompt_failed'
+      }
+    });
+  }
+});
+
 // 서버 상태 확인
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '4.0.0',
+    version: '5.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -1365,6 +1735,15 @@ app.get('/', (req, res) => {
       '/api/multimodal/health/:userId/report': '건강 리포트 생성',
       '/api/multimodal/context/:userId': '멀티모달 컨텍스트 생성',
       '/api/multimodal/status': '멀티모달 상태 조회',
+      '/api/cultural/profile/:language': '문화 프로필 조회',
+      '/api/cultural/style/:language/:formality': '대화 스타일 조회',
+      '/api/cultural/greeting': '문화적 인사말 생성',
+      '/api/cultural/response': '문화적 응답 패턴 생성',
+      '/api/cultural/context': '문화적 컨텍스트 적용',
+      '/api/cultural/starter/:topic': '문화적 대화 시작어 생성',
+      '/api/cultural/etiquette/:language/:context': '문화적 예절 정보 조회',
+      '/api/cultural/preferences/:userId': '문화적 선호도 저장/조회',
+      '/api/cultural/prompt': '문화적 AI 프롬프트 생성',
       '/api/security/status': '보안 상태 조회',
       '/api/security/config': '보안 설정 업데이트',
       '/api/security/backup/:userId': '암호화된 메모리 백업',
@@ -1381,6 +1760,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🔗 OpenAI 호환 엔드포인트: http://localhost:${PORT}/v1/chat/completions`);
   console.log(`🧪 테스트 엔드포인트: http://localhost:${PORT}/api/generate`);
   console.log(`🔊 멀티모달 통합 시스템이 초기화되었습니다.`);
+  console.log(`🌍 문화 및 언어 최적화 시스템이 초기화되었습니다.`);
   
   // WebSocket 서버 초기화
   multimodalManager.initializeWebSocket(server);
