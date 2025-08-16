@@ -3463,7 +3463,8 @@
             try {
                 showStatus('🌍 문화적 예절 정보를 조회하고 있습니다...', 'info');
                 
-                const response = await fetch(`${config.apiUrl}/api/cultural/etiquette/${language}/${context}`, 'GET', {
+                const response = await fetch(`${config.apiUrl}/api/cultural/etiquette/${language}/${context}`, {
+                    method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${config.apiKey}`
                     }

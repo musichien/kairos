@@ -1577,8 +1577,7 @@ app.get('/api/cultural/etiquette/:language/:context', authenticateToken, async (
 
 app.post('/api/cultural/preferences/:userId', authenticateToken, [
   body('language').isIn(['en', 'fr', 'ko', 'ja', 'zh']).withMessage('지원되는 언어를 선택해주세요.'),
-  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.'),
-  body('preferences').isObject().withMessage('선호도 정보를 입력해주세요.')
+  body('formalityLevel').isIn(['casual', 'polite', 'formal', 'respectful']).withMessage('올바른 격식 수준을 선택해주세요.')
 ], async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -1594,20 +1593,20 @@ app.post('/api/cultural/preferences/:userId', authenticateToken, [
     }
 
     const { userId } = req.params;
-    const { language, formalityLevel, preferences } = req.body;
+    const { language, formalityLevel, age } = req.body;
     
     const saved = await culturalManager.saveCulturalPreferences(userId, {
       language,
       formalityLevel,
-      ...preferences
+      age
     });
     
     if (saved) {
-      res.json({
-        message: '문화적 선호도를 저장했습니다.',
-        userId: userId,
-        preferences: { language, formalityLevel, ...preferences }
-      });
+             res.json({
+         message: '문화적 선호도를 저장했습니다.',
+         userId: userId,
+         preferences: { language, formalityLevel, age }
+       });
     } else {
       res.status(500).json({
         error: {
