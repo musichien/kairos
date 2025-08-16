@@ -7,44 +7,44 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 ## 🎯 **5 Core Features Overview**
 
 ### 1. 🧠 **Long-term Memory & Contextualization Technology**
-**시간축을 따라가는 기억 구조를 개발해, 사용자의 인생 사건을 자연스럽게 연결**
+**Develops time-based memory structures that naturally connect users' life events**
 
-- **Intelligent Memory System**: 이전 대화나 기억을 기반으로 적절한 질문을 하거나, 사용자의 감정 상태를 추적
-- **Life Event Connection**: 인생 사건들을 시간순으로 연결하여 맥락적 이해 제공
-- **Emotional State Tracking**: 사용자의 감정 상태 변화를 추적하고 패턴 분석
-- **Behavioral Pattern Recognition**: 일상 행동 패턴을 분석하여 개인화된 경험 제공
+- **Intelligent Memory System**: Generates appropriate questions based on previous conversations and memories, tracks users' emotional states
+- **Life Event Connection**: Connects life events chronologically to provide contextual understanding
+- **Emotional State Tracking**: Tracks changes in users' emotional states and analyzes patterns
+- **Behavioral Pattern Recognition**: Analyzes daily behavioral patterns to provide personalized experiences
 
 ### 2. 🔒 **Privacy-Centric On-Device Processing**
-**개인 정보를 로컬에서 안전하게 처리할 수 있는 경량화된 AI 모델**
+**Lightweight AI model that safely processes personal information locally**
 
-- **Local Data Storage**: 모든 데이터를 로컬에 저장하여 데이터 유출 위험 최소화
-- **Military-Grade Encryption**: AES-256 암호화로 사용자 신뢰 극대화
-- **No Cloud Dependency**: 인터넷 없이도 AI 기능 사용 가능
-- **Complete Privacy Control**: 사용자가 데이터 접근과 공유를 완전히 제어
+- **Local Data Storage**: Stores all data locally to minimize data leakage risks
+- **Military-Grade Encryption**: Maximizes user trust with AES-256 encryption
+- **No Cloud Dependency**: AI functionality available without internet connection
+- **Complete Privacy Control**: Users have complete control over data access and sharing
 
 ### 3. 🧩 **Cognitive Enhancement Routines**
-**단순 대화가 아니라, 기억을 활용해 인지 기능을 자극하는 훈련을 제공**
+**Provides training that stimulates cognitive functions using memory, not just simple conversations**
 
-- **Memory-Based Training**: 과거 기억을 회상하게 하는 퀴즈 제공
-- **Pattern Recognition**: 일상에서의 작은 변화에 대해 인지하게 하는 미션 제공
-- **Personalized Exercises**: 사용자의 기억 데이터를 활용한 맞춤형 훈련
-- **Progress Tracking**: 인지 능력 향상 과정을 체계적으로 추적
+- **Memory-Based Training**: Provides quizzes that help recall past memories
+- **Pattern Recognition**: Provides missions to recognize small changes in daily life
+- **Personalized Exercises**: Customized training using users' memory data
+- **Progress Tracking**: Systematically tracks the process of cognitive ability improvement
 
 ### 4. 🔊 **Multimodal Integration**
-**음성, 영상, 센서 데이터 등을 활용해 사용자 상황을 더 정확히 파악**
+**Utilizes voice, video, sensor data, etc. to more accurately understand user situations**
 
-- **Voice & Video Processing**: 음성 인식, 영상 분석을 통한 상황 이해
-- **Sensor Data Integration**: IoT 기기와의 연동으로 환경 데이터 수집
-- **Wearable Device Connectivity**: 웨어러블 기기와 연동해 실시간 건강 데이터 반영
-- **Real-time Health Monitoring**: 건강 상태를 실시간으로 모니터링하고 분석
+- **Voice & Video Processing**: Situation understanding through speech recognition and video analysis
+- **Sensor Data Integration**: Environmental data collection through IoT device connectivity
+- **Wearable Device Connectivity**: Real-time health data reflection through wearable device integration
+- **Real-time Health Monitoring**: Real-time monitoring and analysis of health status
 
 ### 5. 🌍 **Cultural & Language Optimization**
-**한국어 및 아시아권 문화에 맞춘 대화 스타일, 존중 표현 등을 최적화**
+**Optimizes conversation styles and respectful expressions for Korean and Asian cultures**
 
-- **Asian Cultural Sensitivity**: 한국어, 일본어, 중국어 문화권에 특화된 대화 스타일
-- **Respectful Communication**: 연령과 상황에 맞는 존중 표현 최적화
-- **Global Market Ready**: 글로벌 시장 진입 시에도 다양한 문화권에 맞춘 커스터마이징 가능
-- **Multi-language Support**: 영어, 프랑스어, 한국어, 일본어, 중국어 지원
+- **Asian Cultural Sensitivity**: Conversation styles specialized for Korean, Japanese, and Chinese cultures
+- **Respectful Communication**: Optimizes respectful expressions appropriate for age and situation
+- **Global Market Ready**: Customization possible for various cultures when entering global markets
+- **Multi-language Support**: English, French, Korean, Japanese, and Chinese support
 
 ## 🚀 **Quick Start Guide**
 
@@ -94,33 +94,33 @@ Open your browser and go to:
 
 #### **Basic Memory Usage:**
 ```
-사용자: "안녕하세요, 저는 김철수입니다."
-AI: "안녕하세요, 김철수님! 처음 뵙겠습니다. 어떤 도움이 필요하신가요?"
+User: "Hello, I'm Kim Cheol-su."
+AI: "Hello, Mr. Kim Cheol-su! Nice to meet you. How can I help you?"
 
-사용자: "제가 좋아하는 음식이 뭐였지?"
-AI: "김철수님, 이전에 말씀해주신 적이 없어서 아직 모르겠습니다. 
-     어떤 음식을 좋아하시는지 알려주시면 기억하겠습니다."
+User: "What food did I like again?"
+AI: "Mr. Kim, I don't know yet as you haven't told me before. 
+     Please let me know what food you like, and I'll remember it."
 
-사용자: "저는 김치찌개를 좋아해요."
-AI: "알겠습니다! 김철수님이 김치찌개를 좋아하신다고 기억하겠습니다."
+User: "I like kimchi stew."
+AI: "Got it! I'll remember that you like kimchi stew."
 
-(나중에...)
-사용자: "오늘 점심 뭐 먹을까?"
-AI: "김철수님이 김치찌개를 좋아하신다고 기억하는데, 
-     오늘 점심으로 김치찌개는 어떠신가요?"
+(Later...)
+User: "What should I eat for lunch today?"
+AI: "I remember that you like kimchi stew, Mr. Kim. 
+     How about kimchi stew for lunch today?"
 ```
 
 #### **Advanced Memory Features:**
 ```bash
-# 메모리 통계 조회
+# Get memory statistics
 curl -X GET "http://localhost:3000/api/memory/user_001/stats" \
   -H "Authorization: Bearer your-secret-key-here"
 
-# 인생 사건 타임라인 조회
+# Get life event timeline
 curl -X GET "http://localhost:3000/api/memory/user_001/timeline" \
   -H "Authorization: Bearer your-secret-key-here"
 
-# 맥락 패턴 분석
+# Get context pattern analysis
 curl -X GET "http://localhost:3000/api/memory/user_001/patterns" \
   -H "Authorization: Bearer your-secret-key-here"
 ```
@@ -129,11 +129,11 @@ curl -X GET "http://localhost:3000/api/memory/user_001/patterns" \
 
 #### **Security Status Check:**
 ```bash
-# 보안 상태 조회
+# Check security status
 curl -X GET "http://localhost:3000/api/security/status" \
   -H "Authorization: Bearer your-secret-key-here"
 
-# 보안 설정 업데이트
+# Update security settings
 curl -X POST "http://localhost:3000/api/security/config" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -146,11 +146,11 @@ curl -X POST "http://localhost:3000/api/security/config" \
 
 #### **Data Backup & Recovery:**
 ```bash
-# 암호화된 메모리 백업
+# Encrypted memory backup
 curl -X POST "http://localhost:3000/api/security/backup/user_001" \
   -H "Authorization: Bearer your-secret-key-here"
 
-# 메모리 복원
+# Memory restoration
 curl -X POST "http://localhost:3000/api/security/restore/user_001" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -161,7 +161,7 @@ curl -X POST "http://localhost:3000/api/security/restore/user_001" \
 
 #### **Training Generation:**
 ```bash
-# 개인화된 인지 훈련 생성
+# Generate personalized cognitive training
 curl -X POST "http://localhost:3000/api/cognitive/training/user_001" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -173,28 +173,28 @@ curl -X POST "http://localhost:3000/api/cognitive/training/user_001" \
 
 #### **Training Examples:**
 ```
-🧠 기억 회상 훈련:
-"김철수님, 지난주에 어떤 일을 하셨나요? 
-기억나는 대로 말씀해주세요."
+🧠 Memory Recall Training:
+"Mr. Kim, what did you do last week? 
+Please tell me what you remember."
 
-🔍 패턴 인식 훈련:
-"김철수님의 일상 패턴을 보면, 
-아침에 커피를 마시는 시간이 일정한 것 같습니다. 
-이 패턴이 맞나요?"
+🔍 Pattern Recognition Training:
+"Looking at your daily patterns, Mr. Kim, 
+it seems like you have coffee at a regular time in the morning. 
+Is this pattern correct?"
 
-💭 인지 자극 훈련:
-"오늘 아침에 집을 나올 때, 
-어떤 색깔의 옷을 입고 계셨나요? 
-자세히 기억해보세요."
+💭 Cognitive Stimulation Training:
+"When you left home this morning, 
+what color clothes were you wearing? 
+Try to remember in detail."
 ```
 
 #### **Training Progress:**
 ```bash
-# 훈련 기록 조회
+# Get training records
 curl -X GET "http://localhost:3000/api/cognitive/training/user_001/records" \
   -H "Authorization: Bearer your-secret-key-here"
 
-# 훈련 통계 조회
+# Get training statistics
 curl -X GET "http://localhost:3000/api/cognitive/training/user_001/stats" \
   -H "Authorization: Bearer your-secret-key-here"
 ```
@@ -203,26 +203,26 @@ curl -X GET "http://localhost:3000/api/cognitive/training/user_001/stats" \
 
 #### **Voice Processing:**
 ```bash
-# 음성 처리
+# Voice processing
 curl -X POST "http://localhost:3000/api/multimodal/voice/process" \
   -H "Authorization: Bearer your-secret-key-here" \
   -F "audioFile=@voice_message.wav" \
   -F "userId=user_001"
 
-# 음성 합성
+# Voice synthesis
 curl -X POST "http://localhost:3000/api/multimodal/voice/synthesize" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
   -d '{
     "userId": "user_001",
-    "text": "안녕하세요, 김철수님!",
+    "text": "Hello, Mr. Kim Cheol-su!",
     "voiceType": "natural"
   }'
 ```
 
 #### **Sensor Data Integration:**
 ```bash
-# 센서 데이터 처리
+# Process sensor data
 curl -X POST "http://localhost:3000/api/multimodal/sensors/process" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -238,7 +238,7 @@ curl -X POST "http://localhost:3000/api/multimodal/sensors/process" \
 
 #### **Wearable Device Connection:**
 ```bash
-# 웨어러블 기기 연결
+# Connect wearable device
 curl -X POST "http://localhost:3000/api/multimodal/wearables/connect" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -254,7 +254,7 @@ curl -X POST "http://localhost:3000/api/multimodal/wearables/connect" \
 
 #### **Health Monitoring:**
 ```bash
-# 건강 데이터 처리
+# Process health data
 curl -X POST "http://localhost:3000/api/multimodal/health/process" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -272,7 +272,7 @@ curl -X POST "http://localhost:3000/api/multimodal/health/process" \
 
 #### **Cultural Preferences Setup:**
 ```bash
-# 한국어 문화적 선호도 저장
+# Save Korean cultural preferences
 curl -X POST "http://localhost:3000/api/cultural/preferences/user_001" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -285,7 +285,7 @@ curl -X POST "http://localhost:3000/api/cultural/preferences/user_001" \
 
 #### **Cultural Greeting Generation:**
 ```bash
-# 문화적 인사말 생성
+# Generate cultural greeting
 curl -X POST "http://localhost:3000/api/cultural/greeting" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -297,7 +297,7 @@ curl -X POST "http://localhost:3000/api/cultural/greeting" \
 
 #### **Cultural Response Patterns:**
 ```bash
-# 문화적 응답 패턴 생성
+# Generate cultural response pattern
 curl -X POST "http://localhost:3000/api/cultural/response" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
@@ -310,14 +310,14 @@ curl -X POST "http://localhost:3000/api/cultural/response" \
 
 #### **Cultural Context Application:**
 ```bash
-# 문화적 컨텍스트 적용
+# Apply cultural context
 curl -X POST "http://localhost:3000/api/cultural/context" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
   -d '{
     "language": "ko",
     "formalityLevel": "polite",
-    "message": "안녕하세요",
+    "message": "Hello",
     "userAge": 65
   }'
 ```
@@ -363,22 +363,22 @@ Authorization: Bearer your-secret-key-here
 ## 🎯 **Real-World Use Cases**
 
 ### **For Elderly Care:**
-- **Memory Support**: 중요한 대화와 이벤트 기억
-- **Cognitive Training**: 정기적인 두뇌 훈련으로 인지 능력 유지
-- **Health Monitoring**: 웨어러블 기기로 건강 상태 실시간 추적
-- **Cultural Sensitivity**: 한국 문화에 맞는 존중 표현과 대화 스타일
+- **Memory Support**: Remember important conversations and events
+- **Cognitive Training**: Maintain cognitive abilities through regular brain training
+- **Health Monitoring**: Real-time health status tracking with wearable devices
+- **Cultural Sensitivity**: Respectful expressions and conversation styles appropriate for Korean culture
 
 ### **For Healthcare Professionals:**
-- **Patient Memory**: 환자의 장기 기억과 선호도 추적
-- **Cognitive Assessment**: 인지 훈련을 통한 능력 평가
-- **Remote Monitoring**: 원격 건강 모니터링 및 데이터 수집
-- **Cultural Communication**: 다양한 문화권 환자와의 적절한 소통
+- **Patient Memory**: Track patients' long-term memories and preferences
+- **Cognitive Assessment**: Ability assessment through cognitive training
+- **Remote Monitoring**: Remote health monitoring and data collection
+- **Cultural Communication**: Appropriate communication with patients from diverse cultures
 
 ### **For Research:**
-- **Memory Studies**: 장기 기억 패턴 분석 연구
-- **Cognitive Research**: 훈련 효과성 평가 연구
-- **Cultural Studies**: 문화간 의사소통 패턴 연구
-- **Health Analytics**: 멀티모달 건강 데이터 연구
+- **Memory Studies**: Research on long-term memory pattern analysis
+- **Cognitive Research**: Research on training effectiveness evaluation
+- **Cultural Studies**: Research on cross-cultural communication patterns
+- **Health Analytics**: Research on multimodal health data
 
 ## 🔧 **Configuration & Setup**
 
