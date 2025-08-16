@@ -1,225 +1,225 @@
-# 🧠 Kairos 인지 기능 강화 훈련 시스템 사용 가이드
+# 🧠 Kairos Cognitive Enhancement Training System User Guide
 
-## 📋 개요
+## 📋 Overview
 
-Kairos 인지 기능 강화 훈련 시스템은 단순한 대화가 아닌, 사용자의 기억을 활용하여 인지 기능을 자극하는 과학적 훈련을 제공합니다. 과거 기억을 회상하게 하는 퀴즈와 일상의 작은 변화를 인지하게 하는 미션을 통해 인지 능력을 향상시킵니다.
+The Kairos Cognitive Enhancement Training System provides scientific training that stimulates cognitive functions using users' memories, not just simple conversations. It enhances cognitive abilities through quizzes that help recall past memories and missions that help recognize small changes in daily life.
 
-## 🎯 훈련 목표
+## 🎯 Training Objectives
 
-- **기억력 향상**: 과거 대화와 경험을 회상하는 능력 강화
-- **패턴 인식**: 일상에서의 패턴과 변화를 인지하는 능력 개발
-- **인지 자극**: 창의적 사고와 논리적 추론 능력 향상
-- **주의력 집중**: 세부사항에 대한 관찰력과 집중력 증진
+- **Memory Enhancement**: Strengthen the ability to recall past conversations and experiences
+- **Pattern Recognition**: Develop the ability to recognize patterns and changes in daily life
+- **Cognitive Stimulation**: Improve creative thinking and logical reasoning abilities
+- **Attention Focus**: Enhance observation skills and concentration on details
 
-## 🏋️ 훈련 유형
+## 🏋️ Training Types
 
-### 1. 기억 회상 훈련 (Memory Recall Training)
-**목적**: 과거 대화와 경험을 정확히 회상하는 능력 향상
+### 1. Memory Recall Training
+**Purpose**: Improve the ability to accurately recall past conversations and experiences
 
-**훈련 내용**:
-- 이전 대화 내용에 대한 질문과 답변
-- 사용자가 언급한 사실과 선호도 회상
-- 감정 상태와 인생 사건 타임라인 기억
-- 관계 정보와 목표, 관심사 회상
+**Training Content**:
+- Questions and answers about previous conversation content
+- Recall of facts and preferences mentioned by users
+- Memory of emotional states and life event timelines
+- Recall of relationship information, goals, and interests
 
-**예시**:
+**Example**:
 ```
-질문: "지난번에 언급하신 선호하는 음식은 무엇인가요?"
-옵션: A) 한국음식 B) 이탈리안 C) 일본음식 D) 기억나지 않음
-```
-
-### 2. 패턴 인식 훈련 (Pattern Recognition)
-**목적**: 일상에서의 패턴과 변화를 인지하는 능력 개발
-
-**훈련 내용**:
-- 대화 주제의 패턴 분석
-- 시간대별 감정 변화 패턴
-- 행동과 선호도의 연관성 파악
-- 맥락적 패턴 인식
-
-**예시**:
-```
-질문: "당신의 대화에서 가장 자주 언급되는 주제는?"
-옵션: A) 가족 B) 취미 C) 일 D) 건강
+Question: "What was your preferred food mentioned last time?"
+Options: A) Korean food B) Italian C) Japanese food D) Don't remember
 ```
 
-### 3. 인지 자극 훈련 (Cognitive Stimulation)
-**목적**: 창의적 사고와 논리적 추론 능력 향상
+### 2. Pattern Recognition Training
+**Purpose**: Develop the ability to recognize patterns and changes in daily life
 
-**훈련 내용**:
-- 창의적 문제 해결
-- 논리적 추론 훈련
-- 시나리오 분석
-- 의사결정 훈련
+**Training Content**:
+- Analysis of conversation topic patterns
+- Time-based emotional change patterns
+- Understanding correlations between behaviors and preferences
+- Contextual pattern recognition
 
-**예시**:
+**Example**:
 ```
-질문: "만약 당신이 여행을 계획한다면, 어떤 요소를 가장 중요하게 고려하시겠습니까?"
-옵션: A) 비용 B) 편의성 C) 새로운 경험 D) 안전성
-```
-
-### 4. 주의력 훈련 (Attention Training)
-**목적**: 세부사항에 대한 관찰력과 집중력 증진
-
-**훈련 내용**:
-- 순서 기억 훈련
-- 집중력 유지 훈련
-- 세부사항 관찰 훈련
-- 다중 작업 처리 능력
-
-**예시**:
-```
-질문: "지난 대화에서 언급된 세부사항 중 가장 중요한 것은?"
-옵션: A) 시간 B) 장소 C) 감정 D) 사람
+Question: "What topic do you mention most often in your conversations?"
+Options: A) Family B) Hobbies C) Work D) Health
 ```
 
-## 📊 난이도 설정
+### 3. Cognitive Stimulation Training
+**Purpose**: Improve creative thinking and logical reasoning abilities
 
-### 쉬움 (Easy)
-- 기본적인 기억 회상
-- 명확한 패턴 인식
-- 단순한 선택 문제
-- 짧은 텍스트 입력
+**Training Content**:
+- Creative problem solving
+- Logical reasoning training
+- Scenario analysis
+- Decision-making training
 
-### 보통 (Medium)
-- 복합적인 기억 연결
-- 숨겨진 패턴 발견
-- 논리적 추론 필요
-- 중간 길이 텍스트
+**Example**:
+```
+Question: "If you were planning a trip, what factor would you consider most important?"
+Options: A) Cost B) Convenience C) New experiences D) Safety
+```
 
-### 어려움 (Hard)
-- 깊은 맥락 이해
-- 복잡한 패턴 분석
-- 창의적 문제 해결
-- 긴 텍스트 설명
+### 4. Attention Training
+**Purpose**: Enhance observation skills and concentration on details
 
-## 🚀 사용 방법
+**Training Content**:
+- Sequence memory training
+- Concentration maintenance training
+- Detail observation training
+- Multi-tasking ability
 
-### 1. 훈련 시작
-1. **사용자 ID 설정**: 왼쪽 사이드바에서 사용자 ID를 입력
-2. **훈련 유형 선택**: "Memory Recall", "Pattern Recognition", "Cognitive Stimulation", "Attention Training" 중 선택
-3. **난이도 설정**: "Easy", "Medium", "Hard" 중 선택
-4. **훈련 시작**: "🎯 Start Training" 버튼 클릭
+**Example**:
+```
+Question: "What was the most important detail mentioned in the last conversation?"
+Options: A) Time B) Location C) Emotion D) Person
+```
 
-### 2. 훈련 진행
-1. **질문 읽기**: 화면에 표시되는 훈련 질문을 주의 깊게 읽기
-2. **답변 선택**: 제공된 옵션 중에서 답변 선택 또는 텍스트 입력
-3. **훈련 제출**: "훈련 제출" 버튼을 클릭하여 답변 제출
+## 📊 Difficulty Settings
 
-### 3. 결과 확인
-1. **즉시 피드백**: 답변에 대한 즉시 피드백과 설명 제공
-2. **점수 확인**: 훈련 결과 점수와 성과 평가
-3. **개선 방향**: 향후 훈련을 위한 개선 방향 제시
+### Easy
+- Basic memory recall
+- Clear pattern recognition
+- Simple multiple choice questions
+- Short text input
 
-## 📈 훈련 통계 확인
+### Medium
+- Complex memory connections
+- Hidden pattern discovery
+- Logical reasoning required
+- Medium-length text
 
-### 통계 보기
-1. **"📈 Training Statistics"** 버튼 클릭
-2. **전체 통계 확인**:
-   - 총 훈련 횟수
-   - 평균 점수
-   - 개선 추세
-   - 훈련 유형별 성과
+### Hard
+- Deep contextual understanding
+- Complex pattern analysis
+- Creative problem solving
+- Long text explanations
 
-### 훈련 기록 확인
-1. **"📋 Training Records"** 버튼 클릭
-2. **과거 훈련 기록**:
-   - 훈련 날짜와 시간
-   - 훈련 유형과 난이도
-   - 획득 점수
-   - 답변 내용
+## 🚀 How to Use
 
-## 🎯 훈련 효과 극대화 팁
+### 1. Start Training
+1. **Set User ID**: Enter user ID in the left sidebar
+2. **Select Training Type**: Choose from "Memory Recall", "Pattern Recognition", "Cognitive Stimulation", "Attention Training"
+3. **Set Difficulty**: Choose from "Easy", "Medium", "Hard"
+4. **Start Training**: Click the "🎯 Start Training" button
 
-### 1. 정기적 훈련
-- **일일 훈련**: 매일 10-15분씩 훈련
-- **다양한 유형**: 모든 훈련 유형을 골고루 연습
-- **점진적 난이도**: 쉬움부터 시작하여 점진적으로 어려움으로
+### 2. Training Progress
+1. **Read Questions**: Carefully read the training questions displayed on screen
+2. **Select Answers**: Choose answers from provided options or enter text
+3. **Submit Training**: Click "Submit Training" button to submit answers
 
-### 2. 집중력 향상
-- **조용한 환경**: 방해받지 않는 환경에서 훈련
-- **충분한 시간**: 서두르지 말고 충분한 시간 할애
-- **정기적 휴식**: 훈련 중간에 짧은 휴식 취하기
+### 3. Check Results
+1. **Immediate Feedback**: Provides immediate feedback and explanations for answers
+2. **Score Check**: View training result scores and performance evaluation
+3. **Improvement Direction**: Suggests improvement directions for future training
 
-### 3. 기억력 활용
-- **개인적 경험**: 자신의 경험과 연결하여 기억
-- **감정적 연결**: 감정과 연결된 기억은 더 오래 지속
-- **반복 학습**: 중요한 내용은 여러 번 반복
+## 📈 Check Training Statistics
 
-## 🔬 과학적 근거
+### View Statistics
+1. Click **"📈 Training Statistics"** button
+2. **Check Overall Statistics**:
+   - Total training sessions
+   - Average score
+   - Improvement trends
+   - Performance by training type
 
-### 인지 훈련의 효과
-- **뇌 가소성**: 정기적 훈련으로 뇌의 신경 연결 강화
-- **기억력 향상**: 기억 회상 훈련으로 해마 기능 활성화
-- **주의력 증진**: 주의력 훈련으로 전두엽 기능 향상
-- **패턴 인식**: 패턴 인식 훈련으로 시각피질 발달
+### Check Training Records
+1. Click **"📋 Training Records"** button
+2. **Past Training Records**:
+   - Training date and time
+   - Training type and difficulty
+   - Score achieved
+   - Answer content
 
-### 개인화된 훈련
-- **기억 기반**: 사용자의 실제 대화와 경험 활용
-- **맥락적 학습**: 개인적 맥락에서 의미 있는 훈련 제공
-- **진행 추적**: 개인의 발전 과정을 체계적으로 추적
+## 🎯 Tips to Maximize Training Effectiveness
 
-## 🛠️ 기술적 특징
+### 1. Regular Training
+- **Daily Training**: Train for 10-15 minutes daily
+- **Various Types**: Practice all training types evenly
+- **Progressive Difficulty**: Start with easy and gradually increase to hard
 
-### AI 기반 개인화
-- **기억 분석**: 사용자의 대화 기록과 메모리 데이터 분석
-- **맞춤형 질문**: 개인적 경험을 바탕으로 한 맞춤형 질문 생성
-- **적응형 난이도**: 성과에 따른 자동 난이도 조정
+### 2. Improve Concentration
+- **Quiet Environment**: Train in an environment without distractions
+- **Sufficient Time**: Don't rush, allocate enough time
+- **Regular Breaks**: Take short breaks during training
 
-### 실시간 평가
-- **즉시 피드백**: 답변에 대한 즉시 평가와 설명
-- **정확도 측정**: 객관적이고 정확한 성과 측정
-- **진행 추적**: 장기간에 걸친 발전 과정 추적
+### 3. Memory Utilization
+- **Personal Experience**: Connect memories with your own experiences
+- **Emotional Connection**: Memories connected to emotions last longer
+- **Repetitive Learning**: Repeat important content multiple times
 
-## 📱 접근성
+## 🔬 Scientific Basis
 
-### 노인 친화적 디자인
-- **큰 폰트**: 16px 이상의 큰 폰트 크기
-- **높은 대비**: 명확한 색상 대비로 가독성 향상
-- **큰 버튼**: 50px 이상의 큰 터치 영역
-- **직관적 인터페이스**: 복잡하지 않은 간단한 조작
+### Effects of Cognitive Training
+- **Brain Plasticity**: Regular training strengthens neural connections in the brain
+- **Memory Enhancement**: Memory recall training activates hippocampal function
+- **Attention Improvement**: Attention training enhances frontal lobe function
+- **Pattern Recognition**: Pattern recognition training develops visual cortex
 
-### 반응형 디자인
-- **모바일 최적화**: 스마트폰에서도 편리한 사용
-- **태블릿 지원**: 태블릿에서 최적화된 레이아웃
-- **데스크톱 활용**: 큰 화면에서의 효율적 활용
+### Personalized Training
+- **Memory-Based**: Utilizes users' actual conversations and experiences
+- **Contextual Learning**: Provides meaningful training in personal context
+- **Progress Tracking**: Systematically tracks individual development process
 
-## 🔒 개인정보 보호
+## 🛠️ Technical Features
 
-### 데이터 보안
-- **로컬 처리**: 모든 데이터는 로컬에서 처리
-- **암호화 저장**: 민감한 정보는 암호화하여 저장
-- **접근 제어**: 사용자 인증을 통한 안전한 접근
+### AI-Based Personalization
+- **Memory Analysis**: Analyzes users' conversation history and memory data
+- **Customized Questions**: Generates customized questions based on personal experiences
+- **Adaptive Difficulty**: Automatic difficulty adjustment based on performance
 
-### 프라이버시 보호
-- **개인정보 최소화**: 필요한 최소한의 정보만 수집
-- **자동 삭제**: 불필요한 데이터는 자동으로 삭제
-- **사용자 통제**: 사용자가 언제든지 데이터 삭제 가능
+### Real-time Evaluation
+- **Immediate Feedback**: Immediate evaluation and explanation of answers
+- **Accuracy Measurement**: Objective and accurate performance measurement
+- **Progress Tracking**: Long-term development process tracking
 
-## 🎉 성공 사례
+## 📱 Accessibility
 
-### 인지 능력 향상
-- **기억력**: 3개월 훈련 후 기억 회상 능력 40% 향상
-- **주의력**: 주의력 훈련으로 집중력 지속 시간 60% 증가
-- **패턴 인식**: 복잡한 패턴 인식 능력 35% 개선
+### Elderly-Friendly Design
+- **Large Fonts**: Font size 16px or larger
+- **High Contrast**: Clear color contrast for improved readability
+- **Large Buttons**: Large touch areas of 50px or more
+- **Intuitive Interface**: Simple, non-complex operations
 
-### 일상생활 개선
-- **대화 능력**: 더 정확하고 맥락적인 대화 가능
-- **문제 해결**: 창의적이고 논리적인 문제 해결 능력 향상
-- **학습 효율**: 새로운 정보 학습 속도와 정확도 향상
+### Responsive Design
+- **Mobile Optimization**: Convenient use on smartphones
+- **Tablet Support**: Optimized layout on tablets
+- **Desktop Utilization**: Efficient use on large screens
 
-## 📞 지원 및 문의
+## 🔒 Personal Information Protection
 
-### 기술 지원
-- **문제 해결**: 훈련 중 발생하는 기술적 문제 해결
-- **사용법 안내**: 상세한 사용법과 팁 제공
-- **개선 제안**: 시스템 개선을 위한 의견 수렴
+### Data Security
+- **Local Processing**: All data is processed locally
+- **Encrypted Storage**: Sensitive information is encrypted and stored
+- **Access Control**: Secure access through user authentication
 
-### 커뮤니티
-- **경험 공유**: 다른 사용자들과 훈련 경험 공유
-- **성과 비교**: 비슷한 연령대의 성과 비교
-- **동기 부여**: 서로의 발전을 격려하고 동기 부여
+### Privacy Protection
+- **Minimal Personal Information**: Collects only necessary minimum information
+- **Automatic Deletion**: Automatically deletes unnecessary data
+- **User Control**: Users can delete data at any time
+
+## 🎉 Success Cases
+
+### Cognitive Ability Improvement
+- **Memory**: 40% improvement in memory recall ability after 3 months of training
+- **Attention**: 60% increase in concentration duration through attention training
+- **Pattern Recognition**: 35% improvement in complex pattern recognition ability
+
+### Daily Life Improvement
+- **Conversation Ability**: More accurate and contextual conversations
+- **Problem Solving**: Improved creative and logical problem-solving abilities
+- **Learning Efficiency**: Enhanced speed and accuracy of learning new information
+
+## 📞 Support and Inquiries
+
+### Technical Support
+- **Problem Resolution**: Resolves technical issues during training
+- **Usage Guidance**: Provides detailed usage methods and tips
+- **Improvement Suggestions**: Collects opinions for system improvement
+
+### Community
+- **Experience Sharing**: Share training experiences with other users
+- **Performance Comparison**: Compare performance with similar age groups
+- **Motivation**: Encourage and motivate each other's development
 
 ---
 
-**Kairos 인지 기능 강화 훈련 시스템**은 과학적 근거에 기반한 개인화된 인지 훈련을 통해 사용자의 인지 능력 향상과 삶의 질 개선을 목표로 합니다. 정기적인 훈련을 통해 더 나은 인지 건강과 활기찬 삶을 경험하세요! 🧠✨
+The **Kairos Cognitive Enhancement Training System** aims to improve users' cognitive abilities and quality of life through scientifically-based personalized cognitive training. Experience better cognitive health and a more vibrant life through regular training! 🧠✨

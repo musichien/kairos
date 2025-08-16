@@ -1,57 +1,57 @@
 # 🔒 Kairos Security & Privacy Guide
 
-## 🌟 개요
+## 🌟 Overview
 
-Kairos AI Memory Support Server는 **프라이버시 중심의 온디바이스 처리**를 핵심 가치로 하여 설계되었습니다. 이 가이드는 Kairos의 보안 기능과 프라이버시 보호 방안을 상세히 설명합니다.
+The Kairos AI Memory Support Server is designed with **privacy-centric on-device processing** as a core value. This guide provides detailed explanations of Kairos's security features and privacy protection measures.
 
-## 🛡️ 핵심 보안 원칙
+## 🛡️ Core Security Principles
 
-### 1. **온디바이스 처리 (On-Device Processing)**
-- 모든 데이터는 사용자의 로컬 디바이스에서만 처리
-- 외부 서버로 개인정보 전송 없음
-- 인터넷 연결 없이도 모든 기능 동작
+### 1. **On-Device Processing**
+- All data is processed only on the user's local device
+- No personal information is transmitted to external servers
+- All functions operate without internet connection
 
-### 2. **데이터 암호화 (Data Encryption)**
-- AES-256-GCM 알고리즘으로 모든 메모리 데이터 암호화
-- 키 유도 함수(PBKDF2)를 통한 안전한 키 생성
-- 인증된 암호화(Authenticated Encryption)로 무결성 보장
+### 2. **Data Encryption**
+- All memory data encrypted using AES-256-GCM algorithm
+- Secure key generation through key derivation function (PBKDF2)
+- Authenticated encryption ensures data integrity
 
-### 3. **접근 제어 (Access Control)**
-- 강력한 인증 시스템
-- 로그인 시도 제한 및 계정 잠금
-- 세션 관리 및 자동 로그아웃
+### 3. **Access Control**
+- Strong authentication system
+- Login attempt limitations and account lockout
+- Session management and automatic logout
 
-### 4. **감사 로그 (Audit Logging)**
-- 모든 보안 관련 이벤트 기록
-- 접근 패턴 분석
-- 보안 사고 추적
+### 4. **Audit Logging**
+- Records all security-related events
+- Access pattern analysis
+- Security incident tracking
 
-## 🔐 보안 기능 상세
+## 🔐 Detailed Security Features
 
-### **데이터 암호화 시스템**
+### **Data Encryption System**
 
-#### 암호화 알고리즘
-- **알고리즘**: AES-256-GCM (Galois/Counter Mode)
-- **키 길이**: 256비트
-- **IV 길이**: 128비트
-- **인증 태그**: 128비트
+#### Encryption Algorithm
+- **Algorithm**: AES-256-GCM (Galois/Counter Mode)
+- **Key Length**: 256-bit
+- **IV Length**: 128-bit
+- **Authentication Tag**: 128-bit
 
-#### 암호화 과정
+#### Encryption Process
 ```javascript
-// 1. 랜덤 IV 및 Salt 생성
+// 1. Generate random IV and Salt
 const iv = crypto.randomBytes(16);
 const salt = crypto.randomBytes(64);
 
-// 2. 키 유도 (PBKDF2)
+// 2. Key derivation (PBKDF2)
 const key = crypto.pbkdf2Sync(
   encryptionKey, 
   salt, 
-  100000, // 반복 횟수
-  32,     // 키 길이
+  100000, // iterations
+  32,     // key length
   'sha512'
 );
 
-// 3. 암호화
+// 3. Encryption
 const cipher = crypto.createCipher('aes-256-gcm', key);
 cipher.setAAD(Buffer.from('kairos-memory-data', 'utf8'));
 
@@ -60,44 +60,44 @@ encrypted += cipher.final('hex');
 const tag = cipher.getAuthTag();
 ```
 
-#### 암호화된 데이터 구조
+#### Encrypted Data Structure
 ```json
 {
-  "encrypted": "암호화된 데이터",
-  "iv": "초기화 벡터 (hex)",
-  "salt": "솔트 (hex)",
-  "tag": "인증 태그 (hex)",
+  "encrypted": "encrypted_data",
+  "iv": "initialization_vector_hex",
+  "salt": "salt_hex",
+  "tag": "authentication_tag_hex",
   "algorithm": "aes-256-gcm",
   "timestamp": "2025-08-11T23:07:33.508Z"
 }
 ```
 
-### **접근 제어 시스템**
+### **Access Control System**
 
-#### 인증 프로세스
-1. **토큰 검증**: Bearer 토큰 기반 인증
-2. **세션 관리**: 자동 세션 만료
-3. **접근 로그**: 모든 인증 시도 기록
+#### Authentication Process
+1. **Token Verification**: Bearer token-based authentication
+2. **Session Management**: Automatic session expiration
+3. **Access Logging**: Records all authentication attempts
 
-#### 로그인 시도 제한
-- **최대 시도 횟수**: 5회
-- **잠금 시간**: 15분
-- **자동 해제**: 잠금 시간 후 자동 해제
+#### Login Attempt Limitations
+- **Maximum Attempts**: 5 times
+- **Lockout Duration**: 15 minutes
+- **Auto Unlock**: Automatically unlocked after lockout period
 
-#### 비밀번호 정책
-- **최소 길이**: 8자
-- **필수 요소**: 대문자, 소문자, 숫자, 특수문자
-- **강도 검증**: 실시간 비밀번호 강도 측정
+#### Password Policy
+- **Minimum Length**: 8 characters
+- **Required Elements**: Uppercase, lowercase, numbers, special characters
+- **Strength Validation**: Real-time password strength measurement
 
-### **감사 로그 시스템**
+### **Audit Logging System**
 
-#### 기록되는 이벤트
-- **인증 이벤트**: 로그인 성공/실패
-- **메모리 접근**: 읽기/쓰기/삭제
-- **보안 설정**: 설정 변경
-- **시스템 이벤트**: 백업/복원
+#### Recorded Events
+- **Authentication Events**: Login success/failure
+- **Memory Access**: Read/write/delete operations
+- **Security Settings**: Configuration changes
+- **System Events**: Backup/restore operations
 
-#### 로그 구조
+#### Log Structure
 ```json
 {
   "timestamp": "2025-08-11T23:07:33.508Z",
@@ -113,46 +113,46 @@ const tag = cipher.getAuthTag();
 }
 ```
 
-## 🔧 보안 설정
+## 🔧 Security Configuration
 
-### **환경 변수 설정**
+### **Environment Variable Setup**
 
-#### 필수 보안 키
+#### Required Security Keys
 ```bash
-# API 인증 키 (반드시 변경하세요)
+# API authentication key (must be changed)
 SECRET_KEY=your-super-secret-key-change-this-immediately
 
-# 데이터 암호화 키 (32바이트)
+# Data encryption key (32 bytes)
 KAIROS_ENCRYPTION_KEY=your-32-byte-encryption-key-here
 
-# 마스터 키 (32바이트)
+# Master key (32 bytes)
 KAIROS_MASTER_KEY=your-32-byte-master-key-here
 ```
 
-#### 보안 설정
+#### Security Settings
 ```bash
-# 로그인 제한
+# Login limitations
 MAX_LOGIN_ATTEMPTS=5
 LOCKOUT_DURATION=900000
 
-# 암호화 설정
+# Encryption settings
 ENCRYPTION_ENABLED=true
 AUDIT_LOGGING=true
 
-# 요청 제한
+# Request limitations
 RATE_LIMIT_MAX_REQUESTS=100
 RATE_LIMIT_WINDOW_MS=900000
 ```
 
-### **보안 API 엔드포인트**
+### **Security API Endpoints**
 
-#### 보안 상태 조회
+#### Security Status Check
 ```bash
 GET /api/security/status
 Authorization: Bearer your-secret-key-here
 ```
 
-#### 보안 설정 업데이트
+#### Security Configuration Update
 ```bash
 POST /api/security/config
 Authorization: Bearer your-secret-key-here
@@ -166,61 +166,61 @@ Content-Type: application/json
 }
 ```
 
-#### 메모리 백업
+#### Memory Backup
 ```bash
 POST /api/security/backup/:userId
 Authorization: Bearer your-secret-key-here
 ```
 
-#### 안전한 메모리 삭제
+#### Secure Memory Deletion
 ```bash
 DELETE /api/security/memory/:userId
 Authorization: Bearer your-secret-key-here
 ```
 
-## 🛡️ 프라이버시 보호 방안
+## 🛡️ Privacy Protection Measures
 
-### **데이터 수명주기 관리**
+### **Data Lifecycle Management**
 
-#### 1. **데이터 생성**
-- 로컬에서만 데이터 생성
-- 즉시 암호화하여 저장
-- 메타데이터 최소화
+#### 1. **Data Creation**
+- Data created only locally
+- Immediately encrypted and stored
+- Minimized metadata
 
-#### 2. **데이터 저장**
-- 암호화된 상태로 로컬 저장
-- 파일 시스템 권한 제한
-- 정기적인 무결성 검증
+#### 2. **Data Storage**
+- Stored locally in encrypted state
+- Restricted file system permissions
+- Regular integrity verification
 
-#### 3. **데이터 처리**
-- 메모리 내에서만 복호화
-- 처리 후 즉시 메모리 정리
-- 스왑 파일 방지
+#### 3. **Data Processing**
+- Decrypted only in memory
+- Memory cleared immediately after processing
+- Swap file prevention
 
-#### 4. **데이터 삭제**
-- DoD 5220.22-M 표준 준수
-- 3회 덮어쓰기 후 삭제
-- 삭제 확인 및 로그 기록
+#### 4. **Data Deletion**
+- Complies with DoD 5220.22-M standard
+- 3-time overwrite before deletion
+- Deletion confirmation and log recording
 
-### **네트워크 보안**
+### **Network Security**
 
-#### CORS 정책
+#### CORS Policy
 ```javascript
-// 프로덕션 환경에서 제한적 설정
+// Restrictive settings for production environment
 const ALLOWED_ORIGINS = [
   'http://localhost:3000',
   'https://your-domain.com'
 ];
 ```
 
-#### 요청 제한
-- **Rate Limiting**: 15분당 100개 요청
-- **Request Size**: 최대 10MB
-- **Timeout**: 30초
+#### Request Limitations
+- **Rate Limiting**: 100 requests per 15 minutes
+- **Request Size**: Maximum 10MB
+- **Timeout**: 30 seconds
 
-#### 보안 헤더
+#### Security Headers
 ```javascript
-// Helmet.js를 통한 보안 헤더 설정
+// Security header settings through Helmet.js
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -238,137 +238,137 @@ app.use(helmet({
 }));
 ```
 
-## 🔍 보안 모니터링
+## 🔍 Security Monitoring
 
-### **실시간 모니터링**
+### **Real-time Monitoring**
 
-#### 보안 상태 대시보드
-- 암호화 상태 확인
-- 감사 로그 실시간 모니터링
-- 접근 패턴 분석
-- 보안 이벤트 알림
+#### Security Status Dashboard
+- Encryption status verification
+- Real-time audit log monitoring
+- Access pattern analysis
+- Security event notifications
 
-#### 로그 분석
+#### Log Analysis
 ```bash
-# 감사 로그 확인
+# Check audit logs
 tail -f logs/audit/audit-2025-08-11.log
 
-# 보안 이벤트 필터링
+# Filter security events
 grep "AUTH_FAILED" logs/audit/*.log
 
-# 접근 패턴 분석
+# Analyze access patterns
 grep "MEMORY_ACCESS" logs/audit/*.log | wc -l
 ```
 
-### **보안 테스트**
+### **Security Testing**
 
-#### 암호화 테스트
+#### Encryption Testing
 ```bash
-# 데이터 암호화/복호화 테스트
+# Test data encryption/decryption
 curl -X POST http://localhost:3000/api/security/test-encryption \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
   -d '{"testData": "sensitive information"}'
 ```
 
-#### 인증 테스트
+#### Authentication Testing
 ```bash
-# 잘못된 토큰으로 접근 시도
+# Attempt access with wrong token
 curl -X GET http://localhost:3000/api/security/status \
   -H "Authorization: Bearer wrong-token"
 ```
 
-## 🚨 보안 사고 대응
+## 🚨 Security Incident Response
 
-### **보안 사고 유형**
+### **Security Incident Types**
 
-#### 1. **무단 접근 시도**
-- **감지**: 로그인 실패 횟수 모니터링
-- **대응**: 계정 잠금 및 알림
-- **복구**: 관리자 확인 후 잠금 해제
+#### 1. **Unauthorized Access Attempts**
+- **Detection**: Monitor login failure counts
+- **Response**: Account lockout and notifications
+- **Recovery**: Unlock after administrator verification
 
-#### 2. **데이터 무결성 손상**
-- **감지**: 체크섬 검증
-- **대응**: 백업에서 복원
-- **복구**: 손상 원인 분석 및 수정
+#### 2. **Data Integrity Damage**
+- **Detection**: Checksum verification
+- **Response**: Restore from backup
+- **Recovery**: Analyze and fix damage causes
 
-#### 3. **암호화 키 노출**
-- **감지**: 키 사용 패턴 분석
-- **대응**: 즉시 키 교체
-- **복구**: 모든 데이터 재암호화
+#### 3. **Encryption Key Exposure**
+- **Detection**: Analyze key usage patterns
+- **Response**: Immediate key replacement
+- **Recovery**: Re-encrypt all data
 
-### **응급 대응 절차**
+### **Emergency Response Procedures**
 
-#### 1단계: 사고 확인
+#### Step 1: Incident Confirmation
 ```bash
-# 보안 상태 확인
+# Check security status
 curl -X GET http://localhost:3000/api/security/status \
   -H "Authorization: Bearer your-secret-key-here"
 ```
 
-#### 2단계: 영향 범위 평가
+#### Step 2: Impact Assessment
 ```bash
-# 최근 보안 이벤트 확인
+# Check recent security events
 grep "$(date +%Y-%m-%d)" logs/audit/*.log
 ```
 
-#### 3단계: 대응 조치
+#### Step 3: Response Actions
 ```bash
-# 임시 보안 강화
+# Temporary security enhancement
 curl -X POST http://localhost:3000/api/security/config \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
   -d '{"maxLoginAttempts": 3, "lockoutDuration": 1800000}'
 ```
 
-## 📋 보안 체크리스트
+## 📋 Security Checklist
 
-### **설치 시 보안 설정**
+### **Installation Security Setup**
 
-- [ ] 환경 변수 파일(.env) 생성 및 보안 키 설정
-- [ ] 기본 보안 키 변경
-- [ ] CORS 설정 확인
-- [ ] 방화벽 설정 확인
-- [ ] 로그 디렉토리 권한 설정
+- [ ] Create environment variable file (.env) and set security keys
+- [ ] Change default security keys
+- [ ] Verify CORS settings
+- [ ] Check firewall settings
+- [ ] Set log directory permissions
 
-### **정기 보안 점검**
+### **Regular Security Checks**
 
-- [ ] 보안 상태 주간 점검
-- [ ] 감사 로그 월간 검토
-- [ ] 암호화 키 분기별 교체
-- [ ] 백업 파일 무결성 검증
-- [ ] 보안 패치 적용
+- [ ] Weekly security status checks
+- [ ] Monthly audit log review
+- [ ] Quarterly encryption key replacement
+- [ ] Backup file integrity verification
+- [ ] Apply security patches
 
-### **프로덕션 환경 설정**
+### **Production Environment Setup**
 
-- [ ] HTTPS 적용
-- [ ] 강력한 비밀번호 정책 적용
-- [ ] 로그인 시도 제한 활성화
-- [ ] 감사 로그 보관 정책 설정
-- [ ] 백업 및 복구 절차 문서화
+- [ ] Apply HTTPS
+- [ ] Implement strong password policy
+- [ ] Activate login attempt limitations
+- [ ] Set audit log retention policy
+- [ ] Document backup and recovery procedures
 
-## 🔧 보안 도구 및 유틸리티
+## 🔧 Security Tools and Utilities
 
-### **보안 키 생성**
+### **Security Key Generation**
 
-#### 암호화 키 생성
+#### Encryption Key Generation
 ```bash
-# 32바이트 랜덤 키 생성
+# Generate 32-byte random key
 openssl rand -hex 32
 
-# 또는 Node.js로 생성
+# Or generate with Node.js
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-#### 마스터 키 생성
+#### Master Key Generation
 ```bash
-# 32바이트 마스터 키 생성
+# Generate 32-byte master key
 openssl rand -hex 32
 ```
 
-### **백업 및 복구**
+### **Backup and Recovery**
 
-#### 자동 백업 스크립트
+#### Automatic Backup Script
 ```bash
 #!/bin/bash
 # daily-backup.sh
@@ -377,15 +377,15 @@ DATE=$(date +%Y%m%d)
 BACKUP_DIR="./backups"
 USER_ID="user_001"
 
-# 백업 실행
+# Execute backup
 curl -X POST "http://localhost:3000/api/security/backup/$USER_ID" \
   -H "Authorization: Bearer your-secret-key-here"
 
-# 오래된 백업 삭제 (30일 이상)
+# Delete old backups (30+ days)
 find $BACKUP_DIR -name "*.enc" -mtime +30 -delete
 ```
 
-#### 복구 스크립트
+#### Recovery Script
 ```bash
 #!/bin/bash
 # restore-backup.sh
@@ -393,35 +393,35 @@ find $BACKUP_DIR -name "*.enc" -mtime +30 -delete
 USER_ID="user_001"
 BACKUP_PATH="./backups/user_001_backup_20250811.enc"
 
-# 복구 실행
+# Execute recovery
 curl -X POST "http://localhost:3000/api/security/restore/$USER_ID" \
   -H "Authorization: Bearer your-secret-key-here" \
   -H "Content-Type: application/json" \
   -d "{\"backupPath\": \"$BACKUP_PATH\"}"
 ```
 
-## 📚 추가 보안 리소스
+## 📚 Additional Security Resources
 
-### **보안 표준 및 가이드라인**
-- **OWASP Top 10**: 웹 애플리케이션 보안 위험
-- **NIST Cybersecurity Framework**: 사이버보안 프레임워크
-- **GDPR**: 개인정보보호 규정
-- **ISO 27001**: 정보보안 관리체계
+### **Security Standards and Guidelines**
+- **OWASP Top 10**: Web application security risks
+- **NIST Cybersecurity Framework**: Cybersecurity framework
+- **GDPR**: Personal data protection regulations
+- **ISO 27001**: Information security management system
 
-### **암호화 표준**
-- **AES-256-GCM**: 인증된 암호화
-- **PBKDF2**: 키 유도 함수
-- **SHA-256**: 해시 함수
-- **DoD 5220.22-M**: 데이터 삭제 표준
+### **Encryption Standards**
+- **AES-256-GCM**: Authenticated encryption
+- **PBKDF2**: Key derivation function
+- **SHA-256**: Hash function
+- **DoD 5220.22-M**: Data deletion standard
 
-### **보안 도구**
-- **Helmet.js**: 보안 헤더 설정
-- **Express Rate Limit**: 요청 제한
-- **Express Validator**: 입력 검증
-- **Bcrypt**: 비밀번호 해싱
+### **Security Tools**
+- **Helmet.js**: Security header configuration
+- **Express Rate Limit**: Request limitations
+- **Express Validator**: Input validation
+- **Bcrypt**: Password hashing
 
 ---
 
-**"프라이버시는 기본권이자 신뢰의 기반입니다."**
+**"Privacy is a fundamental right and the foundation of trust."**
 
 *Kairos Project - Privacy-First AI Technology*

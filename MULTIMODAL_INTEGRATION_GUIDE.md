@@ -1,271 +1,299 @@
-# 🔊 Kairos 멀티모달 통합 시스템 사용 가이드
+# 🔊 Kairos Multimodal Integration System User Guide
 
-## 📋 개요
+## 📋 Overview
 
-Kairos 멀티모달 통합 시스템은 음성, 영상, 센서 데이터, 웨어러블 기기, 건강 모니터링을 통합하여 사용자의 상황을 더 정확하게 파악하는 혁신적인 기능입니다. 실시간 건강 데이터와 다양한 센서 정보를 종합하여 개인화된 인지 건강 관리 서비스를 제공합니다.
+The Kairos Multimodal Integration System is an innovative feature that integrates voice, video, sensor data, wearable devices, and health monitoring to more accurately understand user situations. It provides personalized cognitive health management services by combining real-time health data and various sensor information.
 
-## 🎯 주요 기능
+## 🎯 Main Features
 
-### 🎤 음성 처리 (Voice Processing)
-- **음성 인식**: 오디오 파일을 텍스트로 변환
-- **음성 합성**: 텍스트를 자연스러운 음성으로 변환
-- **감정 분석**: 음성 톤을 통한 감정 상태 파악
-- **언어 지원**: 다국어 음성 처리
+### 🎤 Voice Processing
+- **Speech Recognition**: Convert audio files to text
+- **Voice Synthesis**: Convert text to natural voice
+- **Emotion Analysis**: Understand emotional states through voice tone
+- **Language Support**: Multi-language voice processing
 
-### 📹 영상 처리 (Video Processing)
-- **객체 인식**: 영상에서 사람, 물체, 활동 감지
-- **활동 분석**: 사용자의 행동 패턴 분석
-- **감정 인식**: 표정을 통한 감정 상태 분석
-- **프레임 추출**: 중요 장면 자동 추출
+### 📹 Video Processing
+- **Object Recognition**: Detect people, objects, and activities in videos
+- **Activity Analysis**: Analyze user behavior patterns
+- **Emotion Recognition**: Analyze emotional states through facial expressions
+- **Frame Extraction**: Automatically extract important scenes
 
-### 📡 센서 데이터 (Sensor Data)
-- **환경 센서**: 온도, 습도, 조도, 동작 감지
-- **실시간 모니터링**: 24시간 연속 데이터 수집
-- **패턴 분석**: 환경 변화와 사용자 행동 연관성 분석
-- **알림 시스템**: 이상 상황 자동 감지 및 알림
+### 📡 Sensor Data
+- **Environmental Sensors**: Temperature, humidity, light, motion detection
+- **Real-time Monitoring**: 24-hour continuous data collection
+- **Pattern Analysis**: Analyze correlations between environmental changes and user behavior
+- **Alert System**: Automatic detection and notification of abnormal situations
 
-### ⌚ 웨어러블 기기 (Wearable Devices)
-- **스마트워치**: 심박수, 걸음수, 수면 시간 모니터링
-- **피트니스 트래커**: 운동량, 칼로리 소모량 추적
-- **건강 모니터**: 혈압, 혈당, 산소포화도 측정
-- **실시간 동기화**: 자동 데이터 업로드 및 분석
+### ⌚ Wearable Devices
+- **Smartwatch**: Heart rate, step count, sleep time monitoring
+- **Fitness Tracker**: Exercise amount, calorie consumption tracking
+- **Health Monitor**: Blood pressure, blood sugar, oxygen saturation measurement
+- **Real-time Synchronization**: Automatic data upload and analysis
 
-### ❤️ 건강 모니터링 (Health Monitoring)
-- **종합 건강 점수**: 다양한 지표를 종합한 건강 상태 평가
-- **트렌드 분석**: 시간에 따른 건강 변화 추적
-- **개인화된 권장사항**: 건강 상태에 맞는 맞춤형 조언
-- **리포트 생성**: 일일/주간/월간 건강 리포트
+### ❤️ Health Monitoring
+- **Comprehensive Health Score**: Health status evaluation combining various indicators
+- **Trend Analysis**: Track health changes over time
+- **Personalized Recommendations**: Customized advice based on health status
+- **Report Generation**: Daily/weekly/monthly health reports
 
-### 🔗 멀티모달 컨텍스트 (Multimodal Context)
-- **통합 분석**: 모든 데이터 소스를 종합한 상황 파악
-- **맥락 이해**: 사용자의 전반적인 상태와 환경 이해
-- **예측 분석**: 건강 상태 변화 예측
-- **개인화된 서비스**: 통합 데이터 기반 맞춤형 서비스
+### 🔗 Multimodal Context
+- **Integrated Analysis**: Comprehensive situation understanding from all data sources
+- **Contextual Understanding**: Understand users' overall status and environment
+- **Predictive Analysis**: Predict health status changes
+- **Personalized Services**: Customized services based on integrated data
 
-## 🚀 사용 방법
+## 🚀 How to Use
 
-### 1. 음성 처리 사용법
+### 1. Voice Processing Usage
 
-#### 음성 인식
-1. **음성 파일 업로드**: "음성 입력" 섹션에서 오디오 파일 선택
-2. **처리 시작**: "음성 처리" 버튼 클릭
-3. **결과 확인**: 인식된 텍스트와 신뢰도 확인
+#### Speech Recognition
+1. **Upload Voice File**: Select audio file in "Voice Input" section
+2. **Start Processing**: Click "Voice Processing" button
+3. **Check Results**: Verify recognized text and confidence level
 
-#### 음성 합성
-1. **텍스트 입력**: "음성 합성" 버튼 클릭 후 텍스트 입력
-2. **음성 생성**: 자연스러운 음성 파일 생성
-3. **파일 저장**: 생성된 음성 파일 다운로드
+#### Voice Synthesis
+1. **Enter Text**: Click "Voice Synthesis" button and enter text
+2. **Generate Voice**: Generate natural voice file
+3. **Save File**: Download generated voice file
 
-### 2. 영상 처리 사용법
+### 2. Video Processing Usage
 
-#### 영상 분석
-1. **영상 파일 업로드**: "영상 입력" 섹션에서 비디오 파일 선택
-2. **분석 시작**: "영상 처리" 버튼 클릭
-3. **결과 확인**: 감지된 객체, 활동, 감정 상태 확인
+#### Video Analysis
+1. **Upload Video File**: Select video file in "Video Input" section
+2. **Start Analysis**: Click "Video Processing" button
+3. **Check Results**: Verify detected objects, activities, and emotional states
 
-#### 프레임 추출
-1. **영상 선택**: 분석할 영상 파일 선택
-2. **프레임 추출**: "프레임 추출" 버튼 클릭
-3. **결과 확인**: 추출된 중요 프레임들 확인
+#### Frame Extraction
+1. **Select Video**: Choose video file to analyze
+2. **Extract Frames**: Click "Frame Extraction" button
+3. **Check Results**: Verify extracted important frames
 
-### 3. 센서 데이터 사용법
+### 3. Sensor Data Usage
 
-#### 센서 데이터 처리
-1. **센서 유형 선택**: 온도, 습도, 조도, 동작 중 선택
-2. **데이터 처리**: "센서 데이터 처리" 버튼 클릭
-3. **결과 확인**: 처리된 센서 데이터 확인
+#### Sensor Data Processing
+1. **Select Sensor Type**: Choose from temperature, humidity, light, motion
+2. **Process Data**: Click "Process Sensor Data" button
+3. **Check Results**: Verify processed sensor data
 
-#### 센서 히스토리 조회
-1. **센서 유형 선택**: 조회할 센서 유형 선택
-2. **히스토리 조회**: "센서 히스토리" 버튼 클릭
-3. **데이터 확인**: 과거 센서 데이터 기록 확인
+#### Sensor History Check
+1. **Select Sensor Type**: Choose sensor type to check
+2. **Check History**: Click "Sensor History" button
+3. **Verify Data**: Check past sensor data records
 
-### 4. 웨어러블 기기 사용법
+### 4. Wearable Device Usage
 
-#### 기기 연결
-1. **기기 유형 선택**: 스마트워치, 피트니스 트래커, 건강 모니터 중 선택
-2. **연결 시작**: "기기 연결" 버튼 클릭
-3. **연결 확인**: 기기 연결 상태 확인
+#### Device Connection
+1. **Select Device Type**: Choose from smartwatch, fitness tracker, health monitor
+2. **Start Connection**: Click "Connect Device" button
+3. **Verify Connection**: Check device connection status
 
-#### 데이터 조회
-1. **기기 선택**: 연결된 기기 유형 선택
-2. **데이터 조회**: "데이터 조회" 버튼 클릭
-3. **결과 확인**: 심박수, 걸음수, 수면 시간 등 확인
+#### Data Retrieval
+1. **Select Device**: Choose connected device type
+2. **Retrieve Data**: Click "Retrieve Data" button
+3. **Check Results**: Verify heart rate, step count, sleep time, etc.
 
-### 5. 건강 모니터링 사용법
+### 5. Health Monitoring Usage
 
-#### 건강 데이터 처리
-1. **데이터 수집**: 웨어러블 기기에서 건강 데이터 수집
-2. **데이터 처리**: "건강 데이터 처리" 버튼 클릭
-3. **분석 결과**: 종합 건강 점수와 권장사항 확인
+#### Health Data Processing
+1. **Collect Data**: Collect health data from wearable devices
+2. **Process Data**: Click "Process Health Data" button
+3. **Analyze Results**: Check comprehensive health score and recommendations
 
-#### 건강 리포트 생성
-1. **리포트 유형 선택**: 일일, 주간, 월간 중 선택
-2. **리포트 생성**: "리포트 생성" 버튼 클릭
-3. **리포트 확인**: 상세한 건강 분석 리포트 확인
+#### Health Report Generation
+1. **Select Report Type**: Choose from daily, weekly, monthly
+2. **Generate Report**: Click "Generate Report" button
+3. **Check Report**: Verify detailed health analysis report
 
-### 6. 멀티모달 컨텍스트 사용법
+### 6. Multimodal Context Usage
 
-#### 컨텍스트 생성
-1. **데이터 수집**: 모든 멀티모달 데이터 수집 완료
-2. **컨텍스트 생성**: "컨텍스트 생성" 버튼 클릭
-3. **통합 분석**: 모든 데이터를 종합한 상황 분석 확인
+#### Context Generation
+1. **Collect Data**: Complete collection of all multimodal data
+2. **Generate Context**: Click "Generate Context" button
+3. **Integrated Analysis**: Check situation analysis combining all data
 
-#### 시스템 상태 확인
-1. **상태 조회**: "상태 확인" 버튼 클릭
-2. **컴포넌트 확인**: 각 멀티모달 컴포넌트 상태 확인
-3. **연결 상태**: 활성 연결 수와 시스템 상태 확인
+#### System Status Check
+1. **Check Status**: Click "Check Status" button
+2. **Verify Components**: Check status of each multimodal component
+3. **Connection Status**: Check active connection count and system status
 
-## 🔧 기술적 특징
+## 🔧 Technical Features
 
-### 실시간 처리
-- **WebSocket 연결**: 실시간 데이터 전송 및 처리
-- **스트리밍 처리**: 대용량 오디오/비디오 파일 스트리밍 처리
-- **즉시 분석**: 실시간 데이터 분석 및 피드백
+### Real-time Processing
+- **WebSocket Connection**: Real-time data transmission and processing
+- **Streaming Processing**: Stream processing of large audio/video files
+- **Immediate Analysis**: Real-time data analysis and feedback
 
-### 보안 및 개인정보 보호
-- **데이터 암호화**: 모든 멀티모달 데이터 암호화 저장
-- **로컬 처리**: 민감한 데이터는 로컬에서 처리
-- **접근 제어**: 사용자별 데이터 접근 권한 관리
+### Security and Privacy Protection
+- **Data Encryption**: Encrypt and store all multimodal data
+- **Local Processing**: Process sensitive data locally
+- **Access Control**: Manage user-specific data access permissions
 
-### 확장성
-- **모듈화 설계**: 각 멀티모달 컴포넌트 독립적 운영
-- **플러그인 구조**: 새로운 센서나 기기 쉽게 추가 가능
-- **API 기반**: 표준 API를 통한 외부 시스템 연동
+### Scalability
+- **Modular Design**: Independent operation of each multimodal component
+- **Plugin Structure**: Easy addition of new sensors or devices
+- **API-based**: External system integration through standard APIs
 
-## 📊 데이터 분석
+## 📊 Data Analysis
 
-### 음성 데이터 분석
-- **음성 품질**: 명확도, 볼륨, 노이즈 레벨 분석
-- **감정 상태**: 음성 톤을 통한 감정 변화 추적
-- **언어 패턴**: 사용 언어와 발화 패턴 분석
+### Voice Data Analysis
+- **Voice Quality**: Analyze clarity, volume, noise level
+- **Emotional State**: Track emotional changes through voice tone
+- **Language Patterns**: Analyze usage language and speech patterns
 
-### 영상 데이터 분석
-- **행동 패턴**: 일상 활동과 행동 패턴 분석
-- **환경 변화**: 주변 환경과 상황 변화 감지
-- **상호작용**: 다른 사람과의 상호작용 패턴 분석
+### Video Data Analysis
+- **Behavior Patterns**: Analyze daily activities and behavior patterns
+- **Environmental Changes**: Detect surrounding environment and situation changes
+- **Interactions**: Analyze interaction patterns with others
 
-### 센서 데이터 분석
-- **환경 트렌드**: 온도, 습도, 조도 변화 추적
-- **활동 패턴**: 동작 감지를 통한 활동량 분석
-- **이상 감지**: 정상 범위를 벗어나는 데이터 감지
+### Sensor Data Analysis
+- **Environmental Trends**: Track temperature, humidity, light changes
+- **Activity Patterns**: Analyze activity levels through motion detection
+- **Anomaly Detection**: Detect data outside normal ranges
 
-### 건강 데이터 분석
-- **생체 신호**: 심박수, 혈압, 수면 패턴 분석
-- **활동량**: 걸음수, 운동량, 칼로리 소모량 분석
-- **건강 트렌드**: 시간에 따른 건강 상태 변화 분석
+### Health Data Analysis
+- **Biological Signals**: Analyze heart rate, blood pressure, sleep patterns
+- **Activity Levels**: Analyze step count, exercise amount, calorie consumption
+- **Health Trends**: Analyze health status changes over time
 
-## 🎯 활용 사례
+## 🎯 Use Cases
 
-### 노인 건강 관리
-- **낙상 감지**: 동작 센서를 통한 낙상 위험 감지
-- **약물 복용 알림**: 음성 알림을 통한 약물 복용 관리
-- **가족 연락**: 비정상 상황 시 가족에게 자동 알림
+### Elderly Health Management
+- **Fall Detection**: Detect fall risks through motion sensors
+- **Medication Reminders**: Manage medication intake through voice alerts
+- **Family Contact**: Automatic family notification in abnormal situations
 
-### 인지 기능 모니터링
-- **기억력 추적**: 일상 활동을 통한 기억력 변화 감지
-- **집중력 분석**: 영상 분석을 통한 집중력 상태 파악
-- **감정 상태**: 음성과 표정을 통한 감정 상태 모니터링
+### Cognitive Function Monitoring
+- **Memory Tracking**: Detect memory changes through daily activities
+- **Concentration Analysis**: Understand concentration status through video analysis
+- **Emotional State**: Monitor emotional states through voice and expressions
 
-### 생활 패턴 개선
-- **수면 품질**: 웨어러블 기기를 통한 수면 패턴 분석
-- **운동 권장**: 활동량에 따른 맞춤형 운동 권장
-- **환경 최적화**: 센서 데이터를 통한 생활 환경 최적화
+### Lifestyle Pattern Improvement
+- **Sleep Quality**: Analyze sleep patterns through wearable devices
+- **Exercise Recommendations**: Customized exercise recommendations based on activity levels
+- **Environment Optimization**: Optimize living environment through sensor data
 
-## 🔍 문제 해결
+## 🔍 Problem Solving
 
-### 일반적인 문제들
+### Common Issues
 
-#### 음성 인식이 잘 안 될 때
-- **해결책**: 
-  - 마이크 품질 확인
-  - 조용한 환경에서 녹음
-  - 명확하고 천천히 발음
-  - 지원 언어 확인
+#### Poor Speech Recognition
+- **Solutions**: 
+  - Check microphone quality
+  - Record in quiet environment
+  - Speak clearly and slowly
+  - Verify supported languages
 
-#### 영상 처리가 느릴 때
-- **해결책**:
-  - 파일 크기 확인 (권장: 100MB 이하)
-  - 해상도 조정 (권장: 1080p 이하)
-  - 인터넷 연결 상태 확인
-  - 서버 부하 상태 확인
+#### Slow Video Processing
+- **Solutions**:
+  - Check file size (recommended: under 100MB)
+  - Adjust resolution (recommended: under 1080p)
+  - Check internet connection status
+  - Verify server load status
 
-#### 센서 데이터가 수집되지 않을 때
-- **해결책**:
-  - 센서 기기 연결 상태 확인
-  - 배터리 상태 확인
-  - 권한 설정 확인
-  - 네트워크 연결 상태 확인
+#### No Sensor Data Collection
+- **Solutions**:
+  - Check sensor device connection status
+  - Verify battery status
+  - Check permission settings
+  - Verify network connection status
 
-#### 웨어러블 기기 연결이 안 될 때
-- **해결책**:
-  - 블루투스 연결 상태 확인
-  - 기기 페어링 상태 확인
-  - 앱 권한 설정 확인
-  - 기기 재부팅
+#### Wearable Device Connection Issues
+- **Solutions**:
+  - Check Bluetooth connection status
+  - Verify device pairing status
+  - Check app permission settings
+  - Restart device
 
-### 시스템 오류 해결
+### System Error Resolution
 
-#### API 오류
-- **확인사항**:
-  - API 키 유효성 확인
-  - 서버 연결 상태 확인
-  - 요청 형식 확인
-  - 권한 설정 확인
+#### API Errors
+- **Check Items**:
+  - Verify API key validity
+  - Check server connection status
+  - Verify request format
+  - Check permission settings
 
-#### 데이터 동기화 오류
-- **해결책**:
-  - 인터넷 연결 확인
-  - 서버 상태 확인
-  - 데이터 형식 확인
-  - 캐시 삭제 후 재시도
+#### Data Synchronization Errors
+- **Solutions**:
+  - Check internet connection
+  - Verify server status
+  - Check data format
+  - Clear cache and retry
 
-## 📈 성능 최적화
+## 📈 Performance Optimization
 
-### 시스템 성능 향상
-- **정기적인 캐시 정리**: 불필요한 데이터 정리
-- **데이터 압축**: 저장 공간 효율적 사용
-- **백그라운드 처리**: 시스템 리소스 효율적 사용
+### System Performance Improvement
+- **Regular Cache Cleanup**: Clean unnecessary data regularly
+- **Data Compression**: Use storage space efficiently
+- **Background Processing**: Use system resources efficiently
 
-### 사용자 경험 개선
-- **빠른 응답**: 최적화된 알고리즘 사용
-- **직관적 인터페이스**: 사용자 친화적 UI/UX
-- **개인화 설정**: 사용자별 맞춤 설정
+### User Experience Improvement
+- **Fast Response**: Use optimized algorithms
+- **Intuitive Interface**: User-friendly UI/UX
+- **Personalized Settings**: User-specific custom settings
 
-## 🔮 향후 발전 방향
+## 🔮 Future Development Directions
 
-### AI 기술 통합
-- **머신러닝**: 패턴 인식 및 예측 분석 강화
-- **딥러닝**: 더 정확한 음성/영상 인식
-- **자연어 처리**: 고급 대화형 인터페이스
+### AI Technology Integration
+- **Machine Learning**: Strengthen pattern recognition and predictive analysis
+- **Deep Learning**: More accurate voice/video recognition
+- **Natural Language Processing**: Advanced conversational interfaces
 
-### 하드웨어 확장
-- **IoT 센서**: 더 다양한 센서 지원
-- **AR/VR**: 증강현실/가상현실 통합
-- **로봇 기술**: 물리적 도움 제공
+### Hardware Expansion
+- **IoT Sensors**: Support for more diverse sensors
+- **AR/VR**: Augmented reality/virtual reality integration
+- **Robotics**: Provide physical assistance
 
-### 서비스 확장
-- **의료 연동**: 의료진과의 데이터 공유
-- **가족 연동**: 가족 구성원과의 정보 공유
-- **커뮤니티**: 사용자 간 경험 공유
+### Service Expansion
+- **Medical Integration**: Data sharing with medical staff
+- **Family Integration**: Information sharing with family members
+- **Community**: Experience sharing among users
 
-## 📞 지원 및 문의
+## 📞 Support and Inquiries
 
-### 기술 지원
-- **이메일**: support@kairos.musichien.com
-- **문서**: https://kairos.musichien.com/docs
-- **커뮤니티**: https://github.com/musichien/kairos
+### Technical Support
+- **Email**: support@kairos.musichien.com
+- **Documentation**: https://kairos.musichien.com/docs
+- **Community**: https://github.com/musichien/kairos
 
-### 자주 묻는 질문
-- **Q**: 어떤 기기에서 사용할 수 있나요?
-- **A**: 웹 브라우저가 지원되는 모든 기기에서 사용 가능합니다.
+### Frequently Asked Questions
+- **Q**: What devices can I use this on?
+- **A**: Available on all devices that support web browsers.
 
-- **Q**: 데이터는 어디에 저장되나요?
-- **A**: 모든 데이터는 로컬에서 암호화되어 저장되며, 개인정보는 외부로 전송되지 않습니다.
+- **Q**: Where is the data stored?
+- **A**: All data is encrypted and stored locally, and personal information is never transmitted externally.
 
-- **Q**: 인터넷 연결이 필요하나요?
-- **A**: 기본 기능은 오프라인에서도 사용 가능하지만, 실시간 동기화를 위해서는 인터넷 연결이 필요합니다.
+- **Q**: Do I need an internet connection?
+- **A**: Basic functions are available offline, but internet connection is required for real-time synchronization.
+
+## ⚠️ **Current Implementation Status**
+
+### **Development Phase**
+The Kairos Multimodal Integration System is currently in the **modular development phase**. For development convenience and testing purposes, detailed hardware connections and real-time data processing are not fully implemented.
+
+### **What's Currently Available**
+- **API Endpoints**: All multimodal API endpoints are fully functional
+- **Data Processing**: Mock data processing and response systems
+- **System Architecture**: Complete modular system architecture
+- **Integration Framework**: Ready-to-use integration framework
+
+### **What Can Be Implemented**
+Using the **modular approach** described in this guide, developers can easily implement:
+
+1. **Real Hardware Connections**: Connect actual sensors, cameras, and wearable devices
+2. **Live Data Processing**: Process real-time data from connected devices
+3. **Custom Integrations**: Add new multimodal components as needed
+4. **Production Deployments**: Deploy to production environments with real devices
+
+### **Modular Implementation Benefits**
+- **Plug-and-Play**: Easy addition of new devices and sensors
+- **Scalable Architecture**: Expandable system design
+- **API-First Approach**: Standardized interfaces for all components
+- **Development Ready**: Complete framework for custom implementations
+
+### **For Developers**
+The current system provides a **complete foundation** for building production-ready multimodal applications. All the necessary APIs, data structures, and integration patterns are in place, making it easy to add real hardware connections when needed.
 
 ---
 
-**Kairos 멀티모달 통합 시스템**은 최신 기술을 활용하여 사용자의 건강과 삶의 질을 향상시키는 종합적인 솔루션을 제공합니다. 정기적인 사용을 통해 더 나은 건강 관리와 인지 기능 향상을 경험하세요! 🔊✨
+The **Kairos Multimodal Integration System** provides comprehensive solutions to improve users' health and quality of life using cutting-edge technology. Experience better health management and cognitive function improvement through regular use! 🔊✨
