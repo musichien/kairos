@@ -194,7 +194,14 @@ Kairos is built on clinical research showing that:
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **GNU General Public License v2.0 (GPLv2)** - a strong copyleft license that ensures all derivative works remain free and open source. See the [LICENSE](LICENSE) file for complete terms and conditions.
+
+**Key GPLv2 Requirements:**
+- **Freedom to Use**: You can use the software for any purpose
+- **Freedom to Study**: You can examine how the software works
+- **Freedom to Share**: You can redistribute copies
+- **Freedom to Modify**: You can modify and improve the software
+- **Copyleft Protection**: Any derivative works must also be licensed under GPLv2
 
 ## 🙏 Acknowledgments
 

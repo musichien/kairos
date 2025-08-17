@@ -216,7 +216,7 @@ try {
 ## 📄 Legal
 
 ### Licensing
-- **Code contributions** are licensed under MIT
+- **Code contributions** are licensed under GPLv2 (GNU General Public License v2.0)
 - **Documentation** is licensed under Creative Commons
 - **Research data** follows ethical guidelines
 - **User privacy** is always protected
