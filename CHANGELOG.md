@@ -34,7 +34,7 @@
 - **Western Cultures (EN, FR)**: Direct communication, equality emphasis
 - **Eastern Cultures (KO, JA, ZH)**: Indirect communication, hierarchy respect
 - **Formality Systems**: 
-  - Korean: 반말 → 존댓말 → 격식체 → 경어
+  - Korean: Informal → Polite → Formal → Honorific
   - Japanese: タメ口 → 丁寧語 → 敬語 → 最敬語
   - Chinese: 随意 → 礼貌 → 正式 → 尊敬
 

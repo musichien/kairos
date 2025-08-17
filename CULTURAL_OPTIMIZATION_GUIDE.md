@@ -23,7 +23,7 @@ Each language supports multiple formality levels:
 - **Respectful**: Very formal, highly respectful communication
 
 #### Eastern Languages (Korean, Japanese, Chinese)
-- **Korean**: 반말 → 존댓말 → 격식체 → 경어
+- **Korean**: Informal → Polite → Formal → Honorific
 - **Japanese**: タメ口 → 丁寧語 → 敬語 → 最敬語
 - **Chinese**: 随意 → 礼貌 → 正式 → 尊敬
 
@@ -132,7 +132,7 @@ const contextResponse = await fetch('/api/cultural/context', {
 - **Hierarchy**: Strong age and status hierarchy
 - **Time**: Time observance important
 - **Personal Space**: Respect personal boundaries
-- **Elderly Respect**: Use 존칭어 (honorific language)
+- **Elderly Respect**: Use honorific language (존칭어)
 
 ### Japanese Culture
 - **Communication**: Indirect, highly polite
