@@ -4,7 +4,7 @@
 
 Welcome to Kairos! This project provides a **comprehensive AI platform** that combines long-term memory, privacy-centric processing, cognitive enhancement training, multimodal integration, and cultural optimization to support healthy aging and cognitive health.
 
-## 🎯 **5 Core Features Overview**
+## 🎯 **Core Features Overview**
 
 ### 1. 🧠 **Long-term Memory & Contextualization Technology**
 **Develops time-based memory structures that naturally connect users' life events**
