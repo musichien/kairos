@@ -12,6 +12,7 @@ const SecurityManager = require('./security');
 const CognitiveTrainingManager = require('./cognitive_training');
 const MultimodalIntegrationManager = require('./multimodal_integration');
 const CulturalOptimizationManager = require('./cultural_optimization');
+const TelomereHealthManager = require('./telomere_health');
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -19,6 +20,7 @@ const securityManager = new SecurityManager();
 const cognitiveTrainingManager = new CognitiveTrainingManager();
 const multimodalManager = new MultimodalIntegrationManager();
 const culturalManager = new CulturalOptimizationManager();
+const telomereHealthManager = new TelomereHealthManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -1353,6 +1355,148 @@ app.get('/api/multimodal/status', authenticateToken, async (req, res) => {
   }
 });
 
+// ===== Telomere-Driven Healthy Aging API =====
+
+// Log a daily routine (sleep, activity, diet, stress)
+app.post('/api/telomere/:userId/routine', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const routine = telomereHealthManager.logRoutine(userId, req.body || {});
+    res.json({
+      message: 'Routine logged successfully',
+      userId,
+      routine
+    });
+  } catch (error) {
+    console.error('Routine logging failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Routine logging failed',
+        type: 'server_error',
+        code: 'routine_log_failed'
+      }
+    });
+  }
+});
+
+// Get daily lifestyle signals for a given date (or today by default)
+app.get('/api/telomere/:userId/signals', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { date } = req.query;
+    const signals = telomereHealthManager.getDailySignals(userId, date);
+    res.json(signals);
+  } catch (error) {
+    console.error('Signals fetch failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Signals fetch failed',
+        type: 'server_error',
+        code: 'signals_fetch_failed'
+      }
+    });
+  }
+});
+
+// Save biomarker panel result (hs-CRP, fasting glucose, HbA1c, Omega-3 Index)
+app.post('/api/telomere/:userId/biomarkers', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const biomarker = telomereHealthManager.saveBiomarkers(userId, req.body || {});
+    res.json({
+      message: 'Biomarker saved successfully',
+      userId,
+      biomarker
+    });
+  } catch (error) {
+    console.error('Biomarker save failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Biomarker save failed',
+        type: 'server_error',
+        code: 'biomarker_save_failed'
+      }
+    });
+  }
+});
+
+// Get biomarker report (quarter or year)
+app.get('/api/telomere/:userId/biomarkers/report', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { range = 'quarter', endDate } = req.query;
+    const report = telomereHealthManager.getBiomarkerReport(userId, range, endDate);
+    res.json(report);
+  } catch (error) {
+    console.error('Biomarker report failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Biomarker report failed',
+        type: 'server_error',
+        code: 'biomarker_report_failed'
+      }
+    });
+  }
+});
+
+// Save telomere length (LTL) measurement
+app.post('/api/telomere/:userId/ltl', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const saved = telomereHealthManager.saveTelomereResult(userId, req.body || {});
+    res.json({
+      message: 'Telomere result saved successfully',
+      userId,
+      result: saved
+    });
+  } catch (error) {
+    console.error('Telomere save failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Telomere save failed',
+        type: 'server_error',
+        code: 'telomere_save_failed'
+      }
+    });
+  }
+});
+
+// Get telomere trend interpretation
+app.get('/api/telomere/:userId/ltl/trend', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const trend = telomereHealthManager.getTelomereTrend(userId);
+    res.json(trend);
+  } catch (error) {
+    console.error('Telomere trend failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Telomere trend failed',
+        type: 'server_error',
+        code: 'telomere_trend_failed'
+      }
+    });
+  }
+});
+
+// Generate lifestyle feedback and recommendations
+app.get('/api/telomere/:userId/feedback', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const feedback = telomereHealthManager.generateFeedback(userId);
+    res.json(feedback);
+  } catch (error) {
+    console.error('Feedback generation failed:', error);
+    res.status(500).json({
+      error: {
+        message: 'Feedback generation failed',
+        type: 'server_error',
+        code: 'feedback_generation_failed'
+      }
+    });
+  }
+});
+
 // 문화 및 언어 최적화 API 엔드포인트
 app.get('/api/cultural/profile/:language', authenticateToken, async (req, res) => {
   try {
@@ -1701,7 +1845,7 @@ app.post('/api/cultural/prompt', authenticateToken, [
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '5.0.0',
+    version: '6.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -1734,6 +1878,13 @@ app.get('/', (req, res) => {
       '/api/multimodal/health/:userId/report': '건강 리포트 생성',
       '/api/multimodal/context/:userId': '멀티모달 컨텍스트 생성',
       '/api/multimodal/status': '멀티모달 상태 조회',
+      '/api/telomere/:userId/routine': '텔로미어 건강: 일상 루틴 기록',
+      '/api/telomere/:userId/signals': '텔로미어 건강: 일일 라이프스타일 신호',
+      '/api/telomere/:userId/biomarkers': '텔로미어 건강: 바이오마커 저장',
+      '/api/telomere/:userId/biomarkers/report': '텔로미어 건강: 바이오마커 리포트',
+      '/api/telomere/:userId/ltl': '텔로미어 건강: LTL 결과 저장',
+      '/api/telomere/:userId/ltl/trend': '텔로미어 건강: LTL 추세',
+      '/api/telomere/:userId/feedback': '텔로미어 건강: 피드백 생성',
       '/api/cultural/profile/:language': '문화 프로필 조회',
       '/api/cultural/style/:language/:formality': '대화 스타일 조회',
       '/api/cultural/greeting': '문화적 인사말 생성',
@@ -1760,6 +1911,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🧪 테스트 엔드포인트: http://localhost:${PORT}/api/generate`);
   console.log(`🔊 멀티모달 통합 시스템이 초기화되었습니다.`);
   console.log(`🌍 문화 및 언어 최적화 시스템이 초기화되었습니다.`);
+  console.log(`🧬 텔로미어 기반 건강 관리 모듈이 초기화되었습니다.`);
   
   // WebSocket 서버 초기화
   multimodalManager.initializeWebSocket(server);

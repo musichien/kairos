@@ -39,6 +39,13 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Real-time Health Monitoring**: Real-time monitoring and analysis of health status
 
 ### 5. 🌍 **Cultural & Language Optimization**
+### 6. 🧬 **Telomere-Driven Healthy Aging**
+**Science-based lifestyle guidance using sleep, activity, diet, biomarkers, and telomere trends**
+
+- **Routine Tracking**: Sleep hours/quality, steps, activity minutes, HIIT/strength, diet adherence, omega-3 intake, stress, mindfulness
+- **Biomarkers**: hs-CRP, fasting glucose, HbA1c, Omega-3 Index
+- **Telomere Results**: Annual leukocyte telomere length (LTL) via qPCR/Flow-FISH with trend interpretation
+- **Feedback Engine**: Actionable recommendations aligned with clinical literature
 **Optimizes conversation styles and respectful expressions for Korean and Asian cultures**
 
 - **Asian Cultural Sensitivity**: Conversation styles specialized for Korean, Japanese, and Chinese cultures
@@ -405,6 +412,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 - **[Cognitive Training Guide](COGNITIVE_TRAINING_GUIDE.md)** - Training system usage
 - **[Multimodal Integration Guide](MULTIMODAL_INTEGRATION_GUIDE.md)** - Sensor and device integration
 - **[Cultural Optimization Guide](CULTURAL_OPTIMIZATION_GUIDE.md)** - Cultural features and usage
+- **[Telomere Health Guide](TELOMERE_HEALTH_GUIDE.md)** - Telomere-driven healthy aging module
 
 ### **Technical Documentation:**
 - **[Project Overview](PROJECT_OVERVIEW.md)** - System architecture and design

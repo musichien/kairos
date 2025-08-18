@@ -1,5 +1,30 @@
 # Changelog
 
+## [2025-08-15] - Telomere-Driven Healthy Aging Module
+
+### 🧬 Telomere Module Overview
+- Routine Tracking: Sleep, activity, diet, omega-3, stress, mindfulness
+- Biomarker Integration: hs-CRP, fasting glucose, HbA1c, Omega-3 Index
+- Telomere Measurements: Annual LTL by qPCR/Flow-FISH with trend interpretation
+- Feedback Engine: Lifestyle signals and actionable recommendations
+
+### 🔧 Technical Implementation
+- Module: `telomere_health.js` with in-memory storage
+- Server Integration: REST endpoints under `/api/telomere/*`
+- Version Bump: Server version incremented to `6.0.0`
+
+### 🔌 API Endpoints
+- POST `/api/telomere/:userId/routine` — Log daily routine
+- GET `/api/telomere/:userId/signals` — Daily lifestyle signals
+- POST `/api/telomere/:userId/biomarkers` — Save biomarker panel
+- GET `/api/telomere/:userId/biomarkers/report` — Biomarker summary (quarter/year)
+- POST `/api/telomere/:userId/ltl` — Save LTL measurement
+- GET `/api/telomere/:userId/ltl/trend` — Telomere trend interpretation
+- GET `/api/telomere/:userId/feedback` — Lifestyle recommendations
+
+### 📚 Documentation
+- `TELOMERE_HEALTH_GUIDE.md`: Medical rationale, usage examples, and API reference
+
 ## [2025-08-12] - Cultural and Language Optimization System Implementation (5th Core Feature)
 
 ### 🌍 **Cultural and Language Optimization System**
