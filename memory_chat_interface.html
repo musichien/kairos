@@ -889,6 +889,238 @@
                 order: 1;
             }
         }
+
+        /* Brain Research Computing Styles */
+        .capabilities-display {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .capability-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .capability-item:last-child {
+            border-bottom: none;
+        }
+
+        .capability-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .capability-value {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .capability-value.detecting {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .capability-value.supported {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .capability-value.not-supported {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .jobs-list {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .job-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .job-item:hover {
+            border-color: #3498db;
+            box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+        }
+
+        .job-item.selected {
+            border-color: #3498db;
+            background: #ebf3fd;
+        }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .job-complexity {
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 500;
+        }
+
+        .job-complexity.easy {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .job-complexity.medium {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .job-complexity.hard {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .job-description {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-bottom: 8px;
+        }
+
+        .job-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8em;
+            color: #6c757d;
+        }
+
+        .current-job-info {
+            background: #e8f5e8;
+            border: 1px solid #28a745;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            margin: 15px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #28a745, #20c997);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .contribution-stats, .research-stats {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #3498db;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .leaderboard-item:last-child {
+            border-bottom: none;
+        }
+
+        .rank {
+            font-weight: bold;
+            color: #3498db;
+            min-width: 30px;
+        }
+
+        .rank.gold { color: #ffd700; }
+        .rank.silver { color: #c0c0c0; }
+        .rank.bronze { color: #cd7f32; }
+
+        .user-info {
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .username {
+            font-weight: 600;
+            color: #2c3e50;
+        }
+
+        .points {
+            font-size: 0.9em;
+            color: #6c757d;
+        }
     </style>
 </head>
 <body>
@@ -1201,6 +1433,93 @@
                     </div>
                 </div>
 
+                <!-- Brain Research Computing 섹션 -->
+                <div class="config-section" id="brainResearchSection">
+                    <h3 id="brainResearchTitle">🧠 Brain Disease Research Computing</h3>
+                    <p id="brainResearchDescription">Contribute to Alzheimer's and dementia research by running distributed computing jobs in your browser.</p>
+                    
+                    <!-- 사용자 기능 감지 -->
+                    <div class="subsection" id="capabilitiesSection">
+                        <h4 id="capabilitiesTitle">🔍 Device Capabilities</h4>
+                        <div id="capabilitiesDisplay" class="capabilities-display">
+                            <div class="capability-item">
+                                <span class="capability-label">GPU Support:</span>
+                                <span id="gpuSupport" class="capability-value">Detecting...</span>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-label">WebGPU:</span>
+                                <span id="webgpuSupport" class="capability-value">Detecting...</span>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-label">WebAssembly:</span>
+                                <span id="webassemblySupport" class="capability-value">Detecting...</span>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-label">CPU Cores:</span>
+                                <span id="cpuCores" class="capability-value">Detecting...</span>
+                            </div>
+                            <div class="capability-item">
+                                <span class="capability-label">Memory:</span>
+                                <span id="deviceMemory" class="capability-value">Detecting...</span>
+                            </div>
+                        </div>
+                        <button id="refreshCapabilitiesBtn" class="btn btn-secondary">🔄 Refresh Capabilities</button>
+                    </div>
+
+                    <!-- 사용 가능한 작업 -->
+                    <div class="subsection" id="availableJobsSection">
+                        <h4 id="availableJobsTitle">📋 Available Computing Jobs</h4>
+                        <div class="button-group">
+                            <button id="loadAvailableJobsBtn" class="btn btn-primary">🔍 Load Available Jobs</button>
+                            <button id="refreshJobsBtn" class="btn btn-secondary">🔄 Refresh Jobs</button>
+                            <button id="runSelectedJobBtn" class="btn btn-success">🚀 Run Selected Job</button>
+                        </div>
+                        <div id="availableJobsList" class="jobs-list" style="display: none;">
+                            <!-- 작업 목록이 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+
+                    <!-- 현재 실행 중인 작업 -->
+                    <div class="subsection" id="currentJobSection" style="display: none;">
+                        <h4 id="currentJobTitle">⚡ Current Computing Job</h4>
+                        <div id="currentJobInfo" class="current-job-info">
+                            <!-- 현재 작업 정보가 여기에 표시됩니다 -->
+                        </div>
+                        <div class="progress-container">
+                            <div class="progress-bar">
+                                <div id="computationProgress" class="progress-fill"></div>
+                            </div>
+                            <div id="progressText" class="progress-text">0%</div>
+                        </div>
+                        <div class="button-group">
+                            <button id="stopComputationBtn" class="btn btn-danger">⏹️ Stop Computation</button>
+                        </div>
+                    </div>
+
+                    <!-- 기여 통계 -->
+                    <div class="subsection" id="contributionSection">
+                        <h4 id="contributionTitle">📊 Your Contribution</h4>
+                        <div class="button-group">
+                            <button id="loadContributionBtn" class="btn btn-primary">📈 Load Contribution Stats</button>
+                            <button id="loadLeaderboardBtn" class="btn btn-secondary">🏆 View Leaderboard</button>
+                        </div>
+                        <div id="contributionStats" class="contribution-stats" style="display: none;">
+                            <!-- 기여 통계가 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+
+                    <!-- 연구 통계 -->
+                    <div class="subsection" id="researchStatsSection">
+                        <h4 id="researchStatsTitle">🔬 Research Statistics</h4>
+                        <div class="button-group">
+                            <button id="loadResearchStatsBtn" class="btn btn-primary">📊 Load Research Stats</button>
+                        </div>
+                        <div id="researchStats" class="research-stats" style="display: none;">
+                            <!-- 연구 통계가 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Telomere-Driven Healthy Aging 섹션 -->
                 <div class="config-section" id="telomereSection">
                     <h3 id="telomereTitle">🧬 Telomere-Driven Healthy Aging</h3>
@@ -1362,6 +1681,9 @@
         // 전역 변수 / Global variables / Variables globales / グローバル変数 / 全局变量
         let currentUserId = 'user_001';
         let memoryData = null;
+        let brainComputingClient = null;
+        let currentComputingJob = null;
+        let computationProgressInterval = null;
 
         // DOM 요소들
         const apiUrlInput = document.getElementById('apiUrl');
@@ -1465,6 +1787,13 @@
                 interestHelp: 'Add interests, hobbies, and preferences.',
                 longTermHelp: 'Store important long-term memories and experiences.',
                 multimodalTitle: '🔊 Multimodal Integration',
+                brainResearchTitle: '🧠 Brain Disease Research Computing',
+                brainResearchDescription: 'Contribute to Alzheimer\'s and dementia research by running distributed computing jobs in your browser.',
+                capabilitiesTitle: '🔍 Device Capabilities',
+                availableJobsTitle: '📋 Available Computing Jobs',
+                currentJobTitle: '⚡ Current Computing Job',
+                contributionTitle: '📊 Your Contribution',
+                researchStatsTitle: '🔬 Research Statistics',
                 voiceTitle: '🎤 Voice Processing',
                 voiceInputLabel: 'Voice Input:',
                 processVoice: 'Process Voice',
@@ -1826,6 +2155,13 @@
                 messageToEnhance: '향상할 메시지:',
                 enterMessageToEnhance: '문화적 컨텍스트를 적용할 메시지를 입력하세요...',
                 applyContext: '문화적 컨텍스트 적용',
+                brainResearchTitle: '🧠 뇌 질환 연구 분산 컴퓨팅',
+                brainResearchDescription: '브라우저에서 분산 컴퓨팅 작업을 실행하여 알츠하이머와 치매 연구에 기여하세요.',
+                capabilitiesTitle: '🔍 기기 기능',
+                availableJobsTitle: '📋 사용 가능한 컴퓨팅 작업',
+                currentJobTitle: '⚡ 현재 컴퓨팅 작업',
+                contributionTitle: '📊 기여 통계',
+                researchStatsTitle: '🔬 연구 통계',
                 telomereTitle: '🧬 텔로미어 기반 건강한 노화',
                 dailyRoutineTracking: '일상 루틴 추적',
                 sleepHours: '수면 시간:',
@@ -2207,6 +2543,28 @@
             // Update multimodal section
             const multimodalTitle = document.getElementById('multimodalTitle');
             if (multimodalTitle) multimodalTitle.textContent = t.multimodalTitle;
+            
+            // Update brain research computing section
+            const brainResearchTitle = document.getElementById('brainResearchTitle');
+            if (brainResearchTitle) brainResearchTitle.textContent = t.brainResearchTitle;
+            
+            const brainResearchDescription = document.getElementById('brainResearchDescription');
+            if (brainResearchDescription) brainResearchDescription.textContent = t.brainResearchDescription;
+            
+            const capabilitiesTitle = document.getElementById('capabilitiesTitle');
+            if (capabilitiesTitle) capabilitiesTitle.textContent = t.capabilitiesTitle;
+            
+            const availableJobsTitle = document.getElementById('availableJobsTitle');
+            if (availableJobsTitle) availableJobsTitle.textContent = t.availableJobsTitle;
+            
+            const currentJobTitle = document.getElementById('currentJobTitle');
+            if (currentJobTitle) currentJobTitle.textContent = t.currentJobTitle;
+            
+            const contributionTitle = document.getElementById('contributionTitle');
+            if (contributionTitle) contributionTitle.textContent = t.contributionTitle;
+            
+            const researchStatsTitle = document.getElementById('researchStatsTitle');
+            if (researchStatsTitle) researchStatsTitle.textContent = t.researchStatsTitle;
             
             // Update multimodal subsections
             const multimodalElements = {
@@ -4318,6 +4676,15 @@
         document.getElementById('saveLTLBtn').addEventListener('click', saveLTLResult);
         document.getElementById('getLTLTrendBtn').addEventListener('click', getLTLTrend);
         document.getElementById('generateFeedbackBtn').addEventListener('click', generateHealthFeedback);
+        
+        // Brain Research Computing 이벤트 리스너
+        document.getElementById('refreshCapabilitiesBtn').addEventListener('click', updateCapabilitiesDisplay);
+        document.getElementById('loadAvailableJobsBtn').addEventListener('click', loadAvailableJobs);
+        document.getElementById('refreshJobsBtn').addEventListener('click', loadAvailableJobs);
+        document.getElementById('loadContributionBtn').addEventListener('click', loadContributionStats);
+        document.getElementById('loadLeaderboardBtn').addEventListener('click', loadLeaderboard);
+        document.getElementById('loadResearchStatsBtn').addEventListener('click', loadResearchStats);
+        document.getElementById('runSelectedJobBtn').addEventListener('click', runSelectedJob);
             
             // 초기 모델 목록 로드
             setTimeout(loadModels, 500);
@@ -4327,7 +4694,373 @@
 
             // 기본 언어 적용 (영어) / Apply default language (English)
             applyTranslations('en');
+            
+            // Brain Research Computing 초기화
+            setTimeout(initializeBrainComputing, 1500);
         };
+
+        // ===== Brain Research Computing 기능 함수들 =====
+        
+        // Brain Computing Client 초기화
+        async function initializeBrainComputing() {
+            try {
+                // BrainComputingClient 스크립트 로드
+                if (typeof BrainComputingClient === 'undefined') {
+                    const script = document.createElement('script');
+                    script.src = 'brain_computing_client.js';
+                    script.onload = () => {
+                        brainComputingClient = new BrainComputingClient();
+                        updateCapabilitiesDisplay();
+                        console.log('🧠 Brain Computing Client initialized');
+                    };
+                    script.onerror = () => {
+                        console.error('🧠 Failed to load Brain Computing Client');
+                        showStatus('Failed to load Brain Computing Client', 'error');
+                    };
+                    document.head.appendChild(script);
+                } else {
+                    brainComputingClient = new BrainComputingClient();
+                    updateCapabilitiesDisplay();
+                    console.log('🧠 Brain Computing Client initialized');
+                }
+            } catch (error) {
+                console.error('🧠 Error initializing Brain Computing Client:', error);
+                showStatus('Error initializing Brain Computing Client', 'error');
+            }
+        }
+
+        // 사용자 기능 표시 업데이트
+        function updateCapabilitiesDisplay() {
+            if (!brainComputingClient) return;
+
+            const capabilities = brainComputingClient.userCapabilities;
+            
+            document.getElementById('gpuSupport').textContent = capabilities.gpu ? 'Supported' : 'Not Supported';
+            document.getElementById('gpuSupport').className = `capability-value ${capabilities.gpu ? 'supported' : 'not-supported'}`;
+            
+            document.getElementById('webgpuSupport').textContent = capabilities.webgpu ? 'Supported' : 'Not Supported';
+            document.getElementById('webgpuSupport').className = `capability-value ${capabilities.webgpu ? 'supported' : 'not-supported'}`;
+            
+            document.getElementById('webassemblySupport').textContent = capabilities.webassembly ? 'Supported' : 'Not Supported';
+            document.getElementById('webassemblySupport').className = `capability-value ${capabilities.webassembly ? 'supported' : 'not-supported'}`;
+            
+            document.getElementById('cpuCores').textContent = capabilities.cores;
+            document.getElementById('deviceMemory').textContent = `${capabilities.memory} GB`;
+        }
+
+        // 사용 가능한 작업 로드
+        async function loadAvailableJobs() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/brain-research/jobs?userId=${config.userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        capabilities: brainComputingClient ? brainComputingClient.userCapabilities : { gpu: false, webgpu: false, webassembly: true }
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAvailableJobs(data.jobs);
+                    showStatus(`Found ${data.count} available jobs`, 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load jobs: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading jobs: ${error.message}`, 'error');
+            }
+        }
+
+        // 사용 가능한 작업 표시
+        function displayAvailableJobs(jobs) {
+            const jobsList = document.getElementById('availableJobsList');
+            jobsList.innerHTML = '';
+            
+            if (jobs.length === 0) {
+                jobsList.innerHTML = '<p>No available jobs at the moment.</p>';
+                return;
+            }
+
+            jobs.forEach(job => {
+                const jobElement = document.createElement('div');
+                jobElement.className = 'job-item';
+                jobElement.onclick = () => selectJob(job);
+                
+                jobElement.innerHTML = `
+                    <div class="job-header">
+                        <span class="job-title">${job.name}</span>
+                        <span class="job-complexity ${job.complexity}">${job.complexity}</span>
+                    </div>
+                    <div class="job-description">${job.description}</div>
+                    <div class="job-meta">
+                        <span>⏱️ ~${Math.round(job.estimatedTime / 1000)}s</span>
+                        <span>${job.gpuRequired ? '🎮 GPU Required' : '💻 CPU Only'}</span>
+                    </div>
+                `;
+                
+                jobsList.appendChild(jobElement);
+            });
+            
+            jobsList.style.display = 'block';
+        }
+
+        // 작업 선택
+        function selectJob(job) {
+            // 이전 선택 해제
+            document.querySelectorAll('.job-item').forEach(item => item.classList.remove('selected'));
+            
+            // 현재 작업 선택
+            event.currentTarget.classList.add('selected');
+            currentComputingJob = job;
+            
+            showStatus(`Selected job: ${job.name}`, 'info');
+        }
+
+        // 선택된 작업 실행
+        async function runSelectedJob() {
+            if (!currentComputingJob || !brainComputingClient) {
+                showStatus('Please select a job first', 'error');
+                return;
+            }
+
+            if (!brainComputingClient.canHandleJob(currentComputingJob)) {
+                showStatus('Your device cannot handle this job type', 'error');
+                return;
+            }
+
+            try {
+                // 작업 할당
+                const config = getConfig();
+                const assignResponse = await fetch(`${config.apiUrl}/api/brain-research/jobs/${currentComputingJob.id}/assign`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        capabilities: brainComputingClient.userCapabilities
+                    })
+                });
+
+                if (!assignResponse.ok) {
+                    throw new Error('Failed to assign job');
+                }
+
+                // 작업 실행
+                const result = await brainComputingClient.startComputing(currentComputingJob);
+                
+                if (result.success) {
+                    // 결과 제출
+                    const submitResponse = await fetch(`${config.apiUrl}/api/brain-research/jobs/${currentComputingJob.id}/submit`, {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${config.apiKey}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            userId: config.userId,
+                            result: result.result,
+                            computeTime: result.computeTime
+                        })
+                    });
+
+                    if (submitResponse.ok) {
+                        showStatus(`Job completed successfully! Contribution points earned.`, 'success');
+                        currentComputingJob = null;
+                        document.querySelectorAll('.job-item').forEach(item => item.classList.remove('selected'));
+                    } else {
+                        showStatus('Job completed but failed to submit result', 'warning');
+                    }
+                }
+            } catch (error) {
+                showStatus(`Error running job: ${error.message}`, 'error');
+            }
+        }
+
+        // 기여 통계 로드
+        async function loadContributionStats() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/brain-research/contribution/${config.userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayContributionStats(data.contribution);
+                    showStatus('Contribution stats loaded', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load stats: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading stats: ${error.message}`, 'error');
+            }
+        }
+
+        // 기여 통계 표시
+        function displayContributionStats(contribution) {
+            const statsDiv = document.getElementById('contributionStats');
+            
+            statsDiv.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${contribution.totalJobs}</div>
+                        <div class="stat-label">Total Jobs</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${contribution.completedJobs}</div>
+                        <div class="stat-label">Completed Jobs</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${contribution.contributionPoints}</div>
+                        <div class="stat-label">Contribution Points</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${contribution.rank || 'N/A'}</div>
+                        <div class="stat-label">Rank</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round(contribution.totalComputeTime / 1000)}s</div>
+                        <div class="stat-label">Total Compute Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${(contribution.successRate * 100).toFixed(1)}%</div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            `;
+            
+            statsDiv.style.display = 'block';
+        }
+
+        // 리더보드 로드
+        async function loadLeaderboard() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/brain-research/leaderboard?limit=10`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayLeaderboard(data.leaderboard);
+                    showStatus('Leaderboard loaded', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load leaderboard: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading leaderboard: ${error.message}`, 'error');
+            }
+        }
+
+        // 리더보드 표시
+        function displayLeaderboard(leaderboard) {
+            const statsDiv = document.getElementById('contributionStats');
+            
+            let leaderboardHTML = '<h4>🏆 Top Contributors</h4>';
+            leaderboard.forEach((user, index) => {
+                const rankClass = index < 3 ? ['gold', 'silver', 'bronze'][index] : '';
+                const rankSymbol = index < 3 ? ['🥇', '🥈', '🥉'][index] : `${index + 1}.`;
+                
+                leaderboardHTML += `
+                    <div class="leaderboard-item">
+                        <span class="rank ${rankClass}">${rankSymbol}</span>
+                        <div class="user-info">
+                            <div class="username">${user.username}</div>
+                            <div class="points">${user.contributionPoints} points • ${user.completedJobs} jobs</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            statsDiv.innerHTML = leaderboardHTML;
+            statsDiv.style.display = 'block';
+        }
+
+        // 연구 통계 로드
+        async function loadResearchStats() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/brain-research/statistics`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayResearchStats(data.statistics);
+                    showStatus('Research stats loaded', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load research stats: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading research stats: ${error.message}`, 'error');
+            }
+        }
+
+        // 연구 통계 표시
+        function displayResearchStats(stats) {
+            const statsDiv = document.getElementById('researchStats');
+            
+            statsDiv.innerHTML = `
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-value">${stats.totalJobs}</div>
+                        <div class="stat-label">Total Jobs</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${stats.totalContributors}</div>
+                        <div class="stat-label">Total Contributors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${Math.round(stats.totalComputeTime / 1000 / 60)}m</div>
+                        <div class="stat-label">Total Compute Time</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${(parseFloat(stats.averageVerificationRate) * 100).toFixed(1)}%</div>
+                        <div class="stat-label">Verification Rate</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">${stats.activeJobs}</div>
+                        <div class="stat-label">Active Jobs</div>
+                    </div>
+                </div>
+                <h4>Recent Completions</h4>
+                <div class="recent-completions">
+                    ${stats.recentCompletions.map(job => `
+                        <div class="job-item">
+                            <div class="job-header">
+                                <span class="job-title">${job.type}</span>
+                                <span class="job-complexity">${(job.verificationRate * 100).toFixed(1)}% verified</span>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            
+            statsDiv.style.display = 'block';
+        }
 
         // ===== 텔로미어 건강 기능 함수들 =====
         

@@ -46,7 +46,16 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Biomarkers**: hs-CRP, fasting glucose, HbA1c, Omega-3 Index
 - **Telomere Results**: Annual leukocyte telomere length (LTL) via qPCR/Flow-FISH with trend interpretation
 - **Feedback Engine**: Actionable recommendations aligned with clinical literature
-**Optimizes conversation styles and respectful expressions for Korean and Asian cultures**
+
+### 7. 🧠 **Brain Disease Research Computing**
+**Citizen-powered distributed computing for Alzheimer's and dementia research**
+
+- **Distributed Computing**: Contribute to brain research by running computing jobs in your browser
+- **Job Types**: Neuron simulation, protein interaction analysis, synaptic plasticity modeling, molecular dynamics
+- **WebGPU/WebAssembly**: GPU and CPU-accelerated computations using modern web technologies
+- **Result Verification**: Cross-verification from multiple users ensures scientific accuracy
+- **Contribution Tracking**: Monitor your contribution to global brain research efforts
+- **Real-time Progress**: View computation progress and earn contribution points
 
 - **Asian Cultural Sensitivity**: Conversation styles specialized for Korean, Japanese, and Chinese cultures
 - **Respectful Communication**: Optimizes respectful expressions appropriate for age and situation
@@ -413,6 +422,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 - **[Multimodal Integration Guide](MULTIMODAL_INTEGRATION_GUIDE.md)** - Sensor and device integration
 - **[Cultural Optimization Guide](CULTURAL_OPTIMIZATION_GUIDE.md)** - Cultural features and usage
 - **[Telomere Health Guide](TELOMERE_HEALTH_GUIDE.md)** - Telomere-driven healthy aging module
+- **[Brain Research Computing Guide](BRAIN_RESEARCH_COMPUTING_GUIDE.md)** - Distributed computing for brain disease research
 
 ### **Technical Documentation:**
 - **[Project Overview](PROJECT_OVERVIEW.md)** - System architecture and design
@@ -459,9 +469,11 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 
 *Built with ❤️ for cognitive health and privacy-first AI experiences*
 
-**🎯 5 Core Features Successfully Implemented:**
+**🎯 7 Core Features Successfully Implemented:**
 1. ✅ **Long-term Memory & Contextualization** - Intelligent memory system
 2. ✅ **Privacy-Centric Security** - Military-grade encryption and local storage
 3. ✅ **Cognitive Enhancement** - Personalized training routines
 4. ✅ **Multimodal Integration** - Voice, video, sensor, and health data
-5. ✅ **Cultural Optimization** - Multi-language and cultural sensitivity 
+5. ✅ **Cultural Optimization** - Multi-language and cultural sensitivity
+6. ✅ **Telomere-Driven Healthy Aging** - Science-based lifestyle guidance
+7. ✅ **Brain Disease Research Computing** - Citizen-powered distributed computing 

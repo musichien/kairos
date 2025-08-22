@@ -15,6 +15,7 @@ const MultimodalIntegrationManager = require('./multimodal_integration');
 const CulturalOptimizationManager = require('./cultural_optimization');
 const TelomereHealthManager = require('./telomere_health');
 const CardiovascularWarningManager = require('./cardiovascular_warning');
+const BrainResearchComputingManager = require('./brain_research_computing');
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -24,6 +25,7 @@ const multimodalManager = new MultimodalIntegrationManager();
 const culturalManager = new CulturalOptimizationManager();
 const telomereHealthManager = new TelomereHealthManager();
 const cardiovascularWarningManager = new CardiovascularWarningManager();
+const brainResearchComputingManager = new BrainResearchComputingManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -1810,6 +1812,231 @@ app.get('/api/cardiovascular/:userId/alerts', authenticateToken, async (req, res
   }
 });
 
+// Brain Research Computing API 엔드포인트
+// Get available computing jobs
+app.get('/api/brain-research/jobs', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const userCapabilities = req.body.capabilities || { gpu: false, webgpu: false, webassembly: true };
+    
+    const availableJobs = brainResearchComputingManager.getAvailableJobs(userId, userCapabilities, 10);
+    
+    res.json({
+      message: '사용 가능한 컴퓨팅 작업을 조회했습니다.',
+      jobs: availableJobs,
+      count: availableJobs.length
+    });
+  } catch (error) {
+    console.error('컴퓨팅 작업 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '컴퓨팅 작업 조회 실패',
+        type: 'server_error',
+        code: 'jobs_fetch_failed'
+      }
+    });
+  }
+});
+
+// Assign job to user
+app.post('/api/brain-research/jobs/:jobId/assign', authenticateToken, [
+  body('userId').notEmpty().withMessage('사용자 ID가 필요합니다.'),
+  body('capabilities').isObject().withMessage('사용자 기능 정보가 필요합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { jobId } = req.params;
+    const { userId, capabilities } = req.body;
+    
+    const job = brainResearchComputingManager.assignJobToUser(jobId, userId, capabilities);
+    
+    res.json({
+      message: '컴퓨팅 작업이 사용자에게 할당되었습니다.',
+      job: job
+    });
+  } catch (error) {
+    console.error('작업 할당 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '작업 할당 실패',
+        type: 'server_error',
+        code: 'job_assignment_failed'
+      }
+    });
+  }
+});
+
+// Submit job result
+app.post('/api/brain-research/jobs/:jobId/submit', authenticateToken, [
+  body('userId').notEmpty().withMessage('사용자 ID가 필요합니다.'),
+  body('result').isObject().withMessage('계산 결과가 필요합니다.'),
+  body('computeTime').isNumeric().withMessage('계산 시간이 필요합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { jobId } = req.params;
+    const { userId, result, computeTime } = req.body;
+    
+    const submission = brainResearchComputingManager.submitJobResult(jobId, userId, result, computeTime);
+    
+    res.json({
+      message: '계산 결과가 제출되었습니다.',
+      submission: submission
+    });
+  } catch (error) {
+    console.error('결과 제출 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '결과 제출 실패',
+        type: 'server_error',
+        code: 'result_submission_failed'
+      }
+    });
+  }
+});
+
+// Get user contribution statistics
+app.get('/api/brain-research/contribution/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const contribution = brainResearchComputingManager.getUserContribution(userId);
+    
+    if (!contribution) {
+      return res.status(404).json({
+        error: {
+          message: '사용자 기여 정보를 찾을 수 없습니다.',
+          type: 'not_found',
+          code: 'user_not_found'
+        }
+      });
+    }
+    
+    res.json({
+      message: '사용자 기여 통계를 조회했습니다.',
+      contribution: contribution
+    });
+  } catch (error) {
+    console.error('기여 통계 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '기여 통계 조회 실패',
+        type: 'server_error',
+        code: 'contribution_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get leaderboard
+app.get('/api/brain-research/leaderboard', authenticateToken, async (req, res) => {
+  try {
+    const { limit } = req.query;
+    const leaderboard = brainResearchComputingManager.getLeaderboard(parseInt(limit) || 10);
+    
+    res.json({
+      message: '리더보드를 조회했습니다.',
+      leaderboard: leaderboard,
+      count: leaderboard.length
+    });
+  } catch (error) {
+    console.error('리더보드 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '리더보드 조회 실패',
+        type: 'server_error',
+        code: 'leaderboard_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get research statistics
+app.get('/api/brain-research/statistics', authenticateToken, async (req, res) => {
+  try {
+    const statistics = brainResearchComputingManager.getResearchStatistics();
+    
+    res.json({
+      message: '연구 통계를 조회했습니다.',
+      statistics: statistics
+    });
+  } catch (error) {
+    console.error('연구 통계 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '연구 통계 조회 실패',
+        type: 'server_error',
+        code: 'statistics_fetch_failed'
+      }
+    });
+  }
+});
+
+// Generate new research jobs
+app.post('/api/brain-research/generate-jobs', authenticateToken, [
+  body('jobType').isIn(['neuron_simulation', 'protein_interaction', 'synaptic_plasticity', 'molecular_dynamics']).withMessage('올바른 작업 유형을 선택해주세요.'),
+  body('count').isInt({ min: 1, max: 50 }).withMessage('1-50개의 작업을 생성할 수 있습니다.'),
+  body('priority').optional().isIn(['low', 'normal', 'high']).withMessage('올바른 우선순위를 선택해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { jobType, count, priority = 'normal' } = req.body;
+    const generatedJobs = [];
+    
+    for (let i = 0; i < count; i++) {
+      const job = brainResearchComputingManager.generateJob(jobType, priority);
+      generatedJobs.push(job);
+    }
+    
+    res.json({
+      message: `${count}개의 ${jobType} 작업을 생성했습니다.`,
+      jobs: generatedJobs,
+      count: generatedJobs.length
+    });
+  } catch (error) {
+    console.error('작업 생성 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '작업 생성 실패',
+        type: 'server_error',
+        code: 'job_generation_failed'
+      }
+    });
+  }
+});
+
 // 문화 및 언어 최적화 API 엔드포인트
 app.get('/api/cultural/profile/:language', authenticateToken, async (req, res) => {
   try {
@@ -2158,7 +2385,7 @@ app.post('/api/cultural/prompt', authenticateToken, [
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '7.0.0',
+    version: '8.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -2207,6 +2434,13 @@ app.get('/', (req, res) => {
       '/api/cardiovascular/:userId/risk-trends': '심혈관 경고: 위험도 트렌드',
       '/api/cardiovascular/:userId/simulation': '심혈관 경고: 시나리오 시뮬레이션',
       '/api/cardiovascular/:userId/alerts': '심혈관 경고: 알림 조회',
+      '/api/brain-research/jobs': '뇌 연구 컴퓨팅: 사용 가능한 작업 조회',
+      '/api/brain-research/jobs/:jobId/assign': '뇌 연구 컴퓨팅: 작업 할당',
+      '/api/brain-research/jobs/:jobId/submit': '뇌 연구 컴퓨팅: 결과 제출',
+      '/api/brain-research/contribution/:userId': '뇌 연구 컴퓨팅: 사용자 기여 통계',
+      '/api/brain-research/leaderboard': '뇌 연구 컴퓨팅: 리더보드',
+      '/api/brain-research/statistics': '뇌 연구 컴퓨팅: 연구 통계',
+      '/api/brain-research/generate-jobs': '뇌 연구 컴퓨팅: 새 작업 생성',
       '/api/cultural/profile/:language': '문화 프로필 조회',
       '/api/cultural/style/:language/:formality': '대화 스타일 조회',
       '/api/cultural/greeting': '문화적 인사말 생성',
@@ -2235,7 +2469,16 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🌍 문화 및 언어 최적화 시스템이 초기화되었습니다.`);
   console.log(`🧬 텔로미어 기반 건강 관리 모듈이 초기화되었습니다.`);
   console.log(`💓 급성 심혈관 사건 조기 경고 시스템이 초기화되었습니다.`);
+  console.log(`🧠 뇌 질환 연구 분산 컴퓨팅 시스템이 초기화되었습니다.`);
   
   // WebSocket 서버 초기화
   multimodalManager.initializeWebSocket(server);
+  
+  // Brain Research Computing 초기화
+  brainResearchComputingManager.initializeSampleJobs();
+  
+  // 정기적인 정리 작업 스케줄링
+  setInterval(() => {
+    brainResearchComputingManager.cleanup();
+  }, 60 * 60 * 1000); // 1시간마다
 }); 
