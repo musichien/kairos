@@ -1,5 +1,93 @@
 # Changelog
 
+## [2025-08-15] - Collective Brain Modeling Module (8th Core Feature)
+
+### 🌐 **Collective Brain Modeling System**
+
+#### **🎯 Core Modeling Features**
+- **Self-Service Jobs**: Users can submit their own brain-modeling simulations
+- **Template System**: Pre-approved scientific templates for validated research
+- **Credit System**: Earn credits by contributing compute, spend credits to run simulations
+- **Advanced Scheduling**: Weighted fair queuing with user quotas and priority levels
+- **Scientific Reports**: Auto-generated reports with DOI-style artifact IDs
+- **Collaborative Research**: Join global network advancing brain disease understanding
+
+#### **🔧 Technical Implementation**
+- **Extended BrainResearchComputingManager**: User job submission and template management
+- **Credit Management**: Dynamic credit earning and spending system
+- **Template Validation**: Parameter validation and scientific bounds checking
+- **Result Aggregation**: Multi-job result combination and scientific report generation
+- **Advanced Scheduling**: Weighted fair queuing algorithm with user contribution weighting
+
+#### **📡 Collective Brain Modeling API Endpoints**
+- `GET /api/brain-research/templates` - Get available job templates
+- `POST /api/brain-research/submit-job` - Submit user job using template
+- `GET /api/brain-research/user-jobs/:userId` - Get user submitted jobs status
+- `GET /api/brain-research/credits/:userId` - Get user credits and contribution info
+- `POST /api/brain-research/validate-results/:userJobId` - Validate user job results
+
+#### **🧪 Available Job Templates**
+- **Hippocampus Microcircuit Dynamics**: Neural network simulation (50 credits, GPU required)
+- **Aβ Aggregation Toy Simulation**: Molecular dynamics (40 credits, GPU required)
+- **EEG Spectral Analysis Pipeline**: Signal processing (20 credits, CPU only)
+
+#### **💰 Credit System**
+- **Base Credits**: 100 starting credits for new users
+- **Earning Rates**: 8-25 credits per completed job based on complexity
+- **Spending Rates**: 20-50 credits per template based on resource requirements
+- **Bonus Multipliers**: High priority (1.5x), verification success (1.2x), streaks (1.1x)
+
+#### **🎨 User Interface Enhancements**
+- **Template Selection**: Interactive template browser with cost and requirement display
+- **Credit Dashboard**: Real-time credit balance and earning history
+- **Job Submission**: Parameter customization and priority selection
+- **Progress Tracking**: Real-time monitoring of user-submitted jobs
+- **Scientific Reports**: Auto-generated reports with reproducibility data
+
+#### **🔬 Scientific Validation & Reproducibility**
+- **Template Validation**: All templates validated against peer-reviewed research
+- **Parameter Bounds**: Scientific parameter ranges enforced automatically
+- **Result Verification**: Multi-user consensus validation for scientific accuracy
+- **Reproducibility**: Complete metadata, seeds, and version information
+- **DOI Generation**: Unique identifiers for citation and sharing
+
+#### **🌍 Research Impact & Collaboration**
+- **Citizen Scientists**: Transform passive contributors into active researchers
+- **Global Network**: Worldwide participation in brain disease modeling
+- **Open Science**: Transparent research methods and reproducible results
+- **Professional Recognition**: Contributor acknowledgment in scientific publications
+- **Educational Value**: Learn cutting-edge neuroscience methods
+
+#### **📚 Documentation and Guides**
+- **COLLECTIVE_BRAIN_MODELING_GUIDE.md**: Comprehensive usage and API documentation
+- **Template Catalog**: Detailed scientific background and parameter descriptions
+- **Credit System Guide**: Earning, spending, and optimization strategies
+- **Research Workflow**: Step-by-step guide from template selection to publication
+- **Best Practices**: Parameter tuning, resource management, and result sharing
+
+#### **🔐 Security & Governance**
+- **Template Safety**: Only signed, vetted templates run in browsers
+- **Resource Limits**: Runtime, memory, and VRAM usage controls
+- **Privacy Rules**: Default public data, opt-in personal data with encryption
+- **Audit Trail**: Complete logging for attribution and compliance
+- **Ethics Compliance**: IRB pathways for sensitive research data
+
+#### **🚀 Future Development**
+- **Advanced Templates**: More complex brain simulation algorithms
+- **Collaborative Projects**: Team-based research and data sharing
+- **Parameter Sweeps**: Automated parameter exploration and optimization
+- **Real-time Collaboration**: Live research collaboration and discussion
+- **Publication Integration**: Direct integration with scientific journals
+
+### 🔧 Technical Implementation
+- **Extended Module**: Enhanced `brain_research_computing.js` with collective modeling features
+- **New API Endpoints**: 5 additional endpoints for user job management
+- **Credit System**: Dynamic credit management with earning/spending logic
+- **Template Engine**: Scientific template validation and parameter management
+- **Advanced Scheduling**: Weighted fair queuing with user contribution weighting
+
+---
+
 ## [2025-08-15] - Brain Disease Research Computing Module (7th Core Feature)
 
 ### 🧠 **Brain Disease Research Computing System**

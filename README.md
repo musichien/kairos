@@ -57,6 +57,16 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Contribution Tracking**: Monitor your contribution to global brain research efforts
 - **Real-time Progress**: View computation progress and earn contribution points
 
+### 8. 🌐 **Collective Brain Modeling**
+**Launch your own brain-modeling simulations on the shared citizen-powered GPU network**
+
+- **Self-Service Jobs**: Submit your own simulations using pre-approved templates
+- **Template System**: Choose from validated scientific templates (hippocampus microcircuit, amyloid aggregation, EEG analysis)
+- **Credit System**: Earn credits by contributing compute, spend credits to run your own simulations
+- **Advanced Scheduling**: Weighted fair queuing with user quotas and priority levels
+- **Scientific Reports**: Auto-generated reports with DOI-style artifact IDs and reproducibility data
+- **Collaborative Research**: Join the global network advancing brain disease understanding
+
 - **Asian Cultural Sensitivity**: Conversation styles specialized for Korean, Japanese, and Chinese cultures
 - **Respectful Communication**: Optimizes respectful expressions appropriate for age and situation
 - **Global Market Ready**: Customization possible for various cultures when entering global markets
@@ -423,6 +433,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 - **[Cultural Optimization Guide](CULTURAL_OPTIMIZATION_GUIDE.md)** - Cultural features and usage
 - **[Telomere Health Guide](TELOMERE_HEALTH_GUIDE.md)** - Telomere-driven healthy aging module
 - **[Brain Research Computing Guide](BRAIN_RESEARCH_COMPUTING_GUIDE.md)** - Distributed computing for brain disease research
+- **[Collective Brain Modeling Guide](COLLECTIVE_BRAIN_MODELING_GUIDE.md)** - Self-service brain modeling simulations
 
 ### **Technical Documentation:**
 - **[Project Overview](PROJECT_OVERVIEW.md)** - System architecture and design
@@ -469,11 +480,12 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 
 *Built with ❤️ for cognitive health and privacy-first AI experiences*
 
-**🎯 7 Core Features Successfully Implemented:**
+**🎯 8 Core Features Successfully Implemented:**
 1. ✅ **Long-term Memory & Contextualization** - Intelligent memory system
 2. ✅ **Privacy-Centric Security** - Military-grade encryption and local storage
 3. ✅ **Cognitive Enhancement** - Personalized training routines
 4. ✅ **Multimodal Integration** - Voice, video, sensor, and health data
 5. ✅ **Cultural Optimization** - Multi-language and cultural sensitivity
 6. ✅ **Telomere-Driven Healthy Aging** - Science-based lifestyle guidance
-7. ✅ **Brain Disease Research Computing** - Citizen-powered distributed computing 
+7. ✅ **Brain Disease Research Computing** - Citizen-powered distributed computing
+8. ✅ **Collective Brain Modeling** - Self-service brain modeling simulations 

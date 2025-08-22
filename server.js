@@ -2037,6 +2037,159 @@ app.post('/api/brain-research/generate-jobs', authenticateToken, [
   }
 });
 
+// Collective Brain Modeling API 엔드포인트
+// Get available job templates
+app.get('/api/brain-research/templates', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.query;
+    const templates = brainResearchComputingManager.getAvailableTemplates(userId);
+    
+    res.json({
+      message: '사용 가능한 작업 템플릿을 조회했습니다.',
+      templates: templates,
+      count: templates.length
+    });
+  } catch (error) {
+    console.error('작업 템플릿 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '작업 템플릿 조회 실패',
+        type: 'server_error',
+        code: 'templates_fetch_failed'
+      }
+    });
+  }
+});
+
+// Submit user job using template
+app.post('/api/brain-research/submit-job', authenticateToken, [
+  body('userId').notEmpty().withMessage('사용자 ID가 필요합니다.'),
+  body('templateId').notEmpty().withMessage('템플릿 ID가 필요합니다.'),
+  body('customParameters').isObject().withMessage('사용자 정의 매개변수가 필요합니다.'),
+  body('priority').optional().isIn(['low', 'normal', 'high']).withMessage('올바른 우선순위를 선택해주세요.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId, templateId, customParameters, priority = 'normal' } = req.body;
+    
+    const result = brainResearchComputingManager.submitUserJob(userId, templateId, customParameters, priority);
+    
+    res.json({
+      message: '사용자 작업이 성공적으로 제출되었습니다.',
+      userJob: result.userJob,
+      computingJobs: result.computingJobs,
+      estimatedCost: result.userJob.estimatedCost,
+      estimatedTime: result.userJob.estimatedTime
+    });
+  } catch (error) {
+    console.error('사용자 작업 제출 실패:', error);
+    res.status(500).json({
+      error: {
+        message: error.message || '사용자 작업 제출 실패',
+        type: 'server_error',
+        code: 'user_job_submission_failed'
+      }
+    });
+  }
+});
+
+// Get user submitted jobs status
+app.get('/api/brain-research/user-jobs/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userJobs = brainResearchComputingManager.getUserJobStatus(userId);
+    
+    res.json({
+      message: '사용자 제출 작업 상태를 조회했습니다.',
+      userJobs: userJobs,
+      count: userJobs.length
+    });
+  } catch (error) {
+    console.error('사용자 작업 상태 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '사용자 작업 상태 조회 실패',
+        type: 'server_error',
+        code: 'user_jobs_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get user credits
+app.get('/api/brain-research/credits/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const credits = brainResearchComputingManager.getUserCredits(userId);
+    const contribution = brainResearchComputingManager.getUserContribution(userId);
+    
+    res.json({
+      message: '사용자 크레딧 정보를 조회했습니다.',
+      credits: credits,
+      contribution: contribution,
+      creditSystem: {
+        baseCredits: brainResearchComputingManager.creditSystem.baseCredits,
+        earnRates: brainResearchComputingManager.creditSystem.earnRates,
+        spendRates: brainResearchComputingManager.creditSystem.spendRates
+      }
+    });
+  } catch (error) {
+    console.error('사용자 크레딧 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '사용자 크레딧 조회 실패',
+        type: 'server_error',
+        code: 'credits_fetch_failed'
+      }
+    });
+  }
+});
+
+// Validate user job results
+app.post('/api/brain-research/validate-results/:userJobId', authenticateToken, async (req, res) => {
+  try {
+    const { userJobId } = req.params;
+    const scientificReport = brainResearchComputingManager.validateUserJobResults(userJobId);
+    
+    if (!scientificReport) {
+      return res.status(404).json({
+        error: {
+          message: '사용자 작업을 찾을 수 없거나 아직 완료되지 않았습니다.',
+          type: 'not_found',
+          code: 'user_job_not_found'
+        }
+      });
+    }
+    
+    res.json({
+      message: '사용자 작업 결과가 성공적으로 검증되었습니다.',
+      scientificReport: scientificReport,
+      doi: scientificReport.reproducibility.doi,
+      acknowledgments: scientificReport.acknowledgments
+    });
+  } catch (error) {
+    console.error('사용자 작업 결과 검증 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '사용자 작업 결과 검증 실패',
+        type: 'server_error',
+        code: 'validation_failed'
+      }
+    });
+  }
+});
+
 // 문화 및 언어 최적화 API 엔드포인트
 app.get('/api/cultural/profile/:language', authenticateToken, async (req, res) => {
   try {
@@ -2441,6 +2594,11 @@ app.get('/', (req, res) => {
       '/api/brain-research/leaderboard': '뇌 연구 컴퓨팅: 리더보드',
       '/api/brain-research/statistics': '뇌 연구 컴퓨팅: 연구 통계',
       '/api/brain-research/generate-jobs': '뇌 연구 컴퓨팅: 새 작업 생성',
+      '/api/brain-research/templates': '뇌 연구 컴퓨팅: 사용 가능한 템플릿 조회',
+      '/api/brain-research/submit-job': '뇌 연구 컴퓨팅: 사용자 작업 제출',
+      '/api/brain-research/user-jobs/:userId': '뇌 연구 컴퓨팅: 사용자 제출 작업 상태',
+      '/api/brain-research/credits/:userId': '뇌 연구 컴퓨팅: 사용자 크레딧 조회',
+      '/api/brain-research/validate-results/:userJobId': '뇌 연구 컴퓨팅: 사용자 작업 결과 검증',
       '/api/cultural/profile/:language': '문화 프로필 조회',
       '/api/cultural/style/:language/:formality': '대화 스타일 조회',
       '/api/cultural/greeting': '문화적 인사말 생성',

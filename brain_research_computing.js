@@ -12,8 +12,19 @@ class BrainResearchComputingManager {
         this.jobTimeout = 300000; // 5 minutes
         this.verificationThreshold = 3; // Number of users needed for verification
         
+        // New Collective Brain Modeling features
+        this.userSubmittedJobs = new Map();
+        this.jobTemplates = new Map();
+        this.creditSystem = new Map();
+        this.scheduler = null;
+        this.policyEngine = null;
+        
         this.initializeJobTypes();
         this.initializeComputingTasks();
+        this.initializeJobTemplates();
+        this.initializeCreditSystem();
+        this.initializeScheduler();
+        this.initializePolicyEngine();
     }
 
     initializeJobTypes() {
@@ -88,6 +99,129 @@ class BrainResearchComputingManager {
                     particle_count: 500
                 },
                 validation: 'energy_conservation'
+            }
+        };
+    }
+
+    initializeJobTemplates() {
+        this.jobTemplates = new Map([
+            ['hippocampus_microcircuit', {
+                id: 'hippocampus_microcircuit',
+                name: 'Hippocampus Microcircuit Dynamics',
+                description: 'Simulate microcircuit dynamics in hippocampal CA1 region',
+                category: 'neural_network',
+                complexity: 'high',
+                estimatedTime: 120000, // 2 minutes
+                gpuRequired: true,
+                parameters: {
+                    neuron_count: 1000,
+                    connection_density: 0.1,
+                    simulation_time: 1000,
+                    plasticity_enabled: true
+                },
+                validation: 'spike_timing_consistency',
+                scientific_background: 'Based on CA1 microcircuit studies in Alzheimer\'s research',
+                references: ['HBP EU', 'KAIST Bioeng', 'KIST']
+            }],
+            ['amyloid_aggregation', {
+                id: 'amyloid_aggregation',
+                name: 'Aβ Aggregation Toy Simulation',
+                description: 'Coarse-grained molecular dynamics of amyloid-beta aggregation',
+                category: 'molecular_dynamics',
+                complexity: 'medium',
+                estimatedTime: 90000, // 1.5 minutes
+                gpuRequired: true,
+                parameters: {
+                    particle_count: 100,
+                    timestep: 0.001,
+                    temperature: 310,
+                    aggregation_strength: 0.5
+                },
+                validation: 'aggregation_kinetics',
+                scientific_background: 'Simplified model of amyloid-beta oligomer formation',
+                references: ['YNA 2025', 'Dongascience']
+            }],
+            ['eeg_spectral_pipeline', {
+                id: 'eeg_spectral_pipeline',
+                name: 'EEG Spectral Analysis Pipeline',
+                description: 'Feature extraction and denoising from EEG signals',
+                category: 'signal_processing',
+                complexity: 'low',
+                estimatedTime: 60000, // 1 minute
+                gpuRequired: false,
+                parameters: {
+                    sampling_rate: 1000,
+                    window_size: 1024,
+                    frequency_bands: ['delta', 'theta', 'alpha', 'beta', 'gamma'],
+                    denoising_method: 'wavelet'
+                },
+                validation: 'spectral_power_consistency',
+                scientific_background: 'Standard EEG preprocessing for dementia research',
+                references: ['HBP EU', 'KAIST Bioeng']
+            }]
+        ]);
+    }
+
+    initializeCreditSystem() {
+        this.creditSystem = {
+            baseCredits: 100, // Starting credits for new users
+            earnRates: {
+                'neuron_simulation': 10,
+                'protein_interaction': 15,
+                'synaptic_plasticity': 12,
+                'molecular_dynamics': 18,
+                'hippocampus_microcircuit': 25,
+                'amyloid_aggregation': 20,
+                'eeg_spectral_pipeline': 8
+            },
+            spendRates: {
+                'hippocampus_microcircuit': 50,
+                'amyloid_aggregation': 40,
+                'eeg_spectral_pipeline': 20
+            },
+            bonusMultipliers: {
+                'high_priority': 1.5,
+                'verification_success': 1.2,
+                'streak_bonus': 1.1
+            }
+        };
+    }
+
+    initializeScheduler() {
+        this.scheduler = {
+            priorityLevels: ['critical', 'high', 'normal', 'low'],
+            userQuotas: new Map(),
+            fairQueuing: {
+                enabled: true,
+                weightFactors: {
+                    'contributor': 1.0,
+                    'researcher': 1.5,
+                    'maintainer': 2.0
+                }
+            },
+            scheduleJob: (job, availableUsers) => {
+                // Implement weighted fair queuing algorithm
+                return this.weightedFairQueuing(job, availableUsers);
+            }
+        };
+    }
+
+    initializePolicyEngine() {
+        this.policyEngine = {
+            maxRuntime: 300000, // 5 minutes
+            maxMemoryUsage: 512 * 1024 * 1024, // 512MB
+            maxVRAMUsage: 1024 * 1024 * 1024, // 1GB
+            allowedOrigins: ['localhost', 'kairos.ai'],
+            privacyRules: {
+                defaultPublic: true,
+                allowPersonalData: false,
+                encryptionRequired: true,
+                anonymizationRequired: true
+            },
+            exportRules: {
+                allowPublicSharing: true,
+                requireAttribution: true,
+                allowCommercialUse: false
             }
         };
     }
@@ -534,6 +668,313 @@ class BrainResearchComputingManager {
             this.generateJob(randomJobType, priority);
         }
         console.log('🧠 Initialized with 20 sample jobs');
+    }
+
+    // User-submitted job management
+    submitUserJob(userId, templateId, customParameters, priority = 'normal') {
+        const template = this.jobTemplates.get(templateId);
+        if (!template) {
+            throw new Error(`Template not found: ${templateId}`);
+        }
+
+        // Check user credits
+        const requiredCredits = this.creditSystem.spendRates[templateId] || 20;
+        const userCredits = this.getUserCredits(userId);
+        
+        if (userCredits < requiredCredits) {
+            throw new Error(`Insufficient credits. Required: ${requiredCredits}, Available: ${userCredits}`);
+        }
+
+        // Validate parameters against template
+        const validatedParameters = this.validateJobParameters(template, customParameters);
+        
+        // Create user job
+        const jobId = crypto.randomUUID();
+        const userJob = {
+            id: jobId,
+            userId: userId,
+            templateId: templateId,
+            template: template,
+            customParameters: validatedParameters,
+            priority: priority,
+            status: 'user_submitted',
+            createdAt: Date.now(),
+            estimatedCost: requiredCredits,
+            estimatedTime: template.estimatedTime,
+            gpuRequired: template.gpuRequired,
+            category: template.category,
+            scientificContext: template.scientific_background,
+            references: template.references
+        };
+
+        // Deduct credits
+        this.deductUserCredits(userId, requiredCredits);
+
+        // Add to user submitted jobs
+        this.userSubmittedJobs.set(jobId, userJob);
+
+        // Generate actual computing jobs from user job
+        const computingJobs = this.generateComputingJobsFromUserJob(userJob);
+        
+        console.log(`🧠 User ${userId} submitted job ${jobId} using template ${templateId}`);
+        return { userJob, computingJobs };
+    }
+
+    validateJobParameters(template, customParameters) {
+        const validated = { ...template.parameters };
+        
+        // Apply custom parameters with validation
+        for (const [key, value] of Object.entries(customParameters)) {
+            if (template.parameters.hasOwnProperty(key)) {
+                // Basic type and range validation
+                if (typeof value === typeof template.parameters[key]) {
+                    validated[key] = value;
+                }
+            }
+        }
+        
+        return validated;
+    }
+
+    generateComputingJobsFromUserJob(userJob) {
+        const computingJobs = [];
+        const jobCount = this.calculateRequiredJobCount(userJob.template);
+        
+        for (let i = 0; i < jobCount; i++) {
+            const computingJob = this.generateJob(userJob.template.category, userJob.priority);
+            computingJob.userJobId = userJob.id;
+            computingJob.userId = userJob.userId;
+            computingJob.templateId = userJob.templateId;
+            computingJob.customParameters = userJob.customParameters;
+            
+            computingJobs.push(computingJob);
+        }
+        
+        return computingJobs;
+    }
+
+    calculateRequiredJobCount(template) {
+        // Calculate how many computing jobs are needed based on template complexity
+        switch (template.complexity) {
+            case 'low': return 3;
+            case 'medium': return 5;
+            case 'high': return 8;
+            default: return 3;
+        }
+    }
+
+    // Credit system management
+    getUserCredits(userId) {
+        if (!this.userContributions.has(userId)) {
+            this.userContributions.set(userId, {
+                totalJobs: 0,
+                completedJobs: 0,
+                totalComputeTime: 0,
+                contributionPoints: 0,
+                credits: this.creditSystem.baseCredits,
+                lastActive: Date.now(),
+                jobHistory: [],
+                userSubmittedJobs: []
+            });
+        }
+        
+        return this.userContributions.get(userId).credits || this.creditSystem.baseCredits;
+    }
+
+    addUserCredits(userId, amount, reason = 'job_completion') {
+        const contribution = this.userContributions.get(userId);
+        if (contribution) {
+            contribution.credits = (contribution.credits || 0) + amount;
+            console.log(`💰 Added ${amount} credits to user ${userId} for ${reason}`);
+        }
+    }
+
+    deductUserCredits(userId, amount) {
+        const contribution = this.userContributions.get(userId);
+        if (contribution) {
+            contribution.credits = Math.max(0, (contribution.credits || 0) - amount);
+            console.log(`💰 Deducted ${amount} credits from user ${userId}`);
+        }
+    }
+
+    // Advanced scheduling with weighted fair queuing
+    weightedFairQueuing(job, availableUsers) {
+        if (!this.scheduler.fairQueuing.enabled) {
+            return availableUsers[0]; // Simple round-robin
+        }
+
+        // Calculate user weights based on contribution and role
+        const userWeights = availableUsers.map(userId => {
+            const contribution = this.userContributions.get(userId);
+            const baseWeight = contribution ? contribution.contributionPoints / 100 : 1;
+            const roleWeight = this.scheduler.fairQueuing.weightFactors.contributor; // Default to contributor
+            
+            return {
+                userId,
+                weight: baseWeight * roleWeight,
+                lastAssigned: contribution ? contribution.lastActive : 0
+            };
+        });
+
+        // Sort by weight and last assignment time
+        userWeights.sort((a, b) => {
+            if (Math.abs(a.weight - b.weight) < 0.1) {
+                return a.lastAssigned - b.lastAssigned; // Fairness for similar weights
+            }
+            return b.weight - a.weight; // Higher weight first
+        });
+
+        return userWeights[0].userId;
+    }
+
+    // Template management
+    getAvailableTemplates(userId) {
+        const userCredits = this.getUserCredits(userId);
+        const availableTemplates = [];
+        
+        for (const [id, template] of this.jobTemplates) {
+            const cost = this.creditSystem.spendRates[id] || 20;
+            availableTemplates.push({
+                ...template,
+                cost: cost,
+                affordable: userCredits >= cost
+            });
+        }
+        
+        return availableTemplates;
+    }
+
+    // Enhanced job tracking for user submissions
+    getUserJobStatus(userId) {
+        const userJobs = Array.from(this.userSubmittedJobs.values())
+            .filter(job => job.userId === userId);
+        
+        return userJobs.map(job => {
+            const relatedComputingJobs = Array.from(this.activeJobs.values())
+                .filter(compJob => compJob.userJobId === job.id);
+            
+            const completedCount = relatedComputingJobs.filter(compJob => 
+                compJob.status === 'completed').length;
+            const totalCount = relatedComputingJobs.length;
+            
+            return {
+                ...job,
+                progress: totalCount > 0 ? (completedCount / totalCount) * 100 : 0,
+                completedComputingJobs: completedCount,
+                totalComputingJobs: totalCount,
+                estimatedCompletion: this.estimateJobCompletion(job)
+            };
+        });
+    }
+
+    estimateJobCompletion(userJob) {
+        const relatedJobs = Array.from(this.activeJobs.values())
+            .filter(compJob => compJob.userJobId === userJob.id);
+        
+        if (relatedJobs.length === 0) return null;
+        
+        const avgTimePerJob = relatedJobs.reduce((sum, job) => 
+            sum + (job.estimatedTime || 60000), 0) / relatedJobs.length;
+        
+        const pendingJobs = relatedJobs.filter(job => job.status === 'pending').length;
+        const estimatedTime = pendingJobs * avgTimePerJob;
+        
+        return Date.now() + estimatedTime;
+    }
+
+    // Enhanced result validation for user jobs
+    validateUserJobResults(userJobId) {
+        const userJob = this.userSubmittedJobs.get(userJobId);
+        if (!userJob) return null;
+        
+        const relatedComputingJobs = Array.from(this.completedJobs.values())
+            .filter(compJob => compJob.userJobId === userJobId);
+        
+        if (relatedComputingJobs.length === 0) return null;
+        
+        // Aggregate results from all related computing jobs
+        const aggregatedResults = this.aggregateComputingJobResults(relatedComputingJobs);
+        
+        // Generate scientific report
+        const scientificReport = this.generateScientificReport(userJob, aggregatedResults);
+        
+        // Update user job status
+        userJob.status = 'completed';
+        userJob.completedAt = Date.now();
+        userJob.results = aggregatedResults;
+        userJob.scientificReport = scientificReport;
+        
+        // Award bonus credits for successful completion
+        const bonusCredits = Math.floor(userJob.estimatedCost * 0.2); // 20% bonus
+        this.addUserCredits(userJob.userId, bonusCredits, 'job_completion_bonus');
+        
+        return scientificReport;
+    }
+
+    aggregateComputingJobResults(computingJobs) {
+        const aggregated = {
+            totalJobs: computingJobs.length,
+            verifiedJobs: computingJobs.filter(job => job.verified).length,
+            averageVerificationRate: 0,
+            combinedResults: {},
+            metadata: {
+                totalComputeTime: 0,
+                averageComputeTime: 0,
+                contributors: new Set()
+            }
+        };
+        
+        // Calculate verification rate
+        aggregated.averageVerificationRate = computingJobs.reduce((sum, job) => 
+            sum + (job.verificationRate || 0), 0) / computingJobs.length;
+        
+        // Aggregate compute time and contributors
+        computingJobs.forEach(job => {
+            job.results.forEach(result => {
+                aggregated.metadata.totalComputeTime += result.computeTime;
+                aggregated.metadata.contributors.add(result.userId);
+            });
+        });
+        
+        aggregated.metadata.averageComputeTime = aggregated.metadata.totalComputeTime / aggregated.totalJobs;
+        aggregated.metadata.contributors = Array.from(aggregated.metadata.contributors);
+        
+        return aggregated;
+    }
+
+    generateScientificReport(userJob, aggregatedResults) {
+        const report = {
+            title: `Scientific Report: ${userJob.template.name}`,
+            jobId: userJob.id,
+            template: userJob.template.name,
+            submittedBy: userJob.userId,
+            submittedAt: userJob.createdAt,
+            completedAt: Date.now(),
+            parameters: userJob.customParameters,
+            results: aggregatedResults,
+            scientificContext: userJob.scientificContext,
+            references: userJob.references,
+            reproducibility: {
+                seed: crypto.randomBytes(16).toString('hex'),
+                version: '1.0.0',
+                timestamp: Date.now(),
+                hash: this.generateResultHash(aggregatedResults)
+            },
+            acknowledgments: aggregatedResults.metadata.contributors.map(userId => 
+                `User_${userId.slice(0, 8)}`),
+            exportOptions: {
+                public: true,
+                citable: true,
+                doi: `kairos-${userJob.id.slice(0, 8)}-${Date.now()}`
+            }
+        };
+        
+        return report;
+    }
+
+    generateResultHash(results) {
+        const dataString = JSON.stringify(results);
+        return crypto.createHash('sha256').update(dataString).digest('hex');
     }
 }
 
