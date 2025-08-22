@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ollama API 서버 - 메모리 기능 포함 채팅</title>
+    <title>Ollama API Server - Chat with Memory Features</title>
     <style>
         * {
             margin: 0;
@@ -915,26 +915,26 @@
                     </div>
                     <div class="form-group">
                         <label for="apiUrl" id="labelApiUrl">API URL:</label>
-                        <input type="text" id="apiUrl" value="http://localhost:3000" placeholder="API URL을 입력하세요">
+                        <input type="text" id="apiUrl" value="http://localhost:3000" placeholder="Enter API URL">
                         <div class="help-text" id="apiUrlHelp"></div>
                     </div>
                     <div class="form-group">
-                        <label for="apiKey" id="labelApiKey">API 키:</label>
-                        <input type="text" id="apiKey" value="your-secret-key-here" placeholder="API 키를 입력하세요">
+                        <label for="apiKey" id="labelApiKey">API Key:</label>
+                        <input type="text" id="apiKey" value="your-secret-key-here" placeholder="Enter API key">
                         <div class="help-text" id="apiKeyHelp"></div>
                     </div>
                     <div class="form-group">
-                        <label for="userId" id="labelUserId">사용자 ID:</label>
-                        <input type="text" id="userId" value="user_001" placeholder="사용자 ID를 입력하세요">
+                        <label for="userId" id="labelUserId">User ID:</label>
+                        <input type="text" id="userId" value="user_001" placeholder="Enter user ID">
                         <div class="help-text" id="userIdHelp"></div>
                     </div>
                     <div class="form-group">
-                        <label for="timeout" id="labelTimeout">타임아웃 (초):</label>
+                        <label for="timeout" id="labelTimeout">Timeout (seconds):</label>
                         <input type="number" id="timeout" value="90" min="30" max="300" placeholder="90">
                         <div class="help-text" id="timeoutHelp"></div>
                     </div>
                     <div class="form-group">
-                        <label for="model" id="labelModel">모델:</label>
+                        <label for="model" id="labelModel">Model:</label>
                         <select id="model">
                             <option value="">Select a model...</option>
                         </select>
@@ -1700,49 +1700,49 @@
                 subtitle: '인지 건강을 위한 메모리 기능 포함 AI 채팅',
                 languageHelp: '인터페이스 언어를 선택하세요.',
                 apiUrlHelp: 'API 서버 주소입니다. 예: http://localhost:3000 (로컬), 원격 접속은 ngrok URL 사용.',
-                apiKeyHelp: '서버 요청 인증에 사용하는 API 키입니다 (Bearer 토큰).',
-                userIdHelp: '개인 메모리 컨텍스트 저장/조회에 사용하는 사용자 식별자입니다.',
-                timeoutHelp: '요청이 취소되기 전까지 기다리는 최대 시간(초)입니다.',
-                modelHelp: '설치된 모델을 선택하세요. 고용량 모델은 VRAM/CPU 요구와 지연이 큽니다.',
-                testHelp: 'API 서버 /health 연결을 검사합니다.',
-                settingsTitle: '설정',
-                memoryManageTitle: '메모리 관리',
-                statsHelp: '전체 건수(대화, 사실, 선호)를 봅니다.',
-                memoryHelp: '현재 사용자의 저장된 메모리를 확인합니다.',
-                addFactHelp: '개인 메모리에 사실 항목을 추가합니다.',
-                addPrefHelp: '선호 항목을 추가합니다 (예: 선호 언어).',
-                deleteMemHelp: '현재 사용자의 모든 메모리를 삭제합니다.',
-                welcome: '안녕하세요! 사용자 ID를 설정하고 대화를 시작해보세요.',
-                tip: '팁: 모델 목록은 자동으로 로드됩니다. 안되면 새로고침을 클릭하세요.',
+                apiKeyHelp: 'API key used to authorize requests (Bearer token).',
+                userIdHelp: 'Identifier for storing and retrieving your personal memory.',
+                timeoutHelp: 'Maximum wait time in seconds before cancellation.',
+                modelHelp: 'Choose an installed model. Large models require more VRAM/CPU and are slower.',
+                testHelp: 'Check connectivity to /health endpoint.',
+                settingsTitle: 'Settings',
+                memoryManageTitle: 'Memory Management',
+                statsHelp: 'View totals (conversations, facts, preferences).',
+                memoryHelp: 'Display saved memory for this user.',
+                addFactHelp: 'Add a fact to your personal memory.',
+                addPrefHelp: 'Add a preference (ex: preferred language).',
+                deleteMemHelp: 'Delete all memory for current user.',
+                welcome: 'Welcome! Set your user ID and start chatting.',
+                tip: 'Tip: Model list loads automatically. If not, click Refresh.',
                 timeoutError: '❌ 요청 시간이 초과되었습니다. 다시 시도해주세요.',
                 timeoutSolutions: '해결책: 1) 타임아웃 증가 (180-300초), 2) 가벼운 모델 시도 (llama3.1), 3) 컴퓨터 사양 확인 (GPU/VRAM), 4) ngrok 대신 localhost 사용, 5) 다른 앱 종료',
                 computerRequirements: '💻 컴퓨터 요구사항: 대형 모델에는 좋은 GPU (8GB+ VRAM) 권장. CPU만 사용 시 느림.',
-                refreshModels: '🔄 모델 목록 새로고침',
-                selectModel: '모델을 선택하세요...',
-                testConnection: '🔗 연결 테스트',
-                memoryStats: '📊 메모리 통계',
-                viewMemory: '📖 메모리 조회',
-                addFact: '➕ 사실 추가',
-                addPreference: '➕ 선호도 추가',
-                deleteMemory: '🗑️ 메모리 삭제',
-                send: '전송',
-                enterMessage: '메시지를 입력하세요...',
-                totalConversations: '총 대화:',
-                totalFacts: '총 사실:',
-                totalPreferences: '총 선호도:',
-                createdDate: '생성일:',
-                lastUpdated: '최종 업데이트:',
-                loadingModels: '🔄 모델 목록을 가져오는 중...',
-                modelsFound: '✅ {count}개의 모델을 찾았습니다',
-                noModels: '⚠️ 설치된 모델이 없습니다. Ollama에서 모델을 다운로드해주세요.',
-                modelLoadTimeout: '❌ 모델 목록 로드 시간이 초과되었습니다. 다시 시도해주세요.',
-                serverConnectionError: '❌ 서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.',
-                modelLoadError: '❌ 모델 목록 로드 실패: {error}',
-                defaultModelSelected: '✅ 기본 모델 선택됨: {model}',
-                modelSelected: '✅ 모델 선택됨: {model}',
-                responseDelay: '⚠️ 응답이 오래 걸리고 있습니다. 잠시만 기다려주세요...',
-                connectionError: '연결 오류: {error}',
-                unknownError: '알 수 없는 오류',
+                refreshModels: '🔄 Refresh Model List',
+                selectModel: 'Select a model...',
+                testConnection: '🔗 Test Connection',
+                memoryStats: '📊 Memory Statistics',
+                viewMemory: '📖 View Memory',
+                addFact: '➕ Add Fact',
+                addPreference: '➕ Add Preference',
+                deleteMemory: '🗑️ Delete Memory',
+                send: 'Send',
+                enterMessage: 'Enter your message...',
+                totalConversations: 'Total Conversations:',
+                totalFacts: 'Total Facts:',
+                totalPreferences: 'Total Preferences:',
+                createdDate: 'Created:',
+                lastUpdated: 'Last Updated:',
+                loadingModels: '🔄 Loading model list...',
+                modelsFound: '✅ Found {count} models',
+                noModels: '⚠️ No models installed. Please download models in Ollama.',
+                modelLoadTimeout: '❌ Model list load timeout. Please try again.',
+                serverConnectionError: '❌ Cannot connect to server. Please check if server is running.',
+                modelLoadError: '❌ Model list load failed: {error}',
+                defaultModelSelected: '✅ Default model selected: {model}',
+                modelSelected: '✅ Model selected: {model}',
+                responseDelay: '⚠️ Response is taking longer than expected. Please wait...',
+                connectionError: 'Connection error: {error}',
+                unknownError: 'Unknown error',
                 advancedMemoryTitle: '🧠 고급 메모리 및 맥락',
                 emotionalAnalysis: '😊 감정 분석',
                 lifeTimeline: '📅 인생 타임라인',

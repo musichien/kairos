@@ -5,6 +5,7 @@ const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const path = require('path');
+const moment = require('moment');
 require('dotenv').config();
 
 const MemoryManager = require('./memory');
@@ -13,6 +14,7 @@ const CognitiveTrainingManager = require('./cognitive_training');
 const MultimodalIntegrationManager = require('./multimodal_integration');
 const CulturalOptimizationManager = require('./cultural_optimization');
 const TelomereHealthManager = require('./telomere_health');
+const CardiovascularWarningManager = require('./cardiovascular_warning');
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -21,6 +23,7 @@ const cognitiveTrainingManager = new CognitiveTrainingManager();
 const multimodalManager = new MultimodalIntegrationManager();
 const culturalManager = new CulturalOptimizationManager();
 const telomereHealthManager = new TelomereHealthManager();
+const cardiovascularWarningManager = new CardiovascularWarningManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -1497,6 +1500,316 @@ app.get('/api/telomere/:userId/feedback', authenticateToken, async (req, res) =>
   }
 });
 
+// ===== Cardiovascular Warning System API Endpoints =====
+
+// Record physiological metrics
+app.post('/api/cardiovascular/:userId/physiological', authenticateToken, [
+  body('weight').optional().isFloat({ min: 20, max: 500 }).withMessage('체중은 20-500kg 범위여야 합니다.'),
+  body('bmi').optional().isFloat({ min: 10, max: 100 }).withMessage('BMI는 10-100 범위여야 합니다.'),
+  body('systolicBP').optional().isInt({ min: 70, max: 300 }).withMessage('수축기 혈압은 70-300mmHg 범위여야 합니다.'),
+  body('diastolicBP').optional().isInt({ min: 40, max: 200 }).withMessage('이완기 혈압은 40-200mmHg 범위여야 합니다.'),
+  body('heartRate').optional().isInt({ min: 40, max: 200 }).withMessage('심박수는 40-200bpm 범위여야 합니다.'),
+  body('bloodSugar').optional().isFloat({ min: 50, max: 500 }).withMessage('혈당은 50-500mg/dL 범위여야 합니다.'),
+  body('cholesterol').optional().isFloat({ min: 100, max: 500 }).withMessage('총 콜레스테롤은 100-500mg/dL 범위여야 합니다.'),
+  body('ldl').optional().isFloat({ min: 50, max: 300 }).withMessage('LDL은 50-300mg/dL 범위여야 합니다.'),
+  body('hdl').optional().isFloat({ min: 20, max: 100 }).withMessage('HDL은 20-100mg/dL 범위여야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const metrics = req.body;
+    const record = cardiovascularWarningManager.recordPhysiologicalMetrics(userId, metrics);
+    
+    res.json({
+      message: '생리학적 지표가 기록되었습니다.',
+      record: record
+    });
+  } catch (error) {
+    console.error('생리학적 지표 기록 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '생리학적 지표 기록 실패',
+        type: 'server_error',
+        code: 'physiological_recording_failed'
+      }
+    });
+  }
+});
+
+// Record medication
+app.post('/api/cardiovascular/:userId/medication', authenticateToken, [
+  body('name').notEmpty().withMessage('약물 이름은 필수입니다.'),
+  body('type').isIn(['sedative', 'sleep_aid', 'cardiovascular', 'other']).withMessage('올바른 약물 유형을 선택해주세요.'),
+  body('dosage').notEmpty().withMessage('용량은 필수입니다.'),
+  body('frequency').notEmpty().withMessage('투여 빈도는 필수입니다.'),
+  body('startDate').optional().isISO8601().withMessage('올바른 날짜 형식을 입력해주세요.'),
+  body('isActive').optional().isBoolean().withMessage('활성 상태는 boolean 값이어야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const medication = req.body;
+    const record = cardiovascularWarningManager.recordMedication(userId, medication);
+    
+    res.json({
+      message: '약물 정보가 기록되었습니다.',
+      record: record
+    });
+  } catch (error) {
+    console.error('약물 정보 기록 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '약물 정보 기록 실패',
+        type: 'server_error',
+        code: 'medication_recording_failed'
+      }
+    });
+  }
+});
+
+// Record lifestyle data
+app.post('/api/cardiovascular/:userId/lifestyle', authenticateToken, [
+  body('sleepHours').optional().isFloat({ min: 0, max: 24 }).withMessage('수면 시간은 0-24시간 범위여야 합니다.'),
+  body('sleepQuality').optional().isInt({ min: 0, max: 100 }).withMessage('수면 품질은 0-100 범위여야 합니다.'),
+  body('exerciseMinutes').optional().isInt({ min: 0, max: 300 }).withMessage('운동 시간은 0-300분 범위여야 합니다.'),
+  body('exerciseType').optional().isString().withMessage('운동 유형은 문자열이어야 합니다.'),
+  body('steps').optional().isInt({ min: 0, max: 50000 }).withMessage('걸음 수는 0-50000 범위여야 합니다.'),
+  body('dietQuality').optional().isInt({ min: 0, max: 100 }).withMessage('식이 품질은 0-100 범위여야 합니다.'),
+  body('sodiumIntake').optional().isFloat({ min: 0, max: 10000 }).withMessage('나트륨 섭취량은 0-10000mg 범위여야 합니다.'),
+  body('smokingStatus').optional().isIn(['never', 'former', 'current']).withMessage('올바른 흡연 상태를 선택해주세요.'),
+  body('alcoholConsumption').optional().isFloat({ min: 0, max: 100 }).withMessage('알코올 섭취량은 0-100 범위여야 합니다.'),
+  body('stressLevel').optional().isInt({ min: 0, max: 10 }).withMessage('스트레스 수준은 0-10 범위여야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const lifestyle = req.body;
+    const record = cardiovascularWarningManager.recordLifestyleData(userId, lifestyle);
+    
+    res.json({
+      message: '라이프스타일 데이터가 기록되었습니다.',
+      record: record
+    });
+  } catch (error) {
+    console.error('라이프스타일 데이터 기록 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '라이프스타일 데이터 기록 실패',
+        type: 'server_error',
+        code: 'lifestyle_recording_failed'
+      }
+    });
+  }
+});
+
+// Record psychosocial data
+app.post('/api/cardiovascular/:userId/psychosocial', authenticateToken, [
+  body('stressLevel').optional().isInt({ min: 0, max: 10 }).withMessage('스트레스 수준은 0-10 범위여야 합니다.'),
+  body('socialInteraction').optional().isIn(['frequent', 'moderate', 'rare', 'isolated']).withMessage('올바른 사회적 상호작용 수준을 선택해주세요.'),
+  body('majorLifeEvents').optional().isArray().withMessage('주요 인생 사건은 배열이어야 합니다.'),
+  body('emotionalState').optional().isIn(['calm', 'anxious', 'depressed', 'grieving']).withMessage('올바른 감정 상태를 선택해주세요.'),
+  body('workStress').optional().isInt({ min: 0, max: 10 }).withMessage('직장 스트레스는 0-10 범위여야 합니다.'),
+  body('familyStress').optional().isInt({ min: 0, max: 10 }).withMessage('가족 스트레스는 0-10 범위여야 합니다.'),
+  body('griefLevel').optional().isInt({ min: 0, max: 10 }).withMessage('슬픔 수준은 0-10 범위여야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const psychosocial = req.body;
+    const record = cardiovascularWarningManager.recordPsychosocialData(userId, psychosocial);
+    
+    res.json({
+      message: '심리사회적 데이터가 기록되었습니다.',
+      record: record
+    });
+  } catch (error) {
+    console.error('심리사회적 데이터 기록 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '심리사회적 데이터 기록 실패',
+        type: 'server_error',
+        code: 'psychosocial_recording_failed'
+      }
+    });
+  }
+});
+
+// Assess cardiovascular risk
+app.get('/api/cardiovascular/:userId/risk-assessment', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const assessment = cardiovascularWarningManager.assessCardiovascularRisk(userId);
+    
+    res.json({
+      message: '심혈관 위험도 평가가 완료되었습니다.',
+      assessment: assessment
+    });
+  } catch (error) {
+    console.error('위험도 평가 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '위험도 평가 실패',
+        type: 'server_error',
+        code: 'risk_assessment_failed'
+      }
+    });
+  }
+});
+
+// Get user risk profile
+app.get('/api/cardiovascular/:userId/risk-profile', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const profile = cardiovascularWarningManager.getUserRiskProfile(userId);
+    
+    res.json({
+      message: '사용자 위험도 프로필을 조회했습니다.',
+      profile: profile
+    });
+  } catch (error) {
+    console.error('위험도 프로필 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '위험도 프로필 조회 실패',
+        type: 'server_error',
+        code: 'risk_profile_failed'
+      }
+    });
+  }
+});
+
+// Get risk trends
+app.get('/api/cardiovascular/:userId/risk-trends', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { days } = req.query;
+    const trends = cardiovascularWarningManager.getRiskTrends(userId, parseInt(days) || 30);
+    
+    res.json({
+      message: '위험도 트렌드를 조회했습니다.',
+      trends: trends
+    });
+  } catch (error) {
+    console.error('위험도 트렌드 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '위험도 트렌드 조회 실패',
+        type: 'server_error',
+        code: 'risk_trends_failed'
+      }
+    });
+  }
+});
+
+// Simulate risk scenario
+app.post('/api/cardiovascular/:userId/simulation', authenticateToken, [
+  body('skipExercise').optional().isBoolean().withMessage('운동 건너뛰기는 boolean 값이어야 합니다.'),
+  body('sleepLess').optional().isBoolean().withMessage('수면 부족은 boolean 값이어야 합니다.'),
+  body('increaseStress').optional().isBoolean().withMessage('스트레스 증가는 boolean 값이어야 합니다.'),
+  body('poorDiet').optional().isBoolean().withMessage('불량한 식이는 boolean 값이어야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const scenario = req.body;
+    const simulation = cardiovascularWarningManager.simulateRiskScenario(userId, scenario);
+    
+    res.json({
+      message: '위험도 시나리오 시뮬레이션이 완료되었습니다.',
+      simulation: simulation
+    });
+  } catch (error) {
+    console.error('시나리오 시뮬레이션 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '시나리오 시뮬레이션 실패',
+        type: 'server_error',
+        code: 'simulation_failed'
+      }
+    });
+  }
+});
+
+// Get user alerts
+app.get('/api/cardiovascular/:userId/alerts', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = cardiovascularWarningManager._getUserData(userId);
+    const recentAlerts = user.alerts.filter(alert => 
+      moment(alert.timestamp).isAfter(moment().subtract(7, 'days'))
+    );
+    
+    res.json({
+      message: '사용자 알림을 조회했습니다.',
+      alerts: recentAlerts,
+      count: recentAlerts.length
+    });
+  } catch (error) {
+    console.error('알림 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '알림 조회 실패',
+        type: 'server_error',
+        code: 'alerts_failed'
+      }
+    });
+  }
+});
+
 // 문화 및 언어 최적화 API 엔드포인트
 app.get('/api/cultural/profile/:language', authenticateToken, async (req, res) => {
   try {
@@ -1845,7 +2158,7 @@ app.post('/api/cultural/prompt', authenticateToken, [
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '6.0.0',
+    version: '7.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -1885,6 +2198,15 @@ app.get('/', (req, res) => {
       '/api/telomere/:userId/ltl': '텔로미어 건강: LTL 결과 저장',
       '/api/telomere/:userId/ltl/trend': '텔로미어 건강: LTL 추세',
       '/api/telomere/:userId/feedback': '텔로미어 건강: 피드백 생성',
+      '/api/cardiovascular/:userId/physiological': '심혈관 경고: 생리학적 지표 기록',
+      '/api/cardiovascular/:userId/medication': '심혈관 경고: 약물 기록',
+      '/api/cardiovascular/:userId/lifestyle': '심혈관 경고: 라이프스타일 데이터 기록',
+      '/api/cardiovascular/:userId/psychosocial': '심혈관 경고: 심리사회적 데이터 기록',
+      '/api/cardiovascular/:userId/risk-assessment': '심혈관 경고: 위험도 평가',
+      '/api/cardiovascular/:userId/risk-profile': '심혈관 경고: 위험도 프로필 조회',
+      '/api/cardiovascular/:userId/risk-trends': '심혈관 경고: 위험도 트렌드',
+      '/api/cardiovascular/:userId/simulation': '심혈관 경고: 시나리오 시뮬레이션',
+      '/api/cardiovascular/:userId/alerts': '심혈관 경고: 알림 조회',
       '/api/cultural/profile/:language': '문화 프로필 조회',
       '/api/cultural/style/:language/:formality': '대화 스타일 조회',
       '/api/cultural/greeting': '문화적 인사말 생성',
@@ -1912,6 +2234,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🔊 멀티모달 통합 시스템이 초기화되었습니다.`);
   console.log(`🌍 문화 및 언어 최적화 시스템이 초기화되었습니다.`);
   console.log(`🧬 텔로미어 기반 건강 관리 모듈이 초기화되었습니다.`);
+  console.log(`💓 급성 심혈관 사건 조기 경고 시스템이 초기화되었습니다.`);
   
   // WebSocket 서버 초기화
   multimodalManager.initializeWebSocket(server);
