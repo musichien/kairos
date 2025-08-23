@@ -1217,6 +1217,145 @@
         }
 
         .credit-value {
+        }
+
+        /* Embodied Identity & Self-Restoration 스타일 */
+        .session-status {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        .visualization-container {
+            background: #000;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .scenarios-list {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .scenario-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: all 0.2s ease;
+        }
+
+        .scenario-item:hover {
+            border-color: #17a2b8;
+            box-shadow: 0 2px 4px rgba(23,162,184,0.1);
+        }
+
+        .scenario-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .scenario-name {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+        }
+
+        .scenario-type {
+            background: #17a2b8;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .scenario-description {
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .session-history-list {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .session-item {
+            background: white;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 10px 0;
+            transition: all 0.2s ease;
+        }
+
+        .session-item:hover {
+            border-color: #6f42c1;
+            box-shadow: 0 2px 4px rgba(111,66,193,0.1);
+        }
+
+        .session-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .session-type {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1em;
+        }
+
+        .session-status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .session-status-badge.active {
+            background: #28a745;
+            color: white;
+        }
+
+        .session-status-badge.completed {
+            background: #6c757d;
+            color: white;
+        }
+
+        .session-progress {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 8px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .session-progress-bar {
+            background: linear-gradient(90deg, #007bff, #28a745);
+            height: 100%;
+            transition: width 0.3s ease;
+        }
             font-weight: 600;
             color: #28a745;
             font-size: 1.2em;
@@ -1821,6 +1960,103 @@
                     </div>
                 </div>
 
+                <!-- Embodied Identity & Self-Restoration 섹션 -->
+                <div class="config-section" id="embodiedIdentitySection">
+                    <h3 id="embodiedIdentityTitle">🌟 Embodied Identity & Self-Restoration</h3>
+                    <p id="embodiedIdentityDescription">Explore and strengthen your identity through embodied experiences, role-play, and 3D memory visualization.</p>
+                    
+                    <!-- Identity Profile -->
+                    <div class="subsection" id="identityProfileSection">
+                        <h4 id="identityProfileTitle">👤 Identity Profile</h4>
+                        <div class="form-group">
+                            <label for="personalValues" id="personalValuesLabel">Personal Values:</label>
+                            <textarea id="personalValues" class="form-control" placeholder="Enter your core personal values..." rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="lifeGoals" id="lifeGoalsLabel">Life Goals:</label>
+                            <textarea id="lifeGoals" class="form-control" placeholder="Enter your life goals..." rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="relationships" id="relationshipsLabel">Key Relationships:</label>
+                            <textarea id="relationships" class="form-control" placeholder="Describe your important relationships..." rows="3"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="interests" id="interestsLabel">Interests & Hobbies:</label>
+                            <textarea id="interests" class="form-control" placeholder="List your interests and hobbies..." rows="3"></textarea>
+                        </div>
+                        <div class="button-group">
+                            <button id="saveIdentityBtn" class="btn btn-primary">💾 Save Identity</button>
+                            <button id="loadIdentityBtn" class="btn btn-secondary">📂 Load Identity</button>
+                        </div>
+                    </div>
+
+                    <!-- Identity Sessions -->
+                    <div class="subsection" id="identitySessionsSection">
+                        <h4 id="identitySessionsTitle">🎭 Identity Sessions</h4>
+                        <div class="form-group">
+                            <label for="sessionType" id="sessionTypeLabel">Session Type:</label>
+                            <select id="sessionType" class="form-control">
+                                <option value="identity_exploration">Identity Exploration</option>
+                                <option value="memory_reconstruction">Memory Reconstruction</option>
+                                <option value="emotional_regulation">Emotional Regulation</option>
+                                <option value="embodied_simulation">Embodied Simulation</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="startSessionBtn" class="btn btn-success">🚀 Start Session</button>
+                            <button id="endSessionBtn" class="btn btn-danger">⏹️ End Session</button>
+                        </div>
+                        <div id="sessionStatus" class="session-status" style="display: none;">
+                            <!-- 세션 상태가 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+
+                    <!-- 3D Memory Visualization -->
+                    <div class="subsection" id="memoryVisualizationSection">
+                        <h4 id="memoryVisualizationTitle">🗺️ 3D Memory Visualization</h4>
+                        <div class="form-group">
+                            <label for="visualizationMode" id="visualizationModeLabel">Visualization Mode:</label>
+                            <select id="visualizationMode" class="form-control">
+                                <option value="timeline">Timeline</option>
+                                <option value="emotional_landscape">Emotional Landscape</option>
+                                <option value="relationship_network">Relationship Network</option>
+                                <option value="achievement_mountain">Achievement Mountain</option>
+                            </select>
+                        </div>
+                        <div class="button-group">
+                            <button id="loadVisualizationBtn" class="btn btn-primary">🌍 Load Visualization</button>
+                            <button id="exportVisualizationBtn" class="btn btn-secondary">📷 Export Image</button>
+                        </div>
+                        <div id="visualizationContainer" class="visualization-container" style="display: none;">
+                            <!-- 3D 시각화가 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+
+                    <!-- Role-play Scenarios -->
+                    <div class="subsection" id="rolePlayScenariosSection">
+                        <h4 id="rolePlayScenariosTitle">🎬 Role-play Scenarios</h4>
+                        <div class="button-group">
+                            <button id="loadScenariosBtn" class="btn btn-primary">📚 Load Scenarios</button>
+                            <button id="startRolePlayBtn" class="btn btn-success">🎭 Start Role-play</button>
+                        </div>
+                        <div id="scenariosList" class="scenarios-list" style="display: none;">
+                            <!-- 시나리오 목록이 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+
+                    <!-- Session History -->
+                    <div class="subsection" id="sessionHistorySection">
+                        <h4 id="sessionHistoryTitle">📊 Session History</h4>
+                        <div class="button-group">
+                            <button id="loadSessionHistoryBtn" class="btn btn-primary">📋 Load History</button>
+                            <button id="refreshSessionHistoryBtn" class="btn btn-secondary">🔄 Refresh</button>
+                        </div>
+                        <div id="sessionHistoryList" class="session-history-list" style="display: none;">
+                            <!-- 세션 기록이 여기에 표시됩니다 -->
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Telomere-Driven Healthy Aging 섹션 -->
                 <div class="config-section" id="telomereSection">
                     <h3 id="telomereTitle">🧬 Telomere-Driven Healthy Aging</h3>
@@ -2097,6 +2333,19 @@
                 researchStatsTitle: '🔬 Research Statistics',
                 collectiveModelingTitle: '🌐 Collective Brain Modeling',
                 collectiveModelingDescription: 'Launch your own brain-modeling simulations on the shared citizen-powered GPU network.',
+                embodiedIdentityTitle: '🌟 Embodied Identity & Self-Restoration',
+                embodiedIdentityDescription: 'Explore and strengthen your identity through embodied experiences, role-play, and 3D memory visualization.',
+                identityProfileTitle: '👤 Identity Profile',
+                personalValuesLabel: 'Personal Values:',
+                lifeGoalsLabel: 'Life Goals:',
+                relationshipsLabel: 'Key Relationships:',
+                interestsLabel: 'Interests & Hobbies:',
+                identitySessionsTitle: '🎭 Identity Sessions',
+                sessionTypeLabel: 'Session Type:',
+                memoryVisualizationTitle: '🗺️ 3D Memory Visualization',
+                visualizationModeLabel: 'Visualization Mode:',
+                rolePlayScenariosTitle: '🎬 Role-play Scenarios',
+                sessionHistoryTitle: '📊 Session History',
                 templatesTitle: '📋 Available Templates',
                 creditsTitle: '💰 Your Credits',
                 jobSubmissionTitle: '🚀 Submit Your Job',
@@ -2474,6 +2723,19 @@
                 researchStatsTitle: '🔬 연구 통계',
                 collectiveModelingTitle: '🌐 집단 뇌 모델링',
                 collectiveModelingDescription: '공유 시민 기반 GPU 네트워크에서 자신만의 뇌 모델링 시뮬레이션을 실행하세요.',
+                embodiedIdentityTitle: '🌟 체화된 정체성 및 자아 복원',
+                embodiedIdentityDescription: '체화된 경험, 역할극, 3D 메모리 시각화를 통해 정체성을 탐색하고 강화하세요.',
+                identityProfileTitle: '👤 정체성 프로필',
+                personalValuesLabel: '개인 가치:',
+                lifeGoalsLabel: '인생 목표:',
+                relationshipsLabel: '주요 관계:',
+                interestsLabel: '관심사 및 취미:',
+                identitySessionsTitle: '🎭 정체성 세션',
+                sessionTypeLabel: '세션 유형:',
+                memoryVisualizationTitle: '🗺️ 3D 메모리 시각화',
+                visualizationModeLabel: '시각화 모드:',
+                rolePlayScenariosTitle: '🎬 역할극 시나리오',
+                sessionHistoryTitle: '📊 세션 기록',
                 templatesTitle: '📋 사용 가능한 템플릿',
                 creditsTitle: '💰 크레딧',
                 jobSubmissionTitle: '🚀 작업 제출',
@@ -5026,6 +5288,20 @@
         document.getElementById('shareReportBtn').addEventListener('click', () => {
             showStatus('Share feature coming soon!', 'info');
         });
+
+        // Embodied Identity & Self-Restoration 이벤트 리스너
+        document.getElementById('saveIdentityBtn').addEventListener('click', saveIdentity);
+        document.getElementById('loadIdentityBtn').addEventListener('click', loadIdentity);
+        document.getElementById('startSessionBtn').addEventListener('click', startIdentitySession);
+        document.getElementById('endSessionBtn').addEventListener('click', endIdentitySession);
+        document.getElementById('loadVisualizationBtn').addEventListener('click', loadVisualization);
+        document.getElementById('exportVisualizationBtn').addEventListener('click', () => {
+            showStatus('Export visualization feature coming soon!', 'info');
+        });
+        document.getElementById('loadScenariosBtn').addEventListener('click', loadScenarios);
+        document.getElementById('startRolePlayBtn').addEventListener('click', startRolePlay);
+        document.getElementById('loadSessionHistoryBtn').addEventListener('click', loadSessionHistory);
+        document.getElementById('refreshSessionHistoryBtn').addEventListener('click', loadSessionHistory);
             
             // 초기 모델 목록 로드
             setTimeout(loadModels, 500);
@@ -5774,6 +6050,461 @@
             
             reportDiv.style.display = 'block';
         }
+
+        // ===== Embodied Identity & Self-Restoration 기능 함수들 =====
+        
+        // 사용자 정체성 저장
+        async function saveIdentity() {
+            const config = getConfig();
+            const identityData = {
+                personalValues: document.getElementById('personalValues').value.split('\n').filter(v => v.trim()),
+                lifeGoals: document.getElementById('lifeGoals').value.split('\n').filter(v => v.trim()),
+                relationships: document.getElementById('relationships').value.split('\n').filter(v => v.trim()),
+                interests: document.getElementById('interests').value.split('\n').filter(v => v.trim())
+            };
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/${config.userId}/identity`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(identityData)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('Identity saved successfully!', 'success');
+                    addMessage('system', '✅ Identity profile saved successfully!');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to save identity: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error saving identity: ${error.message}`, 'error');
+            }
+        }
+
+        // 사용자 정체성 로드
+        async function loadIdentity() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/${config.userId}/profile`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayIdentity(data.identity);
+                    showStatus('Identity loaded successfully', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load identity: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading identity: ${error.message}`, 'error');
+            }
+        }
+
+        // 정체성 표시
+        function displayIdentity(identity) {
+            if (identity.coreIdentity) {
+                document.getElementById('personalValues').value = identity.coreIdentity.personalValues.join('\n');
+                document.getElementById('lifeGoals').value = identity.coreIdentity.lifeGoals.join('\n');
+                document.getElementById('relationships').value = identity.coreIdentity.relationships.join('\n');
+                document.getElementById('interests').value = identity.coreIdentity.interests.join('\n');
+            }
+        }
+
+        // 정체성 세션 시작
+        async function startIdentitySession() {
+            const config = getConfig();
+            const sessionType = document.getElementById('sessionType').value;
+            
+            if (!sessionType) {
+                showStatus('Please select a session type', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/${config.userId}/session`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        sessionType: sessionType,
+                        parameters: {}
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    currentSessionId = result.session.id;
+                    displaySessionStatus(result.session);
+                    showStatus('Session started successfully!', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to start session: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error starting session: ${error.message}`, 'error');
+            }
+        }
+
+        // 정체성 세션 종료
+        async function endIdentitySession() {
+            if (!currentSessionId) {
+                showStatus('No active session to end', 'error');
+                return;
+            }
+
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/session/${currentSessionId}/end`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showSessionSummary(result.summary);
+                    currentSessionId = null;
+                    document.getElementById('sessionStatus').style.display = 'none';
+                    showStatus('Session ended successfully!', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to end session: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error ending session: ${error.message}`, 'error');
+            }
+        }
+
+        // 세션 상태 표시
+        function displaySessionStatus(session) {
+            const statusDiv = document.getElementById('sessionStatus');
+            
+            statusDiv.innerHTML = `
+                <div class="session-info">
+                    <h5>Active Session: ${session.type}</h5>
+                    <p><strong>Progress:</strong> ${session.progress}%</p>
+                    <p><strong>Interactions:</strong> ${session.interactions.length}</p>
+                    <p><strong>Insights:</strong> ${session.insights.length}</p>
+                    <div class="session-progress">
+                        <div class="session-progress-bar" style="width: ${session.progress}%"></div>
+                    </div>
+                </div>
+            `;
+            
+            statusDiv.style.display = 'block';
+        }
+
+        // 세션 요약 표시
+        function showSessionSummary(summary) {
+            addMessage('system', `📊 Session Summary - ${summary.sessionType}`);
+            addMessage('system', `Duration: ${Math.round(summary.duration / 1000)}s`);
+            addMessage('system', `Final Progress: ${summary.finalProgress}%`);
+            addMessage('system', `Total Interactions: ${summary.totalInteractions}`);
+            
+            if (summary.achievements && summary.achievements.length > 0) {
+                addMessage('system', '🏆 Achievements:');
+                summary.achievements.forEach(achievement => {
+                    addMessage('system', `• ${achievement}`);
+                });
+            }
+            
+            if (summary.areasForGrowth && summary.areasForGrowth.length > 0) {
+                addMessage('system', '🌱 Areas for Growth:');
+                summary.areasForGrowth.forEach(area => {
+                    addMessage('system', `• ${area}`);
+                });
+            }
+        }
+
+        // 3D 메모리 시각화 로드
+        async function loadVisualization() {
+            const config = getConfig();
+            const mode = document.getElementById('visualizationMode').value;
+            
+            try {
+                // 사용자 메모리 데이터 가져오기
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const memoryData = await response.json();
+                    initializeMemoryVisualization(memoryData.memories, mode);
+                    showStatus('Visualization loaded successfully!', 'success');
+                } else {
+                    showStatus('Failed to load memory data for visualization', 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading visualization: ${error.message}`, 'error');
+            }
+        }
+
+        // 메모리 시각화 초기화
+        function initializeMemoryVisualization(memories, mode) {
+            const container = document.getElementById('visualizationContainer');
+            container.style.display = 'block';
+            
+            // Three.js 시각화 초기화 (간단한 버전)
+            if (typeof THREE !== 'undefined') {
+                createSimpleVisualization(container, memories, mode);
+            } else {
+                // Three.js가 없는 경우 간단한 HTML 시각화
+                createHTMLVisualization(container, memories, mode);
+            }
+        }
+
+        // 간단한 HTML 시각화 생성
+        function createHTMLVisualization(container, memories, mode) {
+            let visualizationHTML = '<h5>Memory Visualization</h5>';
+            
+            switch (mode) {
+                case 'timeline':
+                    visualizationHTML += createTimelineHTML(memories);
+                    break;
+                case 'emotional_landscape':
+                    visualizationHTML += createEmotionalLandscapeHTML(memories);
+                    break;
+                case 'relationship_network':
+                    visualizationHTML += createRelationshipNetworkHTML(memories);
+                    break;
+                case 'achievement_mountain':
+                    visualizationHTML += createAchievementMountainHTML(memories);
+                    break;
+                default:
+                    visualizationHTML += createTimelineHTML(memories);
+            }
+            
+            container.innerHTML = visualizationHTML;
+        }
+
+        // 타임라인 HTML 생성
+        function createTimelineHTML(memories) {
+            const sortedMemories = memories.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+            
+            let html = '<div class="timeline-visualization">';
+            sortedMemories.forEach((memory, index) => {
+                const date = new Date(memory.timestamp).toLocaleDateString();
+                html += `
+                    <div class="timeline-item" style="left: ${(index / (sortedMemories.length - 1)) * 100}%">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <strong>${date}</strong><br>
+                            ${memory.content || memory.description || 'Memory'}
+                        </div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            return html;
+        }
+
+        // 감정 랜드스케이프 HTML 생성
+        function createEmotionalLandscapeHTML(memories) {
+            let html = '<div class="emotional-landscape">';
+            memories.forEach((memory, index) => {
+                const emotion = memory.emotion || 'neutral';
+                const intensity = memory.intensity || 'medium';
+                html += `
+                    <div class="emotion-item ${emotion} ${intensity}" style="top: ${Math.random() * 80 + 10}%; left: ${Math.random() * 80 + 10}%">
+                        ${emotion.charAt(0).toUpperCase() + emotion.slice(1)}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            return html;
+        }
+
+        // 관계 네트워크 HTML 생성
+        function createRelationshipNetworkHTML(memories) {
+            const relationships = new Set();
+            memories.forEach(memory => {
+                if (memory.relationships) {
+                    memory.relationships.forEach(rel => relationships.add(rel.person));
+                }
+            });
+            
+            let html = '<div class="relationship-network">';
+            Array.from(relationships).forEach((person, index) => {
+                const angle = (index / relationships.size) * 2 * Math.PI;
+                const x = 50 + 30 * Math.cos(angle);
+                const y = 50 + 30 * Math.sin(angle);
+                html += `
+                    <div class="relationship-node" style="left: ${x}%; top: ${y}%">
+                        ${person}
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            return html;
+        }
+
+        // 성취 산 HTML 생성
+        function createAchievementMountainHTML(memories) {
+            const achievements = memories.filter(m => m.type === 'achievement' || m.content?.includes('achievement'));
+            
+            let html = '<div class="achievement-mountain">';
+            achievements.forEach((achievement, index) => {
+                const height = 20 + (index * 10);
+                html += `
+                    <div class="achievement-peak" style="height: ${height}px; left: ${(index / achievements.length) * 100}%">
+                        <div class="peak-label">${achievement.content || achievement.description || 'Achievement'}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            
+            return html;
+        }
+
+        // 역할극 시나리오 로드
+        async function loadScenarios() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/scenarios`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displayScenarios(data.scenarios);
+                    showStatus('Scenarios loaded successfully', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load scenarios: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading scenarios: ${error.message}`, 'error');
+            }
+        }
+
+        // 시나리오 표시
+        function displayScenarios(scenarios) {
+            const scenariosDiv = document.getElementById('scenariosList');
+            
+            let scenariosHTML = '';
+            scenarios.forEach(scenario => {
+                scenariosHTML += `
+                    <div class="scenario-item" data-scenario-id="${scenario.id}">
+                        <div class="scenario-header">
+                            <div class="scenario-name">${scenario.name}</div>
+                            <div class="scenario-type">${scenario.id}</div>
+                        </div>
+                        <div class="scenario-description">${scenario.description}</div>
+                        <div class="scenario-meta">
+                            <span>🎭 ${scenario.scenarios.length} sub-scenarios</span>
+                            <span>🔬 ${scenario.therapeuticProtocols.length} protocols</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            scenariosDiv.innerHTML = scenariosHTML;
+            scenariosDiv.style.display = 'block';
+        }
+
+        // 역할극 시작
+        function startRolePlay() {
+            const selectedScenario = document.querySelector('.scenario-item.selected');
+            if (!selectedScenario) {
+                showStatus('Please select a scenario first', 'error');
+                return;
+            }
+            
+            const scenarioId = selectedScenario.dataset.scenarioId;
+            showStatus(`Starting role-play with scenario: ${scenarioId}`, 'info');
+            addMessage('system', `🎭 Starting role-play session with scenario: ${scenarioId}`);
+        }
+
+        // 세션 기록 로드
+        async function loadSessionHistory() {
+            const config = getConfig();
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/${config.userId}/session-history`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${config.apiKey}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displaySessionHistory(data.sessions);
+                    showStatus('Session history loaded successfully', 'success');
+                } else {
+                    const errorData = await response.json();
+                    showStatus(`Failed to load session history: ${errorData.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`Error loading session history: ${error.message}`, 'error');
+            }
+        }
+
+        // 세션 기록 표시
+        function displaySessionHistory(sessions) {
+            const historyDiv = document.getElementById('sessionHistoryList');
+            
+            if (sessions.length === 0) {
+                historyDiv.innerHTML = '<p>No sessions completed yet.</p>';
+                historyDiv.style.display = 'block';
+                return;
+            }
+            
+            let historyHTML = '';
+            sessions.forEach(session => {
+                const duration = Math.round(session.duration / 1000);
+                const date = new Date(session.endTime).toLocaleDateString();
+                
+                historyHTML += `
+                    <div class="session-item">
+                        <div class="session-header">
+                            <div class="session-type">${session.type}</div>
+                            <div class="session-status-badge ${session.state}">${session.state}</div>
+                        </div>
+                        <div class="session-progress">
+                            <div class="session-progress-bar" style="width: ${session.finalProgress}%"></div>
+                        </div>
+                        <div class="session-meta">
+                            <span>📅 ${date}</span>
+                            <span>⏱️ ${duration}s</span>
+                            <span>📊 ${session.finalProgress}%</span>
+                            <span>💡 ${session.insights.length} insights</span>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            historyDiv.innerHTML = historyHTML;
+            historyDiv.style.display = 'block';
+        }
+
+        // 전역 변수
+        let currentSessionId = null;
 
         // ===== 텔로미어 건강 기능 함수들 =====
         

@@ -944,3 +944,95 @@ This major update transforms the Kairos AI Chat interface into a truly internati
 ---
 
 *This update represents a major advancement in preventive cardiovascular care, combining evidence-based medicine with AI-powered risk assessment to provide actionable health insights and early warning capabilities.*
+
+---
+
+## [9.0.0] - 2025-08-15
+
+### Added
+- **Embodied Identity & Self-Restoration — Expanding the Concept of Self Through Agentic AI**
+  - Revolutionary approach to personal identity development and cognitive health
+  - Based on cutting-edge research in embodied cognition, therapeutic role-play, and spatial memory
+  - Interactive, embodied experiences for identity exploration and strengthening
+  - AI systems that actively participate in identity development processes
+  - Evidence-based therapeutic approaches for identity exploration and growth
+
+### Technical Implementation
+- **New Module**: `embodied_identity_manager.js` with `EmbodiedIdentityManager` class
+- **3D Visualization Client**: `memory_visualization_client.js` with WebGL/Three.js support
+- **API Endpoints**: 9 new REST endpoints for embodied identity system
+- **Server Integration**: Full integration with existing Kairos server architecture
+- **Session Management**: Comprehensive session lifecycle management with progress tracking
+- **AI Integration**: Ollama-based AI for personalized insights and recommendations
+
+### Core Features
+- **Identity Management**: Core identity engine for personal values, goals, relationships, and experiences
+- **Embodied Sessions**: Interactive sessions for identity exploration, memory reconstruction, emotional regulation, and embodied simulation
+- **3D Memory Visualization**: Spatial memory mapping with timeline, emotional landscape, relationship network, and achievement mountain modes
+- **Therapeutic Role-Play**: Evidence-based clinical protocols for identity development and emotional processing
+- **AI-Powered Insights**: Personalized recommendations and growth opportunities based on session analysis
+
+### API Endpoints Added
+- `POST /api/embodied-identity/:userId/identity` - Create/update user identity profile
+- `POST /api/embodied-identity/:userId/session` - Start identity exploration session
+- `POST /api/embodied-identity/session/:sessionId/interaction` - Process session interactions
+- `POST /api/embodied-identity/session/:sessionId/end` - End session and generate summary
+- `GET /api/embodied-identity/:userId/profile` - Get user identity profile
+- `GET /api/embodied-identity/:userId/active-sessions` - Get user active sessions
+- `GET /api/embodied-identity/:userId/session-history` - Get session history
+- `GET /api/embodied-identity/scenarios` - Get available role-play scenarios
+- `GET /api/embodied-identity/memory-landscapes` - Get memory landscape options
+
+### Research Foundation
+- **DeepMind Genie3**: Generative Interactive Environments for 3D world simulation
+- **Self-Supervised Learning**: Pretext-Invariant Representations for identity preservation
+- **Embodied Cognition**: Neural Basis of Memory for spatial context enhancement
+- **Social Cognition**: Simulation theory for therapeutic role-play
+- **Embodied Learning**: Physical engagement in learning processes
+
+### User Interface Enhancements
+- **Identity Profile Section**: Personal values, life goals, relationships, and interests input
+- **Session Management**: Start, monitor, and end identity exploration sessions
+- **3D Visualization**: Interactive 3D memory landscapes with multiple viewing modes
+- **Role-Play Scenarios**: Therapeutic scenario selection and execution
+- **Session History**: Comprehensive tracking of completed sessions and insights
+- **Progress Monitoring**: Real-time session progress and outcome measurement
+
+### Cognitive Benefits
+- **Enhanced Self-Awareness**: Better understanding of personal identity and values
+- **Improved Memory**: Spatial memory enhancement through 3D visualization
+- **Emotional Regulation**: Better emotional processing and stress management
+- **Identity Continuity**: Stronger sense of self across life changes
+- **Cognitive Resilience**: Better cognitive function and memory retention
+
+### Clinical Applications
+- **Aging Population**: Cognitive health maintenance and identity preservation
+- **Trauma Recovery**: Identity reconstruction after traumatic experiences
+- **Mental Health**: Therapeutic support for various mental health conditions
+- **Cognitive Rehabilitation**: Recovery from cognitive impairments
+- **Personal Development**: Enhanced self-awareness and life satisfaction
+
+### Documentation
+- **Comprehensive Guide**: `EMBODIED_IDENTITY_GUIDE.md` with complete system documentation
+- **Research Foundation**: Detailed academic references and theoretical background
+- **Usage Examples**: Complete examples for all session types and features
+- **Best Practices**: Guidelines for optimal identity development outcomes
+- **Troubleshooting**: Common issues and performance optimization tips
+
+### Integration with Existing Systems
+- **Memory System**: Leverages existing Kairos memory for identity development
+- **AI Chat**: Integrates with conversational AI for emotional state analysis
+- **Security Framework**: Uses existing encryption and authentication systems
+- **Multi-language Support**: Compatible with existing i18n infrastructure
+- **API Architecture**: Follows established REST API patterns and validation
+
+### Future Enhancements Planned
+- **VR/AR Integration**: Immersive virtual reality experiences
+- **Brain-Computer Interfaces**: Direct neural feedback systems
+- **Advanced AI Models**: More sophisticated AI interaction capabilities
+- **Clinical Trials**: Validation studies for therapeutic effectiveness
+- **Social Features**: Community-based identity development support
+
+---
+
+*This update represents a major advancement in personal identity development and cognitive health, combining embodied cognition research with AI-powered therapeutic approaches to provide comprehensive identity exploration and restoration capabilities.*

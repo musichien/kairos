@@ -67,6 +67,15 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Scientific Reports**: Auto-generated reports with DOI-style artifact IDs and reproducibility data
 - **Collaborative Research**: Join the global network advancing brain disease understanding
 
+### 9. 🌟 **Embodied Identity & Self-Restoration**
+**Expanding the concept of self through agentic AI and embodied experiences**
+
+- **Identity Management**: Core identity engine for personal values, goals, and relationships
+- **Embodied Sessions**: Interactive sessions for identity exploration and emotional regulation
+- **3D Memory Visualization**: Spatial memory mapping with multiple visualization modes
+- **Therapeutic Role-Play**: Evidence-based clinical protocols for identity development
+- **AI-Powered Insights**: Personalized recommendations and growth opportunities
+
 - **Asian Cultural Sensitivity**: Conversation styles specialized for Korean, Japanese, and Chinese cultures
 - **Respectful Communication**: Optimizes respectful expressions appropriate for age and situation
 - **Global Market Ready**: Customization possible for various cultures when entering global markets
@@ -434,6 +443,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 - **[Telomere Health Guide](TELOMERE_HEALTH_GUIDE.md)** - Telomere-driven healthy aging module
 - **[Brain Research Computing Guide](BRAIN_RESEARCH_COMPUTING_GUIDE.md)** - Distributed computing for brain disease research
 - **[Collective Brain Modeling Guide](COLLECTIVE_BRAIN_MODELING_GUIDE.md)** - Self-service brain modeling simulations
+- **[Embodied Identity Guide](EMBODIED_IDENTITY_GUIDE.md)** - Expanding the concept of self through agentic AI
 
 ### **Technical Documentation:**
 - **[Project Overview](PROJECT_OVERVIEW.md)** - System architecture and design

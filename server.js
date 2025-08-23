@@ -16,6 +16,7 @@ const CulturalOptimizationManager = require('./cultural_optimization');
 const TelomereHealthManager = require('./telomere_health');
 const CardiovascularWarningManager = require('./cardiovascular_warning');
 const BrainResearchComputingManager = require('./brain_research_computing');
+const EmbodiedIdentityManager = require('./embodied_identity_manager');
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -26,6 +27,7 @@ const culturalManager = new CulturalOptimizationManager();
 const telomereHealthManager = new TelomereHealthManager();
 const cardiovascularWarningManager = new CardiovascularWarningManager();
 const brainResearchComputingManager = new BrainResearchComputingManager();
+const embodiedIdentityManager = new EmbodiedIdentityManager();
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -1812,7 +1814,277 @@ app.get('/api/cardiovascular/:userId/alerts', authenticateToken, async (req, res
   }
 });
 
-// Brain Research Computing API 엔드포인트
+// ===== Embodied Identity & Self-Restoration API Endpoints =====
+
+// Create or update user identity
+app.post('/api/embodied-identity/:userId/identity', authenticateToken, [
+  body('personalValues').optional().isArray().withMessage('개인 가치는 배열이어야 합니다.'),
+  body('lifeGoals').optional().isArray().withMessage('인생 목표는 배열이어야 합니다.'),
+  body('relationships').optional().isArray().withMessage('관계 정보는 배열이어야 합니다.'),
+  body('interests').optional().isArray().withMessage('관심사는 배열이어야 합니다.'),
+  body('skills').optional().isArray().withMessage('기술은 배열이어야 합니다.'),
+  body('experiences').optional().isArray().withMessage('경험은 배열이어야 합니다.'),
+  body('beliefs').optional().isArray().withMessage('신념은 배열이어야 합니다.'),
+  body('aspirations').optional().isArray().withMessage('포부는 배열이어야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const identityData = req.body;
+    const identity = embodiedIdentityManager.createUserIdentity(userId, identityData);
+    
+    res.json({
+      message: '사용자 정체성이 생성/업데이트되었습니다.',
+      identity: identity
+    });
+  } catch (error) {
+    console.error('정체성 생성/업데이트 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '정체성 생성/업데이트 실패',
+        type: 'server_error',
+        code: 'identity_creation_failed'
+      }
+    });
+  }
+});
+
+// Start identity session
+app.post('/api/embodied-identity/:userId/session', authenticateToken, [
+  body('sessionType').isIn(['identity_exploration', 'memory_reconstruction', 'emotional_regulation', 'embodied_simulation']).withMessage('올바른 세션 유형을 선택해주세요.'),
+  body('parameters').optional().isObject().withMessage('매개변수는 객체여야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { userId } = req.params;
+    const { sessionType, parameters } = req.body;
+    const session = embodiedIdentityManager.startIdentitySession(userId, sessionType, parameters);
+    
+    res.json({
+      message: '정체성 세션이 시작되었습니다.',
+      session: session
+    });
+  } catch (error) {
+    console.error('세션 시작 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '세션 시작 실패',
+        type: 'server_error',
+        code: 'session_start_failed'
+      }
+    });
+  }
+});
+
+// Process session interaction
+app.post('/api/embodied-identity/session/:sessionId/interaction', authenticateToken, [
+  body('type').isIn(['memory_recall', 'identity_exploration', 'emotional_expression', 'cognitive_processing']).withMessage('올바른 상호작용 유형을 선택해주세요.'),
+  body('content').notEmpty().withMessage('상호작용 내용은 필수입니다.'),
+  body('emotionalState').optional().isObject().withMessage('감정 상태는 객체여야 합니다.'),
+  body('response').optional().isString().withMessage('응답은 문자열이어야 합니다.'),
+  body('context').optional().isString().withMessage('맥락은 문자열이어야 합니다.')
+], async (req, res) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        error: {
+          message: '입력 데이터가 올바르지 않습니다.',
+          type: 'validation_error',
+          code: 'invalid_input',
+          details: errors.array()
+        }
+      });
+    }
+
+    const { sessionId } = req.params;
+    const interaction = req.body;
+    const result = embodiedIdentityManager.processSessionInteraction(sessionId, interaction);
+    
+    res.json({
+      message: '세션 상호작용이 처리되었습니다.',
+      result: result
+    });
+  } catch (error) {
+    console.error('상호작용 처리 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '상호작용 처리 실패',
+        type: 'server_error',
+        code: 'interaction_processing_failed'
+      }
+    });
+  }
+});
+
+// End identity session
+app.post('/api/embodied-identity/session/:sessionId/end', authenticateToken, async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const result = embodiedIdentityManager.endIdentitySession(sessionId);
+    
+    res.json({
+      message: '정체성 세션이 종료되었습니다.',
+      result: result
+    });
+  } catch (error) {
+    console.error('세션 종료 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '세션 종료 실패',
+        type: 'server_error',
+        code: 'session_end_failed'
+      }
+    });
+  }
+});
+
+// Get user identity profile
+app.get('/api/embodied-identity/:userId/profile', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const identity = embodiedIdentityManager.getUserIdentity(userId);
+    
+    if (!identity) {
+      return res.status(404).json({
+        error: {
+          message: '사용자 정체성을 찾을 수 없습니다.',
+          type: 'not_found',
+          code: 'identity_not_found'
+        }
+      });
+    }
+    
+    res.json({
+      message: '사용자 정체성 프로필을 조회했습니다.',
+      identity: identity
+    });
+  } catch (error) {
+    console.error('정체성 프로필 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '정체성 프로필 조회 실패',
+        type: 'server_error',
+          code: 'profile_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get user active sessions
+app.get('/api/embodied-identity/:userId/active-sessions', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const sessions = embodiedIdentityManager.getUserActiveSessions(userId);
+    
+    res.json({
+      message: '사용자의 활성 세션을 조회했습니다.',
+      sessions: sessions,
+      count: sessions.length
+    });
+  } catch (error) {
+    console.error('활성 세션 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '활성 세션 조회 실패',
+        type: 'server_error',
+        code: 'active_sessions_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get user session history
+app.get('/api/embodied-identity/:userId/session-history', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { limit } = req.query;
+    const sessions = embodiedIdentityManager.getUserSessionHistory(userId, parseInt(limit) || 10);
+    
+    res.json({
+      message: '사용자의 세션 기록을 조회했습니다.',
+      sessions: sessions,
+      count: sessions.length
+    });
+  } catch (error) {
+    console.error('세션 기록 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '세션 기록 조회 실패',
+        type: 'server_error',
+        code: 'session_history_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get available role-play scenarios
+app.get('/api/embodied-identity/scenarios', authenticateToken, async (req, res) => {
+  try {
+    const scenarios = embodiedIdentityManager.getAvailableScenarios();
+    
+    res.json({
+      message: '사용 가능한 역할극 시나리오를 조회했습니다.',
+      scenarios: scenarios,
+      count: scenarios.length
+    });
+  } catch (error) {
+  console.error('시나리오 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '시나리오 조회 실패',
+        type: 'server_error',
+        code: 'scenarios_fetch_failed'
+      }
+    });
+  }
+});
+
+// Get memory landscape options
+app.get('/api/embodied-identity/memory-landscapes', authenticateToken, async (req, res) => {
+  try {
+    const landscapes = embodiedIdentityManager.getMemoryLandscapeOptions();
+    
+    res.json({
+      message: '메모리 랜드스케이프 옵션을 조회했습니다.',
+      landscapes: landscapes,
+      count: landscapes.length
+    });
+  } catch (error) {
+    console.error('메모리 랜드스케이프 옵션 조회 실패:', error);
+    res.status(500).json({
+      error: {
+        message: '메모리 랜드스케이프 옵션 조회 실패',
+        type: 'server_error',
+        code: 'memory_landscapes_fetch_failed'
+      }
+    });
+  }
+});
+
+// ===== Brain Research Computing API Endpoints =====
 // Get available computing jobs
 app.get('/api/brain-research/jobs', authenticateToken, async (req, res) => {
   try {
@@ -2538,7 +2810,7 @@ app.post('/api/cultural/prompt', authenticateToken, [
 app.get('/', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
-    version: '8.0.0',
+    version: '9.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
       '/api/generate': 'Ollama 직접 호출 엔드포인트',
@@ -2599,6 +2871,15 @@ app.get('/', (req, res) => {
       '/api/brain-research/user-jobs/:userId': '뇌 연구 컴퓨팅: 사용자 제출 작업 상태',
       '/api/brain-research/credits/:userId': '뇌 연구 컴퓨팅: 사용자 크레딧 조회',
       '/api/brain-research/validate-results/:userJobId': '뇌 연구 컴퓨팅: 사용자 작업 결과 검증',
+      '/api/embodied-identity/:userId/identity': '체화된 정체성: 사용자 정체성 생성/업데이트',
+      '/api/embodied-identity/:userId/session': '체화된 정체성: 정체성 세션 시작',
+      '/api/embodied-identity/session/:sessionId/interaction': '체화된 정체성: 세션 상호작용 처리',
+      '/api/embodied-identity/session/:sessionId/end': '체화된 정체성: 세션 종료',
+      '/api/embodied-identity/:userId/profile': '체화된 정체성: 사용자 정체성 프로필 조회',
+      '/api/embodied-identity/:userId/active-sessions': '체화된 정체성: 활성 세션 조회',
+      '/api/embodied-identity/:userId/session-history': '체화된 정체성: 세션 기록 조회',
+      '/api/embodied-identity/scenarios': '체화된 정체성: 역할극 시나리오 조회',
+      '/api/embodied-identity/memory-landscapes': '체화된 정체성: 메모리 랜드스케이프 옵션 조회',
       '/api/cultural/profile/:language': '문화 프로필 조회',
       '/api/cultural/style/:language/:formality': '대화 스타일 조회',
       '/api/cultural/greeting': '문화적 인사말 생성',
@@ -2628,6 +2909,7 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   console.log(`🧬 텔로미어 기반 건강 관리 모듈이 초기화되었습니다.`);
   console.log(`💓 급성 심혈관 사건 조기 경고 시스템이 초기화되었습니다.`);
   console.log(`🧠 뇌 질환 연구 분산 컴퓨팅 시스템이 초기화되었습니다.`);
+  console.log(`🌟 체화된 정체성 및 자아 복원 시스템이 초기화되었습니다.`);
   
   // WebSocket 서버 초기화
   multimodalManager.initializeWebSocket(server);
@@ -2638,5 +2920,6 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   // 정기적인 정리 작업 스케줄링
   setInterval(() => {
     brainResearchComputingManager.cleanup();
+    embodiedIdentityManager.cleanup();
   }, 60 * 60 * 1000); // 1시간마다
 }); 
