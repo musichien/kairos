@@ -4,6 +4,12 @@
 
 Welcome to Kairos! This project provides a **comprehensive AI platform** that combines long-term memory, privacy-centric processing, cognitive enhancement training, multimodal integration, and cultural optimization to support healthy aging and cognitive health.
 
+## 🎬 **Live Demo - See Kairos in Action!**
+
+![Kairos AI Platform Demo](kalos-8-25-2205.gif)
+
+*Experience the new improved UI with modern tabbed interface, featuring AI Chat, Brain Research Computing, Embodied Identity, and more!*
+
 ## 🎯 **Core Features Overview**
 
 ### 1. 🧠 **Long-term Memory & Contextualization Technology**
@@ -123,6 +129,29 @@ npm start
 Open your browser and go to:
 **`http://localhost:3000`**
 
+## 🎨 **New Improved UI Features**
+
+### **Modern Tabbed Interface**
+The new Kairos UI provides an intuitive, organized experience with dedicated tabs for each major feature:
+
+- **📊 Overview**: Platform status and quick access to all features
+- **💬 AI Chat**: Intelligent conversations with memory context and cultural optimization
+- **🧠 Memory**: Long-term memory management and analysis
+- **🧩 Cognitive Training**: Personalized cognitive enhancement exercises
+- **🔊 Multimodal**: Voice, video, and sensor data integration
+- **🌍 Cultural**: Multi-language support and cultural sensitivity
+- **💓 Cardiovascular**: Early warning system for cardiovascular events
+- **🧬 Brain Research**: Distributed computing for brain disease research
+- **🌟 Embodied Identity**: Self-exploration and identity development sessions
+- **⏰ Telomere Health**: Science-based healthy aging guidance
+
+### **Enhanced User Experience**
+- **Responsive Design**: Works seamlessly on desktop and mobile devices
+- **Real-time Updates**: Live progress tracking for all computing jobs
+- **Interactive Elements**: Click-to-start buttons and progress indicators
+- **Demo Mode**: Try features even without full backend integration
+- **Multi-language Support**: Korean, English, Japanese, and Chinese interfaces
+
 ## 📖 **Detailed Usage Examples**
 
 ### 🧠 **1. Long-term Memory & Contextualization**
@@ -191,6 +220,23 @@ curl -X POST "http://localhost:3000/api/security/restore/user_001" \
   -H "Content-Type: application/json" \
   -d '{"backupPath": "backups/user_001_backup_1234567890.enc"}'
 ```
+
+## 📸 **Screenshots & UI Gallery**
+
+### **Main Dashboard**
+![Main Dashboard](kalos-8-25-2205.gif)
+
+### **Feature Tabs**
+- **AI Chat Interface**: Intelligent conversations with memory context
+- **Brain Research Computing**: Distributed computing job management
+- **Embodied Identity**: Interactive identity exploration sessions
+- **Cognitive Training**: Personalized enhancement exercises
+- **Memory Management**: Long-term memory visualization and analysis
+
+### **Responsive Design**
+The new UI adapts seamlessly to different screen sizes and devices, providing an optimal experience whether you're using a desktop, tablet, or mobile device.
+
+---
 
 ### 🧩 **3. Cognitive Enhancement Training**
 
@@ -490,7 +536,7 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 
 *Built with ❤️ for cognitive health and privacy-first AI experiences*
 
-**🎯 8 Core Features Successfully Implemented:**
+**🎯 9 Core Features Successfully Implemented:**
 1. ✅ **Long-term Memory & Contextualization** - Intelligent memory system
 2. ✅ **Privacy-Centric Security** - Military-grade encryption and local storage
 3. ✅ **Cognitive Enhancement** - Personalized training routines
@@ -498,4 +544,30 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 5. ✅ **Cultural Optimization** - Multi-language and cultural sensitivity
 6. ✅ **Telomere-Driven Healthy Aging** - Science-based lifestyle guidance
 7. ✅ **Brain Disease Research Computing** - Citizen-powered distributed computing
-8. ✅ **Collective Brain Modeling** - Self-service brain modeling simulations 
+8. ✅ **Collective Brain Modeling** - Self-service brain modeling simulations
+9. ✅ **Embodied Identity & Self-Restoration** - Expanding the concept of self through agentic AI
+
+## 🆕 **Latest Updates (December 25, 2024)**
+
+### **🎨 Complete UI Redesign & Modernization**
+- **New Tabbed Interface**: Organized, intuitive navigation with dedicated tabs for each feature
+- **Responsive Design**: Seamless experience across desktop, tablet, and mobile devices
+- **Enhanced User Experience**: Interactive elements, real-time updates, and progress tracking
+- **Demo Mode Integration**: Try features even without full backend integration
+
+### **🌟 New Embodied Identity Module**
+- **Identity Management**: Core identity engine for personal values, goals, and relationships
+- **Embodied Sessions**: Interactive sessions for identity exploration and emotional regulation
+- **3D Memory Visualization**: Spatial memory mapping with multiple visualization modes
+- **Therapeutic Role-Play**: Evidence-based clinical protocols for identity development
+
+### **🧠 Enhanced Brain Research Computing**
+- **Self-Service Jobs**: Submit your own simulations using pre-approved templates
+- **Credit System**: Earn credits by contributing compute, spend credits to run simulations
+- **Advanced Scheduling**: Weighted fair queuing with user quotas and priority levels
+- **Scientific Reports**: Auto-generated reports with DOI-style artifact IDs
+
+### **🔧 Technical Improvements**
+- **Server Configuration**: Root path now redirects to improved UI (`http://localhost:3000/`)
+- **Error Handling**: Enhanced timeout management and Ollama server connection validation
+- **Performance Optimization**: Reduced API response times and improved reliability 
