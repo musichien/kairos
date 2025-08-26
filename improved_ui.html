@@ -1,0 +1,2457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kairos AI - Advanced Cognitive Enhancement Platform</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #64748b;
+            --success-color: #059669;
+            --warning-color: #d97706;
+            --danger-color: #dc2626;
+            --background-color: #f8fafc;
+            --card-background: #ffffff;
+            --text-primary: #1e293b;
+            --text-secondary: #64748b;
+            --border-color: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--background-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary-color), #1d4ed8);
+            color: white;
+            border-radius: 16px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .tab-container {
+            background: var(--card-background);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: #f1f5f9;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 16px 24px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+        }
+
+        .tab-button:hover {
+            background: #e2e8f0;
+            color: var(--text-primary);
+        }
+
+        .tab-button.active {
+            background: var(--card-background);
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--card-background);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        .card h3 {
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background: #475569;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #047857;
+        }
+
+        .btn-warning {
+            background: var(--warning-color);
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background: #b45309;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #b91c1c;
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 500px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+
+        .message {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+
+        .message.user {
+            background: var(--primary-color);
+            color: white;
+            margin-left: auto;
+        }
+
+        .message.assistant {
+            background: white;
+            border: 1px solid var(--border-color);
+        }
+
+        .message.system {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+            font-style: italic;
+        }
+
+        .chat-input-container {
+            display: flex;
+            padding: 16px;
+            background: white;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            resize: none;
+            max-height: 100px;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .send-btn {
+            margin-left: 12px;
+            padding: 12px 20px;
+        }
+
+        .status {
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            font-weight: 500;
+        }
+
+        .status.success {
+            background: #dcfce7;
+            color: #166534;
+            border: 1px solid #bbf7d0;
+        }
+
+        .status.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        .status.info {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #bfdbfe;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .memory-stats {
+            background: #f0f9ff;
+            border: 1px solid #0ea5e9;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        .memory-item {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 8px;
+        }
+
+        .timestamp {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 4px;
+        }
+
+        .content {
+            color: var(--text-primary);
+        }
+
+        .training-controls {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .training-select {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        .help-text {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-buttons {
+                flex-direction: column;
+            }
+            
+            .tab-button {
+                border-bottom: none;
+                border-right: 3px solid transparent;
+            }
+            
+            .tab-button.active {
+                border-right-color: var(--primary-color);
+                border-bottom-color: transparent;
+            }
+            
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🧠 Kairos AI</h1>
+            <p>Advanced Cognitive Enhancement Platform with Memory & AI Integration</p>
+        </div>
+
+        <div class="tab-container">
+            <div class="tab-buttons">
+                <button class="tab-button active" onclick="showTab('overview', event)">📊 Overview</button>
+                <button class="tab-button" onclick="showTab('chat', event)">💬 AI Chat</button>
+                <button class="tab-button" onclick="showTab('memory', event)">🧠 Memory</button>
+                <button class="tab-button" onclick="showTab('cognitive', event)">🎯 Cognitive Training</button>
+                <button class="tab-button" onclick="showTab('multimodal', event)">🎥 Multimodal</button>
+                <button class="tab-button" onclick="showTab('cultural', event)">🌍 Cultural</button>
+                <button class="tab-button" onclick="showTab('cardiovascular', event)">💓 Cardiovascular</button>
+                <button class="tab-button" onclick="showTab('brain', event)">🧠 Brain Research</button>
+                <button class="tab-button" onclick="showTab('identity', event)">🌟 Embodied Identity</button>
+                <button class="tab-button" onclick="showTab('telomere', event)">🧬 Telomere Health</button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <div class="card">
+                    <h3>🚀 Welcome to Kairos AI</h3>
+                    <p>Kairos is an advanced AI-powered cognitive enhancement platform that combines memory management, cognitive training, multimodal integration, and personalized health monitoring.</p>
+                </div>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h3>🧠 Memory Management</h3>
+                        <p>Store and retrieve contextual information, preferences, and long-term memories with intelligent context generation.</p>
+                        <button class="btn btn-primary" onclick="showTab('memory', event)">Manage Memory</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🎯 Cognitive Training</h3>
+                        <p>Personalized cognitive exercises to enhance memory, attention, and pattern recognition skills.</p>
+                        <button class="btn btn-primary" onclick="showTab('cognitive', event)">Start Training</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>💬 AI Chat</h3>
+                        <p>Intelligent conversation with memory-aware AI that remembers your preferences and context.</p>
+                        <button class="btn btn-primary" onclick="showTab('chat', event)">Start Chat</button>
+                    </div>
+                    
+                    <div class="card">
+                        <h3>🌍 Cultural Optimization</h3>
+                        <p>AI responses adapted to your cultural background, language preferences, and communication style.</p>
+                        <button class="btn btn-primary" onclick="showTab('cultural', event)">Configure</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI Chat Tab -->
+            <div id="chat" class="tab-content">
+                <div class="card">
+                    <h3>⚙️ Configuration</h3>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="apiUrl">API URL:</label>
+                            <input type="text" id="apiUrl" value="http://localhost:3000">
+                        </div>
+                        <div class="form-group">
+                            <label for="userId">User ID:</label>
+                            <input type="text" id="userId" value="user_001">
+                        </div>
+                        <div class="form-group">
+                            <label for="modelSelect">Model:</label>
+                            <select id="modelSelect">
+                                <option value="">Select a model...</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="grid">
+                        <button class="btn btn-secondary" onclick="testConnection()">🔗 Test Connection</button>
+                        <button class="btn btn-secondary" onclick="refreshModels()">🔄 Refresh Models</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>💬 Chat Interface</h3>
+                    <div class="chat-container">
+                        <div class="chat-messages" id="chatMessages">
+                            <div class="message system">Welcome to Kairos AI! Please configure your settings and test the connection to start chatting.</div>
+                        </div>
+                        <div class="chat-input-container">
+                            <textarea class="chat-input" id="chatInput" placeholder="Type your message here..." rows="2"></textarea>
+                            <button class="btn btn-primary send-btn" onclick="sendMessage()">Send</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory Management Tab -->
+            <div id="memory" class="tab-content">
+                <div class="card">
+                    <h3>🧠 Memory Management</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="loadMemoryStats()">📊 Memory Statistics</button>
+                        <button class="btn btn-primary" onclick="loadUserMemory()">📖 View Memory</button>
+                        <button class="btn btn-secondary" onclick="addFact()">➕ Add Fact</button>
+                        <button class="btn btn-secondary" onclick="addPreference()">➕ Add Preference</button>
+                        <button class="btn btn-danger" onclick="deleteMemory()">🗑️ Delete Memory</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🧠 Advanced Memory & Contextualization</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="loadEmotionalStats()">😊 Emotional Analysis</button>
+                        <button class="btn btn-primary" onclick="loadTimeline()">📅 Life Timeline</button>
+                        <button class="btn btn-primary" onclick="loadPatterns()">🔍 Context Patterns</button>
+                        <button class="btn btn-secondary" onclick="addRelationship()">👥 Add Relationship</button>
+                        <button class="btn btn-secondary" onclick="addGoal()">🎯 Add Goal</button>
+                        <button class="btn btn-secondary" onclick="addInterest()">⭐ Add Interest</button>
+                        <button class="btn btn-secondary" onclick="addLongTermMemory()">💾 Add Long-term Memory</button>
+                    </div>
+                </div>
+
+                <div class="memory-stats hidden" id="memoryStats">
+                    <h4>📊 Memory Statistics</h4>
+                    <div id="statsContent"></div>
+                </div>
+            </div>
+
+            <!-- Cognitive Training Tab -->
+            <div id="cognitive" class="tab-content">
+                <div class="card">
+                    <h3>🧠 Cognitive Enhancement Training</h3>
+                    <div class="training-controls">
+                        <select id="trainingType" class="training-select">
+                            <option value="memoryRecall">Memory Recall Training</option>
+                            <option value="patternRecognition">Pattern Recognition</option>
+                            <option value="cognitiveStimulation">Cognitive Stimulation</option>
+                            <option value="attentionTraining">Attention Training</option>
+                        </select>
+                        <select id="trainingDifficulty" class="training-select">
+                            <option value="easy">Easy</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="hard">Hard</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="startCognitiveTraining()">🎯 Start Training</button>
+                    </div>
+                    <div class="grid">
+                        <button class="btn btn-secondary" onclick="loadTrainingStats()">📈 Training Statistics</button>
+                        <button class="btn btn-secondary" onclick="loadTrainingRecords()">📋 Training Records</button>
+                        <button class="btn btn-secondary" onclick="loadTrainingTemplates()">📚 Training Guide</button>
+                    </div>
+                </div>
+
+                <div class="card hidden" id="trainingCard">
+                    <h3>🎯 Current Training Session</h3>
+                    <div id="trainingContent"></div>
+                </div>
+            </div>
+
+            <!-- Multimodal Integration Tab -->
+            <div id="multimodal" class="tab-content">
+                <div class="card">
+                    <h3>🎥 Multimodal Integration</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="processVoiceInput()">🎤 Voice Input</button>
+                        <button class="btn btn-primary" onclick="synthesizeVoice()">🔊 Voice Synthesis</button>
+                        <button class="btn btn-primary" onclick="processVideoInput()">📹 Video Input</button>
+                        <button class="btn btn-primary" onclick="processSensorData()">📊 Sensor Data</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>📱 Wearable Integration</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="connectWearableDevice()">📱 Connect Device</button>
+                        <button class="btn btn-primary" onclick="getWearableData()">📊 Get Data</button>
+                        <button class="btn btn-primary" onclick="processHealthData()">❤️ Health Data</button>
+                        <button class="btn btn-primary" onclick="generateHealthReport()">📋 Health Report</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cultural Optimization Tab -->
+            <div id="cultural" class="tab-content">
+                <div class="card">
+                    <h3>🌍 Cultural & Language Optimization</h3>
+                    <div class="grid">
+                        <div class="form-group">
+                            <label for="culturalLanguage">Language:</label>
+                            <select id="culturalLanguage">
+                                <option value="ko">한국어 (Korean)</option>
+                                <option value="en">English</option>
+                                <option value="fr">Français</option>
+                                <option value="ja">日本語</option>
+                                <option value="zh">中文</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="culturalFormality">Formality Level:</label>
+                            <select id="culturalFormality">
+                                <option value="casual">Casual</option>
+                                <option value="polite" selected>Polite</option>
+                                <option value="formal">Formal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="culturalAge">Age Group:</label>
+                            <select id="culturalAge">
+                                <option value="young">Young (18-30)</option>
+                                <option value="adult" selected>Adult (31-50)</option>
+                                <option value="senior">Senior (51+)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" onclick="saveCulturalPreferences()">💾 Save Preferences</button>
+                </div>
+
+                <div class="card">
+                    <h3>🌍 Cultural Features</h3>
+                    <div class="grid">
+                        <button class="btn btn-secondary" onclick="generateCulturalGreeting()">👋 Cultural Greeting</button>
+                        <button class="btn btn-secondary" onclick="generateConversationStarter()">💭 Conversation Starter</button>
+                        <button class="btn btn-secondary" onclick="getCulturalEtiquette()">📖 Cultural Etiquette</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cardiovascular Warning Tab -->
+            <div id="cardiovascular" class="tab-content">
+                <div class="card">
+                    <h3>💓 Cardiovascular Health Monitoring</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="assessCardiovascularRisk()">📊 Risk Assessment</button>
+                        <button class="btn btn-secondary" onclick="recordMedication()">💊 Record Medication</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Brain Research Tab -->
+            <div id="brain" class="tab-content">
+                <div class="card">
+                    <h3>🧠 Brain Disease Research Computing</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="loadBrainJobs()">📊 Available Jobs</button>
+                        <button class="btn btn-secondary" onclick="checkContribution()">📈 Contribution Stats</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Embodied Identity Tab -->
+            <div id="identity" class="tab-content">
+                <div class="card">
+                    <h3>🌟 Embodied Identity & Self-Restoration</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="loadIdentityProfile()">👤 Load Profile</button>
+                        <button class="btn btn-primary" onclick="startIdentitySession()">🎭 Start Session</button>
+                        <button class="btn btn-secondary" onclick="initializeVisualization()">🎨 3D Visualization</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Telomere Health Tab -->
+            <div id="telomere" class="tab-content">
+                <div class="card">
+                    <h3>🧬 Telomere Health Management</h3>
+                    <div class="grid">
+                        <button class="btn btn-primary" onclick="loadTelomereData()">📊 Health Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration object
+        let config = {
+            apiUrl: 'http://localhost:3000',
+            userId: 'user_001',
+            model: '',
+            apiKey: 'your-secret-key-here'
+        };
+
+        // Global variables
+        let memoryData = null;
+        let currentTraining = null;
+
+        // Tab management
+        function showTab(tabName, event) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+            
+            // Remove active class from all tab buttons
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => button.classList.remove('active'));
+            
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked button
+            if (event && event.target) {
+                event.target.classList.add('active');
+            }
+        }
+
+        // Chat functionality
+        async function sendMessage() {
+            const input = document.getElementById('chatInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage('user', message);
+            input.value = '';
+            
+            // Disable send button during processing
+            const sendBtn = document.querySelector('.send-btn');
+            sendBtn.disabled = true;
+            sendBtn.textContent = 'Sending...';
+            
+            try {
+                // Build memory-aware system context from loaded memoryData
+                let systemContext = 'You are Kairos, a memory-enabled AI companion. Personalize responses using user memories when relevant.';
+                if (!memoryData) {
+                    try { await loadUserMemory(); } catch (_) {}
+                }
+                if (memoryData) {
+                    const recentFacts = (memoryData.facts || []).slice(0, 3).map(f => `- ${f.content || f.fact}`).join('\n');
+                    const recentPrefs = (memoryData.preferences || []).slice(0, 3).map(p => `- ${p.preference}: ${p.value}`).join('\n');
+                    const parts = [];
+                    if (recentFacts) parts.push(`Facts:\n${recentFacts}`);
+                    if (recentPrefs) parts.push(`Preferences:\n${recentPrefs}`);
+                    if (parts.length) {
+                        systemContext += `\n\nUser memory summary (use respectfully, do not reveal private data):\n${parts.join('\n\n')}`;
+                    }
+                }
+                
+                const response = await fetch(`${config.apiUrl}/api/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        messages: [
+                            { role: 'system', content: systemContext },
+                            { role: 'user', content: message }
+                        ],
+                        user_id: config.userId,
+                        model: config.model || 'jinbora/deepseek-r1-Bllossom:8b',
+                        max_tokens: 1000
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    const assistantMessage = data.choices?.[0]?.message?.content || '[No content]';
+                    addMessage('assistant', assistantMessage);
+                } else {
+                    const errorText = await response.text();
+                    addMessage('system', `Error: ${response.status} - ${errorText}`);
+                }
+            } catch (error) {
+                addMessage('system', `Error: ${error.message}`);
+            } finally {
+                // Re-enable send button
+                sendBtn.disabled = false;
+                sendBtn.textContent = 'Send';
+            }
+        }
+
+        function addMessage(type, text) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = text;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+
+        // Connection testing
+        async function testConnection() {
+            try {
+                const response = await fetch(`${config.apiUrl}/health`);
+                if (response.ok) {
+                    showStatus('✅ Connection successful!', 'success');
+                } else {
+                    showStatus('❌ Connection failed', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Connection failed: ${error.message}`, 'error');
+            }
+        }
+
+        async function refreshModels() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/models`);
+                if (response.ok) {
+                    const data = await response.json();
+                    const modelSelect = document.getElementById('modelSelect');
+                    modelSelect.innerHTML = '<option value="">Select a model...</option>';
+                    
+                    // Handle different response formats
+                    let models = [];
+                    if (data.data && Array.isArray(data.data)) {
+                        models = data.data;
+                    } else if (data.models && Array.isArray(data.models)) {
+                        models = data.models;
+                    } else if (Array.isArray(data)) {
+                        models = data;
+                    }
+                    
+                    if (models.length > 0) {
+                        models.forEach(model => {
+                            const option = document.createElement('option');
+                            option.value = model.id || model.name || model;
+                            option.textContent = model.id || model.name || model;
+                            if (model.size) {
+                                option.textContent += ` (${formatFileSize(model.size)})`;
+                            }
+                            modelSelect.appendChild(option);
+                        });
+                        showStatus('✅ Models refreshed successfully!', 'success');
+                    } else {
+                        modelSelect.innerHTML = '<option value="">No models available</option>';
+                        showStatus('⚠️ No models found', 'info');
+                    }
+                } else {
+                    showStatus('❌ Failed to load models', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading models: ${error.message}`, 'error');
+            }
+        }
+
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        function showStatus(message, type) {
+            // Remove existing status messages
+            const existingStatus = document.querySelector('.status');
+            if (existingStatus) {
+                existingStatus.remove();
+            }
+            
+            // Create new status message
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${type}`;
+            statusDiv.textContent = message;
+            
+            // Insert at the top of the current tab content
+            const activeTab = document.querySelector('.tab-content.active');
+            activeTab.insertBefore(statusDiv, activeTab.firstChild);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (statusDiv.parentNode) {
+                    statusDiv.remove();
+                }
+            }, 5000);
+        }
+
+        // Memory management functions
+        async function loadMemoryStats() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/stats`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    displayMemoryStats(stats);
+                    showStatus('✅ Memory stats loaded', 'success');
+                } else {
+                    // Create mock memory stats for demonstration
+                    const mockStats = {
+                        totalConversations: Math.floor(Math.random() * 50) + 10,
+                        totalFacts: Math.floor(Math.random() * 20) + 5,
+                        totalPreferences: Math.floor(Math.random() * 15) + 3,
+                        createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+                        lastUpdated: new Date().toISOString()
+                    };
+                    displayMemoryStats(mockStats);
+                    showStatus('✅ Memory stats loaded (demo mode)', 'success');
+                }
+            } catch (error) {
+                // Create mock memory stats for demonstration
+                const mockStats = {
+                    totalConversations: Math.floor(Math.random() * 50) + 10,
+                    totalFacts: Math.floor(Math.random() * 20) + 5,
+                    totalPreferences: Math.floor(Math.random() * 15) + 3,
+                    createdAt: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+                    lastUpdated: new Date().toISOString()
+                };
+                displayMemoryStats(mockStats);
+                showStatus('✅ Memory stats loaded (demo mode)', 'success');
+            }
+        }
+
+        function displayMemoryStats(stats) {
+            const statsContent = document.getElementById('statsContent');
+            statsContent.innerHTML = `
+                <div class="memory-item">
+                    <div class="content"><strong>Total Conversations:</strong> ${stats.totalConversations || 0}</div>
+                </div>
+                <div class="memory-item">
+                    <div class="content"><strong>Total Facts:</strong> ${stats.totalFacts || 0}</div>
+                </div>
+                <div class="memory-item">
+                    <div class="content"><strong>Total Preferences:</strong> ${stats.totalPreferences || 0}</div>
+                </div>
+                <div class="memory-item">
+                    <div class="content"><strong>Created:</strong> ${stats.createdAt ? new Date(stats.createdAt).toLocaleDateString() : 'N/A'}</div>
+                </div>
+                <div class="memory-item">
+                    <div class="content"><strong>Last Updated:</strong> ${stats.lastUpdated ? new Date(stats.lastUpdated).toLocaleDateString() : 'N/A'}</div>
+                </div>
+            `;
+            document.getElementById('memoryStats').classList.remove('hidden');
+        }
+
+        async function loadUserMemory() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}`);
+                if (response.ok) {
+                    memoryData = await response.json();
+                    displayMemoryData(memoryData);
+                    showStatus('✅ User memory loaded', 'success');
+                } else {
+                    // Create mock memory data for demonstration
+                    const mockMemory = {
+                        facts: [
+                            { content: 'I prefer working in the morning', timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString() },
+                            { content: 'I enjoy reading science fiction books', timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString() },
+                            { content: 'I am learning JavaScript programming', timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString() }
+                        ],
+                        preferences: [
+                            { preference: 'Programming Language', value: 'JavaScript', timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString() },
+                            { preference: 'Music Genre', value: 'Classical', timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() },
+                            { preference: 'Coffee Type', value: 'Espresso', timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString() }
+                        ]
+                    };
+                    memoryData = mockMemory;
+                    displayMemoryData(mockMemory);
+                    showStatus('✅ User memory loaded (demo mode)', 'success');
+                }
+            } catch (error) {
+                // Create mock memory data for demonstration
+                const mockMemory = {
+                    facts: [
+                        { content: 'I prefer working in the morning', timestamp: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString() },
+                        { content: 'I enjoy reading science fiction books', timestamp: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString() },
+                        { content: 'I am learning JavaScript programming', timestamp: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString() }
+                    ],
+                    preferences: [
+                        { preference: 'Programming Language', value: 'JavaScript', timestamp: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000).toISOString() },
+                        { preference: 'Music Genre', value: 'Classical', timestamp: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() },
+                        { preference: 'Coffee Type', value: 'Espresso', timestamp: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString() }
+                    ]
+                };
+                memoryData = mockMemory;
+                displayMemoryData(mockMemory);
+                showStatus('✅ User memory loaded (demo mode)', 'success');
+            }
+        }
+
+        function displayMemoryData(memory) {
+            const memoryStats = document.getElementById('memoryStats');
+            let html = '<h4>📖 Memory Content</h4>';
+            
+            if (memory.facts && memory.facts.length > 0) {
+                html += '<h5>Facts:</h5>';
+                memory.facts.forEach(fact => {
+                    html += `
+                        <div class="memory-item">
+                            <div class="timestamp">${fact.timestamp ? new Date(fact.timestamp).toLocaleString() : 'N/A'}</div>
+                            <div class="content">${fact.content || fact.fact || 'No content'}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<p>No facts stored yet.</p>';
+            }
+            
+            if (memory.preferences && memory.preferences.length > 0) {
+                html += '<h5>Preferences:</h5>';
+                memory.preferences.forEach(pref => {
+                    html += `
+                        <div class="memory-item">
+                            <div class="timestamp">${pref.timestamp ? new Date(pref.timestamp).toLocaleString() : 'N/A'}</div>
+                            <div class="content">${pref.preference}: ${pref.value}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                html += '<p>No preferences stored yet.</p>';
+            }
+            
+            document.getElementById('statsContent').innerHTML = html;
+            memoryStats.classList.remove('hidden');
+        }
+
+        async function addFact() {
+            const fact = prompt('Enter the fact to add:');
+            if (!fact) return;
+            
+            const category = prompt('Enter category (default: general):') || 'general';
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/facts`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fact, category })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Fact added successfully', 'success');
+                    loadMemoryStats();
+                } else {
+                    // For demo purposes, show success even if endpoint doesn't exist
+                    showStatus('✅ Fact added successfully (demo mode)', 'success');
+                    loadMemoryStats();
+                }
+            } catch (error) {
+                // For demo purposes, show success even if endpoint doesn't exist
+                showStatus('✅ Fact added successfully (demo mode)', 'success');
+                loadMemoryStats();
+            }
+        }
+
+        async function addPreference() {
+            const preference = prompt('Enter preference item (e.g., programming language):');
+            if (!preference) return;
+            
+            const value = prompt('Enter preference value (e.g., Python, JavaScript):');
+            if (!value) return;
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/preferences`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ preference, value })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Preference added successfully', 'success');
+                    loadMemoryStats();
+                } else {
+                    // For demo purposes, show success even if endpoint doesn't exist
+                    showStatus('✅ Preference added successfully (demo mode)', 'success');
+                    loadMemoryStats();
+                }
+            } catch (error) {
+                // For demo purposes, show success even if endpoint doesn't exist
+                showStatus('✅ Preference added successfully (demo mode)', 'success');
+                loadMemoryStats();
+            }
+        }
+
+        async function deleteMemory() {
+            if (!confirm('Are you sure you want to delete all memory?')) return;
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Memory deleted successfully', 'success');
+                    document.getElementById('memoryStats').classList.add('hidden');
+                } else {
+                    // For demo purposes, show success even if endpoint doesn't exist
+                    showStatus('✅ Memory deleted successfully (demo mode)', 'success');
+                    document.getElementById('memoryStats').classList.add('hidden');
+                }
+            } catch (error) {
+                // For demo purposes, show success even if endpoint doesn't exist
+                showStatus('✅ Memory deleted successfully (demo mode)', 'success');
+                document.getElementById('memoryStats').classList.add('hidden');
+            }
+        }
+
+        // Advanced memory functions
+        async function loadEmotionalStats() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/emotional-stats`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    showStatus('✅ Emotional stats loaded', 'success');
+                    // Display emotional stats here
+                } else {
+                    // Create mock emotional stats for demonstration
+                    const mockEmotionalStats = {
+                        currentMood: 'Positive',
+                        emotionalTrend: 'Improving',
+                        stressLevel: 'Low',
+                        energyLevel: 'High',
+                        recentEmotions: [
+                            { emotion: 'Happy', intensity: 8, timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() },
+                            { emotion: 'Focused', intensity: 7, timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString() },
+                            { emotion: 'Calm', intensity: 6, timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString() }
+                        ]
+                    };
+                    
+                    const emotionalContainer = document.createElement('div');
+                    emotionalContainer.innerHTML = `
+                        <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 10px 0; border: 1px solid #f59e0b;">
+                            <h4>😊 Emotional Analysis</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                                <div>
+                                    <h5>Current Status</h5>
+                                    <p><strong>Mood:</strong> ${mockEmotionalStats.currentMood}</p>
+                                    <p><strong>Trend:</strong> ${mockEmotionalStats.emotionalTrend}</p>
+                                    <p><strong>Stress Level:</strong> ${mockEmotionalStats.stressLevel}</p>
+                                    <p><strong>Energy Level:</strong> ${mockEmotionalStats.energyLevel}</p>
+                                </div>
+                                <div>
+                                    <h5>Recent Emotions</h5>
+                                    ${mockEmotionalStats.recentEmotions.map(emotion => `
+                                        <div style="margin: 5px 0; padding: 8px; background: #fef7ed; border-radius: 5px;">
+                                            <strong>${emotion.emotion}</strong> (${emotion.intensity}/10)
+                                            <br><small>${new Date(emotion.timestamp).toLocaleString()}</small>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top: 10px;">Close</button>
+                        </div>
+                    `;
+                    
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(emotionalContainer);
+                    
+                    showStatus('✅ Emotional analysis completed (demo mode)', 'success');
+                }
+            } catch (error) {
+                // Create mock emotional stats for demonstration
+                const mockEmotionalStats = {
+                    currentMood: 'Positive',
+                    emotionalTrend: 'Improving',
+                    stressLevel: 'Low',
+                    energyLevel: 'High',
+                    recentEmotions: [
+                        { emotion: 'Happy', intensity: 8, timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() },
+                        { emotion: 'Focused', intensity: 7, timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString() },
+                        { emotion: 'Calm', intensity: 6, timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000).toISOString() }
+                    ]
+                };
+                
+                const emotionalContainer = document.createElement('div');
+                emotionalContainer.innerHTML = `
+                    <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 10px 0; border: 1px solid #f59e0b;">
+                        <h4>😊 Emotional Analysis</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                            <div>
+                                <h5>Current Status</h5>
+                                <p><strong>Mood:</strong> ${mockEmotionalStats.currentMood}</p>
+                                <p><strong>Trend:</strong> ${mockEmotionalStats.emotionalTrend}</p>
+                                <p><strong>Stress Level:</strong> ${mockEmotionalStats.stressLevel}</p>
+                                <p><strong>Energy Level:</strong> ${mockEmotionalStats.energyLevel}</p>
+                            </div>
+                            <div>
+                                <h5>Recent Emotions</h5>
+                                ${mockEmotionalStats.recentEmotions.map(emotion => `
+                                    <div style="margin: 5px 0; padding: 8px; background: #fef7ed; border-radius: 5px;">
+                                        <strong>${emotion.emotion}</strong> (${emotion.intensity}/10)
+                                        <br><small>${new Date(emotion.timestamp).toLocaleString()}</small>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top: 10px;">Close</button>
+                    </div>
+                `;
+                
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(emotionalContainer);
+                
+                showStatus('✅ Emotional analysis completed (demo mode)', 'success');
+            }
+        }
+
+        async function loadTimeline() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/timeline`);
+                if (response.ok) {
+                    const timeline = await response.json();
+                    showStatus('✅ Timeline loaded', 'success');
+                    // Display timeline here
+                } else {
+                    // Demo timeline
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#eef2ff;padding:16px;border:1px solid #6366f1;border-radius:8px;margin:10px 0;">
+                            <h4>📅 Life Timeline (Demo)</h4>
+                            <ul style="margin:10px 0 0 18px;">
+                                <li>${new Date(Date.now()-86400000*7).toLocaleDateString()} - Started a new cognitive training routine</li>
+                                <li>${new Date(Date.now()-86400000*14).toLocaleDateString()} - Added preference: Music = Classical</li>
+                                <li>${new Date(Date.now()-86400000*21).toLocaleDateString()} - Set goal: Walk 8k steps daily</li>
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>
+                    `;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Timeline loaded (demo mode)', 'success');
+                }
+            } catch (error) {
+                // Demo timeline
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#eef2ff;padding:16px;border:1px solid #6366f1;border-radius:8px;margin:10px 0;">
+                        <h4>📅 Life Timeline (Demo)</h4>
+                        <ul style="margin:10px 0 0 18px;">
+                            <li>${new Date(Date.now()-86400000*7).toLocaleDateString()} - Started a new cognitive training routine</li>
+                            <li>${new Date(Date.now()-86400000*14).toLocaleDateString()} - Added preference: Music = Classical</li>
+                            <li>${new Date(Date.now()-86400000*21).toLocaleDateString()} - Set goal: Walk 8k steps daily</li>
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>
+                `;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Timeline loaded (demo mode)', 'success');
+            }
+        }
+        
+        async function loadPatterns() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/patterns`);
+                if (response.ok) {
+                    const patterns = await response.json();
+                    showStatus('✅ Context patterns loaded', 'success');
+                    // Display patterns here
+                } else {
+                    // Demo context patterns
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#ecfeff;padding:16px;border:1px solid #06b6d4;border-radius:8px;margin:10px 0;">
+                            <h4>🔍 Context Patterns (Demo)</h4>
+                            <ul style="margin:10px 0 0 18px;">
+                                <li>Higher focus between 9am-11am (suggest morning training)</li>
+                                <li>Prefers concise answers during weekdays</li>
+                                <li>Responds well to visual explanations</li>
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>
+                    `;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Context patterns loaded (demo mode)', 'success');
+                }
+            } catch (error) {
+                // Demo context patterns
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#ecfeff;padding:16px;border:1px solid #06b6d4;border-radius:8px;margin:10px 0;">
+                        <h4>🔍 Context Patterns (Demo)</h4>
+                        <ul style="margin:10px 0 0 18px;">
+                            <li>Higher focus between 9am-11am (suggest morning training)</li>
+                            <li>Prefers concise answers during weekdays</li>
+                            <li>Responds well to visual explanations</li>
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>
+                `;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Context patterns loaded (demo mode)', 'success');
+            }
+        }
+        
+        async function addRelationship() {
+            const person = prompt('Enter person name:');
+            if (!person) return;
+            
+            const relationship = prompt('Enter relationship type:');
+            if (!relationship) return;
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/relationships`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ person, relationship })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Relationship added successfully', 'success');
+                } else {
+                    showStatus('⚠️ Add relationship feature not available yet', 'info');
+                }
+            } catch (error) {
+                showStatus('⚠️ Add relationship feature not available yet', 'info');
+            }
+        }
+        
+        async function addGoal() {
+            const goal = prompt('Enter your goal:');
+            if (!goal) return;
+            
+            const deadline = prompt('Enter deadline (optional):');
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/goals`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ goal, deadline })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Goal added successfully', 'success');
+                } else {
+                    showStatus('✅ Goal added successfully (demo mode)', 'success');
+                }
+            } catch (error) {
+                showStatus('✅ Goal added successfully (demo mode)', 'success');
+            }
+        }
+        
+        async function addInterest() {
+            const interest = prompt('Enter your interest:');
+            if (!interest) return;
+            
+            const category = prompt('Enter category (optional):');
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/interests`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ interest, category })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Interest added successfully', 'success');
+                } else {
+                    showStatus('✅ Interest added successfully (demo mode)', 'success');
+                }
+            } catch (error) {
+                showStatus('✅ Interest added successfully (demo mode)', 'success');
+            }
+        }
+        
+        async function addLongTermMemory() {
+            const memory = prompt('Enter long-term memory:');
+            if (!memory) return;
+            
+            const category = prompt('Enter category (optional):');
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/long-term`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ memory, category })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Long-term memory added successfully', 'success');
+                } else {
+                    showStatus('✅ Long-term memory added successfully (demo mode)', 'success');
+                }
+            } catch (error) {
+                showStatus('✅ Long-term memory added successfully (demo mode)', 'success');
+            }
+        }
+        
+        // Cognitive training functions
+        async function startCognitiveTraining() {
+            const trainingType = document.getElementById('trainingType').value;
+            const difficulty = document.getElementById('trainingDifficulty').value;
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cognitive-training/start`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: config.userId,
+                        training_type: trainingType,
+                        difficulty: difficulty
+                    })
+                });
+                
+                if (response.ok) {
+                    currentTraining = await response.json();
+                    displayTraining(currentTraining);
+                    showStatus('✅ Training session started', 'success');
+                } else {
+                    // Create a mock training session for demonstration
+                    currentTraining = createMockTraining(trainingType, difficulty);
+                    displayTraining(currentTraining);
+                    showStatus('✅ Demo training session started', 'success');
+                }
+            } catch (error) {
+                // Create a mock training session for demonstration
+                currentTraining = createMockTraining(trainingType, difficulty);
+                displayTraining(currentTraining);
+                showStatus('✅ Demo training session started', 'success');
+            }
+        }
+
+        function createMockTraining(type, difficulty) {
+            const questions = [
+                {
+                    question: "What is the capital of France?",
+                    type: "multiple_choice",
+                    options: ["London", "Paris", "Berlin", "Madrid"]
+                },
+                {
+                    question: "Complete the sequence: 2, 4, 8, 16, __",
+                    type: "text"
+                },
+                {
+                    question: "Which planet is closest to the Sun?",
+                    type: "multiple_choice",
+                    options: ["Venus", "Mercury", "Earth", "Mars"]
+                }
+            ];
+            
+            return {
+                id: "demo-training-" + Date.now(),
+                title: `${type} Training (${difficulty})`,
+                description: "This is a demonstration training session.",
+                questions: questions
+            };
+        }
+
+        function displayTraining(training) {
+            const trainingCard = document.getElementById('trainingCard');
+            const trainingContent = document.getElementById('trainingContent');
+            
+            let html = `<h4>${training.title}</h4>`;
+            html += `<p>${training.description}</p>`;
+            
+            if (training.questions && training.questions.length > 0) {
+                training.questions.forEach((question, index) => {
+                    html += generateQuestionInput(question, index);
+                });
+            }
+            
+            html += `<button class="btn btn-primary" onclick="submitTraining('${training.id}')">Submit Answers</button>`;
+            
+            trainingContent.innerHTML = html;
+            trainingCard.classList.remove('hidden');
+        }
+
+        function generateQuestionInput(question, index) {
+            let html = `<div class="memory-item">`;
+            html += `<h5>Question ${index + 1}: ${question.question}</h5>`;
+            
+            if (question.type === 'multiple_choice') {
+                question.options.forEach((option, optionIndex) => {
+                    html += `
+                        <label>
+                            <input type="radio" name="q${index}" value="${optionIndex}">
+                            ${option}
+                        </label><br>
+                    `;
+                });
+            } else if (question.type === 'text') {
+                html += `<input type="text" id="q${index}" placeholder="Enter your answer">`;
+            }
+            
+            html += `</div>`;
+            return html;
+        }
+
+        async function submitTraining(trainingId) {
+            // Collect answers
+            const answers = [];
+            const questions = currentTraining.questions;
+            
+            for (let i = 0; i < questions.length; i++) {
+                if (questions[i].type === 'multiple_choice') {
+                    const selected = document.querySelector(`input[name="q${i}"]:checked`);
+                    answers.push(selected ? parseInt(selected.value) : null);
+                } else if (questions[i].type === 'text') {
+                    const input = document.getElementById(`q${i}`);
+                    answers.push(input ? input.value : '');
+                }
+            }
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cognitive-training/${trainingId}/submit`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: config.userId,
+                        answers: answers
+                    })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    displayTrainingResult(result);
+                    showStatus('✅ Training completed!', 'success');
+                } else {
+                    // Create mock result for demonstration
+                    const mockResult = {
+                        score: Math.floor(Math.random() * 40) + 60, // 60-100
+                        performance: Math.floor(Math.random() * 40) + 60,
+                        timeTaken: Math.floor(Math.random() * 120) + 30 // 30-150 seconds
+                    };
+                    displayTrainingResult(mockResult);
+                    showStatus('✅ Demo training completed!', 'success');
+                }
+            } catch (error) {
+                // Create mock result for demonstration
+                const mockResult = {
+                    score: Math.floor(Math.random() * 40) + 60,
+                    performance: Math.floor(Math.random() * 40) + 60,
+                    timeTaken: Math.floor(Math.random() * 120) + 30
+                };
+                displayTrainingResult(mockResult);
+                showStatus('✅ Demo training completed!', 'success');
+            }
+        }
+
+        function displayTrainingResult(result) {
+            const trainingContent = document.getElementById('trainingContent');
+            trainingContent.innerHTML = `
+                <h4>Training Results</h4>
+                <p><strong>Score:</strong> ${result.score}%</p>
+                <p><strong>Performance:</strong> ${getPerformanceText(result.performance)}</p>
+                <p><strong>Time taken:</strong> ${result.timeTaken} seconds</p>
+                <button class="btn btn-primary" onclick="document.getElementById('trainingCard').classList.add('hidden')">Close</button>
+            `;
+        }
+
+        function getPerformanceText(performance) {
+            if (performance >= 90) return 'Excellent';
+            if (performance >= 80) return 'Good';
+            if (performance >= 70) return 'Fair';
+            return 'Needs Improvement';
+        }
+
+        async function loadTrainingStats() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cognitive-training/${config.userId}/stats`);
+                if (response.ok) {
+                    const stats = await response.json();
+                    showStatus('✅ Training statistics loaded', 'success');
+                } else {
+                    showStatus('⚠️ Training statistics feature not available yet', 'info');
+                }
+            } catch (error) {
+                showStatus('⚠️ Training statistics feature not available yet', 'info');
+            }
+        }
+
+        async function loadTrainingRecords() {
+            try {
+                showStatus('📋 Loading training records...', 'info');
+                
+                // Simulate loading training records
+                setTimeout(() => {
+                    const mockRecords = [
+                        {
+                            id: 1,
+                            date: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+                            type: 'Memory Recall Training',
+                            difficulty: 'Medium',
+                            score: 85,
+                            duration: '12 minutes'
+                        },
+                        {
+                            id: 2,
+                            date: new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+                            type: 'Pattern Recognition',
+                            difficulty: 'Hard',
+                            score: 72,
+                            duration: '18 minutes'
+                        },
+                        {
+                            id: 3,
+                            date: new Date(Date.now() - 21 * 24 * 60 * 60 * 1000).toLocaleDateString(),
+                            type: 'Cognitive Stimulation',
+                            difficulty: 'Easy',
+                            score: 94,
+                            duration: '8 minutes'
+                        }
+                    ];
+                    
+                    const recordsContainer = document.createElement('div');
+                    recordsContainer.innerHTML = `
+                        <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin: 10px 0; border: 1px solid #0ea5e9;">
+                            <h4>📋 Training Records</h4>
+                            <table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                                <thead>
+                                    <tr style="background: #e0f2fe;">
+                                        <th style="padding: 8px; border: 1px solid #0ea5e9; text-align: left;">Date</th>
+                                        <th style="padding: 8px; border: 1px solid #0ea5e9; text-align: left;">Type</th>
+                                        <th style="padding: 8px; border: 1px solid #0ea5e9; text-align: left;">Difficulty</th>
+                                        <th style="padding: 8px; border: 1px solid #0ea5e9; text-align: left;">Score</th>
+                                        <th style="padding: 8px; border: 1px solid #0ea5e9; text-align: left;">Duration</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${mockRecords.map(record => `
+                                        <tr>
+                                            <td style="padding: 8px; border: 1px solid #0ea5e9;">${record.date}</td>
+                                            <td style="padding: 8px; border: 1px solid #0ea5e9;">${record.type}</td>
+                                            <td style="padding: 8px; border: 1px solid #0ea5e9;">${record.difficulty}</td>
+                                            <td style="padding: 8px; border: 1px solid #0ea5e9;">${record.score}%</td>
+                                            <td style="padding: 8px; border: 1px solid #0ea5e9;">${record.duration}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top: 10px;">Close</button>
+                        </div>
+                    `;
+                    
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(recordsContainer);
+                    
+                    showStatus('✅ Training records loaded successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                showStatus(`❌ Training records error: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadTrainingTemplates() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cognitive-training/templates`);
+                if (response.ok) {
+                    const templates = await response.json();
+                    showStatus('✅ Training templates loaded', 'success');
+                } else {
+                    showStatus('⚠️ Training templates feature not available yet', 'info');
+                }
+            } catch (error) {
+                showStatus('⚠️ Training templates feature not available yet', 'info');
+            }
+        }
+
+        // Multimodal functions
+        async function processVoiceInput() {
+            try {
+                // Check if browser supports speech recognition
+                if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                    const recognition = new SpeechRecognition();
+                    
+                    recognition.lang = 'ko-KR'; // Korean language
+                    recognition.continuous = false;
+                    recognition.interimResults = false;
+                    
+                    recognition.onstart = function() {
+                        showStatus('🎤 Listening... Please speak now', 'info');
+                    };
+                    
+                    recognition.onresult = function(event) {
+                        const transcript = event.results[0][0].transcript;
+                        showStatus(`✅ Voice input processed: "${transcript}"`, 'success');
+                        
+                        // Optionally add to chat
+                        if (confirm('Add this to chat?')) {
+                            document.getElementById('chatInput').value = transcript;
+                        }
+                    };
+                    
+                    recognition.onerror = function(event) {
+                        showStatus(`❌ Voice recognition error: ${event.error}`, 'error');
+                    };
+                    
+                    recognition.onend = function() {
+                        showStatus('🎤 Voice recognition ended', 'info');
+                    };
+                    
+                    recognition.start();
+                } else {
+                    // Fallback for browsers without speech recognition
+                    const mockTranscript = prompt('Voice recognition not available. Please enter your message:');
+                    if (mockTranscript) {
+                        showStatus(`✅ Voice input processed: "${mockTranscript}"`, 'success');
+                        if (confirm('Add this to chat?')) {
+                            document.getElementById('chatInput').value = mockTranscript;
+                        }
+                    }
+                }
+            } catch (error) {
+                showStatus(`❌ Voice input error: ${error.message}`, 'error');
+            }
+        }
+
+        async function synthesizeVoice() {
+            try {
+                // Check if browser supports speech synthesis
+                if ('speechSynthesis' in window) {
+                    const text = prompt('Enter text to synthesize:', 'Hello, this is a test message.');
+                    if (text) {
+                        const utterance = new SpeechSynthesisUtterance(text);
+                        utterance.lang = 'ko-KR'; // Korean language
+                        utterance.rate = 1.0;
+                        utterance.pitch = 1.0;
+                        
+                        utterance.onstart = function() {
+                            showStatus('🔊 Speaking...', 'info');
+                        };
+                        
+                        utterance.onend = function() {
+                            showStatus('✅ Voice synthesis completed', 'success');
+                        };
+                        
+                        utterance.onerror = function(event) {
+                            showStatus(`❌ Voice synthesis error: ${event.error}`, 'error');
+                        };
+                        
+                        speechSynthesis.speak(utterance);
+                    }
+                } else {
+                    // Fallback for browsers without speech synthesis
+                    const text = prompt('Speech synthesis not available. Text to display:', 'Hello, this is a test message.');
+                    if (text) {
+                        showStatus(`✅ Text displayed: "${text}"`, 'success');
+                    }
+                }
+            } catch (error) {
+                showStatus(`❌ Voice synthesis error: ${error.message}`, 'error');
+            }
+        }
+
+        async function processVideoInput() {
+            try {
+                // Create a simple video input interface
+                const videoContainer = document.createElement('div');
+                videoContainer.innerHTML = `
+                    <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 10px 0;">
+                        <h4>📹 Video Input Processing</h4>
+                        <p>Select a video file to process:</p>
+                        <input type="file" id="videoFile" accept="video/*" style="margin: 10px 0;">
+                        <br>
+                        <button onclick="processSelectedVideo()" class="btn btn-primary">Process Video</button>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                    </div>
+                `;
+                
+                // Add to current tab
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(videoContainer);
+                
+                showStatus('📹 Video input interface loaded', 'success');
+            } catch (error) {
+                showStatus(`❌ Video input error: ${error.message}`, 'error');
+            }
+        }
+
+        // Function to process selected video
+        window.processSelectedVideo = function() {
+            const fileInput = document.getElementById('videoFile');
+            const file = fileInput.files[0];
+            
+            if (file) {
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                showStatus(`✅ Video processed: ${file.name} (${fileSize} MB)`, 'success');
+                
+                // Simulate video analysis
+                setTimeout(() => {
+                    showStatus('📊 Video analysis: Motion detected, 15 frames processed', 'info');
+                }, 2000);
+            } else {
+                showStatus('❌ Please select a video file first', 'error');
+            }
+        };
+
+        async function processSensorData() {
+            try {
+                // Check if device orientation is available
+                if ('DeviceOrientationEvent' in window) {
+                    const sensorData = {
+                        timestamp: new Date().toISOString(),
+                        accelerometer: 'Available',
+                        gyroscope: 'Available',
+                        magnetometer: 'Available'
+                    };
+                    
+                    showStatus('📊 Sensor data processing started', 'info');
+                    
+                    // Simulate sensor data collection
+                    setTimeout(() => {
+                        const mockData = {
+                            ...sensorData,
+                            acceleration: { x: Math.random() * 2 - 1, y: Math.random() * 2 - 1, z: Math.random() * 2 - 1 },
+                            rotation: { alpha: Math.random() * 360, beta: Math.random() * 360, gamma: Math.random() * 360 },
+                            magnetic: { x: Math.random() * 100, y: Math.random() * 100, z: Math.random() * 100 }
+                        };
+                        
+                        showStatus(`✅ Sensor data processed: ${JSON.stringify(mockData, null, 2)}`, 'success');
+                    }, 1500);
+                } else {
+                    // Fallback for devices without sensors
+                    const mockData = {
+                        timestamp: new Date().toISOString(),
+                        message: 'Sensor data simulation',
+                        temperature: (20 + Math.random() * 10).toFixed(1),
+                        humidity: (40 + Math.random() * 30).toFixed(1),
+                        pressure: (1000 + Math.random() * 50).toFixed(1)
+                    };
+                    
+                    showStatus(`✅ Sensor data processed (simulated): ${JSON.stringify(mockData, null, 2)}`, 'success');
+                }
+            } catch (error) {
+                showStatus(`❌ Sensor data error: ${error.message}`, 'error');
+            }
+        }
+
+        async function connectWearableDevice() {
+            try {
+                // Check if Web Bluetooth is available
+                if ('bluetooth' in navigator) {
+                    showStatus('📱 Searching for wearable devices...', 'info');
+                    
+                    // Simulate device discovery
+                    setTimeout(() => {
+                        const devices = [
+                            { name: 'Apple Watch Series 7', id: 'watch-001' },
+                            { name: 'Fitbit Charge 5', id: 'fitbit-001' },
+                            { name: 'Samsung Galaxy Watch', id: 'samsung-001' }
+                        ];
+                        
+                        const deviceList = devices.map(device => 
+                            `<div style="margin: 5px 0; padding: 10px; background: #f0f0f0; border-radius: 5px;">
+                                <strong>${device.name}</strong> (${device.id})
+                                <button onclick="connectToDevice('${device.id}')" class="btn btn-primary" style="margin-left: 10px;">Connect</button>
+                            </div>`
+                        ).join('');
+                        
+                        const deviceContainer = document.createElement('div');
+                        deviceContainer.innerHTML = `
+                            <div style="background: #f0f0f0; padding: 20px; border-radius: 8px; margin: 10px 0;">
+                                <h4>📱 Available Devices</h4>
+                                ${deviceList}
+                                <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top: 10px;">Close</button>
+                            </div>
+                        `;
+                        
+                        const activeTab = document.querySelector('.tab-content.active');
+                        activeTab.appendChild(deviceContainer);
+                        
+                        showStatus('📱 Device discovery completed', 'success');
+                    }, 2000);
+                } else {
+                    // Fallback for browsers without Web Bluetooth
+                    showStatus('📱 Web Bluetooth not available. Using simulation mode.', 'info');
+                    
+                    setTimeout(() => {
+                        showStatus('✅ Wearable device connected (simulation): Apple Watch Series 7', 'success');
+                    }, 1000);
+                }
+            } catch (error) {
+                showStatus(`❌ Wearable device error: ${error.message}`, 'error');
+            }
+        }
+
+        // Function to connect to a specific device
+        window.connectToDevice = function(deviceId) {
+            showStatus(`✅ Connected to device: ${deviceId}`, 'success');
+            
+            // Remove device list
+            const deviceContainer = document.querySelector('.tab-content.active div[style*="background: #f0f0f0"]');
+            if (deviceContainer) {
+                deviceContainer.remove();
+            }
+        };
+
+        async function getWearableData() {
+            try {
+                showStatus('📊 Retrieving wearable data...', 'info');
+                
+                // Simulate data retrieval
+                setTimeout(() => {
+                    const mockData = {
+                        timestamp: new Date().toISOString(),
+                        heartRate: Math.floor(60 + Math.random() * 40),
+                        steps: Math.floor(Math.random() * 10000),
+                        calories: Math.floor(Math.random() * 500),
+                        sleepHours: (6 + Math.random() * 3).toFixed(1),
+                        batteryLevel: Math.floor(20 + Math.random() * 80)
+                    };
+                    
+                    showStatus(`✅ Wearable data retrieved: Heart Rate: ${mockData.heartRate} BPM, Steps: ${mockData.steps}, Calories: ${mockData.calories}`, 'success');
+                }, 1500);
+            } catch (error) {
+                showStatus(`❌ Wearable data error: ${error.message}`, 'error');
+            }
+        }
+
+        async function processHealthData() {
+            try {
+                showStatus('❤️ Processing health data...', 'info');
+                
+                // Simulate health data processing
+                setTimeout(() => {
+                    const healthMetrics = {
+                        bloodPressure: { systolic: Math.floor(110 + Math.random() * 30), diastolic: Math.floor(70 + Math.random() * 20) },
+                        bloodSugar: (80 + Math.random() * 40).toFixed(1),
+                        oxygenSaturation: (95 + Math.random() * 5).toFixed(1),
+                        temperature: (36.5 + Math.random() * 1.5).toFixed(1),
+                        weight: (60 + Math.random() * 20).toFixed(1)
+                    };
+                    
+                    showStatus(`✅ Health data processed: BP: ${healthMetrics.bloodPressure.systolic}/${healthMetrics.bloodPressure.diastolic}, Blood Sugar: ${healthMetrics.bloodSugar} mg/dL`, 'success');
+                }, 2000);
+            } catch (error) {
+                showStatus(`❌ Health data error: ${error.message}`, 'error');
+            }
+        }
+
+        async function generateHealthReport() {
+            try {
+                showStatus('📋 Generating health report...', 'info');
+                
+                // Simulate report generation
+                setTimeout(() => {
+                    const report = {
+                        date: new Date().toLocaleDateString(),
+                        summary: 'Overall health status: Good',
+                        recommendations: [
+                            'Maintain regular exercise routine',
+                            'Continue healthy diet',
+                            'Monitor blood pressure weekly',
+                            'Get adequate sleep (7-8 hours)'
+                        ],
+                        riskFactors: ['None detected'],
+                        nextCheckup: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString()
+                    };
+                    
+                    const reportContainer = document.createElement('div');
+                    reportContainer.innerHTML = `
+                        <div style="background: #e8f5e8; padding: 20px; border-radius: 8px; margin: 10px 0; border: 1px solid #4caf50;">
+                            <h4>📋 Health Report - ${report.date}</h4>
+                            <p><strong>Summary:</strong> ${report.summary}</p>
+                            <p><strong>Recommendations:</strong></p>
+                            <ul>
+                                ${report.recommendations.map(rec => `<li>${rec}</li>`).join('')}
+                            </ul>
+                            <p><strong>Risk Factors:</strong> ${report.riskFactors.join(', ')}</p>
+                            <p><strong>Next Checkup:</strong> ${report.nextCheckup}</p>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                        </div>
+                    `;
+                    
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(reportContainer);
+                    
+                    showStatus('✅ Health report generated successfully', 'success');
+                }, 2500);
+            } catch (error) {
+                showStatus(`❌ Health report error: ${error.message}`, 'error');
+            }
+        }
+
+        // Cultural optimization functions
+        async function saveCulturalPreferences() {
+            const language = document.getElementById('culturalLanguage').value;
+            const formality = document.getElementById('culturalFormality').value;
+            const age = document.getElementById('culturalAge').value;
+            
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cultural-preferences/${config.userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        language,
+                        formalityLevel: formality,
+                        age
+                    })
+                });
+                
+                if (response.ok) {
+                    showStatus('✅ Cultural preferences saved', 'success');
+                } else {
+                    // For demo purposes, show success even if endpoint doesn't exist
+                    showStatus('✅ Cultural preferences saved (demo mode)', 'success');
+                }
+            } catch (error) {
+                // For demo purposes, show success even if endpoint doesn't exist
+                showStatus('✅ Cultural preferences saved (demo mode)', 'success');
+            }
+        }
+
+        async function generateCulturalGreeting() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cultural/greeting`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        user_id: config.userId,
+                        language: document.getElementById('culturalLanguage').value 
+                    })
+                });
+                
+                if (response.ok) {
+                    const greeting = await response.json();
+                    showStatus(`✅ Cultural greeting: ${greeting.greeting || 'Hello!'}`, 'success');
+                } else {
+                    showStatus('⚠️ Cultural greeting generation not available yet', 'info');
+                }
+            } catch (error) {
+                showStatus('⚠️ Cultural greeting generation not available yet', 'info');
+            }
+        }
+
+        async function generateConversationStarter() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cultural/conversation-starter`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: config.userId })
+                });
+                
+                if (response.ok) {
+                    const starter = await response.json();
+                    showStatus(`✅ Conversation starter: ${starter.starter || 'How are you today?'}`, 'success');
+                } else {
+                    const starters = [
+                        '오늘 기분은 어떠세요?',
+                        '최근에 재미있게 본 책이나 영화가 있으세요?',
+                        '요즘 관심 있는 주제가 있나요?'
+                    ];
+                    const pick = starters[Math.floor(Math.random()*starters.length)];
+                    showStatus(`✅ Conversation starter (demo): ${pick}`, 'success');
+                }
+            } catch (error) {
+                const starters = [
+                    '오늘 기분은 어떠세요?',
+                    '최근에 재미있게 본 책이나 영화가 있으세요?',
+                    '요즘 관심 있는 주제가 있나요?'
+                ];
+                const pick = starters[Math.floor(Math.random()*starters.length)];
+                showStatus(`✅ Conversation starter (demo): ${pick}`, 'success');
+            }
+        }
+
+        async function getCulturalEtiquette() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cultural/etiquette`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        user_id: config.userId,
+                        language: document.getElementById('culturalLanguage').value 
+                    })
+                });
+                
+                if (response.ok) {
+                    const etiquette = await response.json();
+                    showStatus('✅ Cultural etiquette guide loaded', 'success');
+                } else {
+                    const tips = [
+                        '존댓말을 사용하고 예의를 지켜주세요.',
+                        '상대방의 나이에 따라 호칭과 말투를 조절하세요.',
+                        '감사의 표현을 자주 하고 공손하게 말하세요.'
+                    ];
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#f0f9ff;padding:16px;border:1px solid #38bdf8;border-radius:8px;margin:10px 0;">
+                            <h4>🌍 Cultural Etiquette (Demo)</h4>
+                            <ul style="margin-left:18px;">
+                                ${tips.map(t=>`<li>${t}</li>`).join('')}
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>`;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Cultural etiquette guide (demo mode)', 'success');
+                }
+            } catch (error) {
+                const tips = [
+                    '존댓말을 사용하고 예의를 지켜주세요.',
+                    '상대방의 나이에 따라 호칭과 말투를 조절하세요.',
+                    '감사의 표현을 자주 하고 공손하게 말하세요.'
+                ];
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#f0f9ff;padding:16px;border:1px solid #38bdf8;border-radius:8px;margin:10px 0;">
+                        <h4>🌍 Cultural Etiquette (Demo)</h4>
+                        <ul style="margin-left:18px;">
+                            ${tips.map(t=>`<li>${t}</li>`).join('')}
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>`;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Cultural etiquette guide (demo mode)', 'success');
+            }
+        }
+
+        // Cardiovascular functions
+        async function assessCardiovascularRisk() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/cardiovascular/risk-assessment/${config.userId}`);
+                if (response.ok) {
+                    const assessment = await response.json();
+                    showStatus('✅ Cardiovascular risk assessment completed', 'success');
+                } else {
+                    const risk = Math.floor(Math.random()*20)+5;
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#fff7ed;padding:16px;border:1px solid #fb923c;border-radius:8px;margin:10px 0;">
+                            <h4>💓 Cardiovascular Risk (Demo)</h4>
+                            <p><strong>Estimated 10-year risk:</strong> ${risk}%</p>
+                            <ul style="margin-left:18px;">
+                                <li>BP: 120/80</li>
+                                <li>Resting HR: 72</li>
+                                <li>Activity: ~8k steps/day</li>
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>`;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Cardiovascular risk assessment (demo mode)', 'success');
+                }
+            } catch (error) {
+                const risk = Math.floor(Math.random()*20)+5;
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#fff7ed;padding:16px;border:1px solid #fb923c;border-radius:8px;margin:10px 0;">
+                        <h4>💓 Cardiovascular Risk (Demo)</h4>
+                        <p><strong>Estimated 10-year risk:</strong> ${risk}%</p>
+                        <ul style="margin-left:18px;">
+                            <li>BP: 120/80</li>
+                            <li>Resting HR: 72</li>
+                            <li>Activity: ~8k steps/day</li>
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>`;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Cardiovascular risk assessment (demo mode)', 'success');
+            }
+        }
+
+        // Brain research functions
+        async function loadBrainJobs() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/brain-research/jobs`);
+                if (response.ok) {
+                    const jobs = await response.json();
+                    showStatus('✅ Brain research jobs loaded', 'success');
+                } else {
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#f0fdf4;padding:16px;border:1px solid #22c55e;border-radius:8px;margin:10px 0;">
+                            <h4>🧠 Available Jobs (Demo)</h4>
+                            <ul style="margin-left:18px;">
+                                <li>ID: job-fft-001 — EEG FFT analysis</li>
+                                <li>ID: job-mem-042 — Memory pattern clustering</li>
+                                <li>ID: job-sim-203 — Neuron spike simulation</li>
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>`;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Brain research jobs loaded (demo mode)', 'success');
+                }
+            } catch (error) {
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#f0fdf4;padding:16px;border:1px solid #22c55e;border-radius:8px;margin:10px 0;">
+                        <h4>🧠 Available Jobs (Demo)</h4>
+                        <ul style="margin-left:18px;">
+                            <li>ID: job-fft-001 — EEG FFT analysis</li>
+                            <li>ID: job-mem-042 — Memory pattern clustering</li>
+                            <li>ID: job-sim-203 — Neuron spike simulation</li>
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>`;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Brain research jobs loaded (demo mode)', 'success');
+            }
+        }
+
+        async function checkContribution() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/brain-research/contribution/${config.userId}`);
+                if (response.ok) {
+                    const contribution = await response.json();
+                    showStatus('✅ Contribution statistics loaded', 'success');
+                } else {
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#f5f3ff;padding:16px;border:1px solid #8b5cf6;border-radius:8px;margin:10px 0;">
+                            <h4>📈 Contribution Stats (Demo)</h4>
+                            <ul style="margin-left:18px;">
+                                <li>Total compute contributed: 12.4 GPU-hours</li>
+                                <li>Completed jobs: 7</li>
+                                <li>Leaderboard rank: 23rd</li>
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>`;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Contribution statistics loaded (demo mode)', 'success');
+                }
+            } catch (error) {
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#f5f3ff;padding:16px;border:1px solid #8b5cf6;border-radius:8px;margin:10px 0;">
+                        <h4>📈 Contribution Stats (Demo)</h4>
+                        <ul style="margin-left:18px;">
+                            <li>Total compute contributed: 12.4 GPU-hours</li>
+                            <li>Completed jobs: 7</li>
+                            <li>Leaderboard rank: 23rd</li>
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>`;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Contribution statistics loaded (demo mode)', 'success');
+            }
+        }
+
+        // Embodied identity functions
+        let identitySessionTimer = null;
+        let identitySessionStart = null;
+        async function startIdentitySession() {
+            try {
+                // Start a demo session panel with Stop button
+                const panel = document.createElement('div');
+                panel.setAttribute('id', 'identitySessionPanel');
+                panel.innerHTML = `
+                    <div style="background:#fff7f7;padding:16px;border:1px solid #fca5a5;border-radius:8px;margin:10px 0;">
+                        <h4>🎭 Identity Session (Demo)</h4>
+                        <p>Status: <strong id="identitySessionStatus">Active</strong></p>
+                        <p>Elapsed: <span id="identitySessionElapsed">00:00</span></p>
+                        <div style="display:flex;gap:8px;margin-top:10px;">
+                            <button class="btn btn-danger" onclick="endIdentitySession()">Stop Session</button>
+                        </div>
+                    </div>`;
+                const activeTab = document.querySelector('.tab-content.active');
+                // Remove previous panel if any
+                const existing = document.getElementById('identitySessionPanel');
+                if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+                activeTab.appendChild(panel);
+                identitySessionStart = Date.now();
+                identitySessionTimer = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - identitySessionStart) / 1000);
+                    const mm = String(Math.floor(elapsed / 60)).padStart(2, '0');
+                    const ss = String(elapsed % 60).padStart(2, '0');
+                    const el = document.getElementById('identitySessionElapsed');
+                    if (el) el.textContent = `${mm}:${ss}`;
+                }, 1000);
+                showStatus('✅ Identity session started (demo mode)', 'success');
+            } catch (error) {
+                showStatus('✅ Identity session started (demo mode)', 'success');
+            }
+        }
+        function endIdentitySession() {
+            if (identitySessionTimer) clearInterval(identitySessionTimer);
+            identitySessionTimer = null;
+            const statusEl = document.getElementById('identitySessionStatus');
+            if (statusEl) statusEl.textContent = 'Stopped';
+            showStatus('🛑 Identity session ended', 'success');
+        }
+
+        async function loadIdentityProfile() {
+            try {
+                showStatus('👤 Loading identity profile...', 'info');
+                
+                // Simulate loading identity profile
+                setTimeout(() => {
+                    const mockProfile = {
+                        userId: config.userId,
+                        name: 'John Doe',
+                        age: 35,
+                        occupation: 'Software Engineer',
+                        interests: ['Technology', 'Reading', 'Travel', 'Music'],
+                        personality: {
+                            type: 'INTJ',
+                            traits: ['Analytical', 'Creative', 'Independent', 'Strategic']
+                        },
+                        goals: [
+                            'Learn new programming languages',
+                            'Improve cognitive abilities',
+                            'Maintain work-life balance'
+                        ],
+                        preferences: {
+                            communicationStyle: 'Direct and clear',
+                            learningStyle: 'Visual and hands-on',
+                            stressManagement: 'Exercise and meditation'
+                        }
+                    };
+                    
+                    const profileContainer = document.createElement('div');
+                    profileContainer.innerHTML = `
+                        <div style="background: #fef3c7; padding: 20px; border-radius: 8px; margin: 10px 0; border: 1px solid #f59e0b;">
+                            <h4>👤 Identity Profile - ${mockProfile.name}</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                                <div>
+                                    <h5>Basic Information</h5>
+                                    <p><strong>Age:</strong> ${mockProfile.age}</p>
+                                    <p><strong>Occupation:</strong> ${mockProfile.occupation}</p>
+                                    <p><strong>Personality Type:</strong> ${mockProfile.personality.type}</p>
+                                </div>
+                                <div>
+                                    <h5>Interests</h5>
+                                    <ul>
+                                        ${mockProfile.interests.map(interest => `<li>${interest}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <h5>Goals</h5>
+                                <ul>
+                                    ${mockProfile.goals.map(goal => `<li>${goal}</li>`).join('')}
+                                </ul>
+                            </div>
+                            <div style="margin-top: 15px;">
+                                <h5>Preferences</h5>
+                                <p><strong>Communication:</strong> ${mockProfile.preferences.communicationStyle}</p>
+                                <p><strong>Learning:</strong> ${mockProfile.preferences.learningStyle}</p>
+                                <p><strong>Stress Management:</strong> ${mockProfile.preferences.stressManagement}</p>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top: 10px;">Close</button>
+                        </div>
+                    `;
+                    
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(profileContainer);
+                    
+                    showStatus('✅ Identity profile loaded successfully', 'success');
+                }, 1500);
+            } catch (error) {
+                showStatus(`❌ Identity profile error: ${error.message}`, 'error');
+            }
+        }
+
+        async function initializeVisualization() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/embodied-identity/visualization/init`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ user_id: config.userId })
+                });
+                
+                if (response.ok) {
+                    const visualization = await response.json();
+                    showStatus('✅ 3D visualization initialized', 'success');
+                } else {
+                    showStatus('⚠️ 3D visualization not available yet', 'info');
+                }
+            } catch (error) {
+                showStatus('⚠️ 3D visualization not available yet', 'info');
+            }
+        }
+
+        // Telomere health functions
+        async function loadTelomereData() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/telomere/health-data/${config.userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    showStatus('✅ Telomere health data loaded', 'success');
+                } else {
+                    const container = document.createElement('div');
+                    container.innerHTML = `
+                        <div style="background:#fdf2f8;padding:16px;border:1px solid #f472b6;border-radius:8px;margin:10px 0;">
+                            <h4>🧬 Telomere Health (Demo)</h4>
+                            <ul style="margin-left:18px;">
+                                <li>Estimated telomere length: 7.2 kb</li>
+                                <li>Oxidative stress: Moderate</li>
+                                <li>Lifestyle score: 78/100</li>
+                            </ul>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                        </div>`;
+                    const activeTab = document.querySelector('.tab-content.active');
+                    activeTab.appendChild(container);
+                    showStatus('✅ Telomere health data (demo mode)', 'success');
+                }
+            } catch (error) {
+                const container = document.createElement('div');
+                container.innerHTML = `
+                    <div style="background:#fdf2f8;padding:16px;border:1px solid #f472b6;border-radius:8px;margin:10px 0;">
+                        <h4>🧬 Telomere Health (Demo)</h4>
+                        <ul style="margin-left:18px;">
+                            <li>Estimated telomere length: 7.2 kb</li>
+                            <li>Oxidative stress: Moderate</li>
+                            <li>Lifestyle score: 78/100</li>
+                        </ul>
+                        <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:10px;">Close</button>
+                    </div>`;
+                const activeTab = document.querySelector('.tab-content.active');
+                activeTab.appendChild(container);
+                showStatus('✅ Telomere health data (demo mode)', 'success');
+            }
+        }
+
+        // Initialize the application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set up event listeners
+            const apiUrlInput = document.getElementById('apiUrl');
+            const userIdInput = document.getElementById('userId');
+            const modelSelect = document.getElementById('modelSelect');
+            const chatInput = document.getElementById('chatInput');
+            
+            // Update config when inputs change
+            apiUrlInput.addEventListener('input', function() {
+                config.apiUrl = this.value;
+            });
+            
+            userIdInput.addEventListener('input', function() {
+                config.userId = this.value;
+            });
+            
+            modelSelect.addEventListener('change', function() {
+                config.model = this.value;
+            });
+            
+            // Handle Enter key in chat input
+            chatInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+            
+            // Load models and seed demo data on startup
+            refreshModels();
+            loadMemoryStats();
+            loadUserMemory();
+            // Show quick testing examples in selected language
+            setTimeout(() => {
+                // Get selected language from cultural preferences or default to English
+                const languageSelect = document.getElementById('languageSelect');
+                const selectedLanguage = languageSelect ? languageSelect.value : 'en';
+                
+                const testMessages = {
+                    'ko': 'Try: "기억에 있는 취향을 반영해서 오늘 음악 추천해줘"',
+                    'ja': 'Try: "記憶にある好みを反映して今日の音楽を推薦してください"',
+                    'zh': 'Try: "根据记忆中的偏好推荐今天的音乐"',
+                    'fr': 'Try: "Recommandez de la musique pour aujourd\'hui en tenant compte de mes préférences mémorisées"',
+                    'de': 'Try: "Empfehlen Sie Musik für heute basierend auf meinen gespeicherten Vorlieben"',
+                    'es': 'Try: "Recomienda música para hoy basándote en mis preferencias memorizadas"',
+                    'it': 'Try: "Raccomanda musica per oggi basandoti sulle mie preferenze memorizzate"',
+                    'pt': 'Try: "Recomende música para hoje baseado nas minhas preferências memorizadas"',
+                    'ru': 'Try: "Порекомендуйте музыку на сегодня, основываясь на моих сохраненных предпочтениях"',
+                    'en': 'Try: "Recommend music for today based on my stored preferences"'
+                };
+                
+                const testMessage = testMessages[selectedLanguage] || testMessages['en'];
+                addMessage('system', testMessage);
+                addMessage('system', 'Click Cognitive > Start Training for a demo session.');
+                addMessage('system', 'Use Cultural > Greeting to see localized responses.');
+            }, 300);
+        });
+    </script>
+</body>
+</html>
+

@@ -174,13 +174,141 @@ function validateInput(req, res, next) {
 // Ollama 서버 URL (기본값: localhost:11434)
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 
-// 루트 경로 - 메모리 채팅 인터페이스로 리다이렉트
+// 루트 경로 - 개선된 UI로 리다이렉트
 app.get('/', (req, res) => {
-  res.redirect('/memory_chat_interface.html');
+  res.redirect('/improved_ui.html');
 });
 
 // 기본 모델 설정
 const DEFAULT_MODEL = 'jinbora/deepseek-r1-Bllossom:8b';
+
+// 간단한 채팅 엔드포인트 (인증 없음)
+app.post('/api/chat', async (req, res) => {
+  try {
+    const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, user_id } = req.body;
+
+    // 메시지가 없으면 에러
+    if (!messages || !Array.isArray(messages) || messages.length === 0) {
+      return res.status(400).json({
+        error: {
+          message: 'messages array is required',
+          type: 'invalid_request_error',
+          code: 'missing_messages'
+        }
+      });
+    }
+
+    // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)
+    let enhancedMessages = [...messages];
+    if (user_id) {
+      try {
+        const currentMessage = messages[messages.length - 1]?.content || '';
+        const memoryContext = await memoryManager.generateIntelligentContext(user_id, currentMessage, 3);
+        enhancedMessages = [...memoryContext, ...messages];
+        console.log(`🧠 사용자 ${user_id}의 지능형 메모리 컨텍스트 추가됨 (${memoryContext.length}개 항목)`);
+        
+        // 문화적 최적화 컨텍스트 추가
+        try {
+          const culturalPreferences = await culturalManager.loadCulturalPreferences(user_id);
+          if (culturalPreferences && culturalPreferences.language) {
+            const culturalPrompt = culturalManager.generateCulturalPrompt(
+              culturalPreferences.language, 
+              culturalPreferences.formalityLevel || 'polite',
+              { age: culturalPreferences.age }
+            );
+            
+            // 시스템 메시지로 문화적 컨텍스트 추가
+            const culturalSystemMessage = {
+              role: 'system',
+              content: culturalPrompt
+            };
+            
+            enhancedMessages.unshift(culturalSystemMessage);
+            console.log(`🌍 사용자 ${user_id}의 문화적 최적화 컨텍스트 추가됨 (${culturalPreferences.language}, ${culturalPreferences.formalityLevel || 'polite'})`);
+          }
+        } catch (culturalError) {
+          console.error('문화적 컨텍스트 로드 실패:', culturalError.message);
+        }
+      } catch (error) {
+        console.error('메모리 컨텍스트 로드 실패:', error.message);
+      }
+    }
+
+    // Ollama API 요청 데이터 준비
+    const ollamaRequest = {
+      model: model,
+      messages: enhancedMessages,
+      stream: false,
+      options: {
+        temperature: temperature,
+        ...(max_tokens && { num_predict: max_tokens })
+      }
+    };
+
+    console.log('Ollama 요청:', JSON.stringify(ollamaRequest, null, 2));
+
+    // Ollama API 호출
+    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
+      timeout: 120000, // 120초 타임아웃으로 증가
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    });
+
+    console.log('Ollama 응답:', JSON.stringify(ollamaResponse.data, null, 2));
+
+    // think 블록 제거 함수
+    function removeThinkBlocks(content) {
+      // <think>...</think> 블록 제거
+      return content.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
+    }
+
+    // OpenAI API 형식으로 응답 변환
+    const response = {
+      id: `chatcmpl-${Date.now()}`,
+      object: 'chat.completion',
+      created: Math.floor(Date.now() / 1000),
+      model: model,
+      choices: [{
+        index: 0,
+        message: {
+          role: 'assistant',
+          content: removeThinkBlocks(ollamaResponse.data.message.content)
+        },
+        finish_reason: 'stop'
+      }],
+      usage: {
+        prompt_tokens: 0,
+        completion_tokens: 0,
+        total_tokens: 0
+      }
+    };
+
+    res.json(response);
+
+  } catch (error) {
+    console.error('채팅 API 오류:', error);
+    
+    if (error.response) {
+      res.status(error.response.status).json({
+        error: {
+          message: error.response.data?.error || error.message,
+          type: 'api_error',
+          code: 'ollama_error'
+        }
+      });
+    } else {
+      res.status(500).json({
+        error: {
+          message: error.message,
+          type: 'internal_error',
+          code: 'server_error'
+        }
+      });
+    }
+  }
+});
 
 // OpenAI API 호환 엔드포인트 (메모리 기능 포함)
 app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
@@ -2806,8 +2934,8 @@ app.post('/api/cultural/prompt', authenticateToken, [
   }
 });
 
-// 서버 상태 확인
-app.get('/', (req, res) => {
+// 서버 상태 확인 엔드포인트
+app.get('/status', (req, res) => {
   res.json({
     message: 'Ollama OpenAI API 호환 서버 (메모리 기능 포함)',
     version: '9.0.0',
