@@ -6,7 +6,7 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 ## 🎬 **Live Demo - See Kairos in Action!**
 
-![Kairos AI Platform Demo](kalos-8-25-2205.gif)
+![Kairos AI Platform Demo](https://kairos.musichien.com/kalos-8-25-2205.gif)
 
 *Experience the new improved UI with modern tabbed interface, featuring AI Chat, Brain Research Computing, Embodied Identity, and more!*
 
@@ -224,7 +224,7 @@ curl -X POST "http://localhost:3000/api/security/restore/user_001" \
 ## 📸 **Screenshots & UI Gallery**
 
 ### **Main Dashboard**
-![Main Dashboard](kalos-8-25-2205.gif)
+![Main Dashboard](https://kairos.musichien.com/kalos-8-25-2205.gif)
 
 ### **Feature Tabs**
 - **AI Chat Interface**: Intelligent conversations with memory context
