@@ -6,9 +6,11 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 ## 🎬 **Live Demo - See Kairos in Action!**
 
-![Kairos AI Platform Demo](https://kairos.musichien.com/kalos-8-25-2205.gif)
+[![Kairos AI Platform Demo](https://kairos.musichien.com/kalos-8-25-2205.gif)](https://kairos.musichien.com/kalos-8-25-2205.gif)
 
-*Experience the new improved UI with modern tabbed interface, featuring AI Chat, Brain Research Computing, Embodied Identity, and more!*
+*🎥 **Click the GIF above to view full-size animation!** Experience the new improved UI with modern tabbed interface, featuring AI Chat, Brain Research Computing, Embodied Identity, and more!*
+
+**🚀 [Try Kairos Live Demo](https://kairos.musichien.com/) | 📱 [View Full UI Gallery](#screenshots)**
 
 ## 🎯 **Core Features Overview**
 
@@ -224,14 +226,33 @@ curl -X POST "http://localhost:3000/api/security/restore/user_001" \
 ## 📸 **Screenshots & UI Gallery**
 
 ### **Main Dashboard**
-![Main Dashboard](https://kairos.musichien.com/kalos-8-25-2205.gif)
+![Main Dashboard](img/Main%20Dashboard.jpg)
 
 ### **Feature Tabs**
-- **AI Chat Interface**: Intelligent conversations with memory context
-- **Brain Research Computing**: Distributed computing job management
-- **Embodied Identity**: Interactive identity exploration sessions
-- **Cognitive Training**: Personalized enhancement exercises
-- **Memory Management**: Long-term memory visualization and analysis
+
+#### **AI Chat Interface**
+![AI Chat Interface](img/AI%20Chat%20Interface.jpg)
+*Intelligent conversations with memory context and cultural optimization*
+
+#### **Brain Research Computing**
+![Brain Research Computing](img/Brain%20Research%20Computing.jpg)
+*Distributed computing job management and scientific simulations*
+
+#### **Embodied Identity**
+![Embodied Identity](img/Embodied%20Identity.jpg)
+*Interactive identity exploration sessions and therapeutic role-play*
+
+#### **Cognitive Training**
+![Cognitive Training](img/Cognitive%20Training.jpg)
+*Personalized enhancement exercises and memory-based training*
+
+#### **Memory Management**
+![Memory Management](img/Memory%20Management.jpg)
+*Long-term memory visualization and analysis with 3D mapping*
+
+#### **Overview Dashboard**
+![Overview Dashboard](img/overview.jpg)
+*Complete platform overview with all features accessible*
 
 ### **Responsive Design**
 The new UI adapts seamlessly to different screen sizes and devices, providing an optimal experience whether you're using a desktop, tablet, or mobile device.
