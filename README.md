@@ -97,9 +97,17 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - Go to [nodejs.org](https://nodejs.org/)
 - Download and install the "LTS" version
 
-**Ollama** (Required):
+**AI Server** (Required - Choose one):
+
+**Option 1: Ollama** (Recommended for beginners):
 - Go to [ollama.ai](https://ollama.ai/)
 - Download and install for your operating system
+
+**Option 2: LM Studio** (Advanced users):
+- Go to [lmstudio.ai](https://lmstudio.ai/)
+- Download and install for your operating system
+- Download your preferred models (e.g., Llama 3, Mistral, etc.)
+- Start LM Studio and load your models
 
 ### Step 2: Download AI Model
 
@@ -111,12 +119,19 @@ ollama pull llama3.1:8b        # Better responses, slower
 ollama pull jinbora/deepseek-r1-Bllossom:8b  # Korean support
 ```
 
-### Step 3: Start Ollama Server
+### Step 3: Start AI Server
 
+**For Ollama:**
 ```bash
 ollama serve
 ```
 Keep this terminal open - this runs your AI brain.
+
+**For LM Studio:**
+1. Open LM Studio application
+2. Load your preferred model
+3. Start the local server (usually runs on port 1234)
+4. Keep LM Studio running
 
 ### Step 4: Start Kairos Platform
 

@@ -464,6 +464,13 @@
                     <h3>⚙️ Configuration</h3>
                     <div class="grid">
                         <div class="form-group">
+                            <label for="aiServerType">AI Server:</label>
+                            <select id="aiServerType" onchange="changeAIServer()">
+                                <option value="ollama">🤖 Ollama</option>
+                                <option value="lmstudio">🎯 LM Studio</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
                             <label for="apiUrl">API URL:</label>
                             <input type="text" id="apiUrl" value="http://localhost:3000">
                         </div>
@@ -782,14 +789,53 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
+        // AI Server management
+        async function changeAIServer() {
+            const serverType = document.getElementById('aiServerType').value;
+            try {
+                const response = await fetch(`${config.apiUrl}/api/ai-server/type`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ serverType })
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus(`✅ AI Server changed to ${serverType.toUpperCase()}`, 'success');
+                    // Refresh models after server change
+                    await refreshModels();
+                } else {
+                    const error = await response.json();
+                    showStatus(`❌ Failed to change AI server: ${error.error?.message || 'Unknown error'}`, 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error changing AI server: ${error.message}`, 'error');
+            }
+        }
+
         // Connection testing
         async function testConnection() {
             try {
-                const response = await fetch(`${config.apiUrl}/health`);
-                if (response.ok) {
-                    showStatus('✅ Connection successful!', 'success');
+                // Test main server connection
+                const healthResponse = await fetch(`${config.apiUrl}/health`);
+                if (!healthResponse.ok) {
+                    showStatus('❌ Main server connection failed', 'error');
+                    return;
+                }
+                
+                // Test AI server connection
+                const aiServerResponse = await fetch(`${config.apiUrl}/api/ai-server/test`);
+                if (aiServerResponse.ok) {
+                    const aiServerResult = await aiServerResponse.json();
+                    if (aiServerResult.success) {
+                        showStatus(`✅ Connection successful! (${aiServerResult.serverType.toUpperCase()})`, 'success');
+                    } else {
+                        showStatus(`⚠️ Main server OK, but AI server failed: ${aiServerResult.error}`, 'warning');
+                    }
                 } else {
-                    showStatus('❌ Connection failed', 'error');
+                    showStatus('⚠️ Main server OK, but AI server test failed', 'warning');
                 }
             } catch (error) {
                 showStatus(`❌ Connection failed: ${error.message}`, 'error');
