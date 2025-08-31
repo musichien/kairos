@@ -463,13 +463,7 @@
                 <div class="card">
                     <h3>⚙️ Configuration</h3>
                     <div class="grid">
-                        <div class="form-group">
-                            <label for="aiServerType">AI Server:</label>
-                            <select id="aiServerType" onchange="changeAIServer()">
-                                <option value="ollama">🤖 Ollama</option>
-                                <option value="lmstudio">🎯 LM Studio</option>
-                            </select>
-                        </div>
+
                         <div class="form-group">
                             <label for="apiUrl">API URL:</label>
                             <input type="text" id="apiUrl" value="http://localhost:3000">
@@ -789,31 +783,7 @@
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
 
-        // AI Server management
-        async function changeAIServer() {
-            const serverType = document.getElementById('aiServerType').value;
-            try {
-                const response = await fetch(`${config.apiUrl}/api/ai-server/type`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ serverType })
-                });
-                
-                if (response.ok) {
-                    const result = await response.json();
-                    showStatus(`✅ AI Server changed to ${serverType.toUpperCase()}`, 'success');
-                    // Refresh models after server change
-                    await refreshModels();
-                } else {
-                    const error = await response.json();
-                    showStatus(`❌ Failed to change AI server: ${error.error?.message || 'Unknown error'}`, 'error');
-                }
-            } catch (error) {
-                showStatus(`❌ Error changing AI server: ${error.message}`, 'error');
-            }
-        }
+
 
         // Connection testing
         async function testConnection() {
@@ -825,18 +795,8 @@
                     return;
                 }
                 
-                // Test AI server connection
-                const aiServerResponse = await fetch(`${config.apiUrl}/api/ai-server/test`);
-                if (aiServerResponse.ok) {
-                    const aiServerResult = await aiServerResponse.json();
-                    if (aiServerResult.success) {
-                        showStatus(`✅ Connection successful! (${aiServerResult.serverType.toUpperCase()})`, 'success');
-                    } else {
-                        showStatus(`⚠️ Main server OK, but AI server failed: ${aiServerResult.error}`, 'warning');
-                    }
-                } else {
-                    showStatus('⚠️ Main server OK, but AI server test failed', 'warning');
-                }
+                const healthData = await healthResponse.json();
+                showStatus(`✅ Connection successful! (Ollama: ${healthData.ollama_url})`, 'success');
             } catch (error) {
                 showStatus(`❌ Connection failed: ${error.message}`, 'error');
             }
@@ -850,21 +810,11 @@
                     const modelSelect = document.getElementById('modelSelect');
                     modelSelect.innerHTML = '<option value="">Select a model...</option>';
                     
-                    // Handle different response formats
-                    let models = [];
-                    if (data.data && Array.isArray(data.data)) {
-                        models = data.data;
-                    } else if (data.models && Array.isArray(data.models)) {
-                        models = data.models;
-                    } else if (Array.isArray(data)) {
-                        models = data;
-                    }
-                    
-                    if (models.length > 0) {
-                        models.forEach(model => {
+                    if (data.models && data.models.length > 0) {
+                        data.models.forEach(model => {
                             const option = document.createElement('option');
-                            option.value = model.id || model.name || model;
-                            option.textContent = model.id || model.name || model;
+                            option.value = model.name;
+                            option.textContent = model.name;
                             if (model.size) {
                                 option.textContent += ` (${formatFileSize(model.size)})`;
                             }

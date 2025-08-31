@@ -17,8 +17,7 @@ const TelomereHealthManager = require('./telomere_health');
 const CardiovascularWarningManager = require('./cardiovascular_warning');
 const BrainResearchComputingManager = require('./brain_research_computing');
 const EmbodiedIdentityManager = require('./embodied_identity_manager');
-const AIServerManager = require('./ai_server_manager');
-const aiServerConfig = require('./ai_server_config');
+
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -30,14 +29,7 @@ const telomereHealthManager = new TelomereHealthManager();
 const cardiovascularWarningManager = new CardiovascularWarningManager();
 const brainResearchComputingManager = new BrainResearchComputingManager();
 const embodiedIdentityManager = new EmbodiedIdentityManager();
-// AI 서버 환경 변수 설정
-Object.keys(aiServerConfig).forEach(key => {
-  if (!process.env[key]) {
-    process.env[key] = aiServerConfig[key];
-  }
-});
-
-const aiServerManager = new AIServerManager();
+const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
 // 보안 설정
@@ -189,8 +181,31 @@ app.get('/', (req, res) => {
   res.redirect('/improved_ui.html');
 });
 
-// 기본 모델 설정
-const DEFAULT_MODEL = 'jinbora/deepseek-r1-Bllossom:8b';
+// 기본 모델 설정 (GPT-OSS 20B)
+const DEFAULT_MODEL = 'gpt-oss:20b';
+
+// 모델별 타임아웃 설정 함수
+function getModelTimeout(model) {
+  const modelName = model.toLowerCase();
+  
+  // 대형 모델 (20B+ 파라미터) - GPT-OSS, Llama2 70B 등
+  if (modelName.includes('20b') || modelName.includes('gpt-oss') || modelName.includes('llama2:70b')) {
+    return 180000; // 3분 (GPT-OSS 20B용 충분한 시간)
+  }
+  
+  // 중형 모델 (7B-13B 파라미터)
+  if (modelName.includes('7b') || modelName.includes('13b') || modelName.includes('deepseek')) {
+    return 90000; // 1.5분
+  }
+  
+  // 소형 모델 (3B 이하 파라미터)
+  if (modelName.includes('3b') || modelName.includes('1b') || modelName.includes('tiny')) {
+    return 60000; // 1분
+  }
+  
+  // 기본값 (GPT-OSS 20B 기준)
+  return 180000; // 3분
+}
 
 // 간단한 채팅 엔드포인트 (인증 없음)
 app.post('/api/chat', async (req, res) => {
@@ -257,24 +272,18 @@ app.post('/api/chat', async (req, res) => {
 
     console.log('Ollama 요청:', JSON.stringify(ollamaRequest, null, 2));
 
-    // AI 서버 API 호출
-    const chatResponse = await aiServerManager.sendChatRequest(
-      enhancedMessages, model, temperature, max_tokens
-    );
+    // Ollama API 직접 호출 (모델별 적절한 타임아웃 설정)
+    const timeout = getModelTimeout(model);
+    console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
+    
+    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
+      timeout: timeout,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-    console.log('AI 서버 응답:', JSON.stringify(chatResponse, null, 2));
-
-    // AI 서버 응답 검증
-    if (!chatResponse || !chatResponse.success) {
-      const errorMessage = chatResponse?.error || 'AI 서버 응답 실패';
-      return res.status(500).json({
-        error: {
-          message: errorMessage,
-          type: 'api_error',
-          code: 'ai_server_error'
-        }
-      });
-    }
+    const chatResponse = ollamaResponse.data;
 
     // think 블록 제거 함수
     function removeThinkBlocks(content) {
@@ -288,14 +297,14 @@ app.post('/api/chat', async (req, res) => {
       object: 'chat.completion',
       created: Math.floor(Date.now() / 1000),
       model: model,
-      choices: [{
-        index: 0,
-        message: {
-          role: 'assistant',
-          content: removeThinkBlocks(chatResponse.message.content)
-        },
-        finish_reason: 'stop'
-      }],
+              choices: [{
+          index: 0,
+          message: {
+            role: 'assistant',
+            content: removeThinkBlocks(chatResponse.message.content)
+          },
+          finish_reason: 'stop'
+        }],
       usage: {
         prompt_tokens: 0,
         completion_tokens: 0,
@@ -405,24 +414,18 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
 
     console.log('Ollama 요청:', JSON.stringify(ollamaRequest, null, 2));
 
-    // AI 서버 API 호출
-    const chatResponse = await aiServerManager.sendChatRequest(
-      enhancedMessages, model, temperature, max_tokens
-    );
+    // Ollama API 직접 호출 (모델별 적절한 타임아웃 설정)
+    const timeout = getModelTimeout(model);
+    console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
+    
+    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
+      timeout: timeout,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-    console.log('AI 서버 응답:', JSON.stringify(chatResponse, null, 2));
-
-    // AI 서버 응답 검증
-    if (!chatResponse || !chatResponse.success) {
-      const errorMessage = chatResponse?.error || 'AI 서버 응답 실패';
-      return res.status(500).json({
-        error: {
-          message: errorMessage,
-          type: 'api_error',
-          code: 'ai_server_error'
-        }
-      });
-    }
+    const chatResponse = ollamaResponse.data;
 
     // think 블록 제거 함수
     function removeThinkBlocks(content) {
@@ -441,7 +444,7 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
           index: 0,
           message: {
             role: 'assistant',
-            content: removeThinkBlocks(chatResponse.message.content)
+            content: removeThinkBlocks(chatResponse.data.message.content)
           },
           finish_reason: 'stop'
         }
@@ -530,19 +533,18 @@ app.post('/api/generate', async (req, res) => {
       }
     };
 
-    const chatResponse = await aiServerManager.sendChatRequest(
-      ollamaRequest.messages, ollamaRequest.model, 0.7, null
-    );
+    // Ollama API 직접 호출 (모델별 적절한 타임아웃 설정)
+    const timeout = getModelTimeout(model);
+    console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
+    
+    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
+      timeout: timeout,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
 
-    // AI 서버 응답 검증
-    if (!chatResponse || !chatResponse.success) {
-      const errorMessage = chatResponse?.error || 'AI 서버 응답 실패';
-      return res.status(500).json({
-        error: errorMessage
-      });
-    }
-
-    res.json(chatResponse);
+    res.json(ollamaResponse.data);
 
   } catch (error) {
     console.error('Ollama 직접 호출 에러:', error.message);
@@ -557,33 +559,21 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
-    aiServer: aiServerManager.getConfig()
+    ollama_url: OLLAMA_URL
   });
 });
 
 // 설치된 모델 목록 조회 엔드포인트
 app.get('/api/models', async (req, res) => {
   try {
-    const modelsResult = await aiServerManager.getModels();
+    const response = await axios.get(`${OLLAMA_URL}/api/tags`, { timeout: 10000 });
     
-    if (modelsResult.success) {
-      // AI 서버 매니저는 모델명만 반환하므로, 호환성을 위해 구조 변환
-      const models = modelsResult.models.map(modelName => ({
-        name: modelName,
-        model: modelName,
-        size: 'Unknown',
-        modified_at: new Date().toISOString()
-      }));
-      
-      res.json({ 
-        models, 
-        serverType: aiServerManager.serverType,
-        serverUrl: aiServerManager.getServerUrl()
-      });
+    if (response.data && response.data.models) {
+      res.json({ models: response.data.models });
     } else {
       res.status(500).json({
         error: {
-          message: '모델 목록 조회 실패: ' + modelsResult.error,
+          message: '모델 목록 조회 실패',
           type: 'server_error',
           code: 'models_fetch_failed'
         }
@@ -601,56 +591,7 @@ app.get('/api/models', async (req, res) => {
   }
 });
 
-// AI 서버 관리 엔드포인트들
-app.post('/api/ai-server/type', async (req, res) => {
-  try {
-    const { serverType } = req.body;
-    
-    if (!serverType || !['ollama', 'lmstudio'].includes(serverType)) {
-      return res.status(400).json({
-        error: {
-          message: 'Invalid server type. Must be "ollama" or "lmstudio"',
-          type: 'invalid_request_error',
-          code: 'invalid_server_type'
-        }
-      });
-    }
 
-    aiServerManager.setServerType(serverType);
-    
-    res.json({
-      success: true,
-      message: `AI server type changed to ${serverType}`,
-      serverType: aiServerManager.serverType,
-      serverUrl: aiServerManager.getServerUrl()
-    });
-  } catch (error) {
-    console.error('AI 서버 타입 변경 오류:', error);
-    res.status(500).json({
-      error: {
-        message: 'AI 서버 타입 변경 실패: ' + error.message,
-        type: 'server_error',
-        code: 'server_type_change_failed'
-      }
-    });
-  }
-});
-
-app.get('/api/ai-server/test', async (req, res) => {
-  try {
-    const result = await aiServerManager.testConnection();
-    res.json(result);
-  } catch (error) {
-    console.error('AI 서버 연결 테스트 오류:', error);
-    res.status(500).json({
-      error: {
-        message: 'AI 서버 연결 테스트 실패: ' + error.message,
-        type: 'server_error',
-        code: 'connection_test_failed'
-      }
-    });
-  }
-});
 
 // 메모리 관리 API 엔드포인트들
 
@@ -3035,7 +2976,7 @@ app.post('/api/cultural/prompt', authenticateToken, [
 // 서버 상태 확인 엔드포인트
 app.get('/status', (req, res) => {
   res.json({
-    message: 'AI 서버 관리자 기반 OpenAI API 호환 서버 (메모리 기능 포함)',
+    message: 'Ollama 기반 OpenAI API 호환 서버 (메모리 기능 포함)',
     version: '9.0.0',
     endpoints: {
       '/v1/chat/completions': 'OpenAI API 호환 엔드포인트 (지능형 메모리 기능 포함)',
@@ -3120,18 +3061,17 @@ app.get('/status', (req, res) => {
       '/api/security/backup/:userId': '암호화된 메모리 백업',
       '/api/security/restore/:userId': '메모리 복원',
       '/api/security/memory/:userId': '안전한 메모리 삭제',
-      '/api/ai-server/type': 'AI 서버 타입 변경',
-      '/api/ai-server/test': 'AI 서버 연결 테스트',
+
       '/health': '서버 상태 확인'
     }
   });
 });
 
 const server = app.listen(PORT, '0.0.0.0', () => {
-          console.log(`🚀 AI 서버 관리자 기반 API 서버가 포트 ${PORT}에서 실행 중입니다.`);
-    console.log(`🤖 현재 AI 서버: ${aiServerManager.serverType.toUpperCase()}`);
-    console.log(`📡 AI 서버 URL: ${aiServerManager.getServerUrl()}`);
-    console.log(`🔗 OpenAI 호환 엔드포인트: http://localhost:${PORT}/v1/chat/completions`);
+  console.log(`🚀 Ollama 기반 OpenAI API 호환 서버가 포트 ${PORT}에서 실행 중입니다.`);
+  console.log(`🤖 AI 서버: OLLAMA`);
+  console.log(`📡 AI 서버 URL: ${OLLAMA_URL}`);
+  console.log(`🔗 OpenAI 호환 엔드포인트: http://localhost:${PORT}/v1/chat/completions`);
     console.log(`🧪 테스트 엔드포인트: http://localhost:${PORT}/api/generate`);
   console.log(`🔊 멀티모달 통합 시스템이 초기화되었습니다.`);
   console.log(`🌍 문화 및 언어 최적화 시스템이 초기화되었습니다.`);
