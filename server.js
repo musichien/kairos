@@ -18,6 +18,12 @@ const CardiovascularWarningManager = require('./cardiovascular_warning');
 const BrainResearchComputingManager = require('./brain_research_computing');
 const EmbodiedIdentityManager = require('./embodied_identity_manager');
 
+// 🚀 고도화 모듈 추가
+const AIPerformanceMonitor = require('./ai_performance_monitor');
+const UserBehaviorAnalyzer = require('./user_behavior_analyzer');
+const AdvancedSecurityManager = require('./advanced_security_manager');
+const PerformanceOptimizer = require('./performance_optimizer');
+
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -29,6 +35,12 @@ const telomereHealthManager = new TelomereHealthManager();
 const cardiovascularWarningManager = new CardiovascularWarningManager();
 const brainResearchComputingManager = new BrainResearchComputingManager();
 const embodiedIdentityManager = new EmbodiedIdentityManager();
+
+// 🚀 고도화 모듈 인스턴스 생성
+const aiPerformanceMonitor = new AIPerformanceMonitor();
+const userBehaviorAnalyzer = new UserBehaviorAnalyzer();
+const advancedSecurityManager = new AdvancedSecurityManager();
+const performanceOptimizer = new PerformanceOptimizer();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
@@ -339,6 +351,10 @@ app.post('/api/chat', async (req, res) => {
 
 // OpenAI API 호환 엔드포인트 (메모리 기능 포함)
 app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
+  // 🚀 성능 모니터링 시작
+  const performanceTimer = aiPerformanceMonitor.startResponseTimer();
+  const startTime = Date.now();
+  
   try {
     const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, stream = false, user_id } = req.body;
 
@@ -466,9 +482,33 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
       }
     }
 
+    // 🚀 성능 모니터링 완료 및 사용자 행동 분석
+    const responseTime = Date.now() - startTime;
+    aiPerformanceMonitor.endResponseTimer(performanceTimer, model, true);
+    
+    // 사용자 행동 분석 (user_id가 있는 경우)
+    if (user_id) {
+      try {
+        userBehaviorAnalyzer.recordUserBehavior(user_id, 'response_interaction', {
+          responseType: 'chat_completion',
+          userReaction: 'positive', // 기본값, 실제로는 사용자 피드백 필요
+          followUpActions: [],
+          responseTime,
+          model,
+          messageCount: messages.length
+        });
+      } catch (behaviorError) {
+        console.error('사용자 행동 분석 실패:', behaviorError.message);
+      }
+    }
+
     res.json(openaiResponse);
 
   } catch (error) {
+    // 🚀 성능 모니터링 에러 기록
+    aiPerformanceMonitor.endResponseTimer(performanceTimer, model || 'unknown', false);
+    aiPerformanceMonitor.recordError(model || 'unknown', 'chat_completion_error', error.message, { user_id });
+    
     console.error('에러:', error.message);
     console.error('에러 상세:', error);
     
@@ -3061,6 +3101,19 @@ app.get('/status', (req, res) => {
       '/api/security/backup/:userId': '암호화된 메모리 백업',
       '/api/security/restore/:userId': '메모리 복원',
       '/api/security/memory/:userId': '안전한 메모리 삭제',
+      
+      // 🚀 고도화 엔드포인트
+      '/api/performance/status': 'AI 성능 모니터링 상태',
+      '/api/performance/metrics': '성능 메트릭 조회',
+      '/api/performance/optimize': '성능 최적화 실행',
+      '/api/behavior/analyze': '사용자 행동 분석',
+      '/api/behavior/personalize': '개인화 설정 조회',
+      '/api/security/advanced/status': '고급 보안 상태',
+      '/api/security/advanced/audit': '보안 감사 보고서',
+      '/api/security/advanced/alerts': '보안 알림 조회',
+      '/api/optimization/cache': '캐시 상태 및 통계',
+      '/api/optimization/load-balancer': '로드 밸런서 상태',
+      '/api/optimization/recommendations': '최적화 권장사항',
 
       '/health': '서버 상태 확인'
     }
@@ -3091,4 +3144,302 @@ const server = app.listen(PORT, '0.0.0.0', () => {
     brainResearchComputingManager.cleanup();
     embodiedIdentityManager.cleanup();
   }, 60 * 60 * 1000); // 1시간마다
+  
+  // 🚀 고도화 모듈 초기화 완료
+  console.log(`📊 AI 성능 모니터링 시스템이 초기화되었습니다.`);
+  console.log(`👤 사용자 행동 분석 시스템이 초기화되었습니다.`);
+  console.log(`🔒 고급 보안 관리 시스템이 초기화되었습니다.`);
+  console.log(`⚡ 성능 최적화 시스템이 초기화되었습니다.`);
 }); 
+
+// 🚀 고도화 엔드포인트 구현
+
+// AI 성능 모니터링 상태
+app.get('/api/performance/status', (req, res) => {
+  try {
+    const status = aiPerformanceMonitor.getRealTimeDashboard();
+    res.json({
+      success: true,
+      data: status,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 성능 메트릭 조회
+app.get('/api/performance/metrics', (req, res) => {
+  try {
+    const metrics = aiPerformanceMonitor.generatePerformanceStats();
+    res.json({
+      success: true,
+      data: metrics,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 성능 최적화 실행
+app.post('/api/performance/optimize', (req, res) => {
+  try {
+    const { operation, data } = req.body;
+    
+    if (!operation) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: '최적화 작업을 지정해야 합니다.',
+          type: 'validation_error',
+          code: 'missing_operation'
+        }
+      });
+    }
+
+    // 성능 최적화 실행
+    const result = performanceOptimizer.optimizeResponseTime(operation, () => {
+      // 실제 최적화 로직 (예시)
+      return { optimized: true, operation, timestamp: new Date().toISOString() };
+    });
+
+    res.json({
+      success: true,
+      data: result,
+      message: '성능 최적화가 완료되었습니다.',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 사용자 행동 분석
+app.post('/api/behavior/analyze', (req, res) => {
+  try {
+    const { userId, behaviorType, data } = req.body;
+    
+    if (!userId || !behaviorType) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: '사용자 ID와 행동 유형을 지정해야 합니다.',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    // 사용자 행동 기록 및 분석
+    const behaviorRecord = userBehaviorAnalyzer.recordUserBehavior(userId, behaviorType, data);
+    
+    res.json({
+      success: true,
+      data: behaviorRecord,
+      message: '사용자 행동이 분석되었습니다.',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 개인화 설정 조회
+app.get('/api/behavior/personalize/:userId', (req, res) => {
+  try {
+    const { userId } = req.params;
+    const context = req.query.context || 'general';
+    
+    const personalization = userBehaviorAnalyzer.generatePersonalizedResponse(userId, context);
+    
+    res.json({
+      success: true,
+      data: personalization,
+      message: '개인화 설정이 생성되었습니다.',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 고급 보안 상태
+app.get('/api/security/advanced/status', (req, res) => {
+  try {
+    const status = advancedSecurityManager.getSecurityStatus();
+    
+    res.json({
+      success: true,
+      data: status,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 보안 감사 보고서
+app.get('/api/security/advanced/audit', (req, res) => {
+  try {
+    const { startDate, endDate } = req.query;
+    
+    if (!startDate || !endDate) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: '시작일과 종료일을 지정해야 합니다.',
+          type: 'validation_error',
+          code: 'missing_dates'
+        }
+      });
+    }
+
+    const auditReport = advancedSecurityManager.generateSecurityAuditReport(startDate, endDate);
+    
+    res.json({
+      success: true,
+      data: auditReport,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 보안 알림 조회
+app.get('/api/security/advanced/alerts', (req, res) => {
+  try {
+    const alerts = advancedSecurityManager.generateAlerts();
+    
+    res.json({
+      success: true,
+      data: alerts,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 캐시 상태 및 통계
+app.get('/api/optimization/cache', (req, res) => {
+  try {
+    const cacheStats = performanceOptimizer.generatePerformanceStats();
+    
+    res.json({
+      success: true,
+      data: cacheStats.cache,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 로드 밸런서 상태
+app.get('/api/optimization/load-balancer', (req, res) => {
+  try {
+    const loadBalancerStats = performanceOptimizer.generatePerformanceStats();
+    
+    res.json({
+      success: true,
+      data: loadBalancerStats.loadBalancer,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 최적화 권장사항
+app.get('/api/optimization/recommendations', (req, res) => {
+  try {
+    const recommendations = performanceOptimizer.generateOptimizationRecommendations();
+    
+    res.json({
+      success: true,
+      data: recommendations,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});

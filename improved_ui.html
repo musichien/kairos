@@ -422,6 +422,7 @@
                 <button class="tab-button" onclick="showTab('brain', event)">🧠 Brain Research</button>
                 <button class="tab-button" onclick="showTab('identity', event)">🌟 Embodied Identity</button>
                 <button class="tab-button" onclick="showTab('telomere', event)">🧬 Telomere Health</button>
+            <button class="tab-button" onclick="showTab('advanced', event)">⚙️ Advanced Settings</button>
             </div>
 
             <!-- Overview Tab -->
@@ -463,7 +464,6 @@
                 <div class="card">
                     <h3>⚙️ Configuration</h3>
                     <div class="grid">
-
                         <div class="form-group">
                             <label for="apiUrl">API URL:</label>
                             <input type="text" id="apiUrl" value="http://localhost:3000">
@@ -673,6 +673,59 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Advanced Settings Tab -->
+            <div id="advanced" class="tab-content">
+                <div class="card">
+                    <h3>⚙️ Advanced Settings</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Manage advanced system features including performance monitoring, user behavior analysis, security settings, and optimization tools.
+                    </p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <h4>📊 Performance Monitoring</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Monitor real-time system performance, response times, and success rates to ensure optimal AI service delivery.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadPerformanceStatus()">Real-time Status</button>
+                            <button class="btn btn-secondary" onclick="loadPerformanceMetrics()">Performance Stats</button>
+                            <button class="btn btn-warning" onclick="runPerformanceOptimization()">Run Optimization</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>👤 User Behavior Analysis</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Analyze user interaction patterns and generate personalized settings to enhance user experience and AI responses.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadUserBehaviorAnalysis()">Behavior Analysis</button>
+                            <button class="btn btn-secondary" onclick="loadPersonalizationSettings()">Personalization</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🔒 Security Management</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Monitor security status, generate audit reports, and receive real-time security alerts to maintain system integrity.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadSecurityStatus()">Security Status</button>
+                            <button class="btn btn-secondary" onclick="loadSecurityAudit()">Audit Report</button>
+                            <button class="btn btn-warning" onclick="loadSecurityAlerts()">Security Alerts</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>⚡ Performance Optimization</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Monitor cache performance, load balancer status, and receive optimization recommendations to improve system efficiency.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadCacheStatus()">Cache Status</button>
+                            <button class="btn btn-secondary" onclick="loadLoadBalancerStatus()">Load Balancer</button>
+                            <button class="btn btn-info" onclick="loadOptimizationRecommendations()">Optimization Tips</button>
+                        </div>
+                    </div>
+                    
+                    <div id="advancedResults" style="margin-top: 20px;"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -795,8 +848,7 @@
                     return;
                 }
                 
-                const healthData = await healthResponse.json();
-                showStatus(`✅ Connection successful! (Ollama: ${healthData.ollama_url})`, 'success');
+                showStatus('✅ Connection successful!', 'success');
             } catch (error) {
                 showStatus(`❌ Connection failed: ${error.message}`, 'error');
             }
@@ -810,11 +862,21 @@
                     const modelSelect = document.getElementById('modelSelect');
                     modelSelect.innerHTML = '<option value="">Select a model...</option>';
                     
-                    if (data.models && data.models.length > 0) {
-                        data.models.forEach(model => {
+                    // Handle different response formats
+                    let models = [];
+                    if (data.data && Array.isArray(data.data)) {
+                        models = data.data;
+                    } else if (data.models && Array.isArray(data.models)) {
+                        models = data.models;
+                    } else if (Array.isArray(data)) {
+                        models = data;
+                    }
+                    
+                    if (models.length > 0) {
+                        models.forEach(model => {
                             const option = document.createElement('option');
-                            option.value = model.name;
-                            option.textContent = model.name;
+                            option.value = model.id || model.name || model;
+                            option.textContent = model.id || model.name || model;
                             if (model.size) {
                                 option.textContent += ` (${formatFileSize(model.size)})`;
                             }
@@ -2387,6 +2449,297 @@
                 activeTab.appendChild(container);
                 showStatus('✅ Telomere health data (demo mode)', 'success');
             }
+        }
+
+        // Advanced Settings Functions
+        async function loadPerformanceStatus() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/performance/status`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('performance-status', data);
+                    showStatus('✅ Performance status loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load performance status', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading performance status: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadPerformanceMetrics() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/performance/metrics`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('performance-metrics', data);
+                    showStatus('✅ Performance statistics loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load performance statistics', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading performance statistics: ${error.message}`, 'error');
+            }
+        }
+
+        async function runPerformanceOptimization() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/performance/optimize`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        userId: config.userId,
+                        operation: 'response_time_optimization',
+                        data: { target: 'chat_response', threshold: 1000 }
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('performance-optimization', data);
+                    showStatus('✅ Performance optimization completed successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to run performance optimization', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error running performance optimization: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadUserBehaviorAnalysis() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/behavior/analyze`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        behaviorType: 'feature_usage',
+                        data: { feature: 'advanced_settings', duration: 5000, success: true }
+                    })
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('behavior-analysis', data);
+                    showStatus('✅ User behavior analysis completed successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to analyze user behavior', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error analyzing user behavior: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadPersonalizationSettings() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/behavior/personalize/${config.userId}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('personalization-settings', data);
+                    showStatus('✅ Personalization settings loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load personalization settings', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading personalization settings: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadSecurityStatus() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/security/advanced/status`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('security-status', data);
+                    showStatus('✅ Security status loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load security status', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading security status: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadSecurityAudit() {
+            try {
+                // 최근 7일간의 감사 보고서 요청
+                const endDate = new Date().toISOString().split('T')[0];
+                const startDate = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+                
+                const response = await fetch(`${config.apiUrl}/api/security/advanced/audit?startDate=${startDate}&endDate=${endDate}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('security-audit', data);
+                    showStatus('✅ Security audit report loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load security audit report', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading security audit report: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadSecurityAlerts() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/security/advanced/alerts`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('security-alerts', data);
+                    showStatus('✅ Security alerts loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load security alerts', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading security alerts: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadCacheStatus() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/optimization/cache`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('cache-status', data);
+                    showStatus('✅ Cache status loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load cache status', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading cache status: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadLoadBalancerStatus() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/optimization/load-balancer`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('load-balancer-status', data);
+                    showStatus('✅ Load balancer status loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load load balancer status', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading load balancer status: ${error.message}`, 'error');
+            }
+        }
+
+        async function loadOptimizationRecommendations() {
+            try {
+                const response = await fetch(`${config.apiUrl}/api/optimization/recommendations`);
+                if (response.ok) {
+                    const data = await response.json();
+                    displayAdvancedResults('optimization-recommendations', data);
+                    showStatus('✅ Optimization recommendations loaded successfully', 'success');
+                } else {
+                    showStatus('❌ Failed to load optimization recommendations', 'error');
+                }
+            } catch (error) {
+                showStatus(`❌ Error loading optimization recommendations: ${error.message}`, 'error');
+            }
+        }
+
+        function displayAdvancedResults(type, data) {
+            const resultsDiv = document.getElementById('advancedResults');
+            let html = '';
+
+            switch (type) {
+                case 'performance-status':
+                    html = `
+                        <div style="background:#f0f9ff;padding:16px;border:1px solid #0ea5e9;border-radius:8px;margin:10px 0;">
+                            <h4>📊 Real-time Performance Status</h4>
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:16px;">
+                                <div style="background:white;padding:12px;border-radius:6px;text-align:center;">
+                                    <div style="font-size:24px;font-weight:bold;color:#0ea5e9;">${data.data?.currentHour?.totalRequests || 0}</div>
+                                    <div style="font-size:12px;color:#64748b;">Current Hour Requests</div>
+                                </div>
+                                <div style="background:white;padding:12px;border-radius:6px;text-align:center;">
+                                    <div style="font-size:24px;font-weight:bold;color:#10b981;">${data.data?.currentHour?.averageResponseTime || 0}ms</div>
+                                    <div style="font-size:12px;color:#64748b;">Avg Response Time</div>
+                                </div>
+                                <div style="background:white;padding:12px;border-radius:6px;text-align:center;">
+                                    <div style="font-size:24px;font-weight:bold;color:#f59e0b;">${data.data?.currentHour?.successRate || 0}%</div>
+                                    <div style="font-size:12px;color:#64748b;">Success Rate</div>
+                                </div>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'performance-metrics':
+                    html = `
+                        <div style="background:#f0fdf4;padding:16px;border:1px solid #22c55e;border-radius:8px;margin:10px 0;">
+                            <h4>📈 Performance Statistics</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Total Requests:</strong> ${data.data?.overall?.totalRequests || 0}</p>
+                                <p><strong>Average Response Time:</strong> ${data.data?.overall?.averageResponseTime || 0}ms</p>
+                                <p><strong>Success Rate:</strong> ${data.data?.overall?.successRate || 0}%</p>
+                                <p><strong>Total Errors:</strong> ${data.data?.overall?.totalErrors || 0}</p>
+                                <p><strong>Trend:</strong> ${data.data?.trends || 'stable'}</p>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'security-status':
+                    html = `
+                        <div style="background:#fef2f2;padding:16px;border:1px solid #ef4444;border-radius:8px;margin:10px 0;">
+                            <h4>🔒 Security Status</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Encryption:</strong> ${data.data?.encryptionEnabled ? '✅ Enabled' : '❌ Disabled'}</p>
+                                <p><strong>Audit Logging:</strong> ${data.data?.auditLogging ? '✅ Enabled' : '❌ Disabled'}</p>
+                                <p><strong>Access Control:</strong> ${data.data?.accessControl ? '✅ Enabled' : '❌ Disabled'}</p>
+                                <p><strong>Active Sessions:</strong> ${data.data?.activeSessions || 0}</p>
+                                <p><strong>System Health:</strong> <span style="color:#10b981;">${data.data?.systemHealth || 'healthy'}</span></p>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'performance-optimization':
+                    html = `
+                        <div style="background:#f0fdf4;padding:16px;border:1px solid #22c55e;border-radius:8px;margin:10px 0;">
+                            <h4>⚡ Performance Optimization Result</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Optimization Task:</strong> ${data.data?.operation || 'response_time_optimization'}</p>
+                                <p><strong>Optimization Status:</strong> ${data.data?.optimized ? '✅ Completed' : '❌ Failed'}</p>
+                                <p><strong>Execution Time:</strong> ${data.data?.timestamp || new Date().toISOString()}</p>
+                                <p><strong>Message:</strong> ${data.message || 'Optimization completed successfully.'}</p>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'security-audit':
+                    html = `
+                        <div style="background:#fef3c7;padding:16px;border:1px solid #f59e0b;border-radius:8px;margin:10px 0;">
+                            <h4>🔍 Security Audit Report</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Period:</strong> ${data.data?.period?.start || 'N/A'} ~ ${data.data?.period?.end || 'N/A'}</p>
+                                <p><strong>Total Security Events:</strong> ${data.data?.summary?.totalSecurityEvents || 0}</p>
+                                <p><strong>Total Access Logs:</strong> ${data.data?.summary?.totalAccessLogs || 0}</p>
+                                <p><strong>High Severity Events:</strong> ${data.data?.summary?.highSeverityEvents || 0}</p>
+                                <p><strong>Critical Events:</strong> ${data.data?.summary?.criticalEvents || 0}</p>
+                                <p><strong>Security Status:</strong> <span style="color:#10b981;">${data.data?.summary?.criticalEvents > 0 ? '⚠️ Attention Required' : '✅ Safe'}</span></p>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                default:
+                    html = `
+                        <div style="background:#f8fafc;padding:16px;border:1px solid #64748b;border-radius:8px;margin:10px 0;">
+                            <h4>📋 Results</h4>
+                            <pre style="background:white;padding:12px;border-radius:6px;overflow-x:auto;font-size:12px;">${JSON.stringify(data, null, 2)}</pre>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+            }
+
+            resultsDiv.innerHTML = html;
         }
 
         // Initialize the application
