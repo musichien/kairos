@@ -153,6 +153,7 @@ The new Kairos UI provides an intuitive, organized experience with dedicated tab
 - **🧬 Brain Research**: Distributed computing for brain disease research
 - **🌟 Embodied Identity**: Self-exploration and identity development sessions
 - **⏰ Telomere Health**: Science-based healthy aging guidance
+- **⚙️ Advanced Settings**: Comprehensive system monitoring and management tools
 
 ### **Enhanced User Experience**
 - **Responsive Design**: Works seamlessly on desktop and mobile devices
@@ -462,12 +463,132 @@ curl -X POST "http://localhost:3000/api/cultural/context" \
 - **`/api/multimodal/*`** - Multimodal data processing and integration
 - **`/api/cultural/*`** - Cultural optimization and language support
 - **`/api/security/*`** - Security, privacy, and data management
+- **`/api/performance/*`** - Performance monitoring and optimization
+- **`/api/behavior/*`** - User behavior analysis and personalization
+- **`/api/optimization/*`** - System optimization and recommendations
 
 ### **Authentication:**
 All API endpoints require authentication using Bearer token:
 ```bash
 Authorization: Bearer your-secret-key-here
 ```
+
+## ⚙️ **Advanced Settings & System Management**
+
+### **📊 Performance Monitoring**
+Comprehensive system performance monitoring and analysis tools:
+
+#### **Real-time Performance Status:**
+```bash
+# Get current performance metrics
+curl -X GET "http://localhost:3000/api/performance/status" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Performance Statistics:**
+```bash
+# Get detailed performance statistics
+curl -X GET "http://localhost:3000/api/performance/metrics" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Performance Optimization:**
+```bash
+# Run performance optimization
+curl -X POST "http://localhost:3000/api/performance/optimize" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "operation": "response_time_optimization",
+    "data": {
+      "target": "chat_response",
+      "threshold": 1000
+    }
+  }'
+```
+
+### **👤 User Behavior Analysis**
+Advanced user interaction analysis and personalization features:
+
+#### **Behavior Analysis:**
+```bash
+# Analyze user behavior patterns
+curl -X POST "http://localhost:3000/api/behavior/analyze" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "userId": "user_001",
+    "behaviorType": "feature_usage",
+    "data": {
+      "feature": "advanced_settings",
+      "duration": 5000,
+      "success": true
+    }
+  }'
+```
+
+#### **Personalization Settings:**
+```bash
+# Get personalized settings for user
+curl -X GET "http://localhost:3000/api/behavior/personalize/user_001" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **🔒 Security Management**
+Advanced security monitoring and audit capabilities:
+
+#### **Security Status:**
+```bash
+# Get current security status
+curl -X GET "http://localhost:3000/api/security/advanced/status" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Security Audit Report:**
+```bash
+# Generate security audit report
+curl -X GET "http://localhost:3000/api/security/advanced/audit?startDate=2025-08-24&endDate=2025-08-31" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Security Alerts:**
+```bash
+# Get security alerts
+curl -X GET "http://localhost:3000/api/security/advanced/alerts" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **⚡ Performance Optimization**
+System optimization tools and recommendations:
+
+#### **Cache Status:**
+```bash
+# Monitor cache performance
+curl -X GET "http://localhost:3000/api/optimization/cache" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Load Balancer Status:**
+```bash
+# Check load balancer status
+curl -X GET "http://localhost:3000/api/optimization/load-balancer" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Optimization Recommendations:**
+```bash
+# Get system optimization recommendations
+curl -X GET "http://localhost:3000/api/optimization/recommendations" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **Advanced Settings Features:**
+- **Real-time Monitoring**: Live performance metrics and system health
+- **User Behavior Analytics**: Pattern recognition and personalization
+- **Security Auditing**: Comprehensive security event tracking
+- **System Optimization**: Automated recommendations and performance tuning
+- **English UI**: Complete English interface with detailed feature descriptions
+- **Error Handling**: Robust error handling and parameter validation
 
 ## 🎯 **Real-World Use Cases**
 
