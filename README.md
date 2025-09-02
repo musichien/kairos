@@ -10,12 +10,6 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 *🎥 **Click the GIF above to view full-size animation!** Experience the new improved UI with modern tabbed interface, featuring AI Chat, Brain Research Computing, Embodied Identity, and more!*
 
-### **🧠 3D Brain & Neuron Visualization Preview**
-
-![Enhanced 3D Brain Visualization](https://github.com/musichien/kairos/raw/main/img/3dbrain.jpg)
-
-*🔬 **Interactive 3D Brain Atlas**: Explore anatomically accurate brain regions, detailed neuron structures, and neural transmission processes with full 3D navigation controls.*
-
 **🚀 [Try Kairos Live Demo](https://kairos.musichien.com/) | 📱 [View Full UI Gallery](#-screenshots--ui-gallery)**
 
 ## 🎯 **Core Features Overview (10 Core Features)**
@@ -872,6 +866,10 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 - **Interactive 3D Experience**: Clickable brain regions with detailed information tooltips and highlighting
 - **Scientific Accuracy**: Based on real neuroanatomical structures and medical neuroscience principles
 - **Educational Value**: Step-by-step visualization of neural transmission and information processing
+
+![Enhanced 3D Brain Visualization](https://github.com/musichien/kairos/raw/main/img/3dbrain.jpg)
+
+*🔬 **Interactive 3D Brain Atlas**: Explore anatomically accurate brain regions, detailed neuron structures, and neural transmission processes with full 3D navigation controls.*
 
 #### **🎮 3D Simulation Controls & Navigation**
 - **🖱️ Mouse Controls**:
