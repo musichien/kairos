@@ -862,7 +862,7 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 - **Advanced Synapse Visualization**: Detailed synaptic cleft, presynaptic terminals, postsynaptic receptors, and neurotransmitter vesicles
 - **Brain Composition Display**: Interactive pie chart showing brain composition (Water 60%, Protein 25%, Fat 15%)
 - **Brain Function Indicators**: Visual representation of brain functions (Thought, Memory, Sensation)
-- **Korean/English Bilingual Labels**: Educational labels in both Korean and English for better understanding
+- **Multilingual Educational Labels**: Educational labels in multiple languages for better understanding
 - **Interactive 3D Experience**: Clickable brain regions with detailed information tooltips and highlighting
 - **Scientific Accuracy**: Based on real neuroanatomical structures and medical neuroscience principles
 - **Educational Value**: Step-by-step visualization of neural transmission and information processing
