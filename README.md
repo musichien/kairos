@@ -10,6 +10,12 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 *🎥 **Click the GIF above to view full-size animation!** Experience the new improved UI with modern tabbed interface, featuring AI Chat, Brain Research Computing, Embodied Identity, and more!*
 
+### **🧠 3D Brain & Neuron Visualization Preview**
+
+![Enhanced 3D Brain Visualization](https://github.com/musichien/kairos/raw/main/img/3dbrain.jpg)
+
+*🔬 **Interactive 3D Brain Atlas**: Explore anatomically accurate brain regions, detailed neuron structures, and neural transmission processes with full 3D navigation controls.*
+
 **🚀 [Try Kairos Live Demo](https://kairos.musichien.com/) | 📱 [View Full UI Gallery](#-screenshots--ui-gallery)**
 
 ## 🎯 **Core Features Overview (10 Core Features)**
@@ -866,6 +872,24 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 - **Interactive 3D Experience**: Clickable brain regions with detailed information tooltips and highlighting
 - **Scientific Accuracy**: Based on real neuroanatomical structures and medical neuroscience principles
 - **Educational Value**: Step-by-step visualization of neural transmission and information processing
+
+#### **🎮 3D Simulation Controls & Navigation**
+- **🖱️ Mouse Controls**:
+  - **Left Click + Drag**: Rotate the 3D view around the brain/neuron
+  - **Mouse Wheel**: Zoom in/out for detailed examination
+  - **Right Click + Drag**: Pan the view horizontally and vertically
+- **📱 Touch Controls** (Mobile/Tablet):
+  - **Single Finger Drag**: Rotate the 3D view
+  - **Two Finger Pinch**: Zoom in/out
+  - **Two Finger Drag**: Pan the view
+- **🔍 Interactive Features**:
+  - **Click on Brain Regions**: Highlight and show detailed information tooltips
+  - **Click on Neurons**: Display neuron structure details and descriptions
+  - **Hover Effects**: Visual feedback for interactive elements
+- **🎛️ Control Panel**:
+  - **Reset View**: Return to default camera position
+  - **Toggle Animation**: Start/stop automatic rotation and animations
+  - **Close**: Hide the 3D visualization panel
 
 ### **🧬 New Multi-Scale Brain Modeling Module**
 - **Microscopic Level**: Individual neuron modeling with Hodgkin-Huxley equations and electrophysiological properties
