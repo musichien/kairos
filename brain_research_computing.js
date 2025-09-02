@@ -56,6 +56,28 @@ class BrainResearchComputingManager {
                 complexity: 'high',
                 estimatedTime: 90000, // 1.5 minutes
                 gpuRequired: true
+            },
+            // 🧬 Multi-Scale Brain Modeling 작업 추가
+            'microscopic_modeling': {
+                name: 'Microscopic Brain Modeling',
+                description: 'Individual neuron and synapse modeling with Hodgkin-Huxley equations',
+                complexity: 'high',
+                estimatedTime: 45000, // 45 seconds
+                gpuRequired: false
+            },
+            'mesoscopic_modeling': {
+                name: 'Mesoscopic Brain Modeling',
+                description: 'Brain region connectivity simulation with Wilson-Cowan model',
+                complexity: 'high',
+                estimatedTime: 60000, // 1 minute
+                gpuRequired: false
+            },
+            'macroscopic_modeling': {
+                name: 'Macroscopic Brain Modeling',
+                description: 'Whole brain network dynamics and consciousness modeling',
+                complexity: 'very_high',
+                estimatedTime: 90000, // 1.5 minutes
+                gpuRequired: false
             }
         };
     }
@@ -99,6 +121,37 @@ class BrainResearchComputingManager {
                     particle_count: 500
                 },
                 validation: 'energy_conservation'
+            },
+            // 🧬 Multi-Scale Brain Modeling 작업 추가
+            'microscopic_modeling': {
+                algorithm: 'hodgkin_huxley_model',
+                parameters: {
+                    neuronType: 'pyramidal',
+                    simulationTime: 1000,
+                    timeStep: 0.1,
+                    stimulus: { type: 'current_injection', amplitude: 50, duration: 100 }
+                },
+                validation: 'membrane_potential_consistency'
+            },
+            'mesoscopic_modeling': {
+                algorithm: 'wilson_cowan_model',
+                parameters: {
+                    regions: ['prefrontal_cortex', 'motor_cortex', 'somatosensory_cortex'],
+                    simulationTime: 5000,
+                    timeStep: 1,
+                    externalStimulus: { region: 'prefrontal_cortex', strength: 0.5, duration: 1000 }
+                },
+                validation: 'region_activity_consistency'
+            },
+            'macroscopic_modeling': {
+                algorithm: 'global_brain_dynamics',
+                parameters: {
+                    simulationTime: 10000,
+                    timeStep: 10,
+                    globalStimulus: { type: 'sensory_input', strength: 0.3, duration: 2000 },
+                    consciousnessLevel: 0.8
+                },
+                validation: 'consciousness_index_consistency'
             }
         };
     }

@@ -24,6 +24,9 @@ const UserBehaviorAnalyzer = require('./user_behavior_analyzer');
 const AdvancedSecurityManager = require('./advanced_security_manager');
 const PerformanceOptimizer = require('./performance_optimizer');
 
+// 🧬 Multi-Scale Brain Modeling 모듈 추가
+const MultiScaleBrainModeling = require('./multi_scale_brain_modeling');
+
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -41,6 +44,9 @@ const aiPerformanceMonitor = new AIPerformanceMonitor();
 const userBehaviorAnalyzer = new UserBehaviorAnalyzer();
 const advancedSecurityManager = new AdvancedSecurityManager();
 const performanceOptimizer = new PerformanceOptimizer();
+
+// 🧬 Multi-Scale Brain Modeling 인스턴스 생성
+const multiScaleBrainModeling = new MultiScaleBrainModeling();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
@@ -3430,6 +3436,269 @@ app.get('/api/optimization/recommendations', (req, res) => {
     res.json({
       success: true,
       data: recommendations,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// ===== 🧬 Multi-Scale Brain Modeling API Endpoints =====
+
+// 뇌 영역 정보 조회
+app.get('/api/brain-modeling/regions', (req, res) => {
+  try {
+    const regions = multiScaleBrainModeling.getBrainRegions();
+    
+    res.json({
+      success: true,
+      data: regions,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 뉴런 타입 정보 조회
+app.get('/api/brain-modeling/neuron-types', (req, res) => {
+  try {
+    const neuronTypes = multiScaleBrainModeling.getNeuronTypes();
+    
+    res.json({
+      success: true,
+      data: neuronTypes,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 연결성 매트릭스 조회
+app.get('/api/brain-modeling/connectivity', (req, res) => {
+  try {
+    const connectivity = multiScaleBrainModeling.getConnectivityMatrix();
+    
+    res.json({
+      success: true,
+      data: connectivity,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 현미경 수준 시뮬레이션 (개별 뉴런)
+app.post('/api/brain-modeling/microscopic', (req, res) => {
+  try {
+    const parameters = req.body;
+    
+    multiScaleBrainModeling.simulateMicroscopicLevel(parameters)
+      .then(result => {
+        res.json({
+          success: true,
+          data: result,
+          timestamp: new Date().toISOString()
+        });
+      })
+      .catch(error => {
+        res.status(400).json({
+          success: false,
+          error: {
+            message: error.message,
+            type: 'simulation_error',
+            code: 'microscopic_simulation_failed'
+          }
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 중간 수준 시뮬레이션 (뇌 영역 간 연결성)
+app.post('/api/brain-modeling/mesoscopic', (req, res) => {
+  try {
+    const parameters = req.body;
+    
+    multiScaleBrainModeling.simulateMesoscopicLevel(parameters)
+      .then(result => {
+        res.json({
+          success: true,
+          data: result,
+          timestamp: new Date().toISOString()
+        });
+      })
+      .catch(error => {
+        res.status(400).json({
+          success: false,
+          error: {
+            message: error.message,
+            type: 'simulation_error',
+            code: 'mesoscopic_simulation_failed'
+          }
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 거시 수준 시뮬레이션 (전체 뇌 네트워크)
+app.post('/api/brain-modeling/macroscopic', (req, res) => {
+  try {
+    const parameters = req.body;
+    
+    multiScaleBrainModeling.simulateMacroscopicLevel(parameters)
+      .then(result => {
+        res.json({
+          success: true,
+          data: result,
+          timestamp: new Date().toISOString()
+        });
+      })
+      .catch(error => {
+        res.status(400).json({
+          success: false,
+          error: {
+            message: error.message,
+            type: 'simulation_error',
+            code: 'macroscopic_simulation_failed'
+          }
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 시뮬레이션 상태 조회
+app.get('/api/brain-modeling/simulation/:simulationId', (req, res) => {
+  try {
+    const { simulationId } = req.params;
+    const status = multiScaleBrainModeling.getSimulationStatus(simulationId);
+    
+    if (!status.success) {
+      return res.status(404).json({
+        success: false,
+        error: {
+          message: 'Simulation not found',
+          type: 'not_found',
+          code: 'simulation_not_found'
+        }
+      });
+    }
+    
+    res.json({
+      success: true,
+      data: status,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 활성 시뮬레이션 목록 조회
+app.get('/api/brain-modeling/simulations', (req, res) => {
+  try {
+    const simulations = multiScaleBrainModeling.getActiveSimulations();
+    
+    res.json({
+      success: true,
+      data: simulations,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 시뮬레이션 삭제
+app.delete('/api/brain-modeling/simulation/:simulationId', (req, res) => {
+  try {
+    const { simulationId } = req.params;
+    const deleted = multiScaleBrainModeling.clearSimulation(simulationId);
+    
+    if (!deleted) {
+      return res.status(404).json({
+        success: false,
+        error: {
+          message: 'Simulation not found',
+          type: 'not_found',
+          code: 'simulation_not_found'
+        }
+      });
+    }
+    
+    res.json({
+      success: true,
+      message: 'Simulation cleared successfully',
       timestamp: new Date().toISOString()
     });
   } catch (error) {

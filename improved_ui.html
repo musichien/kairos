@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kairos AI - Advanced Cognitive Enhancement Platform</title>
+            <title>Kairos AI - Advanced Cognitive Enhancement Platform</title>
+        <!-- Three.js for 3D visualization -->
+        <script src="three.min.js"></script>
+        <script src="OrbitControls.js"></script>
     <style>
         :root {
             --primary-color: #2563eb;
@@ -645,9 +648,93 @@
             <div id="brain" class="tab-content">
                 <div class="card">
                     <h3>🧠 Brain Disease Research Computing</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Contribute to cutting-edge Alzheimer's and dementia research through distributed computing. Run neural simulations, analyze protein interactions, and model brain dynamics.
+                    </p>
+                    
                     <div class="grid">
-                        <button class="btn btn-primary" onclick="loadBrainJobs()">📊 Available Jobs</button>
-                        <button class="btn btn-secondary" onclick="checkContribution()">📈 Contribution Stats</button>
+                        <div class="form-group">
+                            <h4>🔬 Research Computing</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Run distributed computing jobs for brain disease research using your browser's processing power.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadBrainJobs()">📊 Available Jobs</button>
+                            <button class="btn btn-secondary" onclick="checkContribution()">📈 Contribution Stats</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🧬 Multi-Scale Brain Modeling</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Advanced brain simulation at microscopic, mesoscopic, and macroscopic levels with real-time visualization.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadBrainRegions()">🧠 Brain Regions</button>
+                            <button class="btn btn-secondary" onclick="loadNeuronTypes()">🔬 Neuron Types</button>
+                            <button class="btn btn-info" onclick="loadConnectivityMatrix()">🔗 Connectivity</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🔬 Microscopic Simulation</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Individual neuron modeling with Hodgkin-Huxley equations and electrophysiological properties.
+                            </p>
+                            <button class="btn btn-primary" onclick="runMicroscopicSimulation()">🧬 Run Microscopic</button>
+                            <button class="btn btn-secondary" onclick="loadMicroscopicResults()">📊 View Results</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🌐 Mesoscopic Simulation</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Brain region connectivity simulation using Wilson-Cowan model for network dynamics.
+                            </p>
+                            <button class="btn btn-primary" onclick="runMesoscopicSimulation()">🌐 Run Mesoscopic</button>
+                            <button class="btn btn-secondary" onclick="loadMesoscopicResults()">📊 View Results</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🌍 Macroscopic Simulation</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Whole brain network dynamics and consciousness modeling with global activity patterns.
+                            </p>
+                            <button class="btn btn-primary" onclick="runMacroscopicSimulation()">🌍 Run Macroscopic</button>
+                            <button class="btn btn-secondary" onclick="loadMacroscopicResults()">📊 View Results</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>📈 Simulation Management</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Monitor active simulations, view results, and manage brain modeling sessions.
+                            </p>
+                            <button class="btn btn-primary" onclick="loadActiveSimulations()">📊 Active Simulations</button>
+                            <button class="btn btn-warning" onclick="clearAllSimulations()">🗑️ Clear All</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🎨 3D Brain Visualization</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Interactive 3D visualization of brain regions, neurons, neural networks, and neural transmission processes including action potentials, synapses, and ion channels.
+                            </p>
+                            <button class="btn btn-primary" onclick="initializeBrainVisualization()">🧠 3D Brain Atlas</button>
+                            <button class="btn btn-secondary" onclick="showNeuronVisualization()">🔬 Neuron 3D</button>
+                            <button class="btn btn-info" onclick="showNetworkVisualization()">🌐 Network 3D</button>
+                            <button class="btn btn-success" onclick="showNeuralTransmissionSimulation()">⚡ Neural Transmission</button>
+                        </div>
+                    </div>
+                    
+                    <div id="brainResults" style="margin-top: 20px;"></div>
+                    
+                    <!-- 3D Visualization Container -->
+                    <div id="visualizationContainer" style="display: none; margin-top: 20px;">
+                        <div class="card">
+                            <h4>🎨 3D Brain Visualization</h4>
+                            <div style="position: relative;">
+                                <canvas id="brainCanvas" style="width: 100%; height: 500px; border: 1px solid #e2e8f0; border-radius: 8px;"></canvas>
+                                <div id="visualizationControls" style="position: absolute; top: 10px; left: 10px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 6px; display: none;">
+                                    <button class="btn btn-sm btn-primary" onclick="resetCamera()">Reset View</button>
+                                    <button class="btn btn-sm btn-secondary" onclick="toggleAnimation()">Toggle Animation</button>
+                                    <button class="btn btn-sm btn-warning" onclick="closeVisualization()">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2742,8 +2829,2075 @@
             resultsDiv.innerHTML = html;
         }
 
+        // ===== 🧬 Multi-Scale Brain Modeling Functions =====
+
+        // 3D Visualization Variables
+        let scene, camera, renderer, controls;
+        let brainRegions = [];
+        let neurons = [];
+        let connections = [];
+        let animationId = null;
+        let isAnimating = false;
+
+        // Initialize 3D Brain Visualization
+        function initializeBrainVisualization() {
+            try {
+                // Check if Three.js is loaded
+                if (typeof THREE === 'undefined') {
+                    showStatus('❌ Three.js library not loaded. Please refresh the page.', 'error');
+                    return;
+                }
+                
+                showStatus('Initializing 3D brain visualization...', 'info');
+                
+                const container = document.getElementById('visualizationContainer');
+                const canvas = document.getElementById('brainCanvas');
+                const controlsDiv = document.getElementById('visualizationControls');
+                
+                container.style.display = 'block';
+                controlsDiv.style.display = 'block';
+                
+                // Initialize Three.js scene
+                scene = new THREE.Scene();
+                scene.background = new THREE.Color(0xf8fafc);
+                
+                // Camera setup
+                camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+                camera.position.set(0, 0, 100);
+                
+                // Renderer setup
+                renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+                renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+                
+                // Controls
+                controls = new THREE.OrbitControls(camera, renderer.domElement);
+                controls.enableDamping = true;
+                controls.dampingFactor = 0.05;
+                
+                // Add mouse click event for brain region interaction
+                canvas.addEventListener('click', onCanvasClick);
+                
+                // Lighting
+                const ambientLight = new THREE.AmbientLight(0x404040, 0.6);
+                scene.add(ambientLight);
+                
+                const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+                directionalLight.position.set(50, 50, 50);
+                scene.add(directionalLight);
+                
+                // Create brain regions
+                createBrainRegions();
+                
+                // Start animation
+                animate();
+                
+                showStatus('✅ 3D brain visualization initialized', 'success');
+                
+            } catch (error) {
+                showStatus('❌ Error initializing 3D visualization: ' + error.message, 'error');
+            }
+        }
+
+        // Create 3D brain regions with anatomical accuracy
+        function createBrainRegions() {
+            // Create brain surface (cortical surface)
+            createBrainSurface();
+            
+            // Define brain regions with anatomically accurate positions and shapes
+            const regionData = [
+                {
+                    name: 'Prefrontal Cortex',
+                    color: 0x3b82f6,
+                    position: [0, 15, 45],
+                    shape: 'cortical_patch',
+                    size: { width: 25, height: 20, depth: 8 },
+                    description: 'Executive functions, decision making, personality'
+                },
+                {
+                    name: 'Motor Cortex',
+                    color: 0x10b981,
+                    position: [-20, 0, 35],
+                    shape: 'cortical_band',
+                    size: { width: 30, height: 15, depth: 6 },
+                    description: 'Voluntary movement control'
+                },
+                {
+                    name: 'Somatosensory Cortex',
+                    color: 0xf59e0b,
+                    position: [20, 0, 35],
+                    shape: 'cortical_band',
+                    size: { width: 30, height: 15, depth: 6 },
+                    description: 'Touch, temperature, pain sensation'
+                },
+                {
+                    name: 'Visual Cortex',
+                    color: 0x8b5cf6,
+                    position: [0, -35, 25],
+                    shape: 'cortical_patch',
+                    size: { width: 35, height: 25, depth: 10 },
+                    description: 'Visual processing and perception'
+                },
+                {
+                    name: 'Temporal Cortex',
+                    color: 0xef4444,
+                    position: [0, 25, 15],
+                    shape: 'cortical_patch',
+                    size: { width: 30, height: 20, depth: 8 },
+                    description: 'Auditory processing, language, memory'
+                },
+                {
+                    name: 'Hippocampus',
+                    color: 0x06b6d4,
+                    position: [0, 10, -5],
+                    shape: 'curved_band',
+                    size: { width: 8, height: 15, depth: 4 },
+                    description: 'Memory formation and spatial navigation'
+                },
+                {
+                    name: 'Amygdala',
+                    color: 0x84cc16,
+                    position: [0, 12, -2],
+                    shape: 'almond',
+                    size: { width: 6, height: 8, depth: 5 },
+                    description: 'Emotional processing and fear response'
+                },
+                {
+                    name: 'Thalamus',
+                    color: 0xf97316,
+                    position: [0, 0, 0],
+                    shape: 'oval',
+                    size: { width: 12, height: 10, depth: 8 },
+                    description: 'Sensory relay station to cortex'
+                },
+                {
+                    name: 'Cerebellum',
+                    color: 0xec4899,
+                    position: [0, 0, -25],
+                    shape: 'folded_surface',
+                    size: { width: 40, height: 30, depth: 15 },
+                    description: 'Motor coordination and balance'
+                }
+            ];
+            
+            regionData.forEach(region => {
+                const mesh = createAnatomicalRegion(region);
+                scene.add(mesh);
+                brainRegions.push(mesh);
+                
+                // Add interactive label
+                const label = createInteractiveLabel(region);
+                scene.add(label);
+            });
+        }
+
+        // Create brain surface (cortical surface)
+        function createBrainSurface() {
+            // Create a more realistic brain surface using multiple geometries
+            const brainGroup = new THREE.Group();
+            
+            // Main brain hemispheres
+            const leftHemisphere = createBrainHemisphere(-15, 0xf1f5f9);
+            const rightHemisphere = createBrainHemisphere(15, 0xf1f5f9);
+            
+            brainGroup.add(leftHemisphere);
+            brainGroup.add(rightHemisphere);
+            
+            // Brain stem
+            const brainStem = createBrainStem();
+            brainGroup.add(brainStem);
+            
+            // Add brain composition visualization (물, 단백질, 지방)
+            const compositionVisual = createBrainComposition();
+            brainGroup.add(compositionVisual);
+            
+            // Add brain function indicators (생각, 기억, 감각)
+            const functionIndicators = createBrainFunctions();
+            brainGroup.add(functionIndicators);
+            
+            scene.add(brainGroup);
+        }
+
+        // Create brain hemisphere
+        function createBrainHemisphere(offset, color) {
+            const group = new THREE.Group();
+            
+            // Main cortical surface (semi-ellipsoid)
+            const cortexGeometry = new THREE.SphereGeometry(25, 32, 16);
+            const cortexMaterial = new THREE.MeshPhongMaterial({
+                color: color,
+                transparent: true,
+                opacity: 0.3,
+                side: THREE.FrontSide
+            });
+            const cortex = new THREE.Mesh(cortexGeometry, cortexMaterial);
+            cortex.position.x = offset;
+            cortex.scale.set(1, 0.8, 0.6);
+            group.add(cortex);
+            
+            // Add cortical folds (sulci and gyri)
+            for (let i = 0; i < 8; i++) {
+                const fold = createCorticalFold(offset);
+                fold.position.y = -15 + i * 4;
+                group.add(fold);
+            }
+            
+            return group;
+        }
+
+        // Create cortical fold
+        function createCorticalFold(offset) {
+            const foldGeometry = new THREE.CylinderGeometry(0.5, 0.5, 20, 8);
+            const foldMaterial = new THREE.MeshPhongMaterial({
+                color: 0xe2e8f0,
+                transparent: true,
+                opacity: 0.6
+            });
+            const fold = new THREE.Mesh(foldGeometry, foldMaterial);
+            fold.position.x = offset;
+            fold.rotation.z = Math.PI / 2;
+            return fold;
+        }
+
+        // Create brain stem
+        function createBrainStem() {
+            const stemGeometry = new THREE.CylinderGeometry(3, 2, 15, 16);
+            const stemMaterial = new THREE.MeshPhongMaterial({
+                color: 0xcbd5e1,
+                transparent: true,
+                opacity: 0.7
+            });
+            const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+            stem.position.set(0, 0, -35);
+            return stem;
+        }
+
+        // Create brain composition visualization (물, 단백질, 지방)
+        function createBrainComposition() {
+            const group = new THREE.Group();
+            
+            // Position below the brain
+            group.position.set(0, -50, 0);
+            
+            // Create pie chart for brain composition
+            const pieChart = createPieChart();
+            group.add(pieChart);
+            
+            // Add "뇌" label above pie chart
+            const brainLabel = createTextLabel('뇌', 0xFFFFFF);
+            brainLabel.position.set(0, 8, 0);
+            brainLabel.scale.set(1.5, 1.5, 1.5);
+            group.add(brainLabel);
+            
+            return group;
+        }
+
+        // Create pie chart for brain composition
+        function createPieChart() {
+            const group = new THREE.Group();
+            
+            // Water (물) - 60% - largest segment
+            const waterGeometry = new THREE.CircleGeometry(4, 32, 0, Math.PI * 1.2);
+            const waterMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0x87CEEB, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const water = new THREE.Mesh(waterGeometry, waterMaterial);
+            water.rotation.x = -Math.PI / 2;
+            group.add(water);
+            
+            // Protein (단백질) - 25% - medium segment
+            const proteinGeometry = new THREE.CircleGeometry(4, 32, Math.PI * 1.2, Math.PI * 0.6);
+            const proteinMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xFF6B6B, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const protein = new THREE.Mesh(proteinGeometry, proteinMaterial);
+            protein.rotation.x = -Math.PI / 2;
+            group.add(protein);
+            
+            // Fat (지방) - 15% - smallest segment
+            const fatGeometry = new THREE.CircleGeometry(4, 32, Math.PI * 1.8, Math.PI * 0.4);
+            const fatMaterial = new THREE.MeshBasicMaterial({ 
+                color: 0xFFD93D, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const fat = new THREE.Mesh(fatGeometry, fatMaterial);
+            fat.rotation.x = -Math.PI / 2;
+            group.add(fat);
+            
+            // Add labels for each segment
+            const waterLabel = createTextLabel('물', 0x000000);
+            waterLabel.position.set(0, 0, 0.1);
+            waterLabel.scale.set(0.8, 0.8, 0.8);
+            group.add(waterLabel);
+            
+            const proteinLabel = createTextLabel('단백질', 0x000000);
+            proteinLabel.position.set(-1, -1, 0.1);
+            proteinLabel.scale.set(0.6, 0.6, 0.6);
+            group.add(proteinLabel);
+            
+            const fatLabel = createTextLabel('지방', 0x000000);
+            fatLabel.position.set(1, -1, 0.1);
+            fatLabel.scale.set(0.6, 0.6, 0.6);
+            group.add(fatLabel);
+            
+            return group;
+        }
+
+        // Create brain function indicators (생각, 기억, 감각)
+        function createBrainFunctions() {
+            const group = new THREE.Group();
+            
+            // Position at the bottom of the brain
+            group.position.set(0, -60, 0);
+            
+            // Create horizontal line
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(-20, 0, 0),
+                new THREE.Vector3(20, 0, 0)
+            ]);
+            const lineMaterial = new THREE.LineBasicMaterial({ color: 0xFFFFFF, linewidth: 2 });
+            const line = new THREE.Line(lineGeometry, lineMaterial);
+            group.add(line);
+            
+            // Create function circles
+            const functions = [
+                { text: '생각', position: [-15, 0, 0], color: 0x20B2AA },
+                { text: '기억', position: [0, 0, 0], color: 0x20B2AA },
+                { text: '감각', position: [15, 0, 0], color: 0x20B2AA }
+            ];
+            
+            functions.forEach(func => {
+                const circle = createFunctionCircle(func.text, func.color);
+                circle.position.set(...func.position);
+                group.add(circle);
+            });
+            
+            return group;
+        }
+
+        // Create function circle
+        function createFunctionCircle(text, color) {
+            const group = new THREE.Group();
+            
+            // Circle background
+            const circleGeometry = new THREE.CircleGeometry(2, 16);
+            const circleMaterial = new THREE.MeshBasicMaterial({ 
+                color: color, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const circle = new THREE.Mesh(circleGeometry, circleMaterial);
+            circle.rotation.x = -Math.PI / 2;
+            group.add(circle);
+            
+            // Text label
+            const textLabel = createTextLabel(text, 0xFFFFFF);
+            textLabel.position.set(0, 0, 0.1);
+            textLabel.scale.set(0.8, 0.8, 0.8);
+            group.add(textLabel);
+            
+            return group;
+        }
+
+        // Create anatomically accurate brain region
+        function createAnatomicalRegion(regionData) {
+            let geometry, material;
+            
+            switch (regionData.shape) {
+                case 'cortical_patch':
+                    geometry = new THREE.BoxGeometry(
+                        regionData.size.width,
+                        regionData.size.height,
+                        regionData.size.depth
+                    );
+                    break;
+                case 'cortical_band':
+                    geometry = new THREE.BoxGeometry(
+                        regionData.size.width,
+                        regionData.size.height,
+                        regionData.size.depth
+                    );
+                    break;
+                case 'curved_band':
+                    geometry = new THREE.TorusGeometry(
+                        regionData.size.width / 2,
+                        regionData.size.depth / 2,
+                        8,
+                        16
+                    );
+                    break;
+                case 'almond':
+                    geometry = new THREE.SphereGeometry(
+                        regionData.size.width / 2,
+                        16,
+                        12
+                    );
+                    break;
+                case 'oval':
+                    geometry = new THREE.SphereGeometry(
+                        regionData.size.width / 2,
+                        16,
+                        12
+                    );
+                    break;
+                case 'folded_surface':
+                    geometry = new THREE.BoxGeometry(
+                        regionData.size.width,
+                        regionData.size.height,
+                        regionData.size.depth
+                    );
+                    break;
+                default:
+                    geometry = new THREE.BoxGeometry(
+                        regionData.size.width,
+                        regionData.size.height,
+                        regionData.size.depth
+                    );
+            }
+            
+            material = new THREE.MeshPhongMaterial({
+                color: regionData.color,
+                transparent: true,
+                opacity: 0.7,
+                side: THREE.DoubleSide
+            });
+            
+            const mesh = new THREE.Mesh(geometry, material);
+            mesh.position.set(...regionData.position);
+            mesh.userData = { 
+                name: regionData.name, 
+                type: 'region',
+                description: regionData.description
+            };
+            
+            // Add click event for interaction
+            mesh.userData.clickable = true;
+            
+            return mesh;
+        }
+
+        // Create interactive label with line connector
+        function createInteractiveLabel(regionData) {
+            const group = new THREE.Group();
+            
+            // Create line connector
+            const lineGeometry = new THREE.BufferGeometry().setFromPoints([
+                new THREE.Vector3(...regionData.position),
+                new THREE.Vector3(
+                    regionData.position[0],
+                    regionData.position[1] + regionData.size.height / 2 + 8,
+                    regionData.position[2]
+                )
+            ]);
+            const lineMaterial = new THREE.LineBasicMaterial({ 
+                color: regionData.color,
+                linewidth: 2
+            });
+            const line = new THREE.Line(lineGeometry, lineMaterial);
+            group.add(line);
+            
+            // Create label background
+            const labelGeometry = new THREE.PlaneGeometry(8, 3);
+            const labelMaterial = new THREE.MeshBasicMaterial({
+                color: 0x000000,
+                transparent: true,
+                opacity: 0.8
+            });
+            const labelBg = new THREE.Mesh(labelGeometry, labelMaterial);
+            labelBg.position.set(
+                regionData.position[0],
+                regionData.position[1] + regionData.size.height / 2 + 10,
+                regionData.position[2]
+            );
+            group.add(labelBg);
+            
+            // Create text label
+            const textLabel = createTextLabel(regionData.name, regionData.color);
+            textLabel.position.copy(labelBg.position);
+            textLabel.position.z += 0.1;
+            group.add(textLabel);
+            
+            return group;
+        }
+
+        // Create text labels
+        function createTextLabel(text, color) {
+            const canvas = document.createElement('canvas');
+            const context = canvas.getContext('2d');
+            canvas.width = 256;
+            canvas.height = 64;
+            
+            context.fillStyle = '#ffffff';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = '#' + color.toString(16).padStart(6, '0');
+            context.font = '24px Arial';
+            context.textAlign = 'center';
+            context.fillText(text, canvas.width / 2, canvas.height / 2 + 8);
+            
+            const texture = new THREE.CanvasTexture(canvas);
+            const material = new THREE.SpriteMaterial({ map: texture });
+            const sprite = new THREE.Sprite(material);
+            sprite.scale.set(8, 2, 1);
+            
+            return sprite;
+        }
+
+        // Handle mouse click on brain regions
+        function onCanvasClick(event) {
+            const mouse = new THREE.Vector2();
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            
+            const raycaster = new THREE.Raycaster();
+            raycaster.setFromCamera(mouse, camera);
+            
+            // Check intersection with brain regions
+            const intersects = raycaster.intersectObjects(brainRegions);
+            
+            if (intersects.length > 0) {
+                const clickedRegion = intersects[0].object;
+                if (clickedRegion.userData.clickable) {
+                    showRegionInfo(clickedRegion.userData);
+                    highlightRegion(clickedRegion);
+                }
+            }
+        }
+
+        // Show region information tooltip
+        function showRegionInfo(regionData) {
+            // Remove existing tooltip
+            const existingTooltip = document.getElementById('regionTooltip');
+            if (existingTooltip) {
+                existingTooltip.remove();
+            }
+            
+            // Create new tooltip
+            const tooltip = document.createElement('div');
+            tooltip.id = 'regionTooltip';
+            tooltip.style.cssText = `
+                position: absolute;
+                top: ${event.clientY + 10}px;
+                left: ${event.clientX + 10}px;
+                background: rgba(0, 0, 0, 0.9);
+                color: white;
+                padding: 12px;
+                border-radius: 8px;
+                font-size: 14px;
+                max-width: 250px;
+                z-index: 1000;
+                pointer-events: none;
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            `;
+            
+            tooltip.innerHTML = `
+                <h4 style="margin: 0 0 8px 0; color: #${regionData.color.toString(16).padStart(6, '0')}">
+                    ${regionData.name}
+                </h4>
+                <p style="margin: 0; line-height: 1.4;">
+                    ${regionData.description}
+                </p>
+            `;
+            
+            document.body.appendChild(tooltip);
+            
+            // Auto-remove tooltip after 5 seconds
+            setTimeout(() => {
+                if (tooltip.parentNode) {
+                    tooltip.remove();
+                }
+            }, 5000);
+        }
+
+        // Highlight clicked region
+        function highlightRegion(region) {
+            // Reset all regions to normal opacity
+            brainRegions.forEach(r => {
+                r.material.opacity = 0.7;
+                r.material.emissive.setHex(0x000000);
+            });
+            
+            // Highlight clicked region
+            region.material.opacity = 1.0;
+            region.material.emissive.setHex(0x333333);
+            
+            // Reset highlight after 2 seconds
+            setTimeout(() => {
+                region.material.opacity = 0.7;
+                region.material.emissive.setHex(0x000000);
+            }, 2000);
+
+        }
+
+        // Show neuron visualization
+        function showNeuronVisualization(simulationData = null) {
+            try {
+                // Check if Three.js is loaded
+                if (typeof THREE === 'undefined') {
+                    showStatus('❌ Three.js library not loaded. Please refresh the page.', 'error');
+                    return;
+                }
+                
+                showStatus('Loading neuron visualization...', 'info');
+                
+                // Initialize 3D visualization if not already done
+                if (!scene) {
+                    initializeBrainVisualization();
+                }
+                
+                // Show visualization container
+                const container = document.getElementById('visualizationContainer');
+                const controlsDiv = document.getElementById('visualizationControls');
+                container.style.display = 'block';
+                controlsDiv.style.display = 'block';
+                
+                // Clear existing visualization elements
+                brainRegions.forEach(region => scene.remove(region));
+                brainRegions = [];
+                neurons.forEach(neuron => scene.remove(neuron));
+                neurons = [];
+                
+                let neuronTypes;
+                
+                if (simulationData && simulationData.visualization && simulationData.visualization.neuronMorphology) {
+                    // Use actual simulation data
+                    const morphology = simulationData.visualization.neuronMorphology;
+                    neuronTypes = [{
+                        name: simulationData.data.neuronType || 'Pyramidal',
+                        color: 0x3b82f6,
+                        position: [0, 0, 0],
+                        size: morphology.soma.diameter / 10, // Scale down for visualization
+                        morphology: morphology,
+                        simulation: simulationData
+                    }];
+                } else {
+                    // Create different neuron types
+                    neuronTypes = [
+                        { name: 'Pyramidal', color: 0x3b82f6, position: [-20, 0, 0], size: 2 },
+                        { name: 'Interneuron', color: 0x10b981, position: [0, 0, 0], size: 1.5 },
+                        { name: 'Granule', color: 0xf59e0b, position: [20, 0, 0], size: 1 },
+                        { name: 'Purkinje', color: 0xef4444, position: [40, 0, 0], size: 2.5 }
+                    ];
+                }
+                
+                neuronTypes.forEach(neuron => {
+                    const neuronMesh = createNeuronMesh(neuron);
+                    scene.add(neuronMesh);
+                    neurons.push(neuronMesh);
+                });
+                
+                showStatus('✅ Neuron visualization loaded', 'success');
+                
+            } catch (error) {
+                showStatus('❌ Error loading neuron visualization: ' + error.message, 'error');
+            }
+        }
+
+        // Show neural transmission simulation
+        function showNeuralTransmissionSimulation() {
+            try {
+                // Check if Three.js is loaded
+                if (typeof THREE === 'undefined') {
+                    showStatus('❌ Three.js library not loaded. Please refresh the page.', 'error');
+                    return;
+                }
+                
+                showStatus('Loading neural transmission simulation...', 'info');
+                
+                // Initialize 3D visualization if not already done
+                if (!scene) {
+                    initializeBrainVisualization();
+                }
+                
+                // Show visualization container
+                const container = document.getElementById('visualizationContainer');
+                const controlsDiv = document.getElementById('visualizationControls');
+                container.style.display = 'block';
+                controlsDiv.style.display = 'block';
+                
+                // Clear existing visualization elements
+                brainRegions.forEach(region => scene.remove(region));
+                brainRegions = [];
+                neurons.forEach(neuron => scene.remove(neuron));
+                neurons = [];
+                connections.forEach(conn => scene.remove(conn));
+                connections = [];
+                
+                // Create neural transmission simulation scene
+                createNeuralTransmissionScene();
+                
+                showStatus('✅ Neural transmission simulation loaded', 'success');
+                
+            } catch (error) {
+                showStatus('❌ Error loading neural transmission simulation: ' + error.message, 'error');
+            }
+        }
+
+        // Create neural transmission simulation scene
+        function createNeuralTransmissionScene() {
+            // Create two neurons with synapse
+            const neuron1 = createDetailedNeuron({
+                name: 'Presynaptic Neuron',
+                color: 0x3b82f6,
+                position: [-15, 0, 0],
+                size: 2,
+                showIons: true,
+                showMembrane: true
+            });
+            
+            const neuron2 = createDetailedNeuron({
+                name: 'Postsynaptic Neuron',
+                color: 0x10b981,
+                position: [15, 0, 0],
+                size: 2,
+                showIons: true,
+                showMembrane: true
+            });
+            
+            // Create synapse between neurons
+            const synapse = createSynapse(neuron1, neuron2);
+            
+            // Create action potential propagation
+            createActionPotentialPropagation(neuron1, neuron2, synapse);
+            
+            // Create ion concentration visualization
+            createIonConcentrationVisualization();
+            
+            // Add educational labels
+            addEducationalLabels();
+            
+            scene.add(neuron1);
+            scene.add(neuron2);
+            scene.add(synapse);
+            neurons.push(neuron1, neuron2);
+        }
+
+        // Create detailed neuron with ion channels and membrane
+        function createDetailedNeuron(neuronData) {
+            const group = new THREE.Group();
+            
+            // Soma (cell body)
+            const somaGeometry = new THREE.SphereGeometry(neuronData.size, 16, 16);
+            const somaMaterial = new THREE.MeshPhongMaterial({ 
+                color: neuronData.color,
+                transparent: true,
+                opacity: 0.8
+            });
+            const soma = new THREE.Mesh(somaGeometry, somaMaterial);
+            group.add(soma);
+            
+            // Membrane (outer layer)
+            const membraneGeometry = new THREE.SphereGeometry(neuronData.size + 0.2, 16, 16);
+            const membraneMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xffffff,
+                transparent: true,
+                opacity: 0.3,
+                wireframe: true
+            });
+            const membrane = new THREE.Mesh(membraneGeometry, membraneMaterial);
+            group.add(membrane);
+            
+            // Ion channels on membrane
+            if (neuronData.showIons) {
+                for (let i = 0; i < 8; i++) {
+                    const ionChannel = createIonChannel();
+                    ionChannel.position.set(
+                        (Math.random() - 0.5) * neuronData.size * 2,
+                        (Math.random() - 0.5) * neuronData.size * 2,
+                        (Math.random() - 0.5) * neuronData.size * 2
+                    );
+                    group.add(ionChannel);
+                }
+            }
+            
+            // Dendrites
+            for (let i = 0; i < 5; i++) {
+                const dendrite = createDendrite(neuronData.color);
+                dendrite.position.y = neuronData.size + 2.5;
+                dendrite.rotation.x = Math.PI / 2;
+                dendrite.rotation.z = (i * Math.PI * 2) / 5;
+                group.add(dendrite);
+            }
+            
+            // Axon
+            const axon = createAxon(neuronData.color);
+            axon.position.y = -neuronData.size - 4;
+            group.add(axon);
+            
+            group.position.set(...neuronData.position);
+            group.userData = { name: neuronData.name, type: 'detailed_neuron' };
+            
+            return group;
+        }
+
+        // Create ion channel
+        function createIonChannel() {
+            const group = new THREE.Group();
+            
+            // Ion channel structure
+            const channelGeometry = new THREE.CylinderGeometry(0.05, 0.05, 0.3, 8);
+            const channelMaterial = new THREE.MeshPhongMaterial({ color: 0xff6b6b });
+            const channel = new THREE.Mesh(channelGeometry, channelMaterial);
+            group.add(channel);
+            
+            // Ions (Na+, K+)
+            const naIon = new THREE.Mesh(
+                new THREE.SphereGeometry(0.08, 8, 8),
+                new THREE.MeshPhongMaterial({ color: 0xff0000 })
+            );
+            naIon.position.y = 0.2;
+            group.add(naIon);
+            
+            const kIon = new THREE.Mesh(
+                new THREE.SphereGeometry(0.08, 8, 8),
+                new THREE.MeshPhongMaterial({ color: 0x0000ff })
+            );
+            kIon.position.y = -0.2;
+            group.add(kIon);
+            
+            return group;
+        }
+
+        // Create dendrite with receptors
+        function createDendrite(color) {
+            const group = new THREE.Group();
+            
+            const dendriteGeometry = new THREE.CylinderGeometry(0.1, 0.1, 5, 8);
+            const dendriteMaterial = new THREE.MeshPhongMaterial({ color: color });
+            const dendrite = new THREE.Mesh(dendriteGeometry, dendriteMaterial);
+            group.add(dendrite);
+            
+            // Neurotransmitter receptors
+            for (let i = 0; i < 3; i++) {
+                const receptor = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.15, 8, 8),
+                    new THREE.MeshPhongMaterial({ color: 0xffd700 })
+                );
+                receptor.position.y = 1.5 + i * 1;
+                group.add(receptor);
+            }
+            
+            return group;
+        }
+
+        // Create axon with myelin sheath
+        function createAxon(color) {
+            const group = new THREE.Group();
+            
+            const axonGeometry = new THREE.CylinderGeometry(0.2, 0.2, 8, 8);
+            const axonMaterial = new THREE.MeshPhongMaterial({ color: 0x666666 });
+            const axon = new THREE.Mesh(axonGeometry, axonMaterial);
+            group.add(axon);
+            
+            // Myelin sheath segments
+            for (let i = 0; i < 4; i++) {
+                const myelin = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.3, 0.3, 1.5, 8),
+                    new THREE.MeshPhongMaterial({ color: 0xffffff, transparent: true, opacity: 0.7 })
+                );
+                myelin.position.y = -2 + i * 2;
+                group.add(myelin);
+            }
+            
+            return group;
+        }
+
+        // Create synapse between neurons with detailed structure
+        function createSynapse(neuron1, neuron2) {
+            const group = new THREE.Group();
+            
+            // Calculate midpoint between neurons
+            const midPoint = new THREE.Vector3(
+                (neuron1.position.x + neuron2.position.x) / 2,
+                (neuron1.position.y + neuron2.position.y) / 2,
+                (neuron1.position.z + neuron2.position.z) / 2
+            );
+            
+            // Synaptic cleft (시냅스 틈)
+            const cleftGeometry = new THREE.BoxGeometry(3, 0.8, 3);
+            const cleftMaterial = new THREE.MeshBasicMaterial({
+                color: 0x333333,
+                transparent: true,
+                opacity: 0.4
+            });
+            const cleft = new THREE.Mesh(cleftGeometry, cleftMaterial);
+            cleft.position.copy(midPoint);
+            group.add(cleft);
+            
+            // Presynaptic neuron (뉴런A - 축삭말단)
+            const presynaptic = createPresynapticTerminal(neuron1.position, midPoint);
+            group.add(presynaptic);
+            
+            // Postsynaptic neuron (뉴런B - 가지돌기)
+            const postsynaptic = createPostsynapticReceptors(neuron2.position, midPoint);
+            group.add(postsynaptic);
+            
+            // Neurotransmitter vesicles (신경전달물질 소포)
+            const vesicles = createNeurotransmitterVesicles(midPoint);
+            group.add(vesicles);
+            
+            // Add labels
+            addSynapseLabels(group, midPoint);
+            
+            return group;
+        }
+
+        // Create presynaptic terminal (축삭말단)
+        function createPresynapticTerminal(neuronPos, cleftPos) {
+            const group = new THREE.Group();
+            
+            // Axon terminal structure
+            const terminalGeometry = new THREE.SphereGeometry(1.5, 16, 12);
+            const terminalMaterial = new THREE.MeshPhongMaterial({
+                color: 0x87CEEB,
+                transparent: true,
+                opacity: 0.8
+            });
+            const terminal = new THREE.Mesh(terminalGeometry, terminalMaterial);
+            
+            // Position towards the cleft
+            const direction = new THREE.Vector3().subVectors(cleftPos, neuronPos).normalize();
+            terminal.position.copy(neuronPos).add(direction.multiplyScalar(2));
+            group.add(terminal);
+            
+            // Add "축삭말단" label
+            const label = createTextLabel('축삭말단', 0xFFA500);
+            label.position.set(0, 2, 0);
+            label.scale.set(0.6, 0.6, 0.6);
+            group.add(label);
+            
+            return group;
+        }
+
+        // Create postsynaptic receptors (가지돌기 수용체)
+        function createPostsynapticReceptors(neuronPos, cleftPos) {
+            const group = new THREE.Group();
+            
+            // Dendrite receptor structure
+            const receptorGeometry = new THREE.SphereGeometry(1.2, 16, 12);
+            const receptorMaterial = new THREE.MeshPhongMaterial({
+                color: 0x9370DB,
+                transparent: true,
+                opacity: 0.8
+            });
+            const receptor = new THREE.Mesh(receptorGeometry, receptorMaterial);
+            
+            // Position towards the cleft
+            const direction = new THREE.Vector3().subVectors(cleftPos, neuronPos).normalize();
+            const receptorPos = new THREE.Vector3().copy(neuronPos).add(direction.multiplyScalar(2));
+            receptor.position.copy(receptorPos);
+            group.add(receptor);
+            
+            // Add "가지돌기" label
+            const label = createTextLabel('가지돌기', 0xFFA500);
+            label.position.set(0, 2, 0);
+            label.scale.set(0.6, 0.6, 0.6);
+            group.add(label);
+            
+            return group;
+        }
+
+        // Create neurotransmitter vesicles (신경전달물질 소포)
+        function createNeurotransmitterVesicles(cleftPos) {
+            const group = new THREE.Group();
+            
+            // Create multiple vesicles with red dots (neurotransmitters)
+            const vesicles = [];
+            for (let i = 0; i < 6; i++) {
+                const vesicle = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.3, 8, 6),
+                    new THREE.MeshBasicMaterial({ 
+                        color: 0x87CEEB, 
+                        transparent: true, 
+                        opacity: 0.7 
+                    })
+                );
+                
+                // Position vesicles around the cleft
+                vesicle.position.set(
+                    cleftPos.x + (Math.random() - 0.5) * 2,
+                    cleftPos.y + (Math.random() - 0.5) * 0.5,
+                    cleftPos.z + (Math.random() - 0.5) * 2
+                );
+                
+                // Add red dots (neurotransmitters) inside vesicles
+                const neurotransmitter = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.1, 6, 4),
+                    new THREE.MeshBasicMaterial({ color: 0xFF0000 })
+                );
+                neurotransmitter.position.copy(vesicle.position);
+                group.add(neurotransmitter);
+                
+                vesicles.push(vesicle);
+                group.add(vesicle);
+            }
+            
+            // Store vesicles for animation
+            group.userData.vesicles = vesicles;
+            
+            // Add "세로토닌" label below cleft
+            const serotoninLabel = createTextLabel('세로토닌', 0xFF0000);
+            serotoninLabel.position.set(cleftPos.x, cleftPos.y - 2, cleftPos.z);
+            serotoninLabel.scale.set(0.8, 0.8, 0.8);
+            group.add(serotoninLabel);
+            
+            return group;
+        }
+
+        // Add synapse labels
+        function addSynapseLabels(group, cleftPos) {
+            // Add "뉴런A" label
+            const neuronALabel = createTextLabel('뉴런A', 0xFFFFFF);
+            neuronALabel.position.set(cleftPos.x - 3, cleftPos.y - 3, cleftPos.z);
+            neuronALabel.scale.set(0.7, 0.7, 0.7);
+            group.add(neuronALabel);
+            
+            // Add "뉴런B" label
+            const neuronBLabel = createTextLabel('뉴런B', 0xFFFFFF);
+            neuronBLabel.position.set(0, cleftPos.y - 3, cleftPos.z);
+            neuronBLabel.position.x = cleftPos.x + 3;
+            group.add(neuronBLabel);
+        }
+
+        // Create action potential propagation animation
+        function createActionPotentialPropagation(neuron1, neuron2, synapse) {
+            // Action potential wave
+            const waveGeometry = new THREE.SphereGeometry(0.3, 8, 8);
+            const waveMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0xff4500,
+                transparent: true,
+                opacity: 0.8
+            });
+            const wave = new THREE.Mesh(waveGeometry, waveMaterial);
+            wave.position.set(-15, 0, 0);
+            scene.add(wave);
+            
+            // Membrane potential indicator
+            const potentialIndicator = createMembranePotentialIndicator();
+            potentialIndicator.position.set(0, 8, 0);
+            scene.add(potentialIndicator);
+            
+            // Animate action potential propagation
+            let phase = 0;
+            const animateWave = () => {
+                phase += 0.015;
+                
+                // Move wave along axon
+                wave.position.x = -15 + phase * 30;
+                
+                // Change color based on phase (depolarization/repolarization)
+                if (phase < 0.3) {
+                    wave.material.color.setHex(0xff4500); // Depolarization (red)
+                    updateMembranePotential(potentialIndicator, -70 + (phase / 0.3) * 100); // -70mV to +30mV
+                } else if (phase < 0.6) {
+                    wave.material.color.setHex(0x00ff00); // Repolarization (green)
+                    updateMembranePotential(potentialIndicator, +30 - ((phase - 0.3) / 0.3) * 100); // +30mV to -70mV
+                } else {
+                    wave.material.color.setHex(0x0000ff); // Hyperpolarization (blue)
+                    updateMembranePotential(potentialIndicator, -70 - ((phase - 0.6) / 0.4) * 20); // -70mV to -90mV
+                }
+                
+                // Trigger neurotransmitter release at synapse
+                if (phase > 0.4 && phase < 0.6) {
+                    releaseNeurotransmitters(synapse);
+                }
+                
+                // Trigger postsynaptic response
+                if (phase > 0.5 && phase < 0.7) {
+                    triggerPostsynapticResponse(neuron2);
+                }
+                
+                if (phase < 1) {
+                    requestAnimationFrame(animateWave);
+                } else {
+                    // Reset for continuous animation
+                    phase = 0;
+                    wave.position.x = -15;
+                    resetMembranePotential(potentialIndicator);
+                    resetSynapse(synapse);
+                    requestAnimationFrame(animateWave);
+                }
+            };
+            
+            animateWave();
+        }
+
+        // Create membrane potential indicator
+        function createMembranePotentialIndicator() {
+            const group = new THREE.Group();
+            
+            // Background
+            const bgGeometry = new THREE.PlaneGeometry(4, 2);
+            const bgMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+            const bg = new THREE.Mesh(bgGeometry, bgMaterial);
+            group.add(bg);
+            
+            // Potential display
+            const potentialGeometry = new THREE.PlaneGeometry(3.5, 1.5);
+            const potentialMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+            const potential = new THREE.Mesh(potentialGeometry, potentialMaterial);
+            potential.position.z = 0.01;
+            group.add(potential);
+            
+            // Store reference for animation
+            group.userData.potential = potential;
+            
+            return group;
+        }
+
+        // Update membrane potential display
+        function updateMembranePotential(indicator, potential) {
+            const potentialMesh = indicator.userData.potential;
+            
+            // Change color based on potential
+            if (potential < -50) {
+                potentialMesh.material.color.setHex(0x00ff00); // Green (resting)
+            } else if (potential > 0) {
+                potentialMesh.material.color.setHex(0xff0000); // Red (depolarized)
+            } else {
+                potentialMesh.material.color.setHex(0xffff00); // Yellow (threshold)
+            }
+            
+            // Update size to show magnitude
+            const normalizedPotential = Math.abs(potential) / 100;
+            potentialMesh.scale.x = 0.5 + normalizedPotential * 0.5;
+        }
+
+        // Reset membrane potential
+        function resetMembranePotential(indicator) {
+            const potentialMesh = indicator.userData.potential;
+            potentialMesh.material.color.setHex(0x00ff00);
+            potentialMesh.scale.x = 0.5;
+        }
+
+        // Release neurotransmitters
+        function releaseNeurotransmitters(synapse) {
+            const vesicles = synapse.userData.vesicles;
+            if (vesicles && vesicles.length > 0) {
+                vesicles.forEach((vesicle, index) => {
+                    if (index < 3) { // Release first 3 vesicles
+                        // Animate vesicle moving to membrane
+                        vesicle.position.x += 0.02;
+                        vesicle.material.opacity = 0.6;
+                        
+                        // Create neurotransmitter molecules
+                        if (vesicle.position.x > 0) {
+                            createNeurotransmitterMolecules(synapse, vesicle.position);
+                        }
+                    }
+                });
+            }
+        }
+
+        // Create neurotransmitter molecules
+        function createNeurotransmitterMolecules(synapse, position) {
+            for (let i = 0; i < 5; i++) {
+                const molecule = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.02, 8, 8),
+                    new THREE.MeshPhongMaterial({ color: 0xff1493 })
+                );
+                molecule.position.copy(position);
+                molecule.position.x += (Math.random() - 0.5) * 0.5;
+                molecule.position.y += (Math.random() - 0.5) * 0.5;
+                molecule.position.z += (Math.random() - 0.5) * 0.5;
+                synapse.add(molecule);
+                
+                // Animate molecule diffusion
+                const animateMolecule = () => {
+                    molecule.position.x += 0.01;
+                    molecule.material.opacity = 0.8;
+                    
+                    if (molecule.position.x < 2) {
+                        requestAnimationFrame(animateMolecule);
+                    } else {
+                        synapse.remove(molecule);
+                    }
+                };
+                animateMolecule();
+            }
+        }
+
+        // Trigger postsynaptic response
+        function triggerPostsynapticResponse(neuron) {
+            // Create excitatory postsynaptic potential
+            const epsp = new THREE.Mesh(
+                new THREE.SphereGeometry(0.2, 8, 8),
+                new THREE.MeshPhongMaterial({ 
+                    color: 0x00ff00,
+                    transparent: true,
+                    opacity: 0.7
+                })
+            );
+            epsp.position.copy(neuron.position);
+            epsp.position.x += 2;
+            scene.add(epsp);
+            
+            // Animate EPSP
+            let epspPhase = 0;
+            const animateEPSP = () => {
+                epspPhase += 0.05;
+                epsp.scale.setScalar(1 + epspPhase);
+                epsp.material.opacity = 0.7 - epspPhase;
+                
+                if (epspPhase < 1) {
+                    requestAnimationFrame(animateEPSP);
+                } else {
+                    scene.remove(epsp);
+                }
+            };
+            animateEPSP();
+        }
+
+        // Reset synapse
+        function resetSynapse(synapse) {
+            const vesicles = synapse.userData.vesicles;
+            if (vesicles) {
+                vesicles.forEach(vesicle => {
+                    vesicle.position.x = -0.8 + Math.random() * 0.6;
+                    vesicle.position.y = -0.3 + Math.random() * 0.6;
+                    vesicle.position.z = -0.8 + Math.random() * 0.6;
+                    vesicle.material.opacity = 1;
+                });
+            }
+        }
+
+        // Create ion concentration visualization
+        function createIonConcentrationVisualization() {
+            // Na+ concentration gradient
+            const naGradient = new THREE.Mesh(
+                new THREE.BoxGeometry(10, 0.5, 2),
+                new THREE.MeshPhongMaterial({ 
+                    color: 0xff0000,
+                    transparent: true,
+                    opacity: 0.3
+                })
+            );
+            naGradient.position.set(0, -10, 0);
+            scene.add(naGradient);
+            
+            // K+ concentration gradient
+            const kGradient = new THREE.Mesh(
+                new THREE.BoxGeometry(10, 0.5, 2),
+                new THREE.MeshPhongMaterial({ 
+                    color: 0x0000ff,
+                    transparent: true,
+                    opacity: 0.3
+                })
+            );
+            kGradient.position.set(0, -12, 0);
+            scene.add(kGradient);
+            
+            // Na+/K+ Pump visualization
+            createNaKPumpVisualization();
+            
+            // Add labels
+            const naLabel = createTextLabel('Na+ Gradient (High outside)', 0xff0000);
+            naLabel.position.set(0, -9, 0);
+            scene.add(naLabel);
+            
+            const kLabel = createTextLabel('K+ Gradient (High inside)', 0x0000ff);
+            kLabel.position.set(0, -11, 0);
+            scene.add(kLabel);
+            
+            const pumpLabel = createTextLabel('Na+/K+ Pump (Maintains -70mV)', 0x00ff00);
+            pumpLabel.position.set(0, -13, 0);
+            scene.add(pumpLabel);
+        }
+
+        // Create Na+/K+ pump visualization
+        function createNaKPumpVisualization() {
+            const pumpGroup = new THREE.Group();
+            
+            // Pump structure
+            const pumpGeometry = new THREE.CylinderGeometry(0.2, 0.2, 0.8, 8);
+            const pumpMaterial = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
+            const pump = new THREE.Mesh(pumpGeometry, pumpMaterial);
+            pumpGroup.add(pump);
+            
+            // Pumping animation
+            let pumpPhase = 0;
+            const animatePump = () => {
+                pumpPhase += 0.01;
+                
+                // Create Na+ ions being pumped out
+                if (pumpPhase % 0.1 < 0.02) {
+                    const naIon = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.05, 8, 8),
+                        new THREE.MeshPhongMaterial({ color: 0xff0000 })
+                    );
+                    naIon.position.set(0, 0.5, 0);
+                    pumpGroup.add(naIon);
+                    
+                    // Animate Na+ moving out
+                    const animateNa = () => {
+                        naIon.position.y += 0.05;
+                        if (naIon.position.y < 3) {
+                            requestAnimationFrame(animateNa);
+                        } else {
+                            pumpGroup.remove(naIon);
+                        }
+                    };
+                    animateNa();
+                }
+                
+                // Create K+ ions being pumped in
+                if (pumpPhase % 0.1 > 0.05 && pumpPhase % 0.1 < 0.07) {
+                    const kIon = new THREE.Mesh(
+                        new THREE.SphereGeometry(0.05, 8, 8),
+                        new THREE.MeshPhongMaterial({ color: 0x0000ff })
+                    );
+                    kIon.position.set(0, -0.5, 0);
+                    pumpGroup.add(kIon);
+                    
+                    // Animate K+ moving in
+                    const animateK = () => {
+                        kIon.position.y -= 0.05;
+                        if (kIon.position.y > -3) {
+                            requestAnimationFrame(animateK);
+                        } else {
+                            pumpGroup.remove(kIon);
+                        }
+                    };
+                    animateK();
+                }
+                
+                requestAnimationFrame(animatePump);
+            };
+            
+            animatePump();
+            
+            pumpGroup.position.set(0, -15, 0);
+            scene.add(pumpGroup);
+        }
+
+        // Add educational labels
+        function addEducationalLabels() {
+            const labels = [
+                { text: 'Membrane Potential Display', position: [0, 7, 0], color: 0xffffff },
+                { text: 'Resting Potential (-70mV)', position: [0, 5, 0], color: 0x00ff00 },
+                { text: 'Action Potential (+30mV)', position: [0, 3, 0], color: 0xff4500 },
+                { text: 'Synaptic Transmission', position: [0, 1, 0], color: 0xffff00 },
+                { text: 'Ion Channels (Na+/K+)', position: [-15, 5, 0], color: 0xff6b6b },
+                { text: 'Neurotransmitter Vesicles', position: [-5, -1, 0], color: 0xff69b4 },
+                { text: 'Postsynaptic Receptors', position: [5, -1, 0], color: 0xffd700 },
+                { text: 'Na+/K+ Pump (Maintains -70mV)', position: [0, -13, 0], color: 0x00ff00 },
+                { text: 'Ion Concentration Gradients', position: [0, -7, 0], color: 0xffffff },
+                { text: 'Myelin Sheath (Speed)', position: [-15, -3, 0], color: 0xffffff }
+            ];
+            
+            labels.forEach(label => {
+                const textLabel = createTextLabel(label.text, label.color);
+                textLabel.position.set(...label.position);
+                scene.add(textLabel);
+            });
+        }
+
+        // Create neuron mesh with anatomical accuracy
+        function createNeuronMesh(neuronData) {
+            const group = new THREE.Group();
+            
+            // Soma (cell body) - 세포체
+            const somaGeometry = new THREE.SphereGeometry(neuronData.size, 16, 12);
+            const somaMaterial = new THREE.MeshPhongMaterial({ 
+                color: 0x87CEEB, // Light blue like the image
+                transparent: true,
+                opacity: 0.9
+            });
+            const soma = new THREE.Mesh(somaGeometry, somaMaterial);
+            soma.userData = { type: 'soma', label: '세포체 (Cell Body)' };
+            group.add(soma);
+            
+            // Dendrites (가지돌기) - 수상돌기
+            const dendriteCount = 4;
+            for (let i = 0; i < dendriteCount; i++) {
+                const angle = (i / dendriteCount) * Math.PI * 2;
+                const dendrite = createDendrite(0xFFA500); // Orange like the image
+                dendrite.position.set(
+                    Math.cos(angle) * (neuronData.size + 2),
+                    Math.sin(angle) * (neuronData.size + 2),
+                    0
+                );
+                dendrite.rotation.z = angle;
+                dendrite.userData = { type: 'dendrite', label: '가지돌기 (수상돌기)' };
+                group.add(dendrite);
+            }
+            
+            // Axon (축삭)
+            const axon = createAxon(0x87CEEB); // Light blue like the image
+            axon.position.set(neuronData.size + 3, 0, 0);
+            axon.userData = { type: 'axon', label: '축삭 (Axon)' };
+            group.add(axon);
+            
+            // Axon terminals (돌기) - 축삭말단
+            const terminals = createAxonTerminals(0x87CEEB);
+            terminals.position.set(neuronData.size + 8, 0, 0);
+            terminals.userData = { type: 'terminals', label: '축삭말단 (Axon Terminals)' };
+            group.add(terminals);
+            
+            // Add labels
+            addNeuronLabels(group, neuronData);
+            
+            group.position.set(...neuronData.position);
+            group.userData = { 
+                name: neuronData.name, 
+                type: 'neuron',
+                clickable: true,
+                description: `뉴런: ${neuronData.name}. 세포체, 가지돌기, 축삭, 축삭말단으로 구성되어 정보를 전달합니다.`
+            };
+            return group;
+        }
+
+        // Create dendrites with tree-like branching
+        function createDendrite(color) {
+            const group = new THREE.Group();
+            
+            // Main dendrite branch
+            const mainBranch = new THREE.Mesh(
+                new THREE.CylinderGeometry(0.3, 0.3, 4, 8),
+                new THREE.MeshPhongMaterial({ color: color, transparent: true, opacity: 0.8 })
+            );
+            mainBranch.rotation.z = Math.PI / 2;
+            group.add(mainBranch);
+            
+            // Secondary branches
+            for (let i = 0; i < 3; i++) {
+                const branch = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.2, 0.2, 2, 6),
+                    new THREE.MeshPhongMaterial({ color: color, transparent: true, opacity: 0.7 })
+                );
+                branch.position.set(0, -2 + i * 1.5, 0);
+                branch.rotation.z = Math.PI / 4;
+                group.add(branch);
+                
+                // Tertiary branches
+                for (let j = 0; j < 2; j++) {
+                    const subBranch = new THREE.Mesh(
+                        new THREE.CylinderGeometry(0.1, 0.1, 1, 4),
+                        new THREE.MeshPhongMaterial({ color: color, transparent: true, opacity: 0.6 })
+                    );
+                    subBranch.position.set(0, -1 + j * 1, 0);
+                    subBranch.rotation.z = Math.PI / 6;
+                    group.add(subBranch);
+                }
+            }
+            
+            return group;
+        }
+
+        // Create axon with myelin sheath
+        function createAxon(color) {
+            const group = new THREE.Group();
+            
+            // Main axon
+            const axonGeometry = new THREE.CylinderGeometry(0.2, 0.2, 6, 8);
+            const axonMaterial = new THREE.MeshPhongMaterial({ 
+                color: color, 
+                transparent: true, 
+                opacity: 0.8 
+            });
+            const axon = new THREE.Mesh(axonGeometry, axonMaterial);
+            axon.rotation.z = Math.PI / 2;
+            group.add(axon);
+            
+            // Myelin sheath segments
+            for (let i = 0; i < 5; i++) {
+                const sheath = new THREE.Mesh(
+                    new THREE.CylinderGeometry(0.4, 0.4, 0.8, 8),
+                    new THREE.MeshPhongMaterial({ 
+                        color: 0xFFFFFF, 
+                        transparent: true, 
+                        opacity: 0.6 
+                    })
+                );
+                sheath.position.set(0, -3 + i * 1.2, 0);
+                sheath.rotation.z = Math.PI / 2;
+                group.add(sheath);
+            }
+            
+            return group;
+        }
+
+        // Create axon terminals (돌기)
+        function createAxonTerminals(color) {
+            const group = new THREE.Group();
+            
+            // Multiple terminal branches
+            for (let i = 0; i < 3; i++) {
+                const terminal = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.3, 8, 6),
+                    new THREE.MeshPhongMaterial({ 
+                        color: color, 
+                        transparent: true, 
+                        opacity: 0.9 
+                    })
+                );
+                terminal.position.set(0, -1 + i * 1, 0);
+                group.add(terminal);
+            }
+            
+            return group;
+        }
+
+        // Add neuron labels
+        function addNeuronLabels(neuronGroup, neuronData) {
+            const labels = [
+                { type: 'soma', offset: [0, 0, 2], text: '세포체' },
+                { type: 'dendrite', offset: [0, 3, 0], text: '가지돌기' },
+                { type: 'axon', offset: [4, 0, 0], text: '축삭' },
+                { type: 'terminals', offset: [2, 0, 0], text: '돌기' }
+            ];
+            
+            labels.forEach(label => {
+                const textSprite = createTextLabel(label.text, 0xFFA500);
+                textSprite.position.set(...label.offset);
+                textSprite.scale.set(0.5, 0.5, 0.5);
+                neuronGroup.add(textSprite);
+            });
+        }
+
+        // Show network visualization
+        function showNetworkVisualization(simulationData = null) {
+            try {
+                // Check if Three.js is loaded
+                if (typeof THREE === 'undefined') {
+                    showStatus('❌ Three.js library not loaded. Please refresh the page.', 'error');
+                    return;
+                }
+                
+                showStatus('Loading network visualization...', 'info');
+                
+                // Initialize 3D visualization if not already done
+                if (!scene) {
+                    initializeBrainVisualization();
+                }
+                
+                // Show visualization container
+                const container = document.getElementById('visualizationContainer');
+                const controlsDiv = document.getElementById('visualizationControls');
+                container.style.display = 'block';
+                controlsDiv.style.display = 'block';
+                
+                // Clear existing visualization elements
+                brainRegions.forEach(region => scene.remove(region));
+                brainRegions = [];
+                connections.forEach(conn => scene.remove(conn));
+                connections = [];
+                
+                let networkConnections;
+                
+                if (simulationData && simulationData.visualization && simulationData.visualization.networkGraph) {
+                    // Use actual simulation data
+                    const networkGraph = simulationData.visualization.networkGraph;
+                    networkConnections = networkGraph.edges.map((edge, index) => {
+                        const fromNode = networkGraph.nodes.find(n => n.id === edge.from);
+                        const toNode = networkGraph.nodes.find(n => n.id === edge.to);
+                        return {
+                            from: [fromNode.x * 10, fromNode.y * 10, fromNode.z * 10],
+                            to: [toNode.x * 10, toNode.y * 10, toNode.z * 10],
+                            color: 0x3b82f6,
+                            strength: edge.weight
+                        };
+                    });
+                } else {
+                    // Create network connections between brain regions
+                    networkConnections = [
+                        { from: [0, 0, 50], to: [-30, 0, 30], color: 0x3b82f6 },
+                        { from: [-30, 0, 30], to: [30, 0, 30], color: 0x10b981 },
+                        { from: [0, 0, 50], to: [0, 40, 20], color: 0xf59e0b },
+                        { from: [0, 40, 20], to: [0, 20, -10], color: 0xef4444 },
+                        { from: [0, 0, 0], to: [0, 0, 50], color: 0x8b5cf6 }
+                    ];
+                }
+                
+                networkConnections.forEach(conn => {
+                    const connectionMesh = createConnectionMesh(conn.from, conn.to, conn.color);
+                    scene.add(connectionMesh);
+                    connections.push(connectionMesh);
+                });
+                
+                showStatus('✅ Network visualization loaded', 'success');
+                
+            } catch (error) {
+                showStatus('❌ Error loading network visualization: ' + error.message, 'error');
+            }
+        }
+
+        // Create connection mesh
+        function createConnectionMesh(from, to, color) {
+            const direction = new THREE.Vector3().subVectors(
+                new THREE.Vector3(...to),
+                new THREE.Vector3(...from)
+            );
+            const length = direction.length();
+            
+            const geometry = new THREE.CylinderGeometry(0.5, 0.5, length, 8);
+            const material = new THREE.MeshPhongMaterial({ 
+                color: color,
+                transparent: true,
+                opacity: 0.6
+            });
+            const mesh = new THREE.Mesh(geometry, material);
+            
+            // Position and orient the connection
+            const center = new THREE.Vector3().addVectors(
+                new THREE.Vector3(...from),
+                new THREE.Vector3(...to)
+            ).multiplyScalar(0.5);
+            mesh.position.copy(center);
+            
+            // Orient the cylinder
+            const quaternion = new THREE.Quaternion();
+            quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), direction.normalize());
+            mesh.setRotationFromQuaternion(quaternion);
+            
+            return mesh;
+        }
+
+        // Animation loop
+        function animate() {
+            animationId = requestAnimationFrame(animate);
+            
+            if (isAnimating) {
+                // Animate brain regions
+                brainRegions.forEach((region, index) => {
+                    region.rotation.y += 0.01;
+                    region.position.y += Math.sin(Date.now() * 0.001 + index) * 0.1;
+                });
+                
+                // Animate neurons
+                neurons.forEach((neuron, index) => {
+                    neuron.rotation.y += 0.02;
+                    neuron.position.y += Math.sin(Date.now() * 0.002 + index) * 0.2;
+                });
+            }
+            
+            controls.update();
+            renderer.render(scene, camera);
+        }
+
+        // Control functions
+        function resetCamera() {
+            camera.position.set(0, 0, 100);
+            controls.reset();
+        }
+
+        function toggleAnimation() {
+            isAnimating = !isAnimating;
+            const button = event.target;
+            button.textContent = isAnimating ? 'Stop Animation' : 'Start Animation';
+        }
+
+        function closeVisualization() {
+            const container = document.getElementById('visualizationContainer');
+            const controlsDiv = document.getElementById('visualizationControls');
+            
+            container.style.display = 'none';
+            controlsDiv.style.display = 'none';
+            
+            if (animationId) {
+                cancelAnimationFrame(animationId);
+            }
+            
+            // Clean up Three.js resources
+            if (scene) {
+                scene.clear();
+            }
+            if (renderer) {
+                renderer.dispose();
+            }
+        }
+
+        // Load brain regions information
+        async function loadBrainRegions() {
+            try {
+                showStatus('Loading brain regions...', 'info');
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/regions`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('brain-regions', data);
+                } else {
+                    showStatus('❌ Failed to load brain regions', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error loading brain regions: ' + error.message, 'error');
+            }
+        }
+
+        // Load neuron types information
+        async function loadNeuronTypes() {
+            try {
+                showStatus('Loading neuron types...', 'info');
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/neuron-types`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('neuron-types', data);
+                } else {
+                    showStatus('❌ Failed to load neuron types', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error loading neuron types: ' + error.message, 'error');
+            }
+        }
+
+        // Load connectivity matrix
+        async function loadConnectivityMatrix() {
+            try {
+                showStatus('Loading connectivity matrix...', 'info');
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/connectivity`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('connectivity-matrix', data);
+                } else {
+                    showStatus('❌ Failed to load connectivity matrix', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error loading connectivity matrix: ' + error.message, 'error');
+            }
+        }
+
+        // Run microscopic simulation
+        async function runMicroscopicSimulation() {
+            try {
+                showStatus('Running microscopic simulation...', 'info');
+                const parameters = {
+                    neuronType: 'pyramidal',
+                    simulationTime: 1000,
+                    timeStep: 0.1,
+                    stimulus: { type: 'current_injection', amplitude: 50, duration: 100 }
+                };
+                
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/microscopic`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(parameters)
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('microscopic-simulation', data);
+                } else {
+                    showStatus('❌ Microscopic simulation failed', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error running microscopic simulation: ' + error.message, 'error');
+            }
+        }
+
+        // Run mesoscopic simulation
+        async function runMesoscopicSimulation() {
+            try {
+                showStatus('Running mesoscopic simulation...', 'info');
+                const parameters = {
+                    regions: ['prefrontal_cortex', 'motor_cortex', 'somatosensory_cortex'],
+                    simulationTime: 5000,
+                    timeStep: 1,
+                    externalStimulus: { region: 'prefrontal_cortex', strength: 0.5, duration: 1000 }
+                };
+                
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/mesoscopic`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(parameters)
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('mesoscopic-simulation', data);
+                } else {
+                    showStatus('❌ Mesoscopic simulation failed', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error running mesoscopic simulation: ' + error.message, 'error');
+            }
+        }
+
+        // Run macroscopic simulation
+        async function runMacroscopicSimulation() {
+            try {
+                showStatus('Running macroscopic simulation...', 'info');
+                const parameters = {
+                    simulationTime: 10000,
+                    timeStep: 10,
+                    globalStimulus: { type: 'sensory_input', strength: 0.3, duration: 2000 },
+                    consciousnessLevel: 0.8
+                };
+                
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/macroscopic`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(parameters)
+                });
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('macroscopic-simulation', data);
+                } else {
+                    showStatus('❌ Macroscopic simulation failed', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error running macroscopic simulation: ' + error.message, 'error');
+            }
+        }
+
+        // Load active simulations
+        async function loadActiveSimulations() {
+            try {
+                showStatus('Loading active simulations...', 'info');
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/simulations`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    displayBrainResults('active-simulations', data);
+                } else {
+                    showStatus('❌ Failed to load active simulations', 'error');
+                }
+            } catch (error) {
+                showStatus('❌ Error loading active simulations: ' + error.message, 'error');
+            }
+        }
+
+        // Clear all simulations
+        async function clearAllSimulations() {
+            try {
+                showStatus('Clearing all simulations...', 'info');
+                const response = await fetch(`${config.apiUrl}/api/brain-modeling/simulations`);
+                const data = await response.json();
+                
+                if (data.success && data.data.length > 0) {
+                    for (const simulation of data.data) {
+                        await fetch(`${config.apiUrl}/api/brain-modeling/simulation/${simulation.id}`, {
+                            method: 'DELETE'
+                        });
+                    }
+                    showStatus('✅ All simulations cleared successfully', 'success');
+                    loadActiveSimulations();
+                } else {
+                    showStatus('ℹ️ No active simulations to clear', 'info');
+                }
+            } catch (error) {
+                showStatus('❌ Error clearing simulations: ' + error.message, 'error');
+            }
+        }
+
+        // Display brain modeling results
+        function displayBrainResults(type, data) {
+            const resultsDiv = document.getElementById('brainResults');
+            let html = '';
+
+            switch (type) {
+                case 'brain-regions':
+                    html = `
+                        <div style="background:#f0f9ff;padding:16px;border:1px solid #0ea5e9;border-radius:8px;margin:10px 0;">
+                            <h4>🧠 Brain Regions Information</h4>
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:16px;">
+                                ${data.data.map(region => `
+                                    <div style="background:white;padding:12px;border-radius:6px;">
+                                        <h5 style="color:#0ea5e9;margin-bottom:8px;">${region.name}</h5>
+                                        <p style="font-size:12px;color:#64748b;margin-bottom:8px;">${region.description}</p>
+                                        <div style="font-size:11px;color:#64748b;">
+                                            <p><strong>Neurons:</strong> ${region.neuronCount.toLocaleString()}</p>
+                                            <p><strong>Volume:</strong> ${region.volume} cm³</p>
+                                            <p><strong>Coordinates:</strong> (${region.coordinates.x}, ${region.coordinates.y}, ${region.coordinates.z})</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button onclick="initializeBrainVisualization()" class="btn btn-primary">🧠 View 3D Brain Atlas</button>
+                                <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'neuron-types':
+                    html = `
+                        <div style="background:#f0fdf4;padding:16px;border:1px solid #22c55e;border-radius:8px;margin:10px 0;">
+                            <h4>🔬 Neuron Types Information</h4>
+                            <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:16px;">
+                                ${data.data.map(neuron => `
+                                    <div style="background:white;padding:12px;border-radius:6px;">
+                                        <h5 style="color:#22c55e;margin-bottom:8px;">${neuron.name}</h5>
+                                        <p style="font-size:12px;color:#64748b;margin-bottom:8px;">${neuron.description}</p>
+                                        <div style="font-size:11px;color:#64748b;">
+                                            <p><strong>Resting Potential:</strong> ${neuron.electrophysiology.restingPotential} mV</p>
+                                            <p><strong>Threshold:</strong> ${neuron.electrophysiology.threshold} mV</p>
+                                            <p><strong>Neurotransmitters:</strong> ${neuron.neurotransmitters.join(', ')}</p>
+                                        </div>
+                                    </div>
+                                `).join('')}
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button onclick="showNeuronVisualization()" class="btn btn-primary">🔬 View 3D Neurons</button>
+                                <button onclick="showNeuralTransmissionSimulation()" class="btn btn-success">⚡ Neural Transmission</button>
+                                <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'connectivity-matrix':
+                    html = `
+                        <div style="background:#f0f8ff;padding:16px;border:1px solid #3b82f6;border-radius:8px;margin:10px 0;">
+                            <h4>🔗 Connectivity Matrix</h4>
+                            <div style="overflow-x:auto;margin-top:16px;">
+                                <table style="width:100%;border-collapse:collapse;font-size:12px;">
+                                    <thead>
+                                        <tr style="background:#f1f5f9;">
+                                            <th style="padding:8px;border:1px solid #e2e8f0;text-align:center;">From</th>
+                                            <th style="padding:8px;border:1px solid #e2e8f0;text-align:center;">To</th>
+                                            <th style="padding:8px;border:1px solid #e2e8f0;text-align:center;">Strength</th>
+                                            <th style="padding:8px;border:1px solid #e2e8f0;text-align:center;">Type</th>
+                                            <th style="padding:8px;border:1px solid #e2e8f0;text-align:center;">Delay (ms)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${data.data.map(connection => `
+                                            <tr>
+                                                <td style="padding:8px;border:1px solid #e2e8f0;text-align:center;">${connection.from}</td>
+                                                <td style="padding:8px;border:1px solid #e2e8f0;text-align:center;">${connection.to}</td>
+                                                <td style="padding:8px;border:1px solid #e2e8f0;text-align:center;">${connection.strength}</td>
+                                                <td style="padding:8px;border:1px solid #e2e8f0;text-align:center;">${connection.type}</td>
+                                                <td style="padding:8px;border:1px solid #e2e8f0;text-align:center;">${connection.delay}</td>
+                                            </tr>
+                                        `).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button onclick="showNetworkVisualization()" class="btn btn-primary">🌐 View 3D Network</button>
+                                <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'microscopic-simulation':
+                    html = `
+                        <div style="background:#fef3c7;padding:16px;border:1px solid #f59e0b;border-radius:8px;margin:10px 0;">
+                            <h4>🧬 Microscopic Simulation Results</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Simulation ID:</strong> ${data.data.simulationId}</p>
+                                <p><strong>Neuron Type:</strong> ${data.data.data.neuronType}</p>
+                                <p><strong>Spike Count:</strong> ${data.data.data.spikeTimes.length}</p>
+                                <p><strong>Simulation Time:</strong> ${data.data.data.parameters.simulationTime}ms</p>
+                                <p><strong>Time Step:</strong> ${data.data.data.parameters.timeStep}ms</p>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <h5>Visualization Data:</h5>
+                                <p><strong>Morphology:</strong> Soma (${data.data.visualization.neuronMorphology.soma.diameter}μm × ${data.data.visualization.neuronMorphology.soma.height}μm)</p>
+                                <p><strong>Dendrites:</strong> ${data.data.visualization.neuronMorphology.dendrites.count} branches, ${data.data.visualization.neuronMorphology.dendrites.length}μm length</p>
+                                <p><strong>Axon:</strong> ${data.data.visualization.neuronMorphology.axon.length}μm length, ${data.data.visualization.neuronMorphology.axon.branches} branches</p>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button onclick="showNeuronVisualization(${JSON.stringify(data.data).replace(/"/g, '&quot;')})" class="btn btn-primary">🔬 View 3D Neuron Simulation</button>
+                                <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'mesoscopic-simulation':
+                    html = `
+                        <div style="background:#f0f9ff;padding:16px;border:1px solid #0ea5e9;border-radius:8px;margin:10px 0;">
+                            <h4>🌐 Mesoscopic Simulation Results</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Simulation ID:</strong> ${data.data.simulationId}</p>
+                                <p><strong>Regions:</strong> ${data.data.data.regions.join(', ')}</p>
+                                <p><strong>Simulation Time:</strong> ${data.data.data.parameters.simulationTime}ms</p>
+                                <p><strong>Time Step:</strong> ${data.data.data.parameters.timeStep}ms</p>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <h5>Network Graph:</h5>
+                                <p><strong>Nodes:</strong> ${data.data.visualization.networkGraph.nodes.length}</p>
+                                <p><strong>Edges:</strong> ${data.data.visualization.networkGraph.edges.length}</p>
+                                <p><strong>Connectivity:</strong> ${Object.keys(data.data.data.connectivity).length} region connections</p>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <button onclick="showNetworkVisualization(${JSON.stringify(data.data).replace(/"/g, '&quot;')})" class="btn btn-primary">🌐 View 3D Network Simulation</button>
+                                <button onclick="this.parentElement.remove()" class="btn btn-secondary">Close</button>
+                            </div>
+                        </div>
+                    `;
+                    break;
+
+                case 'macroscopic-simulation':
+                    html = `
+                        <div style="background:#f0fdf4;padding:16px;border:1px solid #22c55e;border-radius:8px;margin:10px 0;">
+                            <h4>🌍 Macroscopic Simulation Results</h4>
+                            <div style="margin-top:16px;">
+                                <p><strong>Simulation ID:</strong> ${data.data.simulationId}</p>
+                                <p><strong>Simulation Time:</strong> ${data.data.data.parameters.simulationTime}ms</p>
+                                <p><strong>Time Step:</strong> ${data.data.data.parameters.timeStep}ms</p>
+                                <p><strong>Consciousness Level:</strong> ${data.data.data.parameters.consciousnessLevel}</p>
+                            </div>
+                            <div style="margin-top:16px;">
+                                <h5>Brain Atlas:</h5>
+                                <p><strong>Total Regions:</strong> ${data.data.visualization.brainAtlas.regions.length}</p>
+                                <p><strong>Total Volume:</strong> ${data.data.visualization.brainAtlas.totalVolume} cm³</p>
+                                <p><strong>Total Neurons:</strong> ${data.data.visualization.brainAtlas.totalNeurons.toLocaleString()}</p>
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                case 'active-simulations':
+                    html = `
+                        <div style="background:#f8fafc;padding:16px;border:1px solid #64748b;border-radius:8px;margin:10px 0;">
+                            <h4>📊 Active Simulations</h4>
+                            <div style="margin-top:16px;">
+                                ${data.data.length > 0 ? `
+                                    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;">
+                                        ${data.data.map(sim => `
+                                            <div style="background:white;padding:12px;border-radius:6px;">
+                                                <h5 style="color:#64748b;margin-bottom:8px;">${sim.type} Simulation</h5>
+                                                <p style="font-size:11px;color:#64748b;">
+                                                    <strong>ID:</strong> ${sim.id}<br>
+                                                    <strong>Timestamp:</strong> ${new Date(sim.timestamp).toLocaleString()}<br>
+                                                    <strong>Parameters:</strong> ${Object.keys(sim.parameters).length} items
+                                                </p>
+                                            </div>
+                                        `).join('')}
+                                    </div>
+                                ` : '<p>No active simulations found.</p>'}
+                            </div>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+                    break;
+
+                default:
+                    html = `
+                        <div style="background:#f8fafc;padding:16px;border:1px solid #64748b;border-radius:8px;margin:10px 0;">
+                            <h4>📋 Brain Modeling Results</h4>
+                            <pre style="background:white;padding:12px;border-radius:6px;overflow-x:auto;font-size:12px;">${JSON.stringify(data, null, 2)}</pre>
+                            <button onclick="this.parentElement.remove()" class="btn btn-secondary" style="margin-top:16px;">Close</button>
+                        </div>
+                    `;
+            }
+
+            resultsDiv.innerHTML = html;
+        }
+
         // Initialize the application
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if Three.js is loaded
+            setTimeout(() => {
+                if (typeof THREE !== 'undefined') {
+                    console.log('✅ Three.js loaded successfully');
+                } else {
+                    console.error('❌ Three.js failed to load');
+                    showStatus('❌ Three.js library failed to load. Please check your internet connection and refresh the page.', 'error');
+                }
+            }, 1000);
+            
             // Set up event listeners
             const apiUrlInput = document.getElementById('apiUrl');
             const userIdInput = document.getElementById('userId');

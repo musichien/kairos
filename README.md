@@ -65,6 +65,16 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Contribution Tracking**: Monitor your contribution to global brain research efforts
 - **Real-time Progress**: View computation progress and earn contribution points
 
+### 7.5. 🧬 **Multi-Scale Brain Modeling**
+**Advanced brain simulation at microscopic, mesoscopic, and macroscopic levels**
+
+- **Microscopic Level**: Individual neuron modeling with Hodgkin-Huxley equations and electrophysiological properties
+- **Mesoscopic Level**: Brain region connectivity simulation using Wilson-Cowan model for network dynamics
+- **Macroscopic Level**: Whole brain network dynamics and consciousness modeling with global activity patterns
+- **Real-time Visualization**: Interactive 3D visualization of brain structures and neural activity
+- **Scientific Accuracy**: Based on peer-reviewed neuroscience research and validated computational models
+- **Comprehensive Brain Atlas**: 9 major brain regions with detailed anatomical and functional information
+
 ### 8. 🌐 **Collective Brain Modeling**
 **Launch your own brain-modeling simulations on the shared citizen-powered GPU network**
 
@@ -466,12 +476,145 @@ curl -X POST "http://localhost:3000/api/cultural/context" \
 - **`/api/performance/*`** - Performance monitoring and optimization
 - **`/api/behavior/*`** - User behavior analysis and personalization
 - **`/api/optimization/*`** - System optimization and recommendations
+- **`/api/brain-research/*`** - Brain disease research computing
+- **`/api/brain-modeling/*`** - Multi-scale brain modeling and simulation
 
 ### **Authentication:**
 All API endpoints require authentication using Bearer token:
 ```bash
 Authorization: Bearer your-secret-key-here
 ```
+
+## 🧬 **Multi-Scale Brain Modeling API**
+
+### **🔬 Microscopic Level Simulation**
+Individual neuron modeling with Hodgkin-Huxley equations and electrophysiological properties:
+
+#### **Run Microscopic Simulation:**
+```bash
+# Simulate individual neuron behavior
+curl -X POST "http://localhost:3000/api/brain-modeling/microscopic" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "neuronType": "pyramidal",
+    "simulationTime": 1000,
+    "timeStep": 0.1,
+    "stimulus": {
+      "type": "current_injection",
+      "amplitude": 50,
+      "duration": 100
+    }
+  }'
+```
+
+#### **Get Neuron Types:**
+```bash
+# Get available neuron types and their properties
+curl -X GET "http://localhost:3000/api/brain-modeling/neuron-types" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **🌐 Mesoscopic Level Simulation**
+Brain region connectivity simulation using Wilson-Cowan model for network dynamics:
+
+#### **Run Mesoscopic Simulation:**
+```bash
+# Simulate brain region interactions
+curl -X POST "http://localhost:3000/api/brain-modeling/mesoscopic" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "regions": ["prefrontal_cortex", "motor_cortex", "somatosensory_cortex"],
+    "simulationTime": 5000,
+    "timeStep": 1,
+    "externalStimulus": {
+      "region": "prefrontal_cortex",
+      "strength": 0.5,
+      "duration": 1000
+    }
+  }'
+```
+
+#### **Get Brain Regions:**
+```bash
+# Get brain region information and connectivity
+curl -X GET "http://localhost:3000/api/brain-modeling/regions" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **🌍 Macroscopic Level Simulation**
+Whole brain network dynamics and consciousness modeling with global activity patterns:
+
+#### **Run Macroscopic Simulation:**
+```bash
+# Simulate whole brain dynamics
+curl -X POST "http://localhost:3000/api/brain-modeling/macroscopic" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "simulationTime": 10000,
+    "timeStep": 10,
+    "globalStimulus": {
+      "type": "sensory_input",
+      "strength": 0.3,
+      "duration": 2000
+    },
+    "consciousnessLevel": 0.8
+  }'
+```
+
+#### **Get Connectivity Matrix:**
+```bash
+# Get brain region connectivity information
+curl -X GET "http://localhost:3000/api/brain-modeling/connectivity" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **📊 Simulation Management**
+Monitor and manage brain modeling simulations:
+
+#### **Get Active Simulations:**
+```bash
+# List all active simulations
+curl -X GET "http://localhost:3000/api/brain-modeling/simulations" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Get Simulation Status:**
+```bash
+# Get specific simulation status
+curl -X GET "http://localhost:3000/api/brain-modeling/simulation/{simulationId}" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+#### **Clear Simulation:**
+```bash
+# Delete a specific simulation
+curl -X DELETE "http://localhost:3000/api/brain-modeling/simulation/{simulationId}" \
+  -H "Authorization: Bearer your-secret-key-here"
+```
+
+### **🧠 Brain Atlas Information**
+The system includes a comprehensive brain atlas with 9 major regions:
+
+- **Prefrontal Cortex**: Executive functions, decision making, personality (20M neurons)
+- **Motor Cortex**: Voluntary movement control (15M neurons)
+- **Somatosensory Cortex**: Touch, temperature, pain perception (12M neurons)
+- **Visual Cortex**: Visual processing and recognition (18M neurons)
+- **Temporal Cortex**: Auditory processing, memory, language (16M neurons)
+- **Hippocampus**: Memory formation and spatial navigation (8M neurons)
+- **Amygdala**: Emotional processing and fear response (5M neurons)
+- **Thalamus**: Sensory relay and consciousness (10M neurons)
+- **Cerebellum**: Motor coordination and balance (70M neurons)
+
+### **🔬 Neuron Types**
+Four major neuron types with detailed electrophysiological properties:
+
+- **Pyramidal Neuron**: Most common excitatory neuron in cortex
+- **Interneuron**: Inhibitory neuron for local circuit control
+- **Granule Cell**: Small excitatory neuron in cerebellum
+- **Purkinje Cell**: Large inhibitory neuron in cerebellum
 
 ## ⚙️ **Advanced Settings & System Management**
 
@@ -685,7 +828,7 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 
 *Built with ❤️ for cognitive health and privacy-first AI experiences*
 
-**🎯 9 Core Features Successfully Implemented:**
+**🎯 9.5 Core Features Successfully Implemented:**
 1. ✅ **Long-term Memory & Contextualization** - Intelligent memory system
 2. ✅ **Privacy-Centric Security** - Military-grade encryption and local storage
 3. ✅ **Cognitive Enhancement** - Personalized training routines
@@ -693,10 +836,19 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 5. ✅ **Cultural Optimization** - Multi-language and cultural sensitivity
 6. ✅ **Telomere-Driven Healthy Aging** - Science-based lifestyle guidance
 7. ✅ **Brain Disease Research Computing** - Citizen-powered distributed computing
+7.5. ✅ **Multi-Scale Brain Modeling** - Advanced brain simulation at microscopic, mesoscopic, and macroscopic levels
 8. ✅ **Collective Brain Modeling** - Self-service brain modeling simulations
 9. ✅ **Embodied Identity & Self-Restoration** - Expanding the concept of self through agentic AI
 
-## 🆕 **Latest Updates (December 25, 2024)**
+## 🆕 **Latest Updates (September 1, 2025)**
+
+### **🧬 New Multi-Scale Brain Modeling Module**
+- **Microscopic Level**: Individual neuron modeling with Hodgkin-Huxley equations and electrophysiological properties
+- **Mesoscopic Level**: Brain region connectivity simulation using Wilson-Cowan model for network dynamics
+- **Macroscopic Level**: Whole brain network dynamics and consciousness modeling with global activity patterns
+- **Comprehensive Brain Atlas**: 9 major brain regions with detailed anatomical and functional information
+- **Real-time Visualization**: Interactive 3D visualization of brain structures and neural activity
+- **Scientific Accuracy**: Based on peer-reviewed neuroscience research and validated computational models
 
 ### **🎨 Complete UI Redesign & Modernization**
 - **New Tabbed Interface**: Organized, intuitive navigation with dedicated tabs for each feature
