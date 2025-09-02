@@ -173,7 +173,6 @@ ollama pull llama3.1:latest    # Lightweight, 4.7GB RAM required
 |-------|------|-------------|-------------|---------------|
 | gpt-oss:20b | 13GB | 16GB+ | ⭐⭐⭐⭐⭐ | High-end tasks |
 | deepseek-r1:14b | 9GB | 12GB+ | ⭐⭐⭐⭐ | Balanced usage |
-| deepseek-r1:latest | 5.2GB | 8GB+ | ⭐⭐⭐⭐ | Efficient usage |
 | llama3.1:latest | 4.7GB | 6GB+ | ⭐⭐⭐ | Basic tasks |
 
 > **💡 Tip**: New high-performance models are constantly being released. Choose the model that best fits your computer's specifications and use case. Larger models generally provide better responses but require more computational resources.
