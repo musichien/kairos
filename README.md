@@ -132,10 +132,51 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 Open Command Prompt/Terminal and run:
 ```bash
-# Download a model (choose one):
-ollama pull llama3.1:latest    # Fast, good for beginners
-ollama pull llama3.1:8b        # Better responses, slower
-ollama pull jinbora/deepseek-r1-Bllossom:8b  # Korean support
+# Download a model (choose one based on your computer performance):
+
+## 🚀 **Recommended Models (Performance Order)**
+
+### **🥇 High Performance (Recommended)**
+```bash
+ollama pull gpt-oss:20b    # Best overall performance, 13GB RAM required
+```
+- **Best for**: High-end computers with 16GB+ RAM
+- **Performance**: Excellent reasoning, coding, and general knowledge
+- **Speed**: Fast response times with high accuracy
+
+### **🥈 Balanced Performance**
+```bash
+ollama pull deepseek-r1:14b    # Great performance, 9GB RAM required
+```
+- **Best for**: Mid-range computers with 12GB+ RAM
+- **Performance**: Strong reasoning and multilingual support
+- **Speed**: Good balance of speed and quality
+
+### **🥉 Efficient Performance**
+```bash
+ollama pull jinbora/deepseek-r1-Bllossom:8b    # Korean optimized, 4.9GB RAM required
+```
+- **Best for**: Computers with 8GB+ RAM
+- **Performance**: Excellent Korean language support
+- **Speed**: Fast responses with good Korean understanding
+
+### **💡 Beginner Friendly**
+```bash
+ollama pull llama3.1:latest    # Lightweight, 4.7GB RAM required
+```
+- **Best for**: Basic computers with 6GB+ RAM
+- **Performance**: Good general responses
+- **Speed**: Fastest responses, good for testing
+
+## 📊 **Model Comparison**
+| Model | Size | RAM Required | Performance | Best Use Case |
+|-------|------|-------------|-------------|---------------|
+| gpt-oss:20b | 13GB | 16GB+ | ⭐⭐⭐⭐⭐ | High-end tasks |
+| deepseek-r1:14b | 9GB | 12GB+ | ⭐⭐⭐⭐ | Balanced usage |
+| jinbora/deepseek-r1-Bllossom:8b | 4.9GB | 8GB+ | ⭐⭐⭐⭐ | Korean focus |
+| llama3.1:latest | 4.7GB | 6GB+ | ⭐⭐⭐ | Basic tasks |
+
+> **💡 Tip**: New high-performance models are constantly being released. Choose the model that best fits your computer's specifications and use case. Larger models generally provide better responses but require more computational resources.
 ```
 
 ### Step 3: Start AI Server
