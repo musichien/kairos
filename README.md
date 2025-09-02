@@ -154,11 +154,11 @@ ollama pull deepseek-r1:14b    # Great performance, 9GB RAM required
 
 ### **🥉 Efficient Performance**
 ```bash
-ollama pull jinbora/deepseek-r1-Bllossom:8b    # Korean optimized, 4.9GB RAM required
+ollama pull deepseek-r1:latest    # Efficient performance, 5.2GB RAM required
 ```
 - **Best for**: Computers with 8GB+ RAM
-- **Performance**: Excellent Korean language support
-- **Speed**: Fast responses with good Korean understanding
+- **Performance**: Strong reasoning and multilingual support
+- **Speed**: Fast responses with good understanding
 
 ### **💡 Beginner Friendly**
 ```bash
@@ -173,10 +173,24 @@ ollama pull llama3.1:latest    # Lightweight, 4.7GB RAM required
 |-------|------|-------------|-------------|---------------|
 | gpt-oss:20b | 13GB | 16GB+ | ⭐⭐⭐⭐⭐ | High-end tasks |
 | deepseek-r1:14b | 9GB | 12GB+ | ⭐⭐⭐⭐ | Balanced usage |
-| jinbora/deepseek-r1-Bllossom:8b | 4.9GB | 8GB+ | ⭐⭐⭐⭐ | Korean focus |
+| deepseek-r1:latest | 5.2GB | 8GB+ | ⭐⭐⭐⭐ | Efficient usage |
 | llama3.1:latest | 4.7GB | 6GB+ | ⭐⭐⭐ | Basic tasks |
 
 > **💡 Tip**: New high-performance models are constantly being released. Choose the model that best fits your computer's specifications and use case. Larger models generally provide better responses but require more computational resources.
+
+## 🌍 **Language-Specific Models (Optional)**
+
+If you prefer models optimized for specific languages or regions, you can explore additional models:
+
+```bash
+# Example: For enhanced Korean language support
+ollama pull jinbora/deepseek-r1-Bllossom:8b
+
+# Example: For other language-specific models
+ollama search [language]  # Search for models in your preferred language
+```
+
+> **Note**: Language-specific models are optional and should be chosen based on your specific needs. The general models above provide excellent multilingual support for most use cases.
 ```
 
 ### Step 3: Start AI Server
