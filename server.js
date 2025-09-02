@@ -399,6 +399,37 @@ app.post('/api/chat', async (req, res) => {
       }
     }
 
+    // Add language enforcement as the first system message for stronger effect
+    if (language && language !== 'en') {
+      let languageEnforcementPrompt = '';
+      switch (language) {
+        case 'ko':
+          languageEnforcementPrompt = `한국어로만 응답하세요. 영어나 다른 언어를 사용하지 마세요.`;
+          break;
+        case 'ja':
+          languageEnforcementPrompt = `日本語のみで応答してください。英語や他の言語は使用しないでください。`;
+          break;
+        case 'fr':
+          languageEnforcementPrompt = `Répondez uniquement en français. N'utilisez pas l'anglais ou d'autres langues.`;
+          break;
+        case 'zh':
+          languageEnforcementPrompt = `只用中文回答。不要使用英语或其他语言。`;
+          break;
+      }
+      
+      if (languageEnforcementPrompt) {
+        enhancedMessages.unshift({
+          role: 'system',
+          content: languageEnforcementPrompt
+        });
+      }
+    } else if (language === 'en') {
+      enhancedMessages.unshift({
+        role: 'system',
+        content: 'Respond in English only. Do not use Korean, Japanese, Chinese, French or any other language.'
+      });
+    }
+
     // Ollama API request data preparation
     const ollamaRequest = {
       model: model,
@@ -517,7 +548,7 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
   const startTime = Date.now();
   
   try {
-    const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, stream = false, user_id } = req.body;
+    const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, stream = false, user_id, language = 'en' } = req.body;
 
     // 메시지가 없으면 에러
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -578,6 +609,37 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
       }
     }
 
+    // Add language enforcement as the first system message for stronger effect
+    if (language && language !== 'en') {
+      let languageEnforcementPrompt = '';
+      switch (language) {
+        case 'ko':
+          languageEnforcementPrompt = `한국어로만 응답하세요. 영어나 다른 언어를 사용하지 마세요.`;
+          break;
+        case 'ja':
+          languageEnforcementPrompt = `日本語のみで応答してください。英語や他の言語は使用しないでください。`;
+          break;
+        case 'fr':
+          languageEnforcementPrompt = `Répondez uniquement en français. N'utilisez pas l'anglais ou d'autres langues.`;
+          break;
+        case 'zh':
+          languageEnforcementPrompt = `只用中文回答。不要使用英语或其他语言。`;
+          break;
+      }
+      
+      if (languageEnforcementPrompt) {
+        enhancedMessages.unshift({
+          role: 'system',
+          content: languageEnforcementPrompt
+        });
+      }
+    } else if (language === 'en') {
+      enhancedMessages.unshift({
+        role: 'system',
+        content: 'Respond in English only. Do not use Korean, Japanese, Chinese, French or any other language.'
+      });
+    }
+
     // Ollama API 요청 데이터 준비
     const ollamaRequest = {
       model: model,
@@ -589,7 +651,7 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
       }
     };
 
-    console.log('Ollama 요청:', JSON.stringify(ollamaRequest, null, 2));
+    console.log('Ollama Request:', JSON.stringify(ollamaRequest, null, 2));
 
     // Ollama API 직접 호출 (모델별 적절한 타임아웃 설정)
     const timeout = getModelTimeout(model);

@@ -943,6 +943,21 @@
             localStorage.setItem('kairos_language', selectedLanguage);
             
             console.log(`Language changed to: ${selectedLanguage}`);
+            
+            // Show language change confirmation
+            addMessage('system', `🌐 Language changed to: ${getLanguageDisplayName(selectedLanguage)}`);
+        }
+
+        // Get language display name
+        function getLanguageDisplayName(languageCode) {
+            const languageNames = {
+                'en': 'English',
+                'ko': '한국어',
+                'ja': '日本語',
+                'fr': 'Français',
+                'zh': '中文'
+            };
+            return languageNames[languageCode] || 'English';
         }
 
         // Tab management
@@ -1032,6 +1047,20 @@
                 // Build memory-aware system context from loaded memoryData
                 const messages = getSystemMessage(config.language);
                 let systemContext = messages.systemContext;
+                
+                // Add explicit language instruction
+                if (config.language === 'en') {
+                    systemContext += '\n\nIMPORTANT: You must respond in English language only. Do not use Korean, Japanese, Chinese, French or any other language.';
+                } else if (config.language === 'ko') {
+                    systemContext += '\n\nIMPORTANT: You must respond in Korean language only. Do not use English or any other language. 한국어로만 응답해주세요.';
+                } else if (config.language === 'ja') {
+                    systemContext += '\n\nIMPORTANT: You must respond in Japanese language only. Do not use English or any other language. 日本語のみで応答してください。';
+                } else if (config.language === 'fr') {
+                    systemContext += '\n\nIMPORTANT: You must respond in French language only. Do not use English or any other language. Répondez uniquement en français.';
+                } else if (config.language === 'zh') {
+                    systemContext += '\n\nIMPORTANT: You must respond in Chinese language only. Do not use English or any other language. 只用中文回答。';
+                }
+                
                 if (!memoryData) {
                     try { await loadUserMemory(); } catch (_) {}
                 }
