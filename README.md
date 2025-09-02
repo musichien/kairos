@@ -12,7 +12,7 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 **🚀 [Try Kairos Live Demo](https://kairos.musichien.com/) | 📱 [View Full UI Gallery](#-screenshots--ui-gallery)**
 
-## 🎯 **Core Features Overview**
+## 🎯 **Core Features Overview (10 Core Features)**
 
 ### 1. 🧠 **Long-term Memory & Contextualization Technology**
 **Develops time-based memory structures that naturally connect users' life events**
@@ -74,6 +74,19 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Real-time Visualization**: Interactive 3D visualization of brain structures and neural activity
 - **Scientific Accuracy**: Based on peer-reviewed neuroscience research and validated computational models
 - **Comprehensive Brain Atlas**: 9 major brain regions with detailed anatomical and functional information
+
+### 7.6. 🧠 **Enhanced 3D Brain & Neuron Visualization**
+**Anatomically accurate 3D visualization for understanding how thoughts, emotions, and sensations arise through neurons**
+
+- **🧠 Anatomically Accurate Brain Regions**: Realistic 3D brain surface with cortical folds, hemispheres, and brain stem
+- **🔬 Detailed Neuron Structure**: Complete neuron visualization with soma, dendrites, axon, myelin sheath, and axon terminals
+- **🔗 Advanced Synapse Visualization**: Detailed synaptic cleft, presynaptic terminals, postsynaptic receptors, and neurotransmitter vesicles
+- **📊 Brain Composition Display**: Interactive pie chart showing brain composition (Water 60%, Protein 25%, Fat 15%)
+- **⚡ Brain Function Indicators**: Visual representation of brain functions (Thought, Memory, Sensation)
+- **🎨 Korean/English Bilingual Labels**: Educational labels in both Korean and English for better understanding
+- **🖱️ Interactive 3D Experience**: Clickable brain regions with detailed information tooltips and highlighting
+- **🔍 Scientific Accuracy**: Based on real neuroanatomical structures and medical neuroscience principles
+- **💡 Educational Value**: Step-by-step visualization of neural transmission and information processing
 
 ### 8. 🌐 **Collective Brain Modeling**
 **Launch your own brain-modeling simulations on the shared citizen-powered GPU network**
@@ -828,7 +841,7 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 
 *Built with ❤️ for cognitive health and privacy-first AI experiences*
 
-**🎯 9.5 Core Features Successfully Implemented:**
+**🎯 10 Core Features Successfully Implemented:**
 1. ✅ **Long-term Memory & Contextualization** - Intelligent memory system
 2. ✅ **Privacy-Centric Security** - Military-grade encryption and local storage
 3. ✅ **Cognitive Enhancement** - Personalized training routines
@@ -837,10 +850,22 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 6. ✅ **Telomere-Driven Healthy Aging** - Science-based lifestyle guidance
 7. ✅ **Brain Disease Research Computing** - Citizen-powered distributed computing
 7.5. ✅ **Multi-Scale Brain Modeling** - Advanced brain simulation at microscopic, mesoscopic, and macroscopic levels
+7.6. ✅ **Enhanced 3D Brain & Neuron Visualization** - Anatomically accurate visualization for understanding neural processes
 8. ✅ **Collective Brain Modeling** - Self-service brain modeling simulations
 9. ✅ **Embodied Identity & Self-Restoration** - Expanding the concept of self through agentic AI
 
 ## 🆕 **Latest Updates (September 1, 2025)**
+
+### **🧠 Enhanced 3D Brain & Neuron Visualization**
+- **Anatomically Accurate Brain Regions**: Realistic 3D brain surface with cortical folds, hemispheres, and brain stem
+- **Detailed Neuron Structure**: Complete neuron visualization with soma, dendrites, axon, myelin sheath, and axon terminals
+- **Advanced Synapse Visualization**: Detailed synaptic cleft, presynaptic terminals, postsynaptic receptors, and neurotransmitter vesicles
+- **Brain Composition Display**: Interactive pie chart showing brain composition (Water 60%, Protein 25%, Fat 15%)
+- **Brain Function Indicators**: Visual representation of brain functions (Thought, Memory, Sensation)
+- **Korean/English Bilingual Labels**: Educational labels in both Korean and English for better understanding
+- **Interactive 3D Experience**: Clickable brain regions with detailed information tooltips and highlighting
+- **Scientific Accuracy**: Based on real neuroanatomical structures and medical neuroscience principles
+- **Educational Value**: Step-by-step visualization of neural transmission and information processing
 
 ### **🧬 New Multi-Scale Brain Modeling Module**
 - **Microscopic Level**: Individual neuron modeling with Hodgkin-Huxley equations and electrophysiological properties
