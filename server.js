@@ -50,6 +50,46 @@ const multiScaleBrainModeling = new MultiScaleBrainModeling();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
+// 시스템 정보 가져오기
+const os = require('os');
+const { exec } = require('child_process');
+const { promisify } = require('util');
+const execAsync = promisify(exec);
+
+// 시스템 사양 정보
+let systemSpecs = {
+  cpu: os.cpus()[0].model,
+  cores: os.cpus().length,
+  ram: Math.round(os.totalmem() / (1024 * 1024 * 1024)), // GB
+  platform: os.platform(),
+  gpu: 'Unknown'
+};
+
+// GPU 정보 가져오기 (Windows)
+async function getGPUInfo() {
+  try {
+    if (os.platform() === 'win32') {
+      const { stdout } = await execAsync('wmic path win32_VideoController get name');
+      const gpuLines = stdout.split('\n').filter(line => line.trim() && !line.includes('Name'));
+      if (gpuLines.length > 0) {
+        systemSpecs.gpu = gpuLines[0].trim();
+      }
+    }
+  } catch (error) {
+    console.log('GPU 정보 가져오기 실패:', error.message);
+  }
+}
+
+// 시스템 사양 초기화
+getGPUInfo().then(() => {
+  console.log('🖥️ 시스템 사양:');
+  console.log(`  CPU: ${systemSpecs.cpu}`);
+  console.log(`  코어: ${systemSpecs.cores}개`);
+  console.log(`  RAM: ${systemSpecs.ram}GB`);
+  console.log(`  GPU: ${systemSpecs.gpu}`);
+  console.log(`  OS: ${systemSpecs.platform}`);
+});
+
 // 보안 설정
 const SECRET_KEY = process.env.SECRET_KEY || 'your-secret-key-here';
 const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:3000'];
@@ -202,6 +242,64 @@ app.get('/', (req, res) => {
 // 기본 모델 설정 (GPT-OSS 20B)
 const DEFAULT_MODEL = 'gpt-oss:20b';
 
+// 모델별 예상 응답 시간 계산 함수
+function getExpectedResponseTime(model, messageLength = 100) {
+  const modelName = model.toLowerCase();
+  let baseTime = 0;
+  let modelSize = '';
+  
+  // 모델별 기본 시간 설정
+  if (modelName.includes('20b') || modelName.includes('gpt-oss')) {
+    baseTime = 45; // 45초 (20B 모델)
+    modelSize = '20B';
+  } else if (modelName.includes('14b') || modelName.includes('deepseek-r1:14b')) {
+    baseTime = 25; // 25초 (14B 모델)
+    modelSize = '14B';
+  } else if (modelName.includes('8b') || modelName.includes('jinbora') || modelName.includes('deepseek-r1:8b')) {
+    baseTime = 15; // 15초 (8B 모델)
+    modelSize = '8B';
+  } else if (modelName.includes('7b') || modelName.includes('llama3.1')) {
+    baseTime = 12; // 12초 (7B 모델)
+    modelSize = '7B';
+  } else {
+    baseTime = 20; // 기본값
+    modelSize = 'Unknown';
+  }
+  
+  // 시스템 사양에 따른 조정
+  let systemMultiplier = 1.0;
+  
+  // RAM 기반 조정
+  if (systemSpecs.ram < 8) {
+    systemMultiplier *= 1.5; // RAM 부족 시 50% 증가
+  } else if (systemSpecs.ram >= 16) {
+    systemMultiplier *= 0.8; // RAM 충분 시 20% 감소
+  }
+  
+  // CPU 코어 수 기반 조정
+  if (systemSpecs.cores < 4) {
+    systemMultiplier *= 1.3; // 코어 부족 시 30% 증가
+  } else if (systemSpecs.cores >= 8) {
+    systemMultiplier *= 0.9; // 코어 충분 시 10% 감소
+  }
+  
+  // 메시지 길이 기반 조정
+  const lengthMultiplier = Math.max(0.5, Math.min(2.0, messageLength / 100));
+  
+  const estimatedTime = Math.round(baseTime * systemMultiplier * lengthMultiplier);
+  
+  return {
+    estimatedTime,
+    modelSize,
+    systemMultiplier: Math.round(systemMultiplier * 100) / 100,
+    factors: {
+      ram: systemSpecs.ram,
+      cores: systemSpecs.cores,
+      gpu: systemSpecs.gpu
+    }
+  };
+}
+
 // 모델별 타임아웃 설정 함수 (안정성 최적화)
 function getModelTimeout(model) {
   const modelName = model.toLowerCase();
@@ -225,6 +323,19 @@ function getModelTimeout(model) {
   return 600000; // 10분
 }
 
+// 시스템 정보 엔드포인트
+app.get('/api/system-info', (req, res) => {
+  res.json({
+    system: systemSpecs,
+    models: {
+      'gpt-oss:20b': getExpectedResponseTime('gpt-oss:20b'),
+      'deepseek-r1:14b': getExpectedResponseTime('deepseek-r1:14b'),
+      'jinbora/deepseek-r1-Bllossom:8b': getExpectedResponseTime('jinbora/deepseek-r1-Bllossom:8b'),
+      'llama3.1:latest': getExpectedResponseTime('llama3.1:latest')
+    }
+  });
+});
+
 // 간단한 채팅 엔드포인트 (인증 없음, 안정성 향상)
 app.post('/api/chat', async (req, res) => {
   try {
@@ -240,6 +351,14 @@ app.post('/api/chat', async (req, res) => {
         }
       });
     }
+
+    // 예상 응답 시간 계산
+    const currentMessage = messages[messages.length - 1]?.content || '';
+    const expectedTime = getExpectedResponseTime(model, currentMessage.length);
+    
+    console.log(`⏱️ 예상 응답 시간: ${expectedTime.estimatedTime}초 (${expectedTime.modelSize} 모델)`);
+    console.log(`  시스템 사양: ${expectedTime.factors.cores}코어, ${expectedTime.factors.ram}GB RAM, ${expectedTime.factors.gpu}`);
+    console.log(`  시스템 배수: ${expectedTime.systemMultiplier}x`);
 
     // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)
     let enhancedMessages = [...messages];

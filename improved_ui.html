@@ -294,6 +294,21 @@
             }
         }
 
+        /* Expected time and system specs */
+        .expected-time {
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #059669;
+            font-weight: 500;
+        }
+
+        .system-specs {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            color: #64748b;
+            font-style: italic;
+        }
+
         .chat-input-container {
             display: flex;
             padding: 16px;
@@ -893,10 +908,32 @@
             sendBtn.disabled = true;
             sendBtn.textContent = 'Sending...';
             
-            // Add typing indicator
+            // Get system info and expected response time
+            let systemInfo = null;
+            try {
+                const systemResponse = await fetch(`${config.apiUrl}/api/system-info`);
+                if (systemResponse.ok) {
+                    systemInfo = await systemResponse.json();
+                }
+            } catch (error) {
+                console.log('시스템 정보 가져오기 실패:', error.message);
+            }
+            
+            // Add typing indicator with expected time
             const typingDiv = document.createElement('div');
             typingDiv.className = 'message assistant typing';
-            typingDiv.innerHTML = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+            
+            let typingContent = '<div class="typing-indicator"><span></span><span></span><span></span></div>';
+            if (systemInfo) {
+                const currentModel = config.model || 'gpt-oss:20b';
+                const modelInfo = systemInfo.models[currentModel];
+                if (modelInfo) {
+                    typingContent += `<div class="expected-time">⏱️ 예상 응답 시간: ${modelInfo.estimatedTime}초</div>`;
+                    typingContent += `<div class="system-specs">🖥️ 시스템: ${modelInfo.factors.cores}코어, ${modelInfo.factors.ram}GB RAM</div>`;
+                }
+            }
+            
+            typingDiv.innerHTML = typingContent;
             document.getElementById('chatMessages').appendChild(typingDiv);
             
             try {
