@@ -202,30 +202,30 @@ app.get('/', (req, res) => {
 // 기본 모델 설정 (GPT-OSS 20B)
 const DEFAULT_MODEL = 'gpt-oss:20b';
 
-// 모델별 타임아웃 설정 함수
+// 모델별 타임아웃 설정 함수 (최적화됨)
 function getModelTimeout(model) {
   const modelName = model.toLowerCase();
   
   // 대형 모델 (20B+ 파라미터) - GPT-OSS, Llama2 70B 등
   if (modelName.includes('20b') || modelName.includes('gpt-oss') || modelName.includes('llama2:70b')) {
-    return 180000; // 3분 (GPT-OSS 20B용 충분한 시간)
+    return 300000; // 5분 (안정성 향상)
   }
   
-  // 중형 모델 (7B-13B 파라미터)
-  if (modelName.includes('7b') || modelName.includes('13b') || modelName.includes('deepseek')) {
-    return 90000; // 1.5분
+  // 중형 모델 (7B-14B 파라미터)
+  if (modelName.includes('7b') || modelName.includes('13b') || modelName.includes('14b') || modelName.includes('deepseek')) {
+    return 180000; // 3분 (안정성 향상)
   }
   
-  // 소형 모델 (3B 이하 파라미터)
-  if (modelName.includes('3b') || modelName.includes('1b') || modelName.includes('tiny')) {
-    return 60000; // 1분
+  // 소형 모델 (3B-8B 파라미터)
+  if (modelName.includes('3b') || modelName.includes('8b') || modelName.includes('1b') || modelName.includes('tiny')) {
+    return 120000; // 2분
   }
   
-  // 기본값 (GPT-OSS 20B 기준)
-  return 180000; // 3분
+  // 기본값 (안정성 우선)
+  return 300000; // 5분
 }
 
-// 간단한 채팅 엔드포인트 (인증 없음)
+// 간단한 채팅 엔드포인트 (인증 없음, 안정성 향상)
 app.post('/api/chat', async (req, res) => {
   try {
     const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, user_id } = req.body;
@@ -290,7 +290,7 @@ app.post('/api/chat', async (req, res) => {
 
     console.log('Ollama 요청:', JSON.stringify(ollamaRequest, null, 2));
 
-    // Ollama API 직접 호출 (모델별 적절한 타임아웃 설정)
+    // Ollama API 직접 호출 (안정성 최적화)
     const timeout = getModelTimeout(model);
     console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
     
@@ -298,6 +298,11 @@ app.post('/api/chat', async (req, res) => {
       timeout: timeout,
       headers: {
         'Content-Type': 'application/json'
+      },
+      // 연결 안정성 향상 설정
+      maxRedirects: 5,
+      validateStatus: function (status) {
+        return status >= 200 && status < 600; // 더 넓은 상태 코드 범위 허용
       }
     });
 
