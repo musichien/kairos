@@ -865,7 +865,7 @@
         let config = {
             apiUrl: 'http://localhost:3000',
             userId: 'user_001',
-            model: '',
+            model: 'gpt-oss:20b',
             apiKey: 'your-secret-key-here'
         };
 
@@ -953,9 +953,6 @@
                     }
                 }
                 
-                // Remove typing indicator
-                typingDiv.remove();
-                
                 const response = await fetch(`${config.apiUrl}/api/chat`, {
                     method: 'POST',
                     headers: {
@@ -978,14 +975,22 @@
                 if (response.ok) {
                     const data = await response.json();
                     const assistantMessage = data.choices?.[0]?.message?.content || '[No content]';
+                    
+                    // Remove typing indicator before adding response
+                    typingDiv.remove();
                     addMessage('assistant', assistantMessage);
                 } else {
                     const errorText = await response.text();
+                    
+                    // Remove typing indicator before adding error
+                    typingDiv.remove();
                     addMessage('system', `Error: ${response.status} - ${errorText}`);
                 }
             } catch (error) {
                 // Remove typing indicator on error
-                typingDiv.remove();
+                if (typingDiv && typingDiv.parentNode) {
+                    typingDiv.remove();
+                }
                 
                 if (error.name === 'AbortError') {
                     addMessage('system', 'Request timeout (10 minutes). The model is still processing. Please try again or wait a moment.');
