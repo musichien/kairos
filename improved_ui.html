@@ -525,6 +525,16 @@
                                 <option value="">Select a model...</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label for="languageSelect">Default Language:</label>
+                            <select id="languageSelect" onchange="changeLanguage()">
+                                <option value="en">English</option>
+                                <option value="ko">한국어</option>
+                                <option value="ja">日本語</option>
+                                <option value="fr">Français</option>
+                                <option value="zh">中文</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="grid">
                         <button class="btn btn-secondary" onclick="testConnection()">🔗 Test Connection</button>
@@ -866,12 +876,74 @@
             apiUrl: 'http://localhost:3000',
             userId: 'user_001',
             model: 'gpt-oss:20b',
-            apiKey: 'your-secret-key-here'
+            apiKey: 'your-secret-key-here',
+            language: 'en' // Default language
         };
 
         // Global variables
         let memoryData = null;
         let currentTraining = null;
+
+        // Language-specific system messages
+        function getSystemMessage(language = 'en') {
+            const messages = {
+                en: {
+                    welcome: 'Welcome to Kairos AI! Please configure your settings and test the connection to start chatting.',
+                    systemContext: 'You are Kairos, a memory-enabled AI companion. Personalize responses using user memories when relevant.',
+                    memorySummary: 'User memory summary (use respectfully, do not reveal private data):',
+                    facts: 'Facts:',
+                    preferences: 'Preferences:'
+                },
+                ko: {
+                    welcome: 'Kairos AI에 오신 것을 환영합니다! 설정을 구성하고 연결을 테스트하여 채팅을 시작하세요.',
+                    systemContext: '당신은 기억 기능이 있는 AI 동반자 Kairos입니다. 관련이 있을 때 사용자 기억을 사용하여 응답을 개인화하세요.',
+                    memorySummary: '사용자 기억 요약 (존중스럽게 사용하고 개인 데이터를 공개하지 마세요):',
+                    facts: '사실:',
+                    preferences: '선호사항:'
+                },
+                ja: {
+                    welcome: 'Kairos AIへようこそ！設定を構成し、接続をテストしてチャットを開始してください。',
+                    systemContext: 'あなたは記憶機能を持つAIコンパニオンKairosです。関連する場合、ユーザーの記憶を使用して応答をパーソナライズしてください。',
+                    memorySummary: 'ユーザーメモリサマリー（敬意を持って使用し、個人データを開示しないでください）：',
+                    facts: '事実：',
+                    preferences: '好み：'
+                },
+                fr: {
+                    welcome: 'Bienvenue sur Kairos AI ! Veuillez configurer vos paramètres et tester la connexion pour commencer à discuter.',
+                    systemContext: 'Vous êtes Kairos, un compagnon IA doté de mémoire. Personnalisez les réponses en utilisant les souvenirs de l\'utilisateur lorsque c\'est pertinent.',
+                    memorySummary: 'Résumé de la mémoire utilisateur (utilisez respectueusement, ne révélez pas de données privées) :',
+                    facts: 'Faits :',
+                    preferences: 'Préférences :'
+                },
+                zh: {
+                    welcome: '欢迎使用Kairos AI！请配置您的设置并测试连接以开始聊天。',
+                    systemContext: '您是Kairos，一个具有记忆功能的AI伴侣。在相关时使用用户记忆来个性化回复。',
+                    memorySummary: '用户记忆摘要（请尊重使用，不要泄露私人数据）：',
+                    facts: '事实：',
+                    preferences: '偏好：'
+                }
+            };
+            return messages[language] || messages.en;
+        }
+
+        // Language management
+        function changeLanguage() {
+            const languageSelect = document.getElementById('languageSelect');
+            const selectedLanguage = languageSelect.value;
+            config.language = selectedLanguage;
+            
+            // Update welcome message
+            const welcomeMessage = document.querySelector('.message.system');
+            if (welcomeMessage) {
+                const messages = getSystemMessage(selectedLanguage);
+                welcomeMessage.textContent = messages.welcome;
+            }
+            
+            // Save language preference to localStorage
+            localStorage.setItem('kairos_language', selectedLanguage);
+            
+            console.log(`Language changed to: ${selectedLanguage}`);
+        }
 
         // Tab management
         function showTab(tabName, event) {
@@ -889,6 +961,26 @@
             // Add active class to clicked button
             if (event && event.target) {
                 event.target.classList.add('active');
+            }
+        }
+
+        // Initialize language settings
+        function initializeLanguage() {
+            // Load saved language preference
+            const savedLanguage = localStorage.getItem('kairos_language');
+            if (savedLanguage) {
+                config.language = savedLanguage;
+                const languageSelect = document.getElementById('languageSelect');
+                if (languageSelect) {
+                    languageSelect.value = savedLanguage;
+                }
+            }
+            
+            // Set initial welcome message
+            const messages = getSystemMessage(config.language);
+            const welcomeMessage = document.querySelector('.message.system');
+            if (welcomeMessage) {
+                welcomeMessage.textContent = messages.welcome;
             }
         }
 
@@ -938,7 +1030,8 @@
             
             try {
                 // Build memory-aware system context from loaded memoryData
-                let systemContext = 'You are Kairos, a memory-enabled AI companion. Personalize responses using user memories when relevant.';
+                const messages = getSystemMessage(config.language);
+                let systemContext = messages.systemContext;
                 if (!memoryData) {
                     try { await loadUserMemory(); } catch (_) {}
                 }
@@ -946,10 +1039,10 @@
                     const recentFacts = (memoryData.facts || []).slice(0, 3).map(f => `- ${f.content || f.fact}`).join('\n');
                     const recentPrefs = (memoryData.preferences || []).slice(0, 3).map(p => `- ${p.preference}: ${p.value}`).join('\n');
                     const parts = [];
-                    if (recentFacts) parts.push(`Facts:\n${recentFacts}`);
-                    if (recentPrefs) parts.push(`Preferences:\n${recentPrefs}`);
+                    if (recentFacts) parts.push(`${messages.facts}\n${recentFacts}`);
+                    if (recentPrefs) parts.push(`${messages.preferences}\n${recentPrefs}`);
                     if (parts.length) {
-                        systemContext += `\n\nUser memory summary (use respectfully, do not reveal private data):\n${parts.join('\n\n')}`;
+                        systemContext += `\n\n${messages.memorySummary}\n${parts.join('\n\n')}`;
                     }
                 }
                 
@@ -966,7 +1059,8 @@
                         user_id: config.userId,
                         model: config.model || 'gpt-oss:20b', // 기본 모델을 gpt-oss:20b로 변경
                         max_tokens: 2000, // 토큰 수 증가
-                        temperature: 0.7
+                        temperature: 0.7,
+                        language: config.language || 'en' // 언어 설정 추가
                     }),
                     // 연결 안정성 향상
                     signal: AbortSignal.timeout(600000) // 10분 타임아웃
@@ -5023,6 +5117,9 @@
             refreshModels();
             loadMemoryStats();
             loadUserMemory();
+            
+            // Initialize language settings
+            initializeLanguage();
             // Show quick testing examples in selected language
             setTimeout(() => {
                 // Get selected language from cultural preferences or default to English

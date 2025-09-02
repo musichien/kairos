@@ -83,10 +83,10 @@ async function getGPUInfo() {
 
 // 시스템 사양 초기화
 getGPUInfo().then(() => {
-  console.log('🖥️ 시스템 사양:');
+  console.log('🖥️ System Specifications:');
   console.log(`  CPU: ${systemSpecs.cpu}`);
-  console.log(`  논리적 코어: ${systemSpecs.cores}개`);
-  console.log(`  물리적 코어: ${systemSpecs.physicalCores}개`);
+  console.log(`  Logical Cores: ${systemSpecs.cores}`);
+  console.log(`  Physical Cores: ${systemSpecs.physicalCores}`);
   console.log(`  RAM: ${systemSpecs.ram}GB`);
   console.log(`  GPU: ${systemSpecs.gpu}`);
   console.log(`  OS: ${systemSpecs.platform}`);
@@ -342,7 +342,7 @@ app.get('/api/system-info', (req, res) => {
 // 간단한 채팅 엔드포인트 (인증 없음, 안정성 향상)
 app.post('/api/chat', async (req, res) => {
   try {
-    const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, user_id } = req.body;
+    const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, user_id, language = 'en' } = req.body;
 
     // 메시지가 없으면 에러
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -359,9 +359,9 @@ app.post('/api/chat', async (req, res) => {
     const currentMessage = messages[messages.length - 1]?.content || '';
     const expectedTime = getExpectedResponseTime(model, currentMessage.length);
     
-    console.log(`⏱️ 예상 응답 시간: ${expectedTime.estimatedTime}초 (${expectedTime.modelSize} 모델)`);
-    console.log(`  시스템 사양: ${expectedTime.factors.physicalCores}물리코어(${expectedTime.factors.cores}논리코어), ${expectedTime.factors.ram}GB RAM, ${expectedTime.factors.gpu}`);
-    console.log(`  시스템 배수: ${expectedTime.systemMultiplier}x`);
+    console.log(`⏱️ Expected Response Time: ${expectedTime.estimatedTime} seconds (${expectedTime.modelSize} model)`);
+    console.log(`  System Specs: ${expectedTime.factors.physicalCores} physical cores (${expectedTime.factors.cores} logical cores), ${expectedTime.factors.ram}GB RAM, ${expectedTime.factors.gpu}`);
+    console.log(`  System Multiplier: ${expectedTime.systemMultiplier}x`);
 
     // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)
     let enhancedMessages = [...messages];
@@ -399,7 +399,7 @@ app.post('/api/chat', async (req, res) => {
       }
     }
 
-    // Ollama API 요청 데이터 준비
+    // Ollama API request data preparation
     const ollamaRequest = {
       model: model,
       messages: enhancedMessages,
@@ -410,50 +410,50 @@ app.post('/api/chat', async (req, res) => {
       }
     };
 
-    console.log('Ollama 요청:', JSON.stringify(ollamaRequest, null, 2));
+    console.log('Ollama Request:', JSON.stringify(ollamaRequest, null, 2));
 
-    // Ollama API 직접 호출 (안정성 최적화)
+    // Direct Ollama API call (stability optimized)
     const timeout = getModelTimeout(model);
-    console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
+    console.log(`⏱️ Timeout for model ${model}: ${timeout/1000} seconds`);
     
-    // 재시도 로직을 포함한 Ollama API 호출
+    // Retry logic for Ollama API calls
     let ollamaResponse;
     let lastError;
     
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
-        console.log(`🔄 Ollama API 호출 시도 ${attempt}/3`);
+        console.log(`🔄 Ollama API call attempt ${attempt}/3`);
         
         ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
           timeout: timeout,
           headers: {
             'Content-Type': 'application/json'
           },
-          // 연결 안정성 향상 설정
+          // Connection stability enhancement settings
           maxRedirects: 5,
           validateStatus: function (status) {
-            return status >= 200 && status < 600; // 더 넓은 상태 코드 범위 허용
+            return status >= 200 && status < 600; // Allow wider status code range
           }
         });
         
-        console.log(`✅ Ollama API 호출 성공 (시도 ${attempt}/3)`);
-        break; // 성공하면 루프 종료
+        console.log(`✅ Ollama API call successful (attempt ${attempt}/3)`);
+        break; // Exit loop on success
         
       } catch (error) {
         lastError = error;
-        console.log(`❌ Ollama API 호출 실패 (시도 ${attempt}/3): ${error.message}`);
+        console.log(`❌ Ollama API call failed (attempt ${attempt}/3): ${error.message}`);
         
         if (attempt < 3) {
-          // 재시도 전 대기 (지수 백오프)
-          const waitTime = Math.pow(2, attempt) * 1000; // 2초, 4초
-          console.log(`⏳ ${waitTime/1000}초 후 재시도...`);
+          // Wait before retry (exponential backoff)
+          const waitTime = Math.pow(2, attempt) * 1000; // 2s, 4s
+          console.log(`⏳ Retrying after ${waitTime/1000} seconds...`);
           await new Promise(resolve => setTimeout(resolve, waitTime));
         }
       }
     }
     
     if (!ollamaResponse) {
-      throw lastError || new Error('Ollama API 호출 실패');
+      throw lastError || new Error('Ollama API call failed');
     }
 
     const chatResponse = ollamaResponse.data;
@@ -637,10 +637,10 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
     if (user_id) {
       try {
         await memoryManager.addConversation(user_id, messages, openaiResponse);
-        console.log(`💾 사용자 ${user_id}의 대화가 메모리에 저장됨`);
-      } catch (error) {
-        console.error('메모리 저장 실패:', error.message);
-      }
+        console.log(`💾 Conversation saved to memory for user ${user_id}`);
+              } catch (error) {
+          console.error('Memory storage failed:', error.message);
+        }
     }
 
     // 🚀 성능 모니터링 완료 및 사용자 행동 분석
@@ -3282,35 +3282,35 @@ app.get('/status', (req, res) => {
 });
 
 const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Ollama 기반 OpenAI API 호환 서버가 포트 ${PORT}에서 실행 중입니다.`);
-  console.log(`🤖 AI 서버: OLLAMA`);
-  console.log(`📡 AI 서버 URL: ${OLLAMA_URL}`);
-  console.log(`🔗 OpenAI 호환 엔드포인트: http://localhost:${PORT}/v1/chat/completions`);
-    console.log(`🧪 테스트 엔드포인트: http://localhost:${PORT}/api/generate`);
-  console.log(`🔊 멀티모달 통합 시스템이 초기화되었습니다.`);
-  console.log(`🌍 문화 및 언어 최적화 시스템이 초기화되었습니다.`);
-  console.log(`🧬 텔로미어 기반 건강 관리 모듈이 초기화되었습니다.`);
-  console.log(`💓 급성 심혈관 사건 조기 경고 시스템이 초기화되었습니다.`);
-  console.log(`🧠 뇌 질환 연구 분산 컴퓨팅 시스템이 초기화되었습니다.`);
-  console.log(`🌟 체화된 정체성 및 자아 복원 시스템이 초기화되었습니다.`);
+  console.log(`🚀 Ollama-based OpenAI API compatible server running on port ${PORT}.`);
+  console.log(`🤖 AI Server: OLLAMA`);
+  console.log(`📡 AI Server URL: ${OLLAMA_URL}`);
+  console.log(`🔗 OpenAI Compatible Endpoint: http://localhost:${PORT}/v1/chat/completions`);
+    console.log(`🧪 Test Endpoint: http://localhost:${PORT}/api/generate`);
+  console.log(`🔊 Multimodal Integration System initialized.`);
+  console.log(`🌍 Culture and Language Optimization System initialized.`);
+  console.log(`🧬 Telomere-based Health Management Module initialized.`);
+  console.log(`💓 Acute Cardiovascular Event Early Warning System initialized.`);
+  console.log(`🧠 Brain Disease Research Distributed Computing System initialized.`);
+  console.log(`🌟 Embodied Identity and Self-Recovery System initialized.`);
   
-  // WebSocket 서버 초기화
+  // WebSocket server initialization
   multimodalManager.initializeWebSocket(server);
   
-  // Brain Research Computing 초기화
+  // Brain Research Computing initialization
   brainResearchComputingManager.initializeSampleJobs();
   
-  // 정기적인 정리 작업 스케줄링
+  // Schedule periodic cleanup tasks
   setInterval(() => {
     brainResearchComputingManager.cleanup();
     embodiedIdentityManager.cleanup();
-  }, 60 * 60 * 1000); // 1시간마다
+  }, 60 * 60 * 1000); // Every hour
   
-  // 🚀 고도화 모듈 초기화 완료
-  console.log(`📊 AI 성능 모니터링 시스템이 초기화되었습니다.`);
-  console.log(`👤 사용자 행동 분석 시스템이 초기화되었습니다.`);
-  console.log(`🔒 고급 보안 관리 시스템이 초기화되었습니다.`);
-  console.log(`⚡ 성능 최적화 시스템이 초기화되었습니다.`);
+  // 🚀 Advanced modules initialization complete
+  console.log(`📊 AI Performance Monitoring System initialized.`);
+  console.log(`👤 User Behavior Analysis System initialized.`);
+  console.log(`🔒 Advanced Security Management System initialized.`);
+  console.log(`⚡ Performance Optimization System initialized.`);
 }); 
 
 // 🚀 고도화 엔드포인트 구현
