@@ -202,27 +202,27 @@ app.get('/', (req, res) => {
 // 기본 모델 설정 (GPT-OSS 20B)
 const DEFAULT_MODEL = 'gpt-oss:20b';
 
-// 모델별 타임아웃 설정 함수 (최적화됨)
+// 모델별 타임아웃 설정 함수 (안정성 최적화)
 function getModelTimeout(model) {
   const modelName = model.toLowerCase();
   
   // 대형 모델 (20B+ 파라미터) - GPT-OSS, Llama2 70B 등
   if (modelName.includes('20b') || modelName.includes('gpt-oss') || modelName.includes('llama2:70b')) {
-    return 300000; // 5분 (안정성 향상)
+    return 600000; // 10분 (최대 안정성)
   }
   
   // 중형 모델 (7B-14B 파라미터)
   if (modelName.includes('7b') || modelName.includes('13b') || modelName.includes('14b') || modelName.includes('deepseek')) {
-    return 180000; // 3분 (안정성 향상)
+    return 300000; // 5분 (안정성 향상)
   }
   
   // 소형 모델 (3B-8B 파라미터)
   if (modelName.includes('3b') || modelName.includes('8b') || modelName.includes('1b') || modelName.includes('tiny')) {
-    return 120000; // 2분
+    return 180000; // 3분
   }
   
-  // 기본값 (안정성 우선)
-  return 300000; // 5분
+  // 기본값 (최대 안정성)
+  return 600000; // 10분
 }
 
 // 간단한 채팅 엔드포인트 (인증 없음, 안정성 향상)
@@ -294,17 +294,45 @@ app.post('/api/chat', async (req, res) => {
     const timeout = getModelTimeout(model);
     console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
     
-    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
-      timeout: timeout,
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      // 연결 안정성 향상 설정
-      maxRedirects: 5,
-      validateStatus: function (status) {
-        return status >= 200 && status < 600; // 더 넓은 상태 코드 범위 허용
+    // 재시도 로직을 포함한 Ollama API 호출
+    let ollamaResponse;
+    let lastError;
+    
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      try {
+        console.log(`🔄 Ollama API 호출 시도 ${attempt}/3`);
+        
+        ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
+          timeout: timeout,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          // 연결 안정성 향상 설정
+          maxRedirects: 5,
+          validateStatus: function (status) {
+            return status >= 200 && status < 600; // 더 넓은 상태 코드 범위 허용
+          }
+        });
+        
+        console.log(`✅ Ollama API 호출 성공 (시도 ${attempt}/3)`);
+        break; // 성공하면 루프 종료
+        
+      } catch (error) {
+        lastError = error;
+        console.log(`❌ Ollama API 호출 실패 (시도 ${attempt}/3): ${error.message}`);
+        
+        if (attempt < 3) {
+          // 재시도 전 대기 (지수 백오프)
+          const waitTime = Math.pow(2, attempt) * 1000; // 2초, 4초
+          console.log(`⏳ ${waitTime/1000}초 후 재시도...`);
+          await new Promise(resolve => setTimeout(resolve, waitTime));
+        }
       }
-    });
+    }
+    
+    if (!ollamaResponse) {
+      throw lastError || new Error('Ollama API 호출 실패');
+    }
 
     const chatResponse = ollamaResponse.data;
 

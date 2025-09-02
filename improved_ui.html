@@ -935,7 +935,7 @@
                         temperature: 0.7
                     }),
                     // 연결 안정성 향상
-                    signal: AbortSignal.timeout(300000) // 5분 타임아웃
+                    signal: AbortSignal.timeout(600000) // 10분 타임아웃
                 });
                 
                 if (response.ok) {
@@ -951,7 +951,11 @@
                 typingDiv.remove();
                 
                 if (error.name === 'AbortError') {
-                    addMessage('system', 'Request timeout. Please try again.');
+                    addMessage('system', 'Request timeout (10 minutes). The model is still processing. Please try again or wait a moment.');
+                } else if (error.message.includes('timeout')) {
+                    addMessage('system', 'Model response timeout. This may happen with large models. Please try again.');
+                } else if (error.message.includes('ECONNREFUSED')) {
+                    addMessage('system', 'Cannot connect to Ollama server. Please check if Ollama is running.');
                 } else {
                     addMessage('system', `Error: ${error.message}`);
                 }
