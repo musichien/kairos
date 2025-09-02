@@ -60,6 +60,7 @@ const execAsync = promisify(exec);
 let systemSpecs = {
   cpu: os.cpus()[0].model,
   cores: os.cpus().length,
+  physicalCores: Math.floor(os.cpus().length / 2), // 물리적 코어 수 (하이퍼스레딩 고려)
   ram: Math.round(os.totalmem() / (1024 * 1024 * 1024)), // GB
   platform: os.platform(),
   gpu: 'Unknown'
@@ -84,7 +85,8 @@ async function getGPUInfo() {
 getGPUInfo().then(() => {
   console.log('🖥️ 시스템 사양:');
   console.log(`  CPU: ${systemSpecs.cpu}`);
-  console.log(`  코어: ${systemSpecs.cores}개`);
+  console.log(`  논리적 코어: ${systemSpecs.cores}개`);
+  console.log(`  물리적 코어: ${systemSpecs.physicalCores}개`);
   console.log(`  RAM: ${systemSpecs.ram}GB`);
   console.log(`  GPU: ${systemSpecs.gpu}`);
   console.log(`  OS: ${systemSpecs.platform}`);
@@ -276,10 +278,10 @@ function getExpectedResponseTime(model, messageLength = 100) {
     systemMultiplier *= 0.8; // RAM 충분 시 20% 감소
   }
   
-  // CPU 코어 수 기반 조정
-  if (systemSpecs.cores < 4) {
+  // CPU 물리적 코어 수 기반 조정
+  if (systemSpecs.physicalCores < 4) {
     systemMultiplier *= 1.3; // 코어 부족 시 30% 증가
-  } else if (systemSpecs.cores >= 8) {
+  } else if (systemSpecs.physicalCores >= 8) {
     systemMultiplier *= 0.9; // 코어 충분 시 10% 감소
   }
   
@@ -295,6 +297,7 @@ function getExpectedResponseTime(model, messageLength = 100) {
     factors: {
       ram: systemSpecs.ram,
       cores: systemSpecs.cores,
+      physicalCores: systemSpecs.physicalCores,
       gpu: systemSpecs.gpu
     }
   };
@@ -357,7 +360,7 @@ app.post('/api/chat', async (req, res) => {
     const expectedTime = getExpectedResponseTime(model, currentMessage.length);
     
     console.log(`⏱️ 예상 응답 시간: ${expectedTime.estimatedTime}초 (${expectedTime.modelSize} 모델)`);
-    console.log(`  시스템 사양: ${expectedTime.factors.cores}코어, ${expectedTime.factors.ram}GB RAM, ${expectedTime.factors.gpu}`);
+    console.log(`  시스템 사양: ${expectedTime.factors.physicalCores}물리코어(${expectedTime.factors.cores}논리코어), ${expectedTime.factors.ram}GB RAM, ${expectedTime.factors.gpu}`);
     console.log(`  시스템 배수: ${expectedTime.systemMultiplier}x`);
 
     // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)

@@ -929,7 +929,7 @@
                 const modelInfo = systemInfo.models[currentModel];
                 if (modelInfo) {
                     typingContent += `<div class="expected-time">⏱️ 예상 응답 시간: ${modelInfo.estimatedTime}초</div>`;
-                    typingContent += `<div class="system-specs">🖥️ 시스템: ${modelInfo.factors.cores}코어, ${modelInfo.factors.ram}GB RAM</div>`;
+                    typingContent += `<div class="system-specs">🖥️ 시스템: ${modelInfo.factors.physicalCores}물리코어(${modelInfo.factors.cores}논리코어), ${modelInfo.factors.ram}GB RAM</div>`;
                 }
             }
             
