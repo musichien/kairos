@@ -972,4 +972,16 @@ This project is licensed under the **GNU General Public License v2.0 (GPLv2)** -
 ### **🔧 Technical Improvements**
 - **Server Configuration**: Root path now redirects to improved UI (`http://localhost:3000/`)
 - **Error Handling**: Enhanced timeout management and Ollama server connection validation
-- **Performance Optimization**: Reduced API response times and improved reliability 
+- **Performance Optimization**: Reduced API response times and improved reliability
+
+### **🌐 Advanced Multilingual Chat System**
+- **Intelligent Language Selection**: Choose from 5 languages (English, Korean, Japanese, French, Chinese)
+- **Triple Language Enforcement**: Three-layer system message enforcement for maximum language compliance
+- **Real-time Language Detection**: Automatic detection and correction of AI responses in wrong languages
+- **Smart Auto-Correction**: Automatic language correction messages when AI responds in incorrect language
+- **Cultural Context Integration**: Language-specific cultural optimization and formality levels
+- **Defense-in-Depth Approach**: Prevention + Detection + Correction system for flawless language compliance
+
+![Multilingual Chat Interface](https://github.com/musichien/kairos/raw/main/img/chatmulti.jpg)
+
+*🌍 **Smart Language Selection**: Experience seamless multilingual conversations with intelligent language enforcement. Select your preferred language and the AI will respond exclusively in that language, with automatic correction if needed.* 
