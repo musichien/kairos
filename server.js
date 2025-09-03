@@ -399,35 +399,44 @@ app.post('/api/chat', async (req, res) => {
       }
     }
 
-    // Add language enforcement as the first system message for stronger effect
-    if (language && language !== 'en') {
+    // Add TRIPLE language enforcement for maximum compliance
+    if (language) {
       let languageEnforcementPrompt = '';
+      const enforcementHeader = '===== ABSOLUTE LANGUAGE REQUIREMENT =====\n';
+      
       switch (language) {
+        case 'en':
+          languageEnforcementPrompt = enforcementHeader + 'CRITICAL: You MUST respond in English ONLY. ABSOLUTELY NO Korean, Japanese, Chinese, French or other languages. This rule is MANDATORY and cannot be broken under any circumstances.';
+          break;
         case 'ko':
-          languageEnforcementPrompt = `한국어로만 응답하세요. 영어나 다른 언어를 사용하지 마세요.`;
+          languageEnforcementPrompt = enforcementHeader + '중요: 반드시 한국어로만 응답하세요. 영어나 다른 언어를 절대로 사용하지 마세요. 이 규칙은 필수이며 어떤 상황에서도 위반할 수 없습니다.';
           break;
         case 'ja':
-          languageEnforcementPrompt = `日本語のみで応答してください。英語や他の言語は使用しないでください。`;
+          languageEnforcementPrompt = enforcementHeader + '重要: 必ず日本語のみで応答してください。英語や他の言語は絶対に使用しないでください。このルールは必須であり、いかなる状況でも違反できません。';
           break;
         case 'fr':
-          languageEnforcementPrompt = `Répondez uniquement en français. N'utilisez pas l'anglais ou d'autres langues.`;
+          languageEnforcementPrompt = enforcementHeader + 'CRITIQUE: Vous DEVEZ répondre UNIQUEMENT en français. ABSOLUMENT AUCUN anglais, coréen, japonais, chinois ou autre langue. Cette règle est OBLIGATOIRE et ne peut être enfreinte en aucune circonstance.';
           break;
         case 'zh':
-          languageEnforcementPrompt = `只用中文回答。不要使用英语或其他语言。`;
+          languageEnforcementPrompt = enforcementHeader + '重要：你必须只用中文回答。绝对不要使用英语、韩语、日语、法语或其他语言。这个规则是强制性的，在任何情况下都不能违反。';
           break;
       }
       
       if (languageEnforcementPrompt) {
+        // Add THREE enforcement messages for maximum effect
+        enhancedMessages.unshift({
+          role: 'system',
+          content: languageEnforcementPrompt
+        });
+        enhancedMessages.unshift({
+          role: 'system', 
+          content: languageEnforcementPrompt
+        });
         enhancedMessages.unshift({
           role: 'system',
           content: languageEnforcementPrompt
         });
       }
-    } else if (language === 'en') {
-      enhancedMessages.unshift({
-        role: 'system',
-        content: 'Respond in English only. Do not use Korean, Japanese, Chinese, French or any other language.'
-      });
     }
 
     // Ollama API request data preparation
@@ -609,35 +618,44 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
       }
     }
 
-    // Add language enforcement as the first system message for stronger effect
-    if (language && language !== 'en') {
+    // Add TRIPLE language enforcement for maximum compliance
+    if (language) {
       let languageEnforcementPrompt = '';
+      const enforcementHeader = '===== ABSOLUTE LANGUAGE REQUIREMENT =====\n';
+      
       switch (language) {
+        case 'en':
+          languageEnforcementPrompt = enforcementHeader + 'CRITICAL: You MUST respond in English ONLY. ABSOLUTELY NO Korean, Japanese, Chinese, French or other languages. This rule is MANDATORY and cannot be broken under any circumstances.';
+          break;
         case 'ko':
-          languageEnforcementPrompt = `한국어로만 응답하세요. 영어나 다른 언어를 사용하지 마세요.`;
+          languageEnforcementPrompt = enforcementHeader + '중요: 반드시 한국어로만 응답하세요. 영어나 다른 언어를 절대로 사용하지 마세요. 이 규칙은 필수이며 어떤 상황에서도 위반할 수 없습니다.';
           break;
         case 'ja':
-          languageEnforcementPrompt = `日本語のみで応答してください。英語や他の言語は使用しないでください。`;
+          languageEnforcementPrompt = enforcementHeader + '重要: 必ず日本語のみで応答してください。英語や他の言語は絶対に使用しないでください。このルールは必須であり、いかなる状況でも違反できません。';
           break;
         case 'fr':
-          languageEnforcementPrompt = `Répondez uniquement en français. N'utilisez pas l'anglais ou d'autres langues.`;
+          languageEnforcementPrompt = enforcementHeader + 'CRITIQUE: Vous DEVEZ répondre UNIQUEMENT en français. ABSOLUMENT AUCUN anglais, coréen, japonais, chinois ou autre langue. Cette règle est OBLIGATOIRE et ne peut être enfreinte en aucune circonstance.';
           break;
         case 'zh':
-          languageEnforcementPrompt = `只用中文回答。不要使用英语或其他语言。`;
+          languageEnforcementPrompt = enforcementHeader + '重要：你必须只用中文回答。绝对不要使用英语、韩语、日语、法语或其他语言。这个规则是强制性的，在任何情况下都不能违反。';
           break;
       }
       
       if (languageEnforcementPrompt) {
+        // Add THREE enforcement messages for maximum effect
+        enhancedMessages.unshift({
+          role: 'system',
+          content: languageEnforcementPrompt
+        });
+        enhancedMessages.unshift({
+          role: 'system', 
+          content: languageEnforcementPrompt
+        });
         enhancedMessages.unshift({
           role: 'system',
           content: languageEnforcementPrompt
         });
       }
-    } else if (language === 'en') {
-      enhancedMessages.unshift({
-        role: 'system',
-        content: 'Respond in English only. Do not use Korean, Japanese, Chinese, French or any other language.'
-      });
     }
 
     // Ollama API 요청 데이터 준비
