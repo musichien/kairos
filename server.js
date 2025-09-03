@@ -358,7 +358,7 @@ app.post('/api/chat', async (req, res) => {
     }
 
     // 예상 응답 시간 계산
-    const currentMessage = messages[messages.length - 1]?.content || '';
+    const currentMessage = messages && messages.length > 0 ? messages[messages.length - 1]?.content || '' : '';
     const expectedTime = getExpectedResponseTime(model, currentMessage.length);
     
     console.log(`⏱️ Expected Response Time: ${expectedTime.estimatedTime} seconds (${expectedTime.modelSize} model)`);
@@ -366,12 +366,12 @@ app.post('/api/chat', async (req, res) => {
     console.log(`  System Multiplier: ${expectedTime.systemMultiplier}x`);
 
     // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)
-    let enhancedMessages = [...messages];
+    let enhancedMessages = messages && Array.isArray(messages) ? [...messages] : [];
     if (user_id) {
       try {
-        const currentMessage = messages[messages.length - 1]?.content || '';
+        const currentMessage = messages && messages.length > 0 ? messages[messages.length - 1]?.content || '' : '';
         const memoryContext = await memoryManager.generateIntelligentContext(user_id, currentMessage, 3);
-        enhancedMessages = [...memoryContext, ...messages];
+        enhancedMessages = [...memoryContext, ...enhancedMessages];
         console.log(`🧠 사용자 ${user_id}의 지능형 메모리 컨텍스트 추가됨 (${memoryContext.length}개 항목)`);
         
         // 문화적 최적화 컨텍스트 추가
@@ -585,12 +585,12 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
     }
 
     // 지능형 메모리 컨텍스트 추가 (user_id가 제공된 경우)
-    let enhancedMessages = [...messages];
+    let enhancedMessages = messages && Array.isArray(messages) ? [...messages] : [];
     if (user_id) {
       try {
-        const currentMessage = messages[messages.length - 1]?.content || '';
+        const currentMessage = messages && messages.length > 0 ? messages[messages.length - 1]?.content || '' : '';
         const memoryContext = await memoryManager.generateIntelligentContext(user_id, currentMessage, 3);
-        enhancedMessages = [...memoryContext, ...messages];
+        enhancedMessages = [...memoryContext, ...enhancedMessages];
         console.log(`🧠 사용자 ${user_id}의 지능형 메모리 컨텍스트 추가됨 (${memoryContext.length}개 항목)`);
         
         // 문화적 최적화 컨텍스트 추가
@@ -4689,6 +4689,11 @@ app.post('/api/security/backup', async (req, res) => {
     }
 
     const backupPath = path.join(__dirname, 'backups', `${userId}_backup_${Date.now()}.json`);
+    
+    // 백업 디렉토리 생성
+    const backupDir = path.dirname(backupPath);
+    await fs.mkdir(backupDir, { recursive: true });
+    
     await securityManager.createEncryptedBackup(data, backupPath);
     
     res.json({

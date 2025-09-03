@@ -1039,19 +1039,23 @@ class CognitiveTrainingManager {
     const recentCulturalMemory = culturalMemory.slice(-5); // 최근 5개
 
     recentCulturalMemory.forEach((memory, index) => {
+      // content가 없는 경우 기본값 사용
+      const content = memory.content || memory.type || '문화적 기억';
+      const safeContent = content.substring ? content.substring(0, 50) : content;
+      
       const question = {
         id: `cultural_${index}`,
         type: 'cultural_recall',
-        question: `당신의 문화적 기억 중 "${memory.content.substring(0, 50)}..."와 관련된 맥락은 무엇인가요?`,
+        question: `당신의 문화적 기억 중 "${safeContent}..."와 관련된 맥락은 무엇인가요?`,
         options: [
           `신화적 맥락 (${memory.type === 'mythology' ? '✓' : '○'})`,
           `교육적 맥락 (${memory.type === 'education' ? '✓' : '○'})`,
           `과학적 맥락 (${memory.type === 'science' ? '✓' : '○'})`,
           `문학적 맥락 (${memory.type === 'literature' ? '✓' : '○'})`
         ],
-        correctAnswer: memory.type,
-        explanation: `이 기억은 ${memory.type} 맥락에서 형성되었으며, ${memory.significance || '문화적 의미가 있습니다'}.`,
-        culturalContext: memory.context,
+        correctAnswer: memory.type || 'mythology',
+        explanation: `이 기억은 ${memory.type || '문화적'} 맥락에서 형성되었으며, ${memory.significance || '문화적 의미가 있습니다'}.`,
+        culturalContext: memory.context || '일반적',
         difficulty: difficulty
       };
       questions.push(question);
