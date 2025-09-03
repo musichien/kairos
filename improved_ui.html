@@ -1098,7 +1098,26 @@
                 
                 if (response.ok) {
                     const data = await response.json();
-                    const assistantMessage = data.choices?.[0]?.message?.content || '[No content]';
+                    let assistantMessage = data.choices?.[0]?.message?.content || '[No content]';
+                    
+                    // Language compliance check and correction
+                    if (config.language !== 'en' && assistantMessage !== '[No content]') {
+                        // Check if response contains English when other language is selected
+                        const hasEnglish = /[a-zA-Z]{3,}/.test(assistantMessage);
+                        const hasKorean = /[가-힣]/.test(assistantMessage);
+                        const hasJapanese = /[ひらがなカタカナ]/.test(assistantMessage);
+                        const hasChinese = /[一-龯]/.test(assistantMessage);
+                        
+                        if (config.language === 'ko' && hasEnglish && !hasKorean) {
+                            assistantMessage = '죄송합니다. 한국어로만 응답하겠습니다. 다시 질문해 주세요.';
+                        } else if (config.language === 'ja' && hasEnglish && !hasJapanese) {
+                            assistantMessage = '申し訳ございません。日本語のみで回答いたします。もう一度質問してください。';
+                        } else if (config.language === 'zh' && hasEnglish && !hasChinese) {
+                            assistantMessage = '抱歉，我只能用中文回答。请重新提问。';
+                        } else if (config.language === 'fr' && hasEnglish) {
+                            assistantMessage = 'Désolé, je ne peux répondre qu\'en français. Veuillez reposer votre question.';
+                        }
+                    }
                     
                     // Remove typing indicator before adding response
                     typingDiv.remove();
