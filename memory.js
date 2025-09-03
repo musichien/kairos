@@ -4,7 +4,9 @@ const path = require('path');
 class MemoryManager {
   constructor() {
     this.memoryDir = path.join(__dirname, 'memories');
+    this.mnemosyneDataDir = path.join(__dirname, 'mnemosyne_data');
     this.ensureMemoryDir();
+    this.ensureMnemosyneDataDir();
   }
 
   // 메모리 디렉토리 생성
@@ -14,6 +16,16 @@ class MemoryManager {
     } catch (error) {
       await fs.mkdir(this.memoryDir, { recursive: true });
       console.log('📁 메모리 디렉토리 생성됨:', this.memoryDir);
+    }
+  }
+
+  // Mnemosyne 데이터 디렉토리 생성
+  async ensureMnemosyneDataDir() {
+    try {
+      await fs.access(this.mnemosyneDataDir);
+    } catch (error) {
+      await fs.mkdir(this.mnemosyneDataDir, { recursive: true });
+      console.log('🏛️ Mnemosyne 데이터 디렉토리 생성됨:', this.mnemosyneDataDir);
     }
   }
 
@@ -43,6 +55,18 @@ class MemoryManager {
           interests: [], // 관심사 및 취미
           memories: [], // 장기 기억
           contextPatterns: [], // 맥락 패턴
+          // Mnemosyne 확장 구조
+          mnemosyne: {
+            culturalMemory: [], // 문화적 기억
+            temporalContext: [], // 시간적 맥락
+            identityPatterns: [], // 정체성 패턴
+            collectiveMemory: [], // 집단 기억
+            mythologicalReferences: [], // 신화적 참조
+            educationalContext: [], // 교육적 맥락
+            scientificContext: [], // 과학적 맥락
+            literaryContext: [], // 문학적 맥락
+            digitalEraContext: [] // 디지털 시대 맥락
+          },
           createdAt: new Date().toISOString(),
           lastUpdated: new Date().toISOString()
         };
@@ -884,6 +908,396 @@ class MemoryManager {
     } catch (error) {
       return [];
     }
+  }
+
+  // ===== MNEMOSYNE FUNCTIONS =====
+
+  // 문화적 기억 저장
+  async addCulturalMemory(userId, culturalData) {
+    const memory = await this.loadUserMemory(userId);
+    if (!memory.mnemosyne) memory.mnemosyne = {};
+    if (!memory.mnemosyne.culturalMemory) memory.mnemosyne.culturalMemory = [];
+    
+    const culturalMemory = {
+      id: `cultural_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: new Date().toISOString(),
+      type: culturalData.type, // 'mythology', 'education', 'religion', 'science', 'literature', 'digital'
+      content: culturalData.content,
+      context: culturalData.context,
+      culturalElements: culturalData.culturalElements || [],
+      significance: culturalData.significance,
+      temporalContext: culturalData.temporalContext
+    };
+    
+    memory.mnemosyne.culturalMemory.push(culturalMemory);
+    await this.saveUserMemory(userId, memory);
+    return culturalMemory;
+  }
+
+  // 시간적 맥락 저장
+  async addTemporalContext(userId, temporalData) {
+    const memory = await this.loadUserMemory(userId);
+    if (!memory.mnemosyne) memory.mnemosyne = {};
+    if (!memory.mnemosyne.temporalContext) memory.mnemosyne.temporalContext = [];
+    
+    const temporalContext = {
+      id: `temporal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: new Date().toISOString(),
+      era: temporalData.era, // 'ancient', 'medieval', 'renaissance', 'modern', 'digital'
+      period: temporalData.period,
+      culturalShifts: temporalData.culturalShifts || [],
+      memoryEvolution: temporalData.memoryEvolution,
+      technologicalImpact: temporalData.technologicalImpact
+    };
+    
+    memory.mnemosyne.temporalContext.push(temporalContext);
+    await this.saveUserMemory(userId, memory);
+    return temporalContext;
+  }
+
+  // 정체성 패턴 저장
+  async addIdentityPattern(userId, identityData) {
+    const memory = await this.loadUserMemory(userId);
+    if (!memory.mnemosyne) memory.mnemosyne = {};
+    if (!memory.mnemosyne.identityPatterns) memory.mnemosyne.identityPatterns = [];
+    
+    const identityPattern = {
+      id: `identity_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: new Date().toISOString(),
+      pattern: identityData.pattern,
+      culturalInfluence: identityData.culturalInfluence,
+      memoryIntegration: identityData.memoryIntegration,
+      evolution: identityData.evolution
+    };
+    
+    memory.mnemosyne.identityPatterns.push(identityPattern);
+    await this.saveUserMemory(userId, memory);
+    return identityPattern;
+  }
+
+  // 집단 기억 저장
+  async addCollectiveMemory(userId, collectiveData) {
+    const memory = await this.loadUserMemory(userId);
+    if (!memory.mnemosyne) memory.mnemosyne = {};
+    if (!memory.mnemosyne.collectiveMemory) memory.mnemosyne.collectiveMemory = [];
+    
+    const collectiveMemory = {
+      id: `collective_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      timestamp: new Date().toISOString(),
+      community: collectiveData.community,
+      sharedExperience: collectiveData.sharedExperience,
+      culturalNarrative: collectiveData.culturalNarrative,
+      transmissionMethod: collectiveData.transmissionMethod,
+      significance: collectiveData.significance
+    };
+    
+    memory.mnemosyne.collectiveMemory.push(collectiveMemory);
+    await this.saveUserMemory(userId, memory);
+    return collectiveMemory;
+  }
+
+  // Mnemosyne 메모리 통계
+  async getMnemosyneStats(userId) {
+    const memory = await this.loadUserMemory(userId);
+    const mnemosyne = memory.mnemosyne || {};
+    
+    return {
+      userId: userId,
+      culturalMemory: (mnemosyne.culturalMemory || []).length,
+      temporalContext: (mnemosyne.temporalContext || []).length,
+      identityPatterns: (mnemosyne.identityPatterns || []).length,
+      collectiveMemory: (mnemosyne.collectiveMemory || []).length,
+      mythologicalReferences: (mnemosyne.mythologicalReferences || []).length,
+      educationalContext: (mnemosyne.educationalContext || []).length,
+      scientificContext: (mnemosyne.scientificContext || []).length,
+      literaryContext: (mnemosyne.literaryContext || []).length,
+      digitalEraContext: (mnemosyne.digitalEraContext || []).length
+    };
+  }
+
+  // 문화적 기억 검색
+  async searchCulturalMemory(userId, query) {
+    const memory = await this.loadUserMemory(userId);
+    const culturalMemory = memory.mnemosyne?.culturalMemory || [];
+    
+    return culturalMemory.filter(memory => 
+      memory.content.toLowerCase().includes(query.toLowerCase()) ||
+      memory.type.toLowerCase().includes(query.toLowerCase()) ||
+      memory.context.toLowerCase().includes(query.toLowerCase())
+    );
+  }
+
+  // 시간적 맥락 검색
+  async searchTemporalContext(userId, era) {
+    const memory = await this.loadUserMemory(userId);
+    const temporalContext = memory.mnemosyne?.temporalContext || [];
+    
+    return temporalContext.filter(context => 
+      context.era.toLowerCase() === era.toLowerCase() ||
+      context.period.toLowerCase().includes(era.toLowerCase())
+    );
+  }
+
+  // 정체성 패턴 분석
+  async analyzeIdentityPatterns(userId) {
+    const memory = await this.loadUserMemory(userId);
+    const identityPatterns = memory.mnemosyne?.identityPatterns || [];
+    
+    const patternAnalysis = {
+      totalPatterns: identityPatterns.length,
+      culturalInfluences: {},
+      evolutionTrends: [],
+      memoryIntegration: {}
+    };
+    
+    identityPatterns.forEach(pattern => {
+      // 문화적 영향 분석
+      if (pattern.culturalInfluence) {
+        patternAnalysis.culturalInfluences[pattern.culturalInfluence] = 
+          (patternAnalysis.culturalInfluences[pattern.culturalInfluence] || 0) + 1;
+      }
+      
+      // 기억 통합 패턴 분석
+      if (pattern.memoryIntegration) {
+        patternAnalysis.memoryIntegration[pattern.memoryIntegration] = 
+          (patternAnalysis.memoryIntegration[pattern.memoryIntegration] || 0) + 1;
+      }
+    });
+    
+    return patternAnalysis;
+  }
+
+  // ===== MEMORY RETRIEVAL & MANAGEMENT FUNCTIONS =====
+  
+  // 메모리 검색 (get_memory)
+  async getMemory(userId, memoryId, type = 'all') {
+    const memory = await this.loadUserMemory(userId);
+    
+    if (type === 'all') {
+      return memory;
+    }
+    
+    if (type === 'mnemosyne') {
+      return memory.mnemosyne || {};
+    }
+    
+    if (memory.mnemosyne && memory.mnemosyne[type]) {
+      return memory.mnemosyne[type];
+    }
+    
+    return null;
+  }
+
+  // 메모리 쿼리 (query_memory)
+  async queryMemory(userId, query, filters = {}) {
+    const memory = await this.loadUserMemory(userId);
+    const results = [];
+    
+    // 검색 범위 설정
+    const searchTypes = filters.types || ['conversations', 'facts', 'preferences', 'lifeEvents', 'emotionalStates'];
+    const timeRange = filters.timeRange || { start: null, end: null };
+    const keywords = filters.keywords || [];
+    
+    // 각 타입별로 검색
+    searchTypes.forEach(type => {
+      if (memory[type] && Array.isArray(memory[type])) {
+        memory[type].forEach(item => {
+          let match = false;
+          
+          // 키워드 검색
+          if (keywords.length > 0) {
+            const content = JSON.stringify(item).toLowerCase();
+            match = keywords.some(keyword => content.includes(keyword.toLowerCase()));
+          } else {
+            // 일반 텍스트 검색
+            const content = JSON.stringify(item).toLowerCase();
+            match = content.includes(query.toLowerCase());
+          }
+          
+          // 시간 범위 필터
+          if (match && timeRange.start) {
+            const itemTime = new Date(item.timestamp || item.createdAt || item.date);
+            const startTime = new Date(timeRange.start);
+            if (itemTime < startTime) match = false;
+          }
+          
+          if (match && timeRange.end) {
+            const itemTime = new Date(item.timestamp || item.createdAt || item.date);
+            const endTime = new Date(timeRange.end);
+            if (itemTime > endTime) match = false;
+          }
+          
+          if (match) {
+            results.push({
+              type: type,
+              item: item,
+              relevance: this.calculateRelevance(item, query, keywords)
+            });
+          }
+        });
+      }
+    });
+    
+    // 관련성 순으로 정렬
+    results.sort((a, b) => b.relevance - a.relevance);
+    
+    return results;
+  }
+
+  // 관련성 점수 계산
+  calculateRelevance(item, query, keywords) {
+    let score = 0;
+    const content = JSON.stringify(item).toLowerCase();
+    const queryLower = query.toLowerCase();
+    
+    // 정확한 매치
+    if (content.includes(queryLower)) score += 10;
+    
+    // 키워드 매치
+    keywords.forEach(keyword => {
+      if (content.includes(keyword.toLowerCase())) score += 5;
+    });
+    
+    // 최신성 점수
+    if (item.timestamp || item.createdAt) {
+      const age = Date.now() - new Date(item.timestamp || item.createdAt).getTime();
+      const daysOld = age / (1000 * 60 * 60 * 24);
+      if (daysOld < 1) score += 3;
+      else if (daysOld < 7) score += 2;
+      else if (daysOld < 30) score += 1;
+    }
+    
+    return score;
+  }
+
+  // 메모리 업데이트
+  async updateMemory(userId, memoryId, updates, type = 'mnemosyne') {
+    const memory = await this.loadUserMemory(userId);
+    
+    if (type === 'mnemosyne') {
+      // Mnemosyne 메모리 업데이트
+      const mnemosyneTypes = ['culturalMemory', 'temporalContext', 'identityPatterns', 'collectiveMemory'];
+      
+      for (const memType of mnemosyneTypes) {
+        if (memory.mnemosyne && memory.mnemosyne[memType]) {
+          const index = memory.mnemosyne[memType].findIndex(item => item.id === memoryId);
+          if (index !== -1) {
+            memory.mnemosyne[memType][index] = {
+              ...memory.mnemosyne[memType][index],
+              ...updates,
+              lastUpdated: new Date().toISOString()
+            };
+            await this.saveUserMemory(userId, memory);
+            return memory.mnemosyne[memType][index];
+          }
+        }
+      }
+    } else {
+      // 일반 메모리 업데이트
+      if (memory[type] && Array.isArray(memory[type])) {
+        const index = memory[type].findIndex(item => item.id === memoryId);
+        if (index !== -1) {
+          memory[type][index] = {
+            ...memory[type][index],
+            ...updates,
+            lastUpdated: new Date().toISOString()
+          };
+          await this.saveUserMemory(userId, memory);
+          return memory[type][index];
+        }
+      }
+    }
+    
+    throw new Error(`Memory not found: ${memoryId}`);
+  }
+
+  // 메모리 삭제
+  async deleteMemory(userId, memoryId, type = 'mnemosyne') {
+    const memory = await this.loadUserMemory(userId);
+    
+    if (type === 'mnemosyne') {
+      // Mnemosyne 메모리 삭제
+      const mnemosyneTypes = ['culturalMemory', 'temporalContext', 'identityPatterns', 'collectiveMemory'];
+      
+      for (const memType of mnemosyneTypes) {
+        if (memory.mnemosyne && memory.mnemosyne[memType]) {
+          const index = memory.mnemosyne[memType].findIndex(item => item.id === memoryId);
+          if (index !== -1) {
+            const deletedItem = memory.mnemosyne[memType].splice(index, 1)[0];
+            await this.saveUserMemory(userId, memory);
+            return deletedItem;
+          }
+        }
+      }
+    } else {
+      // 일반 메모리 삭제
+      if (memory[type] && Array.isArray(memory[type])) {
+        const index = memory[type].findIndex(item => item.id === memoryId);
+        if (index !== -1) {
+          const deletedItem = memory[type].splice(index, 1)[0];
+          await this.saveUserMemory(userId, memory);
+          return deletedItem;
+        }
+      }
+    }
+    
+    throw new Error(`Memory not found: ${memoryId}`);
+  }
+
+  // 메모리 백업
+  async backupMemory(userId) {
+    const memory = await this.loadUserMemory(userId);
+    const backupPath = path.join(this.memoryDir, `${userId}_backup_${Date.now()}.json`);
+    
+    const backup = {
+      userId: userId,
+      timestamp: new Date().toISOString(),
+      data: memory
+    };
+    
+    await fs.writeFile(backupPath, JSON.stringify(backup, null, 2), 'utf8');
+    return backupPath;
+  }
+
+  // 메모리 복원
+  async restoreMemory(userId, backupPath) {
+    try {
+      const backupData = await fs.readFile(backupPath, 'utf8');
+      const backup = JSON.parse(backupData);
+      
+      if (backup.userId === userId) {
+        await this.saveUserMemory(userId, backup.data);
+        return true;
+      } else {
+        throw new Error('Backup user ID mismatch');
+      }
+    } catch (error) {
+      throw new Error(`Restore failed: ${error.message}`);
+    }
+  }
+
+  // 메모리 통계
+  async getMemoryStats(userId) {
+    const memory = await this.loadUserMemory(userId);
+    
+    const stats = {
+      userId: userId,
+      totalConversations: (memory.conversations || []).length,
+      totalFacts: (memory.facts || []).length,
+      totalPreferences: (memory.preferences || []).length,
+      totalLifeEvents: (memory.lifeEvents || []).length,
+      totalEmotionalStates: (memory.emotionalStates || []).length,
+      totalRelationships: (memory.relationships || []).length,
+      totalGoals: (memory.goals || []).length,
+      totalInterests: (memory.interests || []).length,
+      totalMemories: (memory.memories || []).length,
+      totalContextPatterns: (memory.contextPatterns || []).length,
+      mnemosyne: await this.getMnemosyneStats(userId),
+      lastUpdated: memory.lastUpdated,
+      createdAt: memory.createdAt
+    };
+    
+    return stats;
   }
 }
 

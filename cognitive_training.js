@@ -48,6 +48,14 @@ class CognitiveTrainingManager {
         categories: ["visual", "auditory", "detail", "focus"],
         difficulty: ["easy", "medium", "hard"],
         types: ["spot_difference", "sequence_memory", "detail_recall", "focus_task"]
+      },
+      // Mnemosyne 기반 훈련
+      mnemosyneTraining: {
+        name: "Mnemosyne Cultural Memory Training",
+        description: "Mnemosyne 문화적 기억 훈련 - 문화와 정체성을 통한 기억 강화",
+        categories: ["cultural", "mythological", "temporal", "identity"],
+        difficulty: ["easy", "medium", "hard"],
+        types: ["cultural_recall", "mythological_connection", "temporal_analysis", "identity_exploration"]
       }
     };
   }
@@ -92,6 +100,9 @@ class CognitiveTrainingManager {
           break;
         case 'attentionTraining':
           training.exercise = this.generateAttentionTrainingExercise(memoryData, difficulty);
+          break;
+        case 'mnemosyneTraining':
+          training.exercise = this.generateMnemosyneTrainingExercise(memoryData, difficulty);
           break;
         default:
           throw new Error(`Training type not implemented: ${trainingType}`);
@@ -970,6 +981,204 @@ class CognitiveTrainingManager {
    */
   createFrequencyPatternExercise(memoryData, difficulty) {
     return this.createDefaultPatternExercise();
+  }
+
+  /**
+   * Mnemosyne 문화적 기억 훈련 생성
+   */
+  generateMnemosyneTrainingExercise(memoryData, difficulty = 'medium') {
+    try {
+      const mnemosyneData = memoryData?.mnemosyne || {};
+      const exercise = {
+        type: 'mnemosyne_cultural',
+        title: 'Mnemosyne 문화적 기억 훈련',
+        description: '문화와 정체성을 통한 기억 강화 훈련',
+        difficulty: difficulty,
+        questions: [],
+        culturalContext: {},
+        temporalElements: [],
+        identityConnections: []
+      };
+
+      // 문화적 기억 기반 질문 생성
+      if (mnemosyneData.culturalMemory && mnemosyneData.culturalMemory.length > 0) {
+        const culturalQuestions = this.generateCulturalMemoryQuestions(mnemosyneData.culturalMemory, difficulty);
+        exercise.questions.push(...culturalQuestions);
+      }
+
+      // 시간적 맥락 기반 질문 생성
+      if (mnemosyneData.temporalContext && mnemosyneData.temporalContext.length > 0) {
+        const temporalQuestions = this.generateTemporalContextQuestions(mnemosyneData.temporalContext, difficulty);
+        exercise.questions.push(...temporalQuestions);
+      }
+
+      // 정체성 패턴 기반 질문 생성
+      if (mnemosyneData.identityPatterns && mnemosyneData.identityPatterns.length > 0) {
+        const identityQuestions = this.generateIdentityPatternQuestions(mnemosyneData.identityPatterns, difficulty);
+        exercise.questions.push(...identityQuestions);
+      }
+
+      // 기본 Mnemosyne 질문 추가 (문화적 맥락이 부족한 경우)
+      if (exercise.questions.length === 0) {
+        exercise.questions = this.generateDefaultMnemosyneQuestions(difficulty);
+      }
+
+      exercise.maxScore = exercise.questions.length * 10;
+      return exercise;
+    } catch (error) {
+      console.error('Mnemosyne 훈련 생성 실패:', error);
+      return this.createDefaultMnemosyneExercise(difficulty);
+    }
+  }
+
+  /**
+   * 문화적 기억 기반 질문 생성
+   */
+  generateCulturalMemoryQuestions(culturalMemory, difficulty) {
+    const questions = [];
+    const recentCulturalMemory = culturalMemory.slice(-5); // 최근 5개
+
+    recentCulturalMemory.forEach((memory, index) => {
+      const question = {
+        id: `cultural_${index}`,
+        type: 'cultural_recall',
+        question: `당신의 문화적 기억 중 "${memory.content.substring(0, 50)}..."와 관련된 맥락은 무엇인가요?`,
+        options: [
+          `신화적 맥락 (${memory.type === 'mythology' ? '✓' : '○'})`,
+          `교육적 맥락 (${memory.type === 'education' ? '✓' : '○'})`,
+          `과학적 맥락 (${memory.type === 'science' ? '✓' : '○'})`,
+          `문학적 맥락 (${memory.type === 'literature' ? '✓' : '○'})`
+        ],
+        correctAnswer: memory.type,
+        explanation: `이 기억은 ${memory.type} 맥락에서 형성되었으며, ${memory.significance || '문화적 의미가 있습니다'}.`,
+        culturalContext: memory.context,
+        difficulty: difficulty
+      };
+      questions.push(question);
+    });
+
+    return questions;
+  }
+
+  /**
+   * 시간적 맥락 기반 질문 생성
+   */
+  generateTemporalContextQuestions(temporalContext, difficulty) {
+    const questions = [];
+    const recentTemporalContext = temporalContext.slice(-3); // 최근 3개
+
+    recentTemporalContext.forEach((context, index) => {
+      const question = {
+        id: `temporal_${index}`,
+        type: 'temporal_analysis',
+        question: `${context.era} 시대의 기억 형성 방식은 현대와 어떻게 다른가요?`,
+        options: [
+          '구전 전통과 집단 기억',
+          '문자 기록과 개인 기억',
+          '디지털 저장과 공유 기억',
+          '혼합적 접근 방식'
+        ],
+        correctAnswer: this.getCorrectTemporalAnswer(context.era),
+        explanation: `${context.era} 시대는 ${context.memoryEvolution || '특정한 기억 형성 방식을 가지고 있었습니다'}.`,
+        temporalContext: context.period,
+        difficulty: difficulty
+      };
+      questions.push(question);
+    });
+
+    return questions;
+  }
+
+  /**
+   * 정체성 패턴 기반 질문 생성
+   */
+  generateIdentityPatternQuestions(identityPatterns, difficulty) {
+    const questions = [];
+    const recentPatterns = identityPatterns.slice(-3); // 최근 3개
+
+    recentPatterns.forEach((pattern, index) => {
+      const question = {
+        id: `identity_${index}`,
+        type: 'identity_exploration',
+        question: `당신의 정체성 패턴 "${pattern.pattern}"이 문화적 기억 형성에 어떤 영향을 미치나요?`,
+        options: [
+          '문화적 전통 강화',
+          '새로운 문화 요소 수용',
+          '문화적 혼합과 융합',
+          '문화적 정체성 재정의'
+        ],
+        correctAnswer: pattern.culturalInfluence || '문화적 전통 강화',
+        explanation: `이 패턴은 ${pattern.culturalInfluence || '문화적 영향'}을 나타내며, ${pattern.evolution || '지속적인 발전'}을 보여줍니다.`,
+        identityContext: pattern.pattern,
+        difficulty: difficulty
+      };
+      questions.push(question);
+    });
+
+    return questions;
+  }
+
+  /**
+   * 기본 Mnemosyne 질문 생성
+   */
+  generateDefaultMnemosyneQuestions(difficulty) {
+    const defaultQuestions = [
+      {
+        id: 'mnemosyne_default_1',
+        type: 'mythological_connection',
+        question: 'Mnemosyne는 그리스 신화에서 어떤 역할을 담당했나요?',
+        options: ['전쟁의 여신', '기억의 여신', '지혜의 여신', '사랑의 여신'],
+        correctAnswer: '기억의 여신',
+        explanation: 'Mnemosyne는 그리스 신화에서 기억의 여신으로, 9명의 뮤즈의 어머니입니다.',
+        culturalContext: '그리스 신화',
+        difficulty: difficulty
+      },
+      {
+        id: 'mnemosyne_default_2',
+        type: 'cultural_evolution',
+        question: '기억이 문화와 정체성에 미치는 영향은 시대별로 어떻게 변화했나요?',
+        options: [
+          '구전 전통 → 문자 기록 → 디지털 저장',
+          '개인 기억 → 집단 기억 → 공유 기억',
+          '지역적 기억 → 국가적 기억 → 글로벌 기억',
+          '모든 위의 것들'
+        ],
+        correctAnswer: '모든 위의 것들',
+        explanation: '기억의 형태와 의미는 시대와 함께 진화하며, 문화와 정체성의 핵심 요소로 작용합니다.',
+        culturalContext: '문화사',
+        difficulty: difficulty
+      }
+    ];
+
+    return defaultQuestions;
+  }
+
+  /**
+   * 기본 Mnemosyne 훈련 생성
+   */
+  createDefaultMnemosyneExercise(difficulty) {
+    return {
+      type: 'mnemosyne_cultural',
+      title: 'Mnemosyne 기본 문화적 기억 훈련',
+      description: '문화와 정체성을 통한 기억 강화 훈련',
+      difficulty: difficulty,
+      questions: this.generateDefaultMnemosyneQuestions(difficulty),
+      maxScore: 20
+    };
+  }
+
+  /**
+   * 시간적 맥락에 따른 정답 결정
+   */
+  getCorrectTemporalAnswer(era) {
+    const eraAnswers = {
+      'ancient': '구전 전통과 집단 기억',
+      'medieval': '문자 기록과 개인 기억',
+      'renaissance': '문자 기록과 개인 기억',
+      'modern': '혼합적 접근 방식',
+      'digital': '디지털 저장과 공유 기억'
+    };
+    return eraAnswers[era] || '혼합적 접근 방식';
   }
 
   /**

@@ -9,10 +9,10 @@ const moment = require('moment');
 require('dotenv').config();
 
 const MemoryManager = require('./memory');
-const SecurityManager = require('./security');
 const CognitiveTrainingManager = require('./cognitive_training');
 const MultimodalIntegrationManager = require('./multimodal_integration');
 const CulturalOptimizationManager = require('./cultural_optimization');
+const SecurityManager = require('./security_manager');
 const TelomereHealthManager = require('./telomere_health');
 const CardiovascularWarningManager = require('./cardiovascular_warning');
 const BrainResearchComputingManager = require('./brain_research_computing');
@@ -3377,6 +3377,9 @@ const server = app.listen(PORT, '0.0.0.0', () => {
   // WebSocket server initialization
   multimodalManager.initializeWebSocket(server);
   
+  // Start security cleanup scheduler
+  securityManager.startCleanupScheduler();
+  
   // Brain Research Computing initialization
   brainResearchComputingManager.initializeSampleJobs();
   
@@ -3937,6 +3940,1066 @@ app.delete('/api/brain-modeling/simulation/:simulationId', (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// ===== MNEMOSYNE API ENDPOINTS =====
+
+// Mnemosyne 문화적 기억 저장
+app.post('/api/mnemosyne/cultural-memory', async (req, res) => {
+  try {
+    const { userId, culturalData } = req.body;
+    
+    if (!userId || !culturalData) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and culturalData are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const culturalMemory = await memoryManager.addCulturalMemory(userId, culturalData);
+    
+    res.json({
+      success: true,
+      data: culturalMemory,
+      message: 'Cultural memory saved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Cultural memory save error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 시간적 맥락 저장
+app.post('/api/mnemosyne/temporal-context', async (req, res) => {
+  try {
+    const { userId, temporalData } = req.body;
+    
+    if (!userId || !temporalData) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and temporalData are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const temporalContext = await memoryManager.addTemporalContext(userId, temporalData);
+    
+    res.json({
+      success: true,
+      data: temporalContext,
+      message: 'Temporal context saved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Temporal context save error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 정체성 패턴 저장
+app.post('/api/mnemosyne/identity-pattern', async (req, res) => {
+  try {
+    const { userId, identityData } = req.body;
+    
+    if (!userId || !identityData) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and identityData are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const identityPattern = await memoryManager.addIdentityPattern(userId, identityData);
+    
+    res.json({
+      success: true,
+      data: identityPattern,
+      message: 'Identity pattern saved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Identity pattern save error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 집단 기억 저장
+app.post('/api/mnemosyne/collective-memory', async (req, res) => {
+  try {
+    const { userId, collectiveData } = req.body;
+    
+    if (!userId || !collectiveData) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and collectiveData are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const collectiveMemory = await memoryManager.addCollectiveMemory(userId, collectiveData);
+    
+    res.json({
+      success: true,
+      data: collectiveMemory,
+      message: 'Collective memory saved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Collective memory save error:', error);
+    res.status(500).json({
+      success: false,
+        error: {
+          message: error.message,
+          type: 'internal_error',
+          code: 'server_error'
+        }
+      });
+    }
+  });
+
+// Mnemosyne 통계 조회
+app.get('/api/mnemosyne/stats/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const stats = await memoryManager.getMnemosyneStats(userId);
+    
+    res.json({
+      success: true,
+      data: stats,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Mnemosyne stats error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 문화적 기억 검색
+app.get('/api/mnemosyne/search/cultural/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { query } = req.query;
+    
+    if (!userId || !query) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and query are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const results = await memoryManager.searchCulturalMemory(userId, query);
+    
+    res.json({
+      success: true,
+      data: results,
+      count: results.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Cultural memory search error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 시간적 맥락 검색
+app.get('/api/mnemosyne/search/temporal/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { era } = req.query;
+    
+    if (!userId || !era) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and era are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const results = await memoryManager.searchTemporalContext(userId, era);
+    
+    res.json({
+      success: true,
+      data: results,
+      count: results.length,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Temporal context search error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 정체성 패턴 분석
+app.get('/api/mnemosyne/analyze/identity/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const analysis = await memoryManager.analyzeIdentityPatterns(userId);
+    
+    res.json({
+      success: true,
+      data: analysis,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Identity pattern analysis error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 문화적 해석
+app.post('/api/mnemosyne/interpret', async (req, res) => {
+  try {
+    const { userId, content, language } = req.body;
+    
+    if (!userId || !content || !language) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId, content, and language are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const interpretation = culturalManager.interpretCulturalContext(content, language);
+    
+    res.json({
+      success: true,
+      data: interpretation,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Cultural interpretation error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 문화적 통찰 생성
+app.post('/api/mnemosyne/insights', async (req, res) => {
+  try {
+    const { userId, content, language } = req.body;
+    
+    if (!userId || !content || !language) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId, content, and language are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const insights = culturalManager.generateMnemosyneInsights(userId, content, language);
+    
+    res.json({
+      success: true,
+      data: insights,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Mnemosyne insights error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 인지 훈련 생성
+app.post('/api/mnemosyne/training', async (req, res) => {
+  try {
+    const { userId, difficulty = 'medium' } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const memoryData = await memoryManager.loadUserMemory(userId);
+    const training = cognitiveTrainingManager.generatePersonalizedTraining(
+      userId, 
+      memoryData, 
+      'mnemosyneTraining', 
+      difficulty
+    );
+    
+    res.json({
+      success: true,
+      data: training,
+      message: 'Mnemosyne training generated successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Mnemosyne training error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 다중 모달 데이터 처리
+app.post('/api/mnemosyne/multimodal', async (req, res) => {
+  try {
+    const { userId, dataType, data } = req.body;
+    
+    if (!userId || !dataType || !data) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId, dataType, and data are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    let processedData;
+    
+    switch (dataType) {
+      case 'cultural':
+        processedData = multimodalManager.processCulturalData(userId, data);
+        break;
+      case 'temporal':
+        processedData = multimodalManager.processTemporalData(userId, data);
+        break;
+      case 'identity':
+        processedData = multimodalManager.processIdentityData(userId, data);
+        break;
+      default:
+        return res.status(400).json({
+          success: false,
+          error: {
+            message: 'Invalid dataType. Must be cultural, temporal, or identity',
+            type: 'validation_error',
+            code: 'invalid_data_type'
+          }
+        });
+    }
+    
+    res.json({
+      success: true,
+      data: processedData,
+      message: `${dataType} data processed successfully`,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Mnemosyne multimodal processing error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// Mnemosyne 통합 분석
+app.post('/api/mnemosyne/analysis', async (req, res) => {
+  try {
+    const { userId, dataTypes = ['cultural', 'temporal', 'identity'] } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const analysis = await multimodalManager.generateMnemosyneAnalysis(userId, dataTypes);
+    
+    res.json({
+      success: true,
+      data: analysis,
+      message: 'Mnemosyne analysis generated successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Mnemosyne analysis error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// ===== SECURITY API ENDPOINTS =====
+
+// 보안 토큰 생성
+app.post('/api/security/token', async (req, res) => {
+  try {
+    const { userId, permissions = ['read'] } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const token = securityManager.generateAccessToken(userId, permissions);
+    
+    res.json({
+      success: true,
+      data: { token },
+      message: 'Access token generated successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Token generation error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 보안 토큰 검증
+app.post('/api/security/validate', async (req, res) => {
+  try {
+    const { token, requiredPermissions = [] } = req.body;
+    
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'token is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const validation = securityManager.validateAccessToken(token, requiredPermissions);
+    
+    res.json({
+      success: true,
+      data: validation,
+      message: 'Token validation completed',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Token validation error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 사용자 권한 설정
+app.post('/api/security/permissions', async (req, res) => {
+  try {
+    const { userId, permissions } = req.body;
+    
+    if (!userId || !permissions) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and permissions are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    securityManager.setUserPermissions(userId, permissions);
+    
+    res.json({
+      success: true,
+      data: { userId, permissions },
+      message: 'User permissions updated successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Permission update error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 보안 통계 조회
+app.get('/api/security/stats', async (req, res) => {
+  try {
+    const stats = securityManager.getSecurityStats();
+    
+    res.json({
+      success: true,
+      data: stats,
+      message: 'Security statistics retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Security stats error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 데이터 암호화
+app.post('/api/security/encrypt', async (req, res) => {
+  try {
+    const { data } = req.body;
+    
+    if (!data) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'data is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const encryptedData = securityManager.encryptData(data);
+    
+    res.json({
+      success: true,
+      data: encryptedData,
+      message: 'Data encrypted successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Data encryption error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 데이터 복호화
+app.post('/api/security/decrypt', async (req, res) => {
+  try {
+    const { encryptedData } = req.body;
+    
+    if (!encryptedData) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'encryptedData is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const decryptedData = securityManager.decryptData(encryptedData);
+    
+    res.json({
+      success: true,
+      data: decryptedData,
+      message: 'Data decrypted successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Data decryption error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 암호화된 백업 생성
+app.post('/api/security/backup', async (req, res) => {
+  try {
+    const { userId, data } = req.body;
+    
+    if (!userId || !data) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and data are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const backupPath = path.join(__dirname, 'backups', `${userId}_backup_${Date.now()}.json`);
+    await securityManager.createEncryptedBackup(data, backupPath);
+    
+    res.json({
+      success: true,
+      data: { backupPath },
+      message: 'Encrypted backup created successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Backup creation error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 암호화된 백업 복원
+app.post('/api/security/restore', async (req, res) => {
+  try {
+    const { backupPath } = req.body;
+    
+    if (!backupPath) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'backupPath is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const restoredData = await securityManager.restoreEncryptedBackup(backupPath);
+    
+    res.json({
+      success: true,
+      data: restoredData,
+      message: 'Backup restored successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Backup restoration error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// ===== MEMORY MANAGEMENT API ENDPOINTS =====
+
+// 메모리 검색 (get_memory)
+app.get('/api/memory/:userId/:type', async (req, res) => {
+  try {
+    const { userId, type } = req.params;
+    const { memoryId } = req.query;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const memory = await memoryManager.getMemory(userId, memoryId, type);
+    
+    res.json({
+      success: true,
+      data: memory,
+      message: 'Memory retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory retrieval error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 메모리 쿼리 (query_memory)
+app.post('/api/memory/query/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { query, filters } = req.body;
+    
+    if (!userId || !query) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and query are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const results = await memoryManager.queryMemory(userId, query, filters);
+    
+    res.json({
+      success: true,
+      data: results,
+      message: 'Memory query completed successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory query error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 메모리 업데이트
+app.put('/api/memory/:userId/:type', async (req, res) => {
+  try {
+    const { userId, type } = req.params;
+    const { memoryId, updates } = req.body;
+    
+    if (!userId || !memoryId || !updates) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId, memoryId, and updates are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const updatedMemory = await memoryManager.updateMemory(userId, memoryId, updates, type);
+    
+    res.json({
+      success: true,
+      data: updatedMemory,
+      message: 'Memory updated successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory update error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 메모리 삭제
+app.delete('/api/memory/:userId/:type', async (req, res) => {
+  try {
+    const { userId, type } = req.params;
+    const { memoryId } = req.body;
+    
+    if (!userId || !memoryId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and memoryId are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const deletedMemory = await memoryManager.deleteMemory(userId, memoryId, type);
+    
+    res.json({
+      success: true,
+      data: deletedMemory,
+      message: 'Memory deleted successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory deletion error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 메모리 백업
+app.post('/api/memory/backup/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const backupPath = await memoryManager.backupMemory(userId);
+    
+    res.json({
+      success: true,
+      data: { backupPath },
+      message: 'Memory backup created successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory backup error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 메모리 복원
+app.post('/api/memory/restore/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { backupPath } = req.body;
+    
+    if (!userId || !backupPath) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId and backupPath are required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const restored = await memoryManager.restoreMemory(userId, backupPath);
+    
+    res.json({
+      success: true,
+      data: { restored },
+      message: 'Memory restored successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory restoration error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 메모리 통계
+app.get('/api/memory/stats/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    
+    if (!userId) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'userId is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    const stats = await memoryManager.getMemoryStats(userId);
+    
+    res.json({
+      success: true,
+      data: stats,
+      message: 'Memory statistics retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Memory stats error:', error);
     res.status(500).json({
       success: false,
       error: {

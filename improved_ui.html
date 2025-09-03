@@ -469,7 +469,10 @@
                 <button class="tab-button" onclick="showTab('brain', event)">🧠 Brain Research</button>
                 <button class="tab-button" onclick="showTab('identity', event)">🌟 Embodied Identity</button>
                 <button class="tab-button" onclick="showTab('telomere', event)">🧬 Telomere Health</button>
-            <button class="tab-button" onclick="showTab('advanced', event)">⚙️ Advanced Settings</button>
+                <button class="tab-button" onclick="showTab('mnemosyne', event)">🏛️ Mnemosyne</button>
+                <button class="tab-button" onclick="showTab('security', event)">🔐 Security</button>
+                <button class="tab-button" onclick="showTab('memory-management', event)">🧠 Memory Management</button>
+                <button class="tab-button" onclick="showTab('advanced', event)">⚙️ Advanced Settings</button>
             </div>
 
             <!-- Overview Tab -->
@@ -867,6 +870,140 @@
                     <div id="advancedResults" style="margin-top: 20px;"></div>
                 </div>
             </div>
+
+            <!-- Mnemosyne Tab -->
+            <div id="mnemosyne" class="tab-content">
+                <div class="card">
+                    <h3>🏛️ Mnemosyne - Cultural Memory System</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Explore the evolution of memory from mythology to digital era, integrating cultural context and identity patterns.
+                    </p>
+                    
+                    <div class="grid">
+                        <div class="form-group">
+                            <h4>🧠 Cultural Memory Training</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Engage in memory-based learning that connects cultural elements, mythological references, and temporal contexts.
+                            </p>
+                            <button class="btn btn-primary" onclick="generateMnemosyneTraining()">Generate Training</button>
+                            <button class="btn btn-secondary" onclick="startMnemosyneSession()">Start Session</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🌍 Cultural Context Analysis</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Analyze content for cultural significance, mythological references, and educational contexts.
+                            </p>
+                            <button class="btn btn-primary" onclick="analyzeCulturalContext()">Analyze Content</button>
+                            <button class="btn btn-secondary" onclick="generateCulturalInsights()">Generate Insights</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>⏰ Temporal Context Exploration</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Explore how memory and culture evolve across different historical eras and technological periods.
+                            </p>
+                            <button class="btn btn-primary" onclick="exploreTemporalContext()">Explore Eras</button>
+                            <button class="btn btn-secondary" onclick="analyzeMemoryEvolution()">Memory Evolution</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>🆔 Identity Pattern Analysis</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Analyze how cultural influences shape identity patterns and memory integration.
+                            </p>
+                            <button class="btn btn-primary" onclick="analyzeIdentityPatterns()">Analyze Patterns</button>
+                            <button class="btn btn-secondary" onclick="exploreIdentityDynamics()">Identity Dynamics</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>👥 Collective Memory Generation</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                Generate and explore collective memories that connect individual experiences with community narratives.
+                            </p>
+                            <button class="btn btn-primary" onclick="generateCollectiveMemory()">Generate Memory</button>
+                            <button class="btn btn-secondary" onclick="exploreCommunityNarratives()">Community Stories</button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <h4>📊 Mnemosyne Statistics</h4>
+                            <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 10px;">
+                                View comprehensive statistics and analytics about your cultural memory system usage.
+                            </p>
+                            <button class="btn btn-primary" onclick="getMnemosyneStats()">View Stats</button>
+                            <button class="btn btn-secondary" onclick="exportMnemosyneData()">Export Data</button>
+                        </div>
+                    </div>
+                    
+                    <div id="mnemosyneResults" style="margin-top: 20px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Security Tab -->
+    <div id="security" class="tab-content">
+        <div class="card">
+            <h3>🔐 Security & Access Control</h3>
+            <p>Manage data encryption, access tokens, and user permissions</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>🔑 Access Token Management</h4>
+                    <button class="btn btn-primary" onclick="generateAccessToken()">Generate Token</button>
+                    <button class="btn btn-secondary" onclick="validateAccessToken()">Validate Token</button>
+                    <button class="btn btn-info" onclick="setUserPermissions()">Set Permissions</button>
+                </div>
+                
+                <div class="card">
+                    <h4>🔒 Data Security</h4>
+                    <button class="btn btn-primary" onclick="encryptData()">Encrypt Data</button>
+                    <button class="btn btn-secondary" onclick="decryptData()">Decrypt Data</button>
+                    <button class="btn btn-warning" onclick="createEncryptedBackup()">Create Backup</button>
+                    <button class="btn btn-info" onclick="restoreEncryptedBackup()">Restore Backup</button>
+                </div>
+                
+                <div class="card">
+                    <h4>📊 Security Statistics</h4>
+                    <button class="btn btn-primary" onclick="getSecurityStats()">View Stats</button>
+                </div>
+            </div>
+            
+            <div id="securityResults" style="margin-top: 20px;"></div>
+        </div>
+    </div>
+
+    <!-- Memory Management Tab -->
+    <div id="memory-management" class="tab-content">
+        <div class="card">
+            <h3>🧠 Advanced Memory Management</h3>
+            <p>Advanced memory operations: search, update, backup, and restore</p>
+            
+            <div class="grid">
+                <div class="card">
+                    <h4>🔍 Memory Search</h4>
+                    <div class="form-group">
+                        <input type="text" id="memoryQuery" placeholder="Enter search query..." class="form-input">
+                        <button class="btn btn-primary" onclick="searchMemory()">Search</button>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h4>📝 Memory Operations</h4>
+                    <button class="btn btn-primary" onclick="getMemory()">Get Memory</button>
+                    <button class="btn btn-secondary" onclick="updateMemory()">Update Memory</button>
+                    <button class="btn btn-warning" onclick="deleteMemory()">Delete Memory</button>
+                </div>
+                
+                <div class="card">
+                    <h4>💾 Backup & Restore</h4>
+                    <button class="btn btn-primary" onclick="backupMemory()">Backup Memory</button>
+                    <button class="btn btn-secondary" onclick="restoreMemory()">Restore Memory</button>
+                    <button class="btn btn-info" onclick="getMemoryStats()">Memory Stats</button>
+                </div>
+            </div>
+            
+            <div id="memoryResults" style="margin-top: 20px;"></div>
         </div>
     </div>
 
@@ -5121,6 +5258,910 @@
             }
 
             resultsDiv.innerHTML = html;
+        }
+
+        // ===== MNEMOSYNE FUNCTIONS =====
+
+        // Mnemosyne 문화적 기억 훈련 생성
+        async function generateMnemosyneTraining() {
+            try {
+                const resultsDiv = document.getElementById('mnemosyneResults');
+                resultsDiv.innerHTML = '<div class="loading">🧠 Generating Mnemosyne training...</div>';
+                
+                const response = await fetch(`${config.apiUrl}/api/mnemosyne/training`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        difficulty: 'medium'
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMnemosyneResults('training', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Mnemosyne training error:', error);
+                document.getElementById('mnemosyneResults').innerHTML = `
+                    <div class="error">❌ Failed to generate Mnemosyne training: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Mnemosyne 문화적 맥락 분석
+        async function analyzeCulturalContext() {
+            try {
+                const content = prompt('Enter content to analyze for cultural context:');
+                if (!content) return;
+                
+                const resultsDiv = document.getElementById('mnemosyneResults');
+                resultsDiv.innerHTML = '<div class="loading">🌍 Analyzing cultural context...</div>';
+                
+                const response = await fetch(`${config.apiUrl}/api/mnemosyne/interpret`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        content: content,
+                        language: config.language
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMnemosyneResults('interpretation', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Cultural context analysis error:', error);
+                document.getElementById('mnemosyneResults').innerHTML = `
+                    <div class="error">❌ Failed to analyze cultural context: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Mnemosyne 시간적 맥락 탐색
+        async function exploreTemporalContext() {
+            try {
+                const era = prompt('Enter era to explore (ancient, medieval, renaissance, modern, digital):');
+                if (!era) return;
+                
+                const resultsDiv = document.getElementById('mnemosyneResults');
+                resultsDiv.innerHTML = '<div class="loading">⏰ Exploring temporal context...</div>';
+                
+                const response = await fetch(`${config.apiUrl}/api/mnemosyne/search/temporal/${config.userId}?era=${era}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMnemosyneResults('temporal', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Temporal context exploration error:', error);
+                document.getElementById('mnemosyneResults').innerHTML = `
+                    <div class="error">❌ Failed to explore temporal context: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Mnemosyne 정체성 패턴 분석
+        async function analyzeIdentityPatterns() {
+            try {
+                const resultsDiv = document.getElementById('mnemosyneResults');
+                resultsDiv.innerHTML = '<div class="loading">🆔 Analyzing identity patterns...</div>';
+                
+                const response = await fetch(`${config.apiUrl}/api/mnemosyne/analyze/identity/${config.userId}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMnemosyneResults('identity', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Identity pattern analysis error:', error);
+                document.getElementById('mnemosyneResults').innerHTML = `
+                    <div class="error">❌ Failed to analyze identity patterns: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Mnemosyne 집단 기억 생성
+        async function generateCollectiveMemory() {
+            try {
+                const collectiveData = {
+                    community: prompt('Enter community name:') || 'General',
+                    sharedExperience: prompt('Describe the shared experience:') || 'Cultural learning',
+                    culturalNarrative: prompt('Enter cultural narrative:') || 'Memory preservation',
+                    transmissionMethod: 'digital',
+                    significance: 'high'
+                };
+                
+                const resultsDiv = document.getElementById('mnemosyneResults');
+                resultsDiv.innerHTML = '<div class="loading">👥 Generating collective memory...</div>';
+                
+                const response = await fetch(`${config.apiUrl}/api/mnemosyne/collective-memory`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        collectiveData: collectiveData
+                    })
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMnemosyneResults('collective', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Collective memory generation error:', error);
+                document.getElementById('mnemosyneResults').innerHTML = `
+                    <div class="error">❌ Failed to generate collective memory: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Mnemosyne 통계 조회
+        async function getMnemosyneStats() {
+            try {
+                const resultsDiv = document.getElementById('mnemosyneResults');
+                resultsDiv.innerHTML = '<div class="loading">📊 Loading Mnemosyne statistics...</div>';
+                
+                const response = await fetch(`${config.apiUrl}/api/mnemosyne/stats/${config.userId}`);
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    displayMnemosyneResults('stats', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Mnemosyne stats error:', error);
+                document.getElementById('mnemosyneResults').innerHTML = `
+                    <div class="error">❌ Failed to load Mnemosyne statistics: ${error.message}</div>
+                `;
+            }
+        }
+
+        // Mnemosyne 결과 표시
+        function displayMnemosyneResults(type, data) {
+            const resultsDiv = document.getElementById('mnemosyneResults');
+            let html = '';
+            
+            switch (type) {
+                case 'training':
+                    html = `
+                        <div class="success">
+                            <h4>🧠 Mnemosyne Training Generated</h4>
+                            <p><strong>Title:</strong> ${data.data.title}</p>
+                            <p><strong>Description:</strong> ${data.data.description}</p>
+                            <p><strong>Difficulty:</strong> ${data.data.difficulty}</p>
+                            <p><strong>Questions:</strong> ${data.data.questions.length}</p>
+                            <p><strong>Max Score:</strong> ${data.data.maxScore}</p>
+                            <button onclick="startMnemosyneSession()" class="btn btn-primary">Start Training Session</button>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'interpretation':
+                    html = `
+                        <div class="success">
+                            <h4>🌍 Cultural Context Analysis</h4>
+                            <p><strong>Cultural Significance:</strong> ${data.data.culturalSignificance}</p>
+                            <p><strong>Mythological References:</strong> ${data.data.mythologicalReferences.length}</p>
+                            <p><strong>Educational Context:</strong> ${data.data.educationalContext.type}</p>
+                            <p><strong>Scientific Context:</strong> ${data.data.scientificContext.methodology}</p>
+                            <p><strong>Literary Context:</strong> ${data.data.literaryContext.genre}</p>
+                            <p><strong>Digital Era Context:</strong> ${data.data.digitalEraContext.technology}</p>
+                            <h5>Recommendations:</h5>
+                            <ul>${data.data.recommendations.map(rec => `<li>${rec.content}</li>`).join('')}</ul>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'temporal':
+                    html = `
+                        <div class="success">
+                            <h4>⏰ Temporal Context Results</h4>
+                            <p><strong>Found:</strong> ${data.count} temporal contexts</p>
+                            ${data.data.map(context => `
+                                <div style="margin: 10px 0; padding: 10px; border: 1px solid #ddd; border-radius: 5px;">
+                                    <p><strong>Era:</strong> ${context.era}</p>
+                                    <p><strong>Period:</strong> ${context.period}</p>
+                                    <p><strong>Memory Evolution:</strong> ${context.memoryEvolution}</p>
+                                    <p><strong>Cultural Shifts:</strong> ${context.culturalShifts.join(', ')}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                    break;
+                    
+                case 'identity':
+                    html = `
+                        <div class="success">
+                            <h4>🆔 Identity Pattern Analysis</h4>
+                            <p><strong>Total Patterns:</strong> ${data.data.totalPatterns}</p>
+                            <h5>Cultural Influences:</h5>
+                            <ul>${Object.entries(data.data.culturalInfluences).map(([key, value]) => `<li>${key}: ${value}</li>`).join('')}</ul>
+                            <h5>Memory Integration:</h5>
+                            <ul>${Object.entries(data.data.memoryIntegration).map(([key, value]) => `<li>${key}: ${value}</li>`).join('')}</ul>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'collective':
+                    html = `
+                        <div class="success">
+                            <h4>👥 Collective Memory Generated</h4>
+                            <p><strong>Community:</strong> ${data.data.community}</p>
+                            <p><strong>Shared Experience:</strong> ${data.data.sharedExperience}</p>
+                            <p><strong>Cultural Narrative:</strong> ${data.data.culturalNarrative}</p>
+                            <p><strong>Transmission Method:</strong> ${data.data.transmissionMethod}</p>
+                            <p><strong>Significance:</strong> ${data.data.significance}</p>
+                            <p><strong>Timestamp:</strong> ${new Date(data.data.timestamp).toLocaleString()}</p>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'stats':
+                    html = `
+                        <div class="success">
+                            <h4>📊 Mnemosyne Statistics</h4>
+                            <p><strong>Cultural Memory:</strong> ${data.data.culturalMemory}</p>
+                            <p><strong>Temporal Context:</strong> ${data.data.temporalContext}</p>
+                            <p><strong>Identity Patterns:</strong> ${data.data.identityPatterns}</p>
+                            <p><strong>Collective Memory:</strong> ${data.data.collectiveMemory}</p>
+                            <p><strong>Mythological References:</strong> ${data.data.mythologicalReferences}</p>
+                            <p><strong>Educational Context:</strong> ${data.data.educationalContext}</p>
+                            <p><strong>Scientific Context:</strong> ${data.data.scientificContext}</p>
+                            <p><strong>Literary Context:</strong> ${data.data.literaryContext}</p>
+                            <p><strong>Digital Era Context:</strong> ${data.data.digitalEraContext}</p>
+                        </div>
+                    `;
+                    break;
+                    
+                default:
+                    html = `
+                        <div class="info">
+                            <h4>📋 Mnemosyne Results</h4>
+                            <pre style="background:white;padding:12px;border-radius:6px;overflow-x:auto;font-size:12px;">${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+            }
+            
+            resultsDiv.innerHTML = html;
+        }
+
+        // Mnemosyne 세션 시작
+        function startMnemosyneSession() {
+            addMessage('system', '🏛️ Mnemosyne Cultural Memory Training Session Started!');
+            addMessage('system', 'This session will explore cultural memory, mythological references, and temporal contexts.');
+            addMessage('system', 'Ask questions about culture, mythology, or memory to engage with the system.');
+        }
+
+        // ===== SECURITY FUNCTIONS =====
+
+        // 보안 토큰 생성
+        async function generateAccessToken() {
+            try {
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">🔑 Generating access token...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/token`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        permissions: ['read', 'write']
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displaySecurityResults('token', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Token generation error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to generate token: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 보안 토큰 검증
+        async function validateAccessToken() {
+            try {
+                const token = prompt('Enter token to validate:');
+                if (!token) return;
+
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">🔍 Validating token...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/validate`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ token, requiredPermissions: ['read'] })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displaySecurityResults('validation', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Token validation error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to validate token: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 사용자 권한 설정
+        async function setUserPermissions() {
+            try {
+                const permissions = prompt('Enter permissions (comma-separated):', 'read,write');
+                if (!permissions) return;
+
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">⚙️ Setting user permissions...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/permissions`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        permissions: permissions.split(',').map(p => p.trim())
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    displaySecurityResults('permissions', data);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Permission update error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to update permissions: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 데이터 암호화
+        async function encryptData() {
+            try {
+                const data = prompt('Enter data to encrypt:');
+                if (!data) return;
+
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">🔒 Encrypting data...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/encrypt`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displaySecurityResults('encryption', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Data encryption error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to encrypt data: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 데이터 복호화
+        async function decryptData() {
+            try {
+                const encryptedData = prompt('Enter encrypted data (JSON):');
+                if (!encryptedData) return;
+
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">🔓 Decrypting data...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/decrypt`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ encryptedData: JSON.parse(encryptedData) })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displaySecurityResults('decryption', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Data decryption error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to decrypt data: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 암호화된 백업 생성
+        async function createEncryptedBackup() {
+            try {
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">💾 Creating encrypted backup...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/backup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        userId: config.userId,
+                        data: { test: 'backup data', timestamp: new Date().toISOString() }
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displaySecurityResults('backup', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Backup creation error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to create backup: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 암호화된 백업 복원
+        async function restoreEncryptedBackup() {
+            try {
+                const backupPath = prompt('Enter backup file path:');
+                if (!backupPath) return;
+
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">🔄 Restoring from backup...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/restore`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ backupPath })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displaySecurityResults('restore', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Backup restoration error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to restore backup: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 보안 통계 조회
+        async function getSecurityStats() {
+            try {
+                const resultsDiv = document.getElementById('securityResults');
+                resultsDiv.innerHTML = '<div class="loading">📊 Loading security statistics...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/security/stats`);
+                if (response.ok) {
+                    const result = await response.json();
+                    displaySecurityResults('stats', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Security stats error:', error);
+                document.getElementById('securityResults').innerHTML = `
+                    <div class="error">❌ Failed to load security statistics: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 보안 결과 표시
+        function displaySecurityResults(type, data) {
+            const resultsDiv = document.getElementById('securityResults');
+            
+            switch (type) {
+                case 'token':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔑 Access Token Generated</h4>
+                            <p><strong>Token:</strong> ${data.data.token}</p>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                        </div>
+                    `;
+                    break;
+                case 'validation':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔍 Token Validation Result</h4>
+                            <p><strong>Valid:</strong> ${data.data.valid ? 'Yes' : 'No'}</p>
+                            <p><strong>Reason:</strong> ${data.data.reason || 'N/A'}</p>
+                            <p><strong>User ID:</strong> ${data.data.userId || 'N/A'}</p>
+                            <p><strong>Permissions:</strong> ${data.data.permissions ? data.data.permissions.join(', ') : 'N/A'}</p>
+                        </div>
+                    `;
+                    break;
+                case 'permissions':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>⚙️ User Permissions Updated</h4>
+                            <p><strong>User ID:</strong> ${data.data.userId}</p>
+                            <p><strong>Permissions:</strong> ${data.data.permissions.join(', ')}</p>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                        </div>
+                    `;
+                    break;
+                case 'encryption':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔒 Data Encrypted</h4>
+                            <p><strong>Algorithm:</strong> ${data.data.algorithm}</p>
+                            <p><strong>Encrypted:</strong> ${data.data.encrypted.substring(0, 50)}...</p>
+                            <p><strong>IV:</strong> ${data.data.iv}</p>
+                            <p><strong>Tag:</strong> ${data.data.tag}</p>
+                        </div>
+                    `;
+                    break;
+                case 'decryption':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔓 Data Decrypted</h4>
+                            <p><strong>Decrypted Data:</strong> ${JSON.stringify(data.data)}</p>
+                        </div>
+                    `;
+                    break;
+                case 'backup':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>💾 Encrypted Backup Created</h4>
+                            <p><strong>Backup Path:</strong> ${data.data.backupPath}</p>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                        </div>
+                    `;
+                    break;
+                case 'restore':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔄 Backup Restored</h4>
+                            <p><strong>Restored Data:</strong> ${JSON.stringify(data.data)}</p>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                        </div>
+                    `;
+                    break;
+                case 'stats':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>📊 Security Statistics</h4>
+                            <p><strong>Active Tokens:</strong> ${data.data.activeTokens}</p>
+                            <p><strong>Registered Users:</strong> ${data.data.registeredUsers}</p>
+                            <p><strong>Total Security Events:</strong> ${data.data.totalSecurityEvents}</p>
+                            <p><strong>Last Security Event:</strong> ${data.data.lastSecurityEvent || 'N/A'}</p>
+                        </div>
+                    `;
+                    break;
+                default:
+                    resultsDiv.innerHTML = `
+                        <div class="info">
+                            <h4>📋 Security Results</h4>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+            }
+        }
+
+        // ===== MEMORY MANAGEMENT FUNCTIONS =====
+
+        // 메모리 검색
+        async function searchMemory() {
+            try {
+                const query = document.getElementById('memoryQuery').value;
+                if (!query) {
+                    alert('Please enter a search query');
+                    return;
+                }
+
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">🔍 Searching memory...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/query/${config.userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        query: query,
+                        filters: {
+                            types: ['conversations', 'facts', 'preferences'],
+                            timeRange: { start: null, end: null },
+                            keywords: []
+                        }
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('search', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory search error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to search memory: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 메모리 가져오기
+        async function getMemory() {
+            try {
+                const type = prompt('Enter memory type (all, mnemosyne, conversations, etc.):', 'all');
+                if (!type) return;
+
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">📖 Retrieving memory...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/${type}`);
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('retrieve', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory retrieval error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to retrieve memory: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 메모리 업데이트
+        async function updateMemory() {
+            try {
+                const type = prompt('Enter memory type:', 'mnemosyne');
+                const memoryId = prompt('Enter memory ID:');
+                const updates = prompt('Enter updates (JSON):', '{}');
+                
+                if (!type || !memoryId || !updates) return;
+
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">✏️ Updating memory...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/${type}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        memoryId: memoryId,
+                        updates: JSON.parse(updates)
+                    })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('update', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory update error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to update memory: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 메모리 삭제
+        async function deleteMemory() {
+            try {
+                const type = prompt('Enter memoryId:');
+                if (!type || !memoryId) return;
+
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">🗑️ Deleting memory...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/${config.userId}/${type}`, {
+                    method: 'DELETE',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ memoryId: memoryId })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('delete', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory deletion error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to delete memory: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 메모리 백업
+        async function backupMemory() {
+            try {
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">💾 Creating memory backup...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/backup/${config.userId}`, {
+                    method: 'POST'
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('backup', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory backup error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to create memory backup: ${error.message}</div>
+                `;
+                }
+            }
+
+        // 메모리 복원
+        async function restoreMemory() {
+            try {
+                const backupPath = prompt('Enter backup file path:');
+                if (!backupPath) return;
+
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">🔄 Restoring memory from backup...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/restore/${config.userId}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ backupPath: backupPath })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('restore', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory restoration error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to restore memory: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 메모리 통계
+        async function getMemoryStats() {
+            try {
+                const resultsDiv = document.getElementById('memoryResults');
+                resultsDiv.innerHTML = '<div class="loading">📊 Loading memory statistics...</div>';
+
+                const response = await fetch(`${config.apiUrl}/api/memory/stats/${config.userId}`);
+                if (response.ok) {
+                    const result = await response.json();
+                    displayMemoryResults('stats', result);
+                } else {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+            } catch (error) {
+                console.error('Memory stats error:', error);
+                document.getElementById('memoryResults').innerHTML = `
+                    <div class="error">❌ Failed to load memory statistics: ${error.message}</div>
+                `;
+            }
+        }
+
+        // 메모리 결과 표시
+        function displayMemoryResults(type, data) {
+            const resultsDiv = document.getElementById('memoryResults');
+            
+            switch (type) {
+                case 'search':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔍 Memory Search Results</h4>
+                            <p><strong>Query:</strong> ${data.data.query || 'N/A'}</p>
+                            <p><strong>Results Found:</strong> ${data.data.length}</p>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'retrieve':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>📖 Memory Retrieved</h4>
+                            <div style="max-height: 400px; overflow-y: auto;">
+                                <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'update':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>✏️ Memory Updated</h4>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'delete':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🗑️ Memory Deleted</h4>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                            <div style="max-height: 300px; overflow-y: auto;">
+                                <pre>${JSON.stringify(data.data, null, 2)}</pre>
+                            </div>
+                        </div>
+                    `;
+                    break;
+                case 'backup':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>💾 Memory Backup Created</h4>
+                            <p><strong>Backup Path:</strong> ${data.data.backupPath}</p>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                        </div>
+                    `;
+                    break;
+                case 'restore':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>🔄 Memory Restored</h4>
+                            <p><strong>Message:</strong> ${data.message}</p>
+                            <p><strong>Restored:</strong> ${data.data.restored}</p>
+                        </div>
+                    `;
+                    break;
+                case 'stats':
+                    resultsDiv.innerHTML = `
+                        <div class="success">
+                            <h4>📊 Memory Statistics</h4>
+                            <p><strong>Total Conversations:</strong> ${data.data.totalConversations}</p>
+                            <p><strong>Total Facts:</strong> ${data.data.totalFacts}</p>
+                            <p><strong>Total Preferences:</strong> ${data.data.totalPreferences}</p>
+                            <p><strong>Total Life Events:</strong> ${data.data.totalLifeEvents}</p>
+                            <p><strong>Total Emotional States:</strong> ${data.data.totalEmotionalStates}</p>
+                            <p><strong>Mnemosyne Cultural Memory:</strong> ${data.data.mnemosyne.culturalMemory}</p>
+                            <p><strong>Mnemosyne Temporal Context:</strong> ${data.data.mnemosyne.temporalContext}</p>
+                            <p><strong>Mnemosyne Identity Patterns:</strong> ${data.data.mnemosyne.identityPatterns}</p>
+                            <p><strong>Mnemosyne Collective Memory:</strong> ${data.data.mnemosyne.collectiveMemory}</p>
+                        </div>
+                    `;
+                    break;
+                default:
+                    resultsDiv.innerHTML = `
+                        <div class="info">
+                            <h4>📋 Memory Results</h4>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+            }
         }
 
         // Initialize the application
