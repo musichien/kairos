@@ -13,6 +13,7 @@ const CognitiveTrainingManager = require('./cognitive_training');
 const MultimodalIntegrationManager = require('./multimodal_integration');
 const CulturalOptimizationManager = require('./cultural_optimization');
 const SecurityManager = require('./security_manager');
+const TestManager = require('./test_manager');
 const TelomereHealthManager = require('./telomere_health');
 const CardiovascularWarningManager = require('./cardiovascular_warning');
 const BrainResearchComputingManager = require('./brain_research_computing');
@@ -31,6 +32,7 @@ const MultiScaleBrainModeling = require('./multi_scale_brain_modeling');
 const app = express();
 const memoryManager = new MemoryManager();
 const securityManager = new SecurityManager();
+const testManager = new TestManager();
 const cognitiveTrainingManager = new CognitiveTrainingManager();
 const multimodalManager = new MultimodalIntegrationManager();
 const culturalManager = new CulturalOptimizationManager();
@@ -4734,6 +4736,119 @@ app.post('/api/security/restore', async (req, res) => {
     });
   } catch (error) {
     console.error('Backup restoration error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// ===== TESTING API ENDPOINTS =====
+
+// 전체 테스트 실행
+app.post('/api/test/run-all', async (req, res) => {
+  try {
+    const { userId = 'test_user_001' } = req.body;
+    
+    console.log('🧪 Starting comprehensive Mnemosyne integration tests...');
+    
+    await testManager.runAllTests(userId);
+    
+    res.json({
+      success: true,
+      message: 'All tests completed successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Test execution error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 특정 테스트 실행
+app.post('/api/test/run-specific', async (req, res) => {
+  try {
+    const { testType, userId = 'test_user_001' } = req.body;
+    
+    if (!testType) {
+      return res.status(400).json({
+        success: false,
+        error: {
+          message: 'testType is required',
+          type: 'validation_error',
+          code: 'missing_parameters'
+        }
+      });
+    }
+
+    console.log(`🧪 Running specific test: ${testType}`);
+    
+    await testManager.runSpecificTest(testType, userId);
+    
+    res.json({
+      success: true,
+      message: `Test ${testType} completed successfully`,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Specific test execution error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 테스트 결과 조회
+app.get('/api/test/results', async (req, res) => {
+  try {
+    const results = testManager.testResults;
+    
+    res.json({
+      success: true,
+      data: results,
+      message: 'Test results retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Test results retrieval error:', error);
+    res.status(500).json({
+      success: false,
+      error: {
+        message: error.message,
+        type: 'internal_error',
+        code: 'server_error'
+      }
+    });
+  }
+});
+
+// 테스트 결과 내보내기
+app.get('/api/test/export', async (req, res) => {
+  try {
+    const exportData = testManager.exportTestResults();
+    
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Content-Disposition', `attachment; filename="mnemosyne_test_results_${Date.now()}.json"`);
+    
+    res.json(JSON.parse(exportData));
+  } catch (error) {
+    console.error('Test export error:', error);
     res.status(500).json({
       success: false,
       error: {
