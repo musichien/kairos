@@ -84,7 +84,9 @@ class TestManager {
 
     // Cognitive Training Manager 테스트
     try {
-      const training = await this.cognitiveTrainingManager.generatePersonalizedTraining(userId, 'mnemosyneTraining');
+      // 먼저 사용자의 메모리 데이터를 가져옴
+      const memoryData = await this.memoryManager.getMemory(userId, 'all');
+      const training = await this.cognitiveTrainingManager.generatePersonalizedTraining(userId, memoryData, 'mnemosyneTraining');
       this.testResults.push({
         test: 'Cognitive Training Manager - Mnemosyne Training',
         status: 'PASSED',
