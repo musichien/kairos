@@ -5476,11 +5476,11 @@
                     html = `
                         <div class="success">
                             <h4>🧠 Mnemosyne Training Generated</h4>
-                            <p><strong>Title:</strong> ${data.data.title}</p>
-                            <p><strong>Description:</strong> ${data.data.description}</p>
-                            <p><strong>Difficulty:</strong> ${data.data.difficulty}</p>
-                            <p><strong>Questions:</strong> ${data.data.questions.length}</p>
-                            <p><strong>Max Score:</strong> ${data.data.maxScore}</p>
+                            <p><strong>Title:</strong> ${data.data?.title || 'N/A'}</p>
+                            <p><strong>Description:</strong> ${data.data?.description || 'N/A'}</p>
+                            <p><strong>Difficulty:</strong> ${data.data?.difficulty || 'N/A'}</p>
+                            <p><strong>Questions:</strong> ${data.data?.questions?.length || 0}</p>
+                            <p><strong>Max Score:</strong> ${data.data?.maxScore || 0}</p>
                             <button onclick="startMnemosyneSession()" class="btn btn-primary">Start Training Session</button>
                         </div>
                     `;
@@ -5490,14 +5490,14 @@
                     html = `
                         <div class="success">
                             <h4>🌍 Cultural Context Analysis</h4>
-                            <p><strong>Cultural Significance:</strong> ${data.data.culturalSignificance}</p>
-                            <p><strong>Mythological References:</strong> ${data.data.mythologicalReferences.length}</p>
-                            <p><strong>Educational Context:</strong> ${data.data.educationalContext.type}</p>
-                            <p><strong>Scientific Context:</strong> ${data.data.scientificContext.methodology}</p>
-                            <p><strong>Literary Context:</strong> ${data.data.literaryContext.genre}</p>
-                            <p><strong>Digital Era Context:</strong> ${data.data.digitalEraContext.technology}</p>
+                            <p><strong>Cultural Significance:</strong> ${data.data?.culturalSignificance || 'N/A'}</p>
+                            <p><strong>Mythological References:</strong> ${data.data?.mythologicalReferences?.length || 0}</p>
+                            <p><strong>Educational Context:</strong> ${data.data?.educationalContext?.type || 'N/A'}</p>
+                            <p><strong>Scientific Context:</strong> ${data.data?.scientificContext?.methodology || 'N/A'}</p>
+                            <p><strong>Literary Context:</strong> ${data.data?.literaryContext?.genre || 'N/A'}</p>
+                            <p><strong>Digital Era Context:</strong> ${data.data?.digitalEraContext?.technology || 'N/A'}</p>
                             <h5>Recommendations:</h5>
-                            <ul>${data.data.recommendations.map(rec => `<li>${rec.content}</li>`).join('')}</ul>
+                            <ul>${(data.data?.recommendations || []).map(rec => `<li>${rec?.content || 'N/A'}</li>`).join('')}</ul>
                         </div>
                     `;
                     break;

@@ -324,6 +324,42 @@ class SecurityManager {
     
     console.log('🔐 Security cleanup scheduler started');
   }
+
+  // 감사 이벤트 로깅
+  async logAuditEvent(eventType, userId, details = {}) {
+    try {
+      const auditLog = {
+        timestamp: new Date().toISOString(),
+        eventType: eventType,
+        userId: userId,
+        details: details,
+        ip: details.ip || 'unknown'
+      };
+      
+      // 감사 로그를 파일에 저장
+      const auditDir = path.join(__dirname, 'audit_logs');
+      await fs.mkdir(auditDir, { recursive: true });
+      
+      const auditFile = path.join(auditDir, `audit_${new Date().toISOString().split('T')[0]}.json`);
+      
+      let logs = [];
+      try {
+        const existingData = await fs.readFile(auditFile, 'utf8');
+        logs = JSON.parse(existingData);
+      } catch (error) {
+        // 파일이 없거나 읽을 수 없는 경우 빈 배열로 시작
+      }
+      
+      logs.push(auditLog);
+      await fs.writeFile(auditFile, JSON.stringify(logs, null, 2));
+      
+      console.log(`🔒 Audit Event: ${eventType} - User: ${userId}`);
+      return true;
+    } catch (error) {
+      console.error('Audit logging failed:', error);
+      return false;
+    }
+  }
 }
 
 module.exports = SecurityManager;

@@ -837,25 +837,7 @@ class MemoryManager {
     }
   }
 
-  // 메모리 통계
-  async getMemoryStats(userId) {
-    const memory = await this.loadUserMemory(userId);
-    return {
-      userId: userId,
-      totalConversations: (memory.conversations || []).length,
-      totalFacts: (memory.facts || []).length,
-      totalPreferences: (memory.preferences || []).length,
-      totalLifeEvents: (memory.lifeEvents || []).length,
-      totalEmotionalStates: (memory.emotionalStates || []).length,
-      totalRelationships: (memory.relationships || []).length,
-      totalGoals: (memory.goals || []).length,
-      totalInterests: (memory.interests || []).length,
-      totalMemories: (memory.memories || []).length,
-      totalContextPatterns: (memory.contextPatterns || []).length,
-      createdAt: memory.createdAt,
-      lastUpdated: memory.lastUpdated
-    };
-  }
+
 
   // 감정 상태 통계
   async getEmotionalStats(userId) {
