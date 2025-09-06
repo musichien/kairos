@@ -1,4 +1,4 @@
-# 🌟 Kairos AI - 건강한 노화를 위한 AI 동반자
+# 🌟 Kairos AI - AI Companion for Healthy Aging
 
 **AI for Healthy and Clear-Minded Aging with Advanced Memory, Security, and Cultural Intelligence**
 
@@ -158,8 +158,8 @@ npm start
 ```
 
 ### **3. Access the Platform**
-- **User-Friendly UI**: `http://localhost:3000` (기본)
-- **Advanced UI**: `http://localhost:3000/advanced` (전문가용)
+- **User-Friendly UI**: `http://localhost:3000` (Default)
+- **Advanced UI**: `http://localhost:3000/advanced` (For experts)
 - **API Documentation**: Available at `/api` endpoints
 
 ### **4. First Steps**
@@ -183,7 +183,7 @@ npm start
 *Comprehensive overview of all Kairos features and system status*
 
 ### **AI Chat Interface**
-![AI Chat](img/AI%20Chat.jpg)
+![AI Chat](img/AI%20Chat%20Interface.jpg)
 *Intelligent conversation with memory and context awareness*
 
 ### **Brain Research Computing**
@@ -191,11 +191,11 @@ npm start
 *Citizen-powered distributed computing for brain disease research*
 
 ### **3D Brain Visualization**
-![3D Brain](img/3D%20Brain%20Visualization.jpg)
+![3D Brain](img/3dbrain.jpg)
 *Anatomically accurate 3D brain exploration with interactive controls*
 
 ### **Health Monitoring Dashboard**
-![Health Dashboard](img/Health%20Monitoring%20Dashboard.jpg)
+![Health Dashboard](img/overview.jpg)
 *Comprehensive health tracking with biomarker analysis*
 
 ## 🔧 **Technical Architecture**
