@@ -171,12 +171,12 @@ npm start
 ## 📱 **Screenshots & UI Gallery**
 
 ### **🆕 New User-Friendly Interface**
-![User-Friendly UI](img/user_friendly_ui.jpg)
-*새로운 사용자 친화적 인터페이스 - 복잡한 설정 없이 바로 시작*
+![User-Friendly UI](img/overview.jpg)
+*New user-friendly interface - Start immediately without complex setup*
 
 ### **🧠 Memory Display Feature**
 ![Memory Display](img/memory2.jpg)
-*AI 응답에 사용된 기억을 실시간으로 표시하는 다국어 지원 기능*
+*Real-time display of memories used in AI responses with multilingual support*
 
 ### **Main Dashboard**
 ![Main Dashboard](img/Main%20Dashboard.jpg)
@@ -378,7 +378,7 @@ npm start
 ---
 
 **🔗 Quick Links**
-- **[📖 사용법 가이드](USER_GUIDE.md)** - 새로운 사용자 친화적 UI 사용법
-- **[🏛️ Mnemosyne 가이드](MNEMOSYNE_GUIDE.md)** - 고급 메모리 시스템
-- **[🔐 보안 가이드](SECURITY_GUIDE.md)** - 보안 및 개인정보 보호
-- **[🔧 고급 UI](/advanced)** - 전문가를 위한 고급 인터페이스
+- **[📖 User Guide](USER_GUIDE.md)** - New user-friendly UI usage guide
+- **[🏛️ Mnemosyne Guide](MNEMOSYNE_GUIDE.md)** - Advanced memory system
+- **[🔐 Security Guide](SECURITY_GUIDE.md)** - Security and privacy protection
+- **[🔧 Advanced UI](/advanced)** - Advanced interface for experts
