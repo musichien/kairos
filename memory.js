@@ -1,5 +1,6 @@
 const fs = require('fs').promises;
 const path = require('path');
+const vectorDB = require('./vectorDB');
 
 class MemoryManager {
   constructor() {
@@ -48,12 +49,20 @@ class MemoryManager {
           conversations: [],
           facts: [],
           preferences: [],
+          // 고도화된 메모리 스키마
+          memories: [], // 확장된 메모리 배열
+          embeddings: new Map(), // Vector embeddings 저장
+          memoryStats: {
+            totalMemories: 0,
+            lastCondensation: null,
+            averageSalience: 0,
+            averageEmotion: 0
+          },
           lifeEvents: [], // 인생 사건 타임라인
           emotionalStates: [], // 감정 상태 추적
           relationships: [], // 관계 정보
           goals: [], // 목표 및 계획
           interests: [], // 관심사 및 취미
-          memories: [], // 장기 기억
           contextPatterns: [], // 맥락 패턴
           // Mnemosyne 확장 구조
           mnemosyne: {
@@ -618,24 +627,113 @@ class MemoryManager {
     return interestEntry;
   }
 
-  // 장기 기억 추가
+  // 고도화된 장기 기억 추가
   async addLongTermMemory(userId, memory, category = 'general', importance = 'medium') {
     const userMemory = await this.loadUserMemory(userId);
     
+    // memories 배열이 없으면 초기화
+    if (!userMemory.memories) {
+      userMemory.memories = [];
+    }
+    
+    // memoryStats가 없으면 초기화
+    if (!userMemory.memoryStats) {
+      userMemory.memoryStats = {
+        totalMemories: 0,
+        lastCondensation: null,
+        averageSalience: 0,
+        averageEmotion: 0
+      };
+    }
+    
     const longTermMemory = {
       id: `ltm_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      userId: userId,
+      type: 'longterm',
       content: memory,
+      embedding: null, // 나중에 생성
       category: category,
       importance: importance,
       timestamp: new Date().toISOString(),
       lastAccessed: new Date().toISOString(),
       accessCount: 1,
-      emotionalImpact: 'neutral'
+      emotionalImpact: 'neutral',
+      salienceScore: this.calculateImportanceScore(importance),
+      emotionScore: 0.0,
+      source: 'user_input',
+      consentFlags: { 
+        canUseInContext: true, 
+        canSummarize: true, 
+        canDelete: true 
+      },
+      tags: [category],
+      relationships: []
     };
 
     userMemory.memories.push(longTermMemory);
+    userMemory.memoryStats.totalMemories = userMemory.memories.length;
+    
     await this.saveUserMemory(userId, userMemory);
+    
+    // Vector DB에 저장 (임베딩 생성 후)
+    try {
+      const embedding = await this.generateEmbedding(memory);
+      if (embedding) {
+        longTermMemory.embedding = embedding;
+        await vectorDB.storeVector(longTermMemory.id, embedding, {
+          userId: userId,
+          type: 'longterm',
+          category: category,
+          importance: importance
+        });
+        
+        // 메모리 업데이트
+        await this.saveUserMemory(userId, userMemory);
+      }
+    } catch (error) {
+      console.warn('Vector DB 저장 실패:', error.message);
+    }
+    
+    console.log(`🧠 고도화된 장기 기억 추가됨: ${longTermMemory.id}`);
     return longTermMemory;
+  }
+
+  /**
+   * 중요도 점수 계산
+   */
+  calculateImportanceScore(importance) {
+    const scores = {
+      'low': 0.3,
+      'medium': 0.6,
+      'high': 0.9,
+      'critical': 1.0
+    };
+    return scores[importance] || 0.5;
+  }
+
+  /**
+   * 임베딩 생성 (간단한 해시 기반 임베딩)
+   * 실제로는 OpenAI Embeddings API나 다른 임베딩 서비스 사용
+   */
+  async generateEmbedding(text) {
+    try {
+      // 간단한 해시 기반 임베딩 생성 (실제로는 전문 임베딩 서비스 사용)
+      const crypto = require('crypto');
+      const hash = crypto.createHash('sha256').update(text).digest('hex');
+      
+      // 해시를 384차원 벡터로 변환
+      const embedding = [];
+      for (let i = 0; i < 384; i += 2) {
+        const hexPair = hash.substr(i % hash.length, 2);
+        const value = parseInt(hexPair, 16) / 255.0 - 0.5; // -0.5 ~ 0.5 범위
+        embedding.push(value);
+      }
+      
+      return embedding;
+    } catch (error) {
+      console.error('임베딩 생성 오류:', error);
+      return null;
+    }
   }
 
   // 지능형 컨텍스트 생성 (AI에게 전달할 기억)

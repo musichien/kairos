@@ -1053,6 +1053,21 @@
             language: 'en' // Default language
         };
 
+        // 언어별 관련도 텍스트 함수
+        function getRelevanceText() {
+            const relevanceTexts = {
+                'ko': '관련도',
+                'en': 'Relevance',
+                'ja': '関連度',
+                'zh': '相关度',
+                'fr': 'Pertinence',
+                'de': 'Relevanz',
+                'es': 'Relevancia',
+                'ru': 'Релевантность'
+            };
+            return relevanceTexts[config.language] || relevanceTexts['en'];
+        }
+
         // Global variables
         let memoryData = null;
         let currentTraining = null;
@@ -1217,7 +1232,50 @@
             document.getElementById('chatMessages').appendChild(typingDiv);
             
             try {
-                // Build memory-aware system context from loaded memoryData
+                // 🧠 고도화된 메모리 기반 대화 시스템 사용
+                let contextResult = null;
+                let usedMemories = null;
+                
+                try {
+                    // Context Builder를 사용하여 메모리 기반 컨텍스트 생성
+                    const contextResponse = await fetch(`${config.apiUrl}/api/context/build`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${config.secretKey || 'default-secret-key'}`
+                        },
+                        body: JSON.stringify({
+                            userId: config.userId,
+                            query: message,
+                            queryEmbedding: null, // 실제로는 임베딩 생성 필요
+                            options: {
+                                weights: {
+                                    alpha: 0.6,    // semantic similarity
+                                    beta: 0.2,     // time decay
+                                    gamma: 0.15,   // salience
+                                    delta: 0.05    // emotion
+                                }
+                            }
+                        })
+                    });
+                    
+                    if (contextResponse.ok) {
+                        contextResult = await contextResponse.json();
+                        console.log('🧠 컨텍스트 빌드 성공:', contextResult.data.debug);
+                        
+                        // 사용된 메모리 정보 추출
+                        if (contextResult.data.debug.condensedMemories) {
+                            usedMemories = contextResult.data.debug.condensedMemories.condensed || [];
+                            console.log('🧠 사용된 메모리 추출됨:', usedMemories);
+                        }
+                    } else {
+                        console.warn('⚠️ 컨텍스트 빌드 실패, 기본 모드로 전환');
+                    }
+                } catch (contextError) {
+                    console.warn('⚠️ 컨텍스트 빌드 오류:', contextError.message);
+                }
+                
+                // 기본 시스템 컨텍스트 (컨텍스트 빌드 실패 시 사용)
                 const messages = getSystemMessage(config.language);
                 let systemContext = messages.systemContext;
                 
@@ -1235,17 +1293,23 @@
                     systemContext += languageEnforcement + '强制要求：你必须只用中文回答。绝对不要使用英语或其他语言。这是不可违反的严格要求。';
                 }
                 
-                if (!memoryData) {
-                    try { await loadUserMemory(); } catch (_) {}
-                }
-                if (memoryData) {
-                    const recentFacts = (memoryData.facts || []).slice(0, 3).map(f => `- ${f.content || f.fact}`).join('\n');
-                    const recentPrefs = (memoryData.preferences || []).slice(0, 3).map(p => `- ${p.preference}: ${p.value}`).join('\n');
-                    const parts = [];
-                    if (recentFacts) parts.push(`${messages.facts}\n${recentFacts}`);
-                    if (recentPrefs) parts.push(`${messages.preferences}\n${recentPrefs}`);
-                    if (parts.length) {
-                        systemContext += `\n\n${messages.memorySummary}\n${parts.join('\n\n')}`;
+                // 컨텍스트 빌드 결과가 있으면 사용, 없으면 기본 메모리 사용
+                if (contextResult && contextResult.data.prompt) {
+                    systemContext = contextResult.data.prompt.fullPrompt;
+                } else {
+                    // 기본 메모리 로드
+                    if (!memoryData) {
+                        try { await loadUserMemory(); } catch (_) {}
+                    }
+                    if (memoryData) {
+                        const recentFacts = (memoryData.facts || []).slice(0, 3).map(f => `- ${f.content || f.fact}`).join('\n');
+                        const recentPrefs = (memoryData.preferences || []).slice(0, 3).map(p => `- ${p.preference}: ${p.value}`).join('\n');
+                        const parts = [];
+                        if (recentFacts) parts.push(`${messages.facts}\n${recentFacts}`);
+                        if (recentPrefs) parts.push(`${messages.preferences}\n${recentPrefs}`);
+                        if (parts.length) {
+                            systemContext += `\n\n${messages.memorySummary}\n${parts.join('\n\n')}`;
+                        }
                     }
                 }
                 
@@ -1260,13 +1324,12 @@
                             { role: 'user', content: message }
                         ],
                         user_id: config.userId,
-                        model: config.model || 'gpt-oss:20b', // 기본 모델을 gpt-oss:20b로 변경
-                        max_tokens: 2000, // 토큰 수 증가
+                        model: config.model || 'gpt-oss:20b',
+                        max_tokens: 2000,
                         temperature: 0.7,
-                        language: config.language || 'en' // 언어 설정 추가
+                        language: config.language || 'en'
                     }),
-                    // 연결 안정성 향상
-                    signal: AbortSignal.timeout(600000) // 10분 타임아웃
+                    signal: AbortSignal.timeout(600000)
                 });
                 
                 if (response.ok) {
@@ -1275,7 +1338,6 @@
                     
                     // Language compliance check and correction
                     if (config.language !== 'en' && assistantMessage !== '[No content]') {
-                        // Check if response contains English when other language is selected
                         const hasEnglish = /[a-zA-Z]{3,}/.test(assistantMessage);
                         const hasKorean = /[가-힣]/.test(assistantMessage);
                         const hasJapanese = /[ひらがなカタカナ]/.test(assistantMessage);
@@ -1294,7 +1356,10 @@
                     
                     // Remove typing indicator before adding response
                     typingDiv.remove();
-                    addMessage('assistant', assistantMessage);
+                    
+                    // 사용된 기억과 함께 메시지 표시
+                    console.log('📤 메시지 표시 전:', { usedMemories, messageLength: assistantMessage.length });
+                    addMessage('assistant', assistantMessage, usedMemories);
                 } else {
                     const errorText = await response.text();
                     
@@ -1324,11 +1389,106 @@
             }
         }
 
-        function addMessage(type, text) {
+        function addMessage(type, text, usedMemories = null) {
             const messagesContainer = document.getElementById('chatMessages');
             const messageDiv = document.createElement('div');
             messageDiv.className = `message ${type}`;
-            messageDiv.textContent = text;
+            
+            // 메시지 텍스트
+            const textDiv = document.createElement('div');
+            textDiv.textContent = text;
+            messageDiv.appendChild(textDiv);
+            
+            // 사용된 기억 표시 (AI 응답인 경우)
+            console.log('🔍 addMessage 호출됨:', { type, text: text.substring(0, 50), usedMemories });
+            console.log('🔍 조건 확인:', { 
+                type: type,
+                isAI: type === 'ai', 
+                isAssistant: type === 'assistant',
+                hasMemories: !!usedMemories, 
+                memoryLength: usedMemories?.length || 0,
+                condition: (type === 'ai' || type === 'assistant') && usedMemories && usedMemories.length > 0
+            });
+            if ((type === 'ai' || type === 'assistant') && usedMemories && usedMemories.length > 0) {
+                console.log('✅ 메모리 표시 시작:', usedMemories);
+                const memoryDiv = document.createElement('div');
+                memoryDiv.className = 'used-memories';
+                memoryDiv.style.cssText = `
+                    margin-top: 8px;
+                    padding: 8px;
+                    background: #f0f8ff;
+                    border-left: 3px solid #4a90e2;
+                    border-radius: 4px;
+                    font-size: 0.85em;
+                    color: #666;
+                `;
+                
+                const memoryHeader = document.createElement('div');
+                memoryHeader.style.cssText = 'font-weight: bold; margin-bottom: 4px; color: #4a90e2;';
+                
+                // 언어별 메모리 제목 설정
+                const memoryTitles = {
+                    'ko': '🧠 이 답변에 사용된 기억:',
+                    'en': '🧠 Memories used in this response:',
+                    'ja': '🧠 この回答で使用された記憶:',
+                    'zh': '🧠 此回答中使用的记忆:',
+                    'fr': '🧠 Mémoires utilisées dans cette réponse:',
+                    'de': '🧠 In dieser Antwort verwendete Erinnerungen:',
+                    'es': '🧠 Memorias utilizadas en esta respuesta:',
+                    'ru': '🧠 Воспоминания, использованные в этом ответе:'
+                };
+                memoryHeader.textContent = memoryTitles[config.language] || memoryTitles['en'];
+                memoryDiv.appendChild(memoryHeader);
+                
+                usedMemories.forEach(memory => {
+                    const memoryItem = document.createElement('div');
+                    memoryItem.style.cssText = 'margin: 2px 0; padding: 2px 0;';
+                    memoryItem.innerHTML = `
+                        <span style="color: #888;">•</span> 
+                        <span style="font-weight: 500;">${memory.type}</span>: 
+                        ${memory.content.length > 100 ? memory.content.substring(0, 100) + '...' : memory.content}
+                        <span style="color: #999; font-size: 0.8em;">(${getRelevanceText()}: ${(memory.score * 100).toFixed(1)}%)</span>
+                    `;
+                    memoryDiv.appendChild(memoryItem);
+                });
+                
+                // 토글 버튼
+                const toggleBtn = document.createElement('button');
+                const toggleTexts = {
+                    'ko': { show: '기억 보기', hide: '기억 숨기기' },
+                    'en': { show: 'Show Memories', hide: 'Hide Memories' },
+                    'ja': { show: '記憶を表示', hide: '記憶を非表示' },
+                    'zh': { show: '显示记忆', hide: '隐藏记忆' },
+                    'fr': { show: 'Afficher Mémoires', hide: 'Masquer Mémoires' },
+                    'de': { show: 'Erinnerungen anzeigen', hide: 'Erinnerungen verbergen' },
+                    'es': { show: 'Mostrar Memorias', hide: 'Ocultar Memorias' },
+                    'ru': { show: 'Показать воспоминания', hide: 'Скрыть воспоминания' }
+                };
+                const currentToggleTexts = toggleTexts[config.language] || toggleTexts['en'];
+                toggleBtn.textContent = currentToggleTexts.hide;
+                toggleBtn.style.cssText = `
+                    margin-top: 4px;
+                    padding: 2px 8px;
+                    font-size: 0.75em;
+                    background: #4a90e2;
+                    color: white;
+                    border: none;
+                    border-radius: 3px;
+                    cursor: pointer;
+                `;
+                
+                let isVisible = true;
+                toggleBtn.onclick = () => {
+                    isVisible = !isVisible;
+                    memoryDiv.style.display = isVisible ? 'block' : 'none';
+                    toggleBtn.textContent = isVisible ? currentToggleTexts.hide : currentToggleTexts.show;
+                };
+                
+                messageDiv.appendChild(memoryDiv);
+                console.log('✅ 메모리 표시 완료:', memoryDiv);
+                messageDiv.appendChild(toggleBtn);
+            }
+            
             messagesContainer.appendChild(messageDiv);
             messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
