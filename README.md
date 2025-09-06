@@ -22,6 +22,7 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Life Event Connection**: Connects life events chronologically to provide contextual understanding
 - **Emotional State Tracking**: Tracks changes in users' emotional states and analyzes patterns
 - **Behavioral Pattern Recognition**: Analyzes daily behavioral patterns to provide personalized experiences
+- **Memory Display**: Shows which memories were used in AI responses with relevance scores and multilingual support
 
 ### 2. 🔒 **Privacy-Centric On-Device Processing**
 **Lightweight AI model that safely processes personal information locally**
@@ -173,6 +174,10 @@ npm start
 ![User-Friendly UI](img/user_friendly_ui.jpg)
 *새로운 사용자 친화적 인터페이스 - 복잡한 설정 없이 바로 시작*
 
+### **🧠 Memory Display Feature**
+![Memory Display](img/memory2.jpg)
+*AI 응답에 사용된 기억을 실시간으로 표시하는 다국어 지원 기능*
+
 ### **Main Dashboard**
 ![Main Dashboard](img/Main%20Dashboard.jpg)
 *Comprehensive overview of all Kairos features and system status*
@@ -240,6 +245,8 @@ npm start
 ### **Core AI Services**
 - `POST /api/chat` - AI conversation with memory
 - `POST /api/memory` - Memory management operations
+- `POST /api/context/build` - Build memory-aware context for responses
+- `GET /api/context/stats/:userId` - Memory usage statistics
 - `GET /api/health` - System health and status
 
 ### **Mnemosyne Features**
@@ -366,7 +373,7 @@ npm start
 
 **🌟 With solid science and strong ethics, we help everyone remember their best self.**
 
-*Kairos Project - AI for Healthy and Clear-Minded Aging*
+*Kairos Project - AI for Healthy and Clear-Minded Aging* 
 
 ---
 
