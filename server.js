@@ -30,6 +30,12 @@ const PerformanceOptimizer = require('./performance_optimizer');
 // 🧬 Multi-Scale Brain Modeling 모듈 추가
 const MultiScaleBrainModeling = require('./multi_scale_brain_modeling');
 
+// 🏥 Medical Standards Integration Modules
+const MedicalStandardsManager = require('./medical_standards');
+const FHIRClient = require('./fhir_client');
+const HL7Processor = require('./hl7_processor');
+const MedicalDataSchema = require('./medical_data_schema');
+
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -52,6 +58,12 @@ const performanceOptimizer = new PerformanceOptimizer();
 
 // 🧬 Multi-Scale Brain Modeling 인스턴스 생성
 const multiScaleBrainModeling = new MultiScaleBrainModeling();
+
+// 🏥 Medical Standards Integration 인스턴스 생성
+const medicalStandardsManager = new MedicalStandardsManager();
+const fhirClient = new FHIRClient();
+const hl7Processor = new HL7Processor();
+const medicalDataSchema = new MedicalDataSchema();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
@@ -3695,6 +3707,224 @@ app.get('/api/optimization/recommendations', (req, res) => {
         type: 'internal_error',
         code: 'server_error'
       }
+    });
+  }
+});
+
+// ===== 🏥 Medical Standards Integration API Endpoints =====
+
+// FHIR Operations
+app.post('/api/medical/fhir/create/:resourceType', authenticateToken, async (req, res) => {
+  try {
+    const { resourceType } = req.params;
+    const resourceData = req.body;
+    const { patientId } = req.query;
+
+    const result = await medicalStandardsManager.createFhirResource(resourceType, resourceData, patientId);
+    
+    if (result.success) {
+      res.json({ 
+        success: true, 
+        data: result.resource, 
+        message: `FHIR ${resourceType} resource created successfully`,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(400).json({ 
+        success: false, 
+        error: result.error,
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('FHIR create error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.get('/api/medical/fhir/read/:resourceType/:resourceId', authenticateToken, async (req, res) => {
+  try {
+    const { resourceType, resourceId } = req.params;
+    const result = await medicalStandardsManager.getFhirResource(resourceType, resourceId);
+    
+    if (result.success) {
+      res.json({ 
+        success: true, 
+        data: result, 
+        message: `FHIR ${resourceType} resource retrieved successfully`,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(404).json({ 
+        success: false, 
+        error: result.error,
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('FHIR read error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.get('/api/medical/fhir/search/:resourceType', authenticateToken, async (req, res) => {
+  try {
+    const { resourceType } = req.params;
+    const searchParams = req.query;
+    
+    const result = await medicalStandardsManager.searchFhirResources(resourceType, searchParams);
+    
+    if (result.success) {
+      res.json({ 
+        success: true, 
+        data: result, 
+        message: `FHIR search completed for ${resourceType}`,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(400).json({ 
+        success: false, 
+        error: result.error,
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('FHIR search error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// HL7 Operations
+app.post('/api/medical/hl7/process', authenticateToken, async (req, res) => {
+  try {
+    const { message, messageType = 'ADT' } = req.body;
+    
+    if (!message) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'HL7 message is required',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const result = await medicalStandardsManager.processHl7Message(message, messageType);
+    
+    if (result.success) {
+      res.json({ 
+        success: true, 
+        data: result.result, 
+        message: `HL7 ${messageType} message processed successfully`,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(400).json({ 
+        success: false, 
+        error: result.error,
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('HL7 processing error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// EMR Integration
+app.post('/api/medical/emr/integrate', authenticateToken, async (req, res) => {
+  try {
+    const { emrType, patientData } = req.body;
+    
+    if (!emrType || !patientData) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'EMR type and patient data are required',
+        timestamp: new Date().toISOString()
+      });
+    }
+
+    const result = await medicalStandardsManager.integrateWithEMR(emrType, patientData);
+    
+    if (result.success) {
+      res.json({ 
+        success: true, 
+        data: result, 
+        message: `EMR integration with ${emrType} completed successfully`,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(400).json({ 
+        success: false, 
+        error: result.error,
+        timestamp: new Date().toISOString()
+      });
+    }
+  } catch (error) {
+    console.error('EMR integration error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Medical Data Validation
+app.post('/api/medical/validate/:schemaType', authenticateToken, async (req, res) => {
+  try {
+    const { schemaType } = req.params;
+    const data = req.body;
+    
+    const validation = medicalDataSchema.validate(data, schemaType);
+    
+    res.json({ 
+      success: true, 
+      data: validation, 
+      message: `Medical data validation completed for ${schemaType}`,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Medical data validation error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Medical Standards Statistics
+app.get('/api/medical/stats', authenticateToken, async (req, res) => {
+  try {
+    const stats = medicalStandardsManager.getStats();
+    
+    res.json({ 
+      success: true, 
+      data: stats, 
+      message: 'Medical standards statistics retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Medical stats error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
     });
   }
 });

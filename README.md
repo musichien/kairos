@@ -137,6 +137,44 @@ curl -X POST "http://localhost:3000/api/security/token" \
 
 **[🔐 Complete Security Guide](SECURITY_GUIDE.md)** - Comprehensive security implementation and best practices
 
+## 🏥 **NEW: Medical Standards Integration System**
+
+**Comprehensive healthcare data interoperability with FHIR R4, HL7, and EMR integration**
+
+### 🌟 Overview
+The Kairos Medical Standards Integration System provides seamless healthcare data interoperability, supporting industry-standard protocols including FHIR R4, HL7 v2/v3, and major EMR systems. Built with HIPAA compliance and enterprise-grade security, our medical integration ensures secure and standardized healthcare data exchange.
+
+### 🎯 Core Medical Features
+- **FHIR R4 Integration**: Complete resource management with CRUD operations and terminology services
+- **HL7 Message Processing**: ADT, ORU, ORM, MDM, SIU, DFT message types with automatic parsing
+- **EMR Integration**: Epic, Cerner, Allscripts, and generic EMR systems with real-time sync
+- **HIPAA Compliance**: Comprehensive audit logging, encryption, and access controls
+- **Data Validation**: Medical data schema validation and verification systems
+- **Terminology Services**: ValueSet expansion and code validation for medical standards
+
+### 🚀 Quick Start
+```bash
+# Create FHIR Patient
+curl -X POST "http://localhost:3000/api/medical/fhir/create/Patient" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{"name": [{"family": "Smith", "given": ["John"]}], "gender": "male", "birthDate": "1990-05-15"}'
+
+# Process HL7 Message
+curl -X POST "http://localhost:3000/api/medical/hl7/process" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{"message": "MSH|^~\\&|SENDING_APP|...", "messageType": "ADT"}'
+
+# EMR Integration
+curl -X POST "http://localhost:3000/api/medical/emr/integrate" \
+  -H "Authorization: Bearer your-secret-key-here" \
+  -H "Content-Type: application/json" \
+  -d '{"emrType": "Epic", "patientData": {"patientId": "12345", "name": "John Smith"}}'
+```
+
+**[🏥 Complete Medical Standards Guide](MEDICAL_STANDARDS_GUIDE.md)** - Comprehensive medical integration and healthcare data management
+
 ## 🚀 **Quick Start Guide**
 
 ### **1. Prerequisites**
@@ -258,6 +296,15 @@ npm start
 - `POST /api/security/token` - Access token generation
 - `POST /api/security/encrypt` - Data encryption
 - `POST /api/security/backup` - Secure data backup
+
+### **Medical Standards Integration**
+- `POST /api/medical/fhir/create/:resourceType` - Create FHIR resources
+- `GET /api/medical/fhir/read/:resourceType/:resourceId` - Read FHIR resources
+- `GET /api/medical/fhir/search/:resourceType` - Search FHIR resources
+- `POST /api/medical/hl7/process` - Process HL7 messages
+- `POST /api/medical/emr/integrate` - EMR system integration
+- `POST /api/medical/validate/:schemaType` - Medical data validation
+- `GET /api/medical/stats` - Medical standards statistics
 
 ### **Research Computing**
 - `POST /api/research/start` - Start research computation
