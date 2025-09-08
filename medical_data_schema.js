@@ -97,6 +97,174 @@ class MedicalDataSchema {
     };
   }
 
+  getConditionSchema() {
+    return {
+      type: 'object',
+      required: ['id', 'code', 'subject'],
+      properties: {
+        id: { type: 'string' },
+        code: {
+          type: 'object',
+          required: ['coding'],
+          properties: {
+            coding: {
+              type: 'array',
+              items: {
+                type: 'object',
+                required: ['system', 'code'],
+                properties: {
+                  system: { type: 'string' },
+                  code: { type: 'string' },
+                  display: { type: 'string' }
+                }
+              }
+            }
+          }
+        },
+        subject: {
+          type: 'object',
+          required: ['reference'],
+          properties: {
+            reference: { type: 'string' }
+          }
+        },
+        onsetDateTime: { type: 'string', format: 'date-time' },
+        abatementDateTime: { type: 'string', format: 'date-time' },
+        clinicalStatus: {
+          type: 'object',
+          properties: {
+            coding: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  system: { type: 'string' },
+                  code: { type: 'string' },
+                  display: { type: 'string' }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+  }
+
+  getMedicationSchema() {
+    return {
+      type: 'object',
+      required: ['id', 'code'],
+      properties: {
+        id: { type: 'string' },
+        code: {
+          type: 'object',
+          required: ['coding'],
+          properties: {
+            coding: {
+              type: 'array',
+              items: {
+                type: 'object',
+                required: ['system', 'code'],
+                properties: {
+                  system: { type: 'string' },
+                  code: { type: 'string' },
+                  display: { type: 'string' }
+                }
+              }
+            }
+          }
+        },
+        form: {
+          type: 'object',
+          properties: {
+            coding: {
+              type: 'array',
+              items: {
+                type: 'object',
+                properties: {
+                  system: { type: 'string' },
+                  code: { type: 'string' },
+                  display: { type: 'string' }
+                }
+              }
+            }
+          }
+        },
+        ingredient: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              itemCodeableConcept: {
+                type: 'object',
+                properties: {
+                  coding: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        system: { type: 'string' },
+                        code: { type: 'string' },
+                        display: { type: 'string' }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+  }
+
+  getEncounterSchema() {
+    return {
+      type: 'object',
+      required: ['id', 'status', 'class'],
+      properties: {
+        id: { type: 'string' },
+        status: { type: 'string', enum: ['planned', 'arrived', 'triaged', 'in-progress', 'onleave', 'finished', 'cancelled', 'entered-in-error', 'unknown'] },
+        class: {
+          type: 'object',
+          required: ['system', 'code'],
+          properties: {
+            system: { type: 'string' },
+            code: { type: 'string' },
+            display: { type: 'string' }
+          }
+        },
+        subject: {
+          type: 'object',
+          properties: {
+            reference: { type: 'string' }
+          }
+        },
+        period: {
+          type: 'object',
+          properties: {
+            start: { type: 'string', format: 'date-time' },
+            end: { type: 'string', format: 'date-time' }
+          }
+        },
+        location: {
+          type: 'array',
+          items: {
+            type: 'object',
+            properties: {
+              location: {
+                type: 'object',
+                properties: {
+                  reference: { type: 'string' }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+  }
+
   validate(data, schemaType) {
     const schema = this.schemas[schemaType];
     if (!schema) {

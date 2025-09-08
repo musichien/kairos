@@ -20,13 +20,14 @@ class HL7Processor {
   }
 
   parseMessage(message) {
-    const lines = message.split('\r');
+    const lines = message.split('\n');
     const segments = {};
     
     lines.forEach(line => {
-      if (line.length > 3) {
-        const segmentType = line.substring(0, 3);
-        const fields = line.split('|');
+      const trimmedLine = line.trim();
+      if (trimmedLine.length > 3) {
+        const segmentType = trimmedLine.substring(0, 3);
+        const fields = trimmedLine.split('|');
         segments[segmentType] = fields;
       }
     });

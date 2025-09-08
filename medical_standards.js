@@ -13,6 +13,9 @@
 const crypto = require('crypto');
 const fs = require('fs').promises;
 const path = require('path');
+const HL7Processor = require('./hl7_processor');
+const FHIRClient = require('./fhir_client');
+const MedicalDataSchema = require('./medical_data_schema');
 
 class MedicalStandardsManager {
   constructor() {
@@ -20,6 +23,11 @@ class MedicalStandardsManager {
     this.hl7Endpoint = process.env.HL7_ENDPOINT || 'http://localhost:8081/hl7';
     this.hipaaCompliant = true;
     this.auditLogs = [];
+    
+    // Initialize processors
+    this.hl7Processor = new HL7Processor();
+    this.fhirClient = new FHIRClient();
+    this.medicalDataSchema = new MedicalDataSchema();
     
     // FHIR Resource Types
     this.fhirResources = {
@@ -140,26 +148,31 @@ class MedicalStandardsManager {
    */
   async processHl7Message(message, messageType = 'ADT') {
     try {
-      // Parse HL7 message
-      const parsedMessage = this.parseHl7Message(message);
+      // Parse HL7 message using HL7Processor
+      const parsedMessage = this.hl7Processor.parseMessage(message);
       
-      // Validate message structure
-      const validation = this.validateHl7Message(parsedMessage, messageType);
+      // Validate message structure using HL7Processor
+      const validation = this.hl7Processor.validateMessage(parsedMessage, messageType);
       if (!validation.valid) {
         throw new Error(`HL7 validation failed: ${validation.errors.join(', ')}`);
       }
 
       // Process based on message type
-      const result = await this.processMessageByType(parsedMessage, messageType);
+      let result;
+      if (messageType === 'ADT') {
+        result = this.hl7Processor.processAdtMessage(parsedMessage);
+      } else {
+        result = { type: messageType, message: 'Processed', timestamp: new Date().toISOString() };
+      }
 
       // Log for audit
       await this.logAuditEvent('HL7_PROCESS', {
         messageType,
-        messageId: parsedMessage.msh?.messageControlId,
+        messageId: parsedMessage.MSH?.[10],
         timestamp: new Date().toISOString()
       });
 
-      console.log(`🏥 HL7 ${messageType} message processed: ${parsedMessage.msh?.messageControlId}`);
+      console.log(`🏥 HL7 ${messageType} message processed successfully`);
       return { success: true, result, validation };
     } catch (error) {
       console.error('HL7 message processing error:', error);
@@ -167,133 +180,7 @@ class MedicalStandardsManager {
     }
   }
 
-  parseHl7Message(message) {
-    const lines = message.split('\r');
-    const segments = {};
-    
-    lines.forEach(line => {
-      if (line.length > 3) {
-        const segmentType = line.substring(0, 3);
-        const fields = line.split('|');
-        segments[segmentType] = fields;
-      }
-    });
 
-    return segments;
-  }
-
-  async processMessageByType(parsedMessage, messageType) {
-    switch (messageType) {
-      case 'ADT':
-        return await this.processAdtMessage(parsedMessage);
-      case 'ORU':
-        return await this.processOruMessage(parsedMessage);
-      case 'ORM':
-        return await this.processOrmMessage(parsedMessage);
-      default:
-        return { messageType, status: 'processed' };
-    }
-  }
-
-  async processAdtMessage(parsedMessage) {
-    // Process Admit, Discharge, Transfer messages
-    const patientData = this.extractPatientData(parsedMessage);
-    const encounterData = this.extractEncounterData(parsedMessage);
-    
-    return {
-      type: 'ADT',
-      patient: patientData,
-      encounter: encounterData,
-      timestamp: new Date().toISOString()
-    };
-  }
-
-  async processOruMessage(parsedMessage) {
-    // Process Observation Result messages
-    const observationData = this.extractObservationData(parsedMessage);
-    
-    return {
-      type: 'ORU',
-      observations: observationData,
-      timestamp: new Date().toISOString()
-    };
-  }
-
-  async processOrmMessage(parsedMessage) {
-    // Process Order Message
-    const orderData = this.extractOrderData(parsedMessage);
-    
-    return {
-      type: 'ORM',
-      orders: orderData,
-      timestamp: new Date().toISOString()
-    };
-  }
-
-  /**
-   * Data Extraction Methods
-   */
-  extractPatientData(parsedMessage) {
-    const pid = parsedMessage.PID;
-    if (!pid) return null;
-
-    return {
-      patientId: pid[3]?.[0]?.[0],
-      name: {
-        family: pid[5]?.[0]?.[0],
-        given: pid[5]?.[0]?.[1]
-      },
-      birthDate: pid[7]?.[0],
-      gender: pid[8]?.[0],
-      address: {
-        line: pid[11]?.[0]?.[0],
-        city: pid[11]?.[0]?.[2],
-        state: pid[11]?.[0]?.[3],
-        postalCode: pid[11]?.[0]?.[4]
-      }
-    };
-  }
-
-  extractEncounterData(parsedMessage) {
-    const evn = parsedMessage.EVN;
-    const pv1 = parsedMessage.PV1;
-    
-    return {
-      eventType: evn?.[1],
-      eventDateTime: evn?.[2],
-      admissionType: pv1?.[2],
-      patientClass: pv1?.[2],
-      assignedLocation: pv1?.[3]?.[0]?.[0]
-    };
-  }
-
-  extractObservationData(parsedMessage) {
-    const obx = parsedMessage.OBX;
-    if (!obx) return [];
-
-    return obx.map(obs => ({
-      observationId: obs[3]?.[0]?.[0],
-      observationName: obs[3]?.[0]?.[1],
-      value: obs[5]?.[0],
-      unit: obs[6]?.[0],
-      referenceRange: obs[7]?.[0],
-      abnormalFlags: obs[8]?.[0],
-      observationDateTime: obs[14]?.[0]
-    }));
-  }
-
-  extractOrderData(parsedMessage) {
-    const orc = parsedMessage.ORC;
-    const obr = parsedMessage.OBR;
-    
-    return {
-      orderControl: orc?.[1],
-      orderId: orc?.[2]?.[0]?.[0],
-      orderName: obr?.[4]?.[0]?.[1],
-      orderDateTime: obr?.[7]?.[0],
-      orderingProvider: obr?.[16]?.[0]?.[0]
-    };
-  }
 
   /**
    * Validation Methods
@@ -332,27 +219,6 @@ class MedicalStandardsManager {
     };
   }
 
-  validateHl7Message(parsedMessage, messageType) {
-    const errors = [];
-    
-    // Check for required segments
-    if (!parsedMessage.MSH) {
-      errors.push('Missing MSH segment');
-    }
-    
-    if (messageType === 'ADT' && !parsedMessage.PID) {
-      errors.push('ADT message missing PID segment');
-    }
-    
-    if (messageType === 'ORU' && !parsedMessage.OBX) {
-      errors.push('ORU message missing OBX segment');
-    }
-
-    return {
-      valid: errors.length === 0,
-      errors
-    };
-  }
 
   /**
    * Utility Methods

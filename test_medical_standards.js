@@ -68,8 +68,8 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
         },
         { headers: this.headers }
       );
-      console.log('✅ HL7 ADT message processed:', response.data.message);
-      return true;
+      console.log('✅ HL7 ADT message processed:', response.data.success ? 'Success' : 'Failed');
+      return response.data.success;
     } catch (error) {
       console.log('❌ HL7 processing failed:', error.response?.data || error.message);
       return false;
@@ -86,6 +86,9 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
       gender: 'male'
     };
 
+    let epicSuccess = false;
+    let cernerSuccess = false;
+
     // Test Epic Integration
     try {
       const response = await axios.post(
@@ -97,6 +100,7 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
         { headers: this.headers }
       );
       console.log('✅ Epic EMR integration:', response.data.message);
+      epicSuccess = response.data.success;
     } catch (error) {
       console.log('❌ Epic integration failed:', error.response?.data || error.message);
     }
@@ -112,9 +116,12 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
         { headers: this.headers }
       );
       console.log('✅ Cerner EMR integration:', response.data.message);
+      cernerSuccess = response.data.success;
     } catch (error) {
       console.log('❌ Cerner integration failed:', error.response?.data || error.message);
     }
+
+    return epicSuccess && cernerSuccess;
   }
 
   async testDataValidation() {
@@ -140,8 +147,10 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
       if (!response.data.data.valid) {
         console.log('   Errors:', response.data.data.errors);
       }
+      return response.data.data.valid;
     } catch (error) {
       console.log('❌ Data validation failed:', error.response?.data || error.message);
+      return false;
     }
   }
 
@@ -157,14 +166,16 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
       console.log('   FHIR Resources:', response.data.data.fhirResources);
       console.log('   HL7 Message Types:', response.data.data.hl7MessageTypes);
       console.log('   HIPAA Compliant:', response.data.data.hipaaCompliant);
+      return true;
     } catch (error) {
       console.log('❌ Medical stats failed:', error.response?.data || error.message);
+      return false;
     }
   }
 
   async runAllTests() {
     console.log('🏥 Starting Medical Standards Integration Tests...\n');
-    console.log('=' * 60);
+    console.log('='.repeat(60));
 
     const results = {
       fhir: false,
@@ -182,9 +193,9 @@ PV1|1|I|2000^2012^01||||004777^ATTEND^AARON^A|||SUR||||ADM|A0|`;
     results.stats = await this.testMedicalStats();
 
     // Summary
-    console.log('\n' + '=' * 60);
+    console.log('\n' + '='.repeat(60));
     console.log('🏥 Medical Standards Integration Test Summary:');
-    console.log('=' * 60);
+    console.log('='.repeat(60));
     console.log(`FHIR Operations: ${results.fhir ? '✅ PASSED' : '❌ FAILED'}`);
     console.log(`HL7 Operations: ${results.hl7 ? '✅ PASSED' : '❌ FAILED'}`);
     console.log(`EMR Integration: ${results.emr ? '✅ PASSED' : '❌ FAILED'}`);
