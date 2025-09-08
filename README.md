@@ -84,7 +84,7 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Scientific Reports**: Auto-generated reports with DOI-style artifact IDs and reproducibility data
 - **Collaborative Research**: Join the global network advancing brain disease understanding
 
-## 🏛️ **NEW: Mnemosyne - Advanced Memory & Cultural Intelligence System**
+## 🏛️ Mnemosyne - Advanced Memory & Cultural Intelligence System
 
 **Conceptual framework for memory as a core aspect of culture and identity, integrated into Kairos**
 
@@ -111,7 +111,7 @@ curl -X POST "http://localhost:3000/api/mnemosyne/training" \
 
 **[📚 Complete Mnemosyne Guide](MNEMOSYNE_GUIDE.md)** - Detailed implementation and API documentation
 
-## 🔐 **NEW: Advanced Security & Privacy Management System**
+## 🔐 Advanced Security & Privacy Management System
 
 **Military-grade security infrastructure for protecting sensitive data and ensuring complete privacy**
 
@@ -137,7 +137,7 @@ curl -X POST "http://localhost:3000/api/security/token" \
 
 **[🔐 Complete Security Guide](SECURITY_GUIDE.md)** - Comprehensive security implementation and best practices
 
-## 🏥 **NEW: Medical Standards Integration System**
+## 🏥 Medical Standards Integration System
 
 **Comprehensive healthcare data interoperability with FHIR R4, HL7, and EMR integration**
 
@@ -208,9 +208,9 @@ npm start
 
 ## 📱 **Screenshots & UI Gallery**
 
-### **🆕 New User-Friendly Interface**
+### **User-Friendly Interface**
 ![User-Friendly UI](img/overview.jpg)
-*New user-friendly interface - Start immediately without complex setup*
+*User-friendly interface - Start immediately without complex setup*
 
 ### **🧠 Memory Display Feature**
 ![Memory Display](img/memory2.jpg)
