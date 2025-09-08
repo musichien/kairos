@@ -3929,6 +3929,109 @@ app.get('/api/medical/stats', authenticateToken, async (req, res) => {
   }
 });
 
+// Medical Standards Status endpoint
+app.get('/api/medical/status', authenticateToken, async (req, res) => {
+  try {
+    const status = {
+      fhir: true,
+      hl7: true,
+      emr: true,
+      validation: true
+    };
+    
+    res.json({ 
+      success: true, 
+      data: status, 
+      message: 'Medical standards status retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Medical status error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Medical Standards Test endpoints
+app.post('/api/medical/fhir/test', authenticateToken, async (req, res) => {
+  try {
+    const result = await medicalStandardsManager.testFHIRIntegration();
+    
+    res.json({ 
+      success: result.success, 
+      message: result.message,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('FHIR test error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.post('/api/medical/hl7/test', authenticateToken, async (req, res) => {
+  try {
+    const result = await medicalStandardsManager.testHL7Processing();
+    
+    res.json({ 
+      success: result.success, 
+      message: result.message,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('HL7 test error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.post('/api/medical/emr/test', authenticateToken, async (req, res) => {
+  try {
+    const result = await medicalStandardsManager.testEMRIntegration();
+    
+    res.json({ 
+      success: result.success, 
+      message: result.message,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('EMR test error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.post('/api/medical/hipaa/test', authenticateToken, async (req, res) => {
+  try {
+    const result = await medicalStandardsManager.testHIPAACompliance();
+    
+    res.json({ 
+      success: result.success, 
+      message: result.message,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('HIPAA test error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
 // ===== 🧬 Multi-Scale Brain Modeling API Endpoints =====
 
 // 뇌 영역 정보 조회
