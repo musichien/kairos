@@ -36,6 +36,11 @@ const FHIRClient = require('./fhir_client');
 const HL7Processor = require('./hl7_processor');
 const MedicalDataSchema = require('./medical_data_schema');
 
+// 🧠 Damasio's Core Consciousness Implementation
+const SelfModelManager = require('./self_model_manager');
+const ContextAwareDialogue = require('./context_aware_dialogue');
+const BehavioralFeedbackLoop = require('./behavioral_feedback_loop');
+
 
 const app = express();
 const memoryManager = new MemoryManager();
@@ -64,6 +69,15 @@ const medicalStandardsManager = new MedicalStandardsManager();
 const fhirClient = new FHIRClient();
 const hl7Processor = new HL7Processor();
 const medicalDataSchema = new MedicalDataSchema();
+
+// 🧠 Damasio's Core Consciousness System 초기화
+const selfModelManager = new SelfModelManager();
+const contextAwareDialogue = new ContextAwareDialogue(selfModelManager);
+const behavioralFeedbackLoop = new BehavioralFeedbackLoop(selfModelManager, contextAwareDialogue);
+
+// 🌟 Advanced Consciousness System 초기화
+const AdvancedConsciousnessSystem = require('./advanced_consciousness_system');
+const advancedConsciousnessSystem = new AdvancedConsciousnessSystem();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
@@ -4024,6 +4038,451 @@ app.post('/api/medical/hipaa/test', authenticateToken, async (req, res) => {
     });
   } catch (error) {
     console.error('HIPAA test error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// ===== 🧠 Damasio's Core Consciousness API Endpoints =====
+
+// Self-Model Management Endpoints
+app.post('/api/consciousness/self-model/update', authenticateToken, async (req, res) => {
+  try {
+    const { userId, inputData } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID is required' 
+      });
+    }
+
+    const userState = await selfModelManager.updateUserState(userId, inputData);
+    
+    res.json({ 
+      success: true, 
+      data: userState,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Self-model update error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.get('/api/consciousness/self-model/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const userState = selfModelManager.getCurrentUserState(userId);
+    
+    if (!userState) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'User state not found' 
+      });
+    }
+    
+    res.json({ 
+      success: true, 
+      data: userState,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Self-model retrieval error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Context-Aware Dialogue Endpoints
+app.post('/api/consciousness/dialogue/generate', authenticateToken, async (req, res) => {
+  try {
+    const { userId, userQuery, baseResponse } = req.body;
+    
+    if (!userId || !userQuery) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID and query are required' 
+      });
+    }
+
+    const contextualResponse = await contextAwareDialogue.generateContextualResponse(
+      userId, 
+      userQuery, 
+      baseResponse
+    );
+    
+    res.json({ 
+      success: true, 
+      data: contextualResponse,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Context-aware dialogue error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Behavioral Feedback Loop Endpoints
+app.get('/api/consciousness/interventions/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const activeInterventions = behavioralFeedbackLoop.activeInterventions.get(userId) || [];
+    const interventionHistory = behavioralFeedbackLoop.interventionHistory.get(userId) || [];
+    
+    res.json({ 
+      success: true, 
+      data: {
+        active: activeInterventions,
+        history: interventionHistory.slice(-10) // Last 10 interventions
+      },
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Interventions retrieval error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.post('/api/consciousness/interventions/trigger', authenticateToken, async (req, res) => {
+  try {
+    const { userId, strategyType } = req.body;
+    
+    if (!userId || !strategyType) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID and strategy type are required' 
+      });
+    }
+
+    const userState = selfModelManager.getCurrentUserState(userId);
+    if (!userState) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'User state not found' 
+      });
+    }
+
+    await behavioralFeedbackLoop.triggerIntervention(userId, strategyType, userState);
+    
+    res.json({ 
+      success: true, 
+      message: 'Intervention triggered successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Intervention trigger error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Sensor Data Integration Endpoints
+app.post('/api/consciousness/sensors/connect', authenticateToken, async (req, res) => {
+  try {
+    const { userId, sensorType } = req.body;
+    
+    if (!userId || !sensorType) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID and sensor type are required' 
+      });
+    }
+
+    const connector = selfModelManager.sensorConnectors.get(sensorType);
+    if (!connector) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Invalid sensor type' 
+      });
+    }
+
+    const connectionResult = await connector.connect(userId);
+    
+    res.json({ 
+      success: true, 
+      data: connectionResult,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Sensor connection error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Core Consciousness System Status
+app.get('/api/consciousness/status', authenticateToken, async (req, res) => {
+  try {
+    const status = {
+      selfModel: {
+        active: true,
+        users: selfModelManager.getStats().totalUsers,
+        averageConfidence: selfModelManager.getStats().averageConfidence
+      },
+      dialogue: {
+        active: true,
+        totalInteractions: contextAwareDialogue.getStats().totalInteractions,
+        relationshipMappings: contextAwareDialogue.getStats().relationshipMappings
+      },
+      feedbackLoop: {
+        active: true,
+        totalInterventions: behavioralFeedbackLoop.getStats().totalInterventions,
+        activeInterventions: behavioralFeedbackLoop.getStats().activeInterventions,
+        strategies: behavioralFeedbackLoop.getStats().interventionStrategies
+      }
+    };
+    
+    res.json({ 
+      success: true, 
+      data: status,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Consciousness status error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// ===== 🌟 Advanced Consciousness System API Endpoints =====
+
+// Advanced Consciousness System Status
+app.get('/api/advanced-consciousness/status', authenticateToken, async (req, res) => {
+  try {
+    const stats = advancedConsciousnessSystem.getSystemStats();
+    
+    res.json({ 
+      success: true, 
+      data: stats,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Advanced consciousness status error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Advanced User State Update
+app.post('/api/advanced-consciousness/user-state/update', authenticateToken, async (req, res) => {
+  try {
+    const { userId, inputData } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID is required' 
+      });
+    }
+
+    const userState = await advancedConsciousnessSystem.updateUserState(userId, inputData);
+    
+    res.json({ 
+      success: true, 
+      data: userState,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Advanced user state update error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Advanced Contextual Response Generation
+app.post('/api/advanced-consciousness/dialogue/generate', authenticateToken, async (req, res) => {
+  try {
+    const { userId, userQuery, baseResponse } = req.body;
+    
+    if (!userId || !userQuery) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID and query are required' 
+      });
+    }
+
+    const contextualResponse = await advancedConsciousnessSystem.generateContextualResponse(
+      userId, 
+      userQuery, 
+      baseResponse
+    );
+    
+    res.json({ 
+      success: true, 
+      data: contextualResponse,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Advanced contextual response error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Advanced Intervention System
+app.post('/api/advanced-consciousness/intervention/trigger', authenticateToken, async (req, res) => {
+  try {
+    const { userId, strategyType } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID is required' 
+      });
+    }
+
+    const intervention = await advancedConsciousnessSystem.triggerIntervention(userId, strategyType);
+    
+    res.json({ 
+      success: true, 
+      data: { intervention },
+      message: 'Intervention triggered successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Advanced intervention trigger error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// User Consciousness Score
+app.get('/api/advanced-consciousness/consciousness-score/:userId', authenticateToken, async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const consciousnessScore = advancedConsciousnessSystem.getUserConsciousnessScore(userId);
+    
+    if (!consciousnessScore) {
+      return res.status(404).json({ 
+        success: false, 
+        error: 'Consciousness score not found' 
+      });
+    }
+    
+    res.json({ 
+      success: true, 
+      data: consciousnessScore,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Consciousness score error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// ML Predictions
+app.post('/api/advanced-consciousness/ml/predict-state', authenticateToken, async (req, res) => {
+  try {
+    const { userId, timeHorizon } = req.body;
+    
+    if (!userId) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID is required' 
+      });
+    }
+
+    const prediction = await advancedConsciousnessSystem.mlEngine.predictUserState(userId, timeHorizon);
+    
+    res.json({ 
+      success: true, 
+      data: prediction,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('ML state prediction error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+app.post('/api/advanced-consciousness/ml/predict-intervention', authenticateToken, async (req, res) => {
+  try {
+    const { userId, interventionType } = req.body;
+    
+    if (!userId || !interventionType) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'User ID and intervention type are required' 
+      });
+    }
+
+    const prediction = await advancedConsciousnessSystem.mlEngine.predictInterventionEffectiveness(userId, interventionType);
+    
+    res.json({ 
+      success: true, 
+      data: prediction,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('ML intervention prediction error:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Internal server error',
+      timestamp: new Date().toISOString()
+    });
+  }
+});
+
+// Consciousness Validation Report
+app.get('/api/advanced-consciousness/validation/report', authenticateToken, async (req, res) => {
+  try {
+    const report = advancedConsciousnessSystem.consciousnessValidator.generateConsciousnessReport();
+    
+    res.json({ 
+      success: true, 
+      data: report,
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('Consciousness validation report error:', error);
     res.status(500).json({ 
       success: false, 
       error: 'Internal server error',
