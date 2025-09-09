@@ -75,6 +75,71 @@ Kairos is a community project dedicated to helping people maintain cognitive hea
 - **Suggest medical integration** features
 - **Advocate for AI in elder care**
 
+## 🛡️ Security & Ethical Development Guidelines
+
+### Our Commitment to Human Dignity
+
+**Kairos was founded with a simple but profound mission: to support human dignity, healthy aging, and mental clarity through AI.** Every line of code we write must honor this commitment.
+
+#### Core Principles
+- **Memory = Identity = Dignity**: Every memory, emotion, and vulnerability we handle represents a person's inner world
+- **Patient Sovereignty First**: Consent, revocation, and transparency must be embedded at the core
+- **Boundary Protection**: No doctor and patient should ever be able to meet intentionally through this system
+- **Privacy by Design**: Immutable audit trails, encryption, and redaction of personal identifiers are mandatory
+
+### Security-First Development Approach
+
+#### 🔒 Every PR Must Include Security Considerations
+When contributing code, please consider:
+- **How can this feature fail?** What are the potential security vulnerabilities?
+- **How do we protect human dignity?** What safeguards prevent misuse?
+- **What boundaries need enforcement?** How do we maintain ethical separation?
+
+#### 🛡️ Technical Safeguards (Recommended, Not Restrictive)
+- **No raw memory access**: Summaries only, consent-driven, strictly auditable
+- **Encryption at rest and in transit**: Protect the most intimate parts of human identity
+- **Access controls**: Ensure only authorized users can access sensitive data
+- **Audit logging**: Track all access and modifications to user data
+
+#### ⚖️ Ethical Considerations
+- **Consent-driven design**: Users must explicitly consent to data collection and processing
+- **Transparency**: Users should understand how their data is being used
+- **Revocation rights**: Users must be able to withdraw consent and delete their data
+- **Minimal data collection**: Only collect what's necessary for the intended purpose
+
+### 🚨 Important: Balancing Innovation with Safety
+
+**We encourage open, creative, and free development of Kairos for clinical, educational, and personal use.** However, we must balance this freedom with responsibility.
+
+#### When Implementation Challenges Arise
+If you encounter technical challenges in implementing security or ethical safeguards:
+1. **Don't let perfect be the enemy of good** - Start with basic protections
+2. **Document your concerns** - Share implementation challenges openly
+3. **Seek community input** - Use [GitHub Discussions #14](https://github.com/musichien/kairos/discussions/14) to discuss complex security/ethical questions
+4. **Iterate and improve** - Security is an ongoing process, not a one-time implementation
+
+#### Community Discussion for Complex Issues
+For challenging security or ethical implementation questions, please:
+- **Start a discussion** in [GitHub Discussions #14](https://github.com/musichien/kairos/discussions/14)
+- **Share your technical constraints** and proposed solutions
+- **Engage with the community** to find creative, practical approaches
+- **Remember**: We're all learning together - no question is too basic or complex
+
+### 🎯 Practical Security Checklist
+
+#### For Every Contribution:
+- [ ] **Consider data privacy**: How is user data protected?
+- [ ] **Think about access controls**: Who can access what data?
+- [ ] **Plan for audit trails**: How are actions logged?
+- [ ] **Design for consent**: How does the user control their data?
+- [ ] **Test boundary enforcement**: Are ethical boundaries maintained?
+
+#### For New Features:
+- [ ] **Security impact assessment**: What are the potential risks?
+- [ ] **Privacy by design**: Is data collection minimized and transparent?
+- [ ] **User control**: Can users opt-out or delete their data?
+- [ ] **Boundary testing**: Does this maintain ethical separation?
+
 ## 📋 Contribution Guidelines
 
 ### Code Standards
@@ -213,6 +278,34 @@ try {
 - **Create technology** that truly serves elderly users
 - **Build a community** dedicated to healthy aging
 
+## 🚨 Final Reminder: The Greatest Risk to Kairos
+
+### Why Security & Ethics Matter Most
+
+**The single greatest long-term risk to Kairos is neither money nor code—it is security and ethical boundary failure.**
+
+Kairos integrates with human memory, cognition, and health data. This means:
+- If boundaries fail, **a doctor or system could gain disproportionate control over a patient's inner world**
+- If safeguards are weak, **patients could form unhealthy dependence or obsession** with those who have access
+- If privacy is breached, **the most intimate parts of human identity—memories, emotions, vulnerabilities—could be exposed or misused**
+
+### Our Call to Action
+
+🔹 **If you are contributing code**: **add at least one security or ethical safeguard in every PR**
+🔹 **If you are proposing a feature**: **consider how it can fail and how to protect dignity**
+🔹 **If you are deploying Kairos**: **make sure boundary enforcement is enabled by default**
+
+### When You Need Help
+
+**Don't let security concerns stop your creativity!** If you're unsure about implementing security or ethical safeguards:
+
+1. **Start with basic protections** - Even simple measures are better than none
+2. **Ask the community** - Use [GitHub Discussions #14](https://github.com/musichien/kairos/discussions/14) for guidance
+3. **Share your challenges** - We're all learning together
+4. **Iterate and improve** - Security is a journey, not a destination
+
+**Remember**: Kairos will succeed only if we treat **ethical design as part of technical design.** The greatest risk to this project is not technical debt—it is **losing sight of the human dignity it was created to protect.**
+
 ## 📄 Legal
 
 ### Licensing
@@ -231,7 +324,7 @@ try {
 
 **Thank you for contributing to Kairos!**
 
-*Together, we can help everyone remember their best self.*
+*Together, we can help everyone remember their best self while protecting their dignity and privacy.*
 
 **"With solid science and strong ethics, we help everyone remember their best self."**
 
