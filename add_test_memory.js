@@ -11,15 +11,15 @@ async function addTestMemories() {
   console.log('🧠 테스트용 메모리 추가 시작...\n');
 
   try {
-    // 1. 사실 추가
+    // 1. 사실 추가 (익명화된 샘플 데이터)
     console.log('1. 사실 추가');
     await axios.post(`${baseURL}/api/memory/user_001/facts`, {
-      fact: '나는 JavaScript 프로그래밍을 배우고 있다',
+      fact: '사용자는 프로그래밍을 배우고 있습니다',
       category: 'learning'
     }, { headers });
     console.log('✅ 사실 추가됨');
 
-    // 2. 선호도 추가
+    // 2. 선호도 추가 (익명화된 샘플 데이터)
     console.log('2. 선호도 추가');
     await axios.post(`${baseURL}/api/memory/user_001/preferences`, {
       preference: '음악 장르',
@@ -27,19 +27,19 @@ async function addTestMemories() {
     }, { headers });
     console.log('✅ 선호도 추가됨');
 
-    // 3. 장기 기억 추가
+    // 3. 장기 기억 추가 (익명화된 샘플 데이터)
     console.log('3. 장기 기억 추가');
     await axios.post(`${baseURL}/api/memory/user_001/longterm`, {
-      memory: '나는 아침에 일하는 것을 선호한다',
+      memory: '사용자는 아침에 일하는 것을 선호합니다',
       category: 'work_preference',
       importance: 'high'
     }, { headers });
     console.log('✅ 장기 기억 추가됨');
 
-    // 4. 관심사 추가
+    // 4. 관심사 추가 (익명화된 샘플 데이터)
     console.log('4. 관심사 추가');
     await axios.post(`${baseURL}/api/memory/user_001/interests`, {
-      interest: '과학 소설 읽기',
+      interest: '독서',
       category: 'hobby'
     }, { headers });
     console.log('✅ 관심사 추가됨');

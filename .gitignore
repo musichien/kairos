@@ -77,8 +77,37 @@ coverage/
 # Laravel project (external)
 laravel-gpt/
 
-# Memory storage
+# Memory storage and personal data
 memories/
 *.json
 !package.json
-!package-lock.json 
+!package-lock.json
+
+# Personal user data and memories (CRITICAL: Never commit personal data)
+user_data/
+personal_memories/
+user_memories/
+*.db
+*.sqlite
+*.sqlite3
+
+# Test data with personal information
+*_personal_test.js
+*_user_data.js
+personal_test_*.js
+
+# Logs that might contain personal data
+logs/
+*.log
+chat_logs/
+conversation_logs/
+
+# Configuration files that might contain personal settings
+config/personal/
+user_config/
+personal_settings.json
+
+# Backup files that might contain personal data
+backups/
+*.backup
+*.bak 

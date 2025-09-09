@@ -100,6 +100,8 @@ When contributing code, please consider:
 - **Encryption at rest and in transit**: Protect the most intimate parts of human identity
 - **Access controls**: Ensure only authorized users can access sensitive data
 - **Audit logging**: Track all access and modifications to user data
+- **CRITICAL: Never commit personal data**: All personal memories, facts, and user data must be anonymized in test files
+- **Data isolation**: Personal data must be stored locally and never pushed to GitHub
 
 #### ⚖️ Ethical Considerations
 - **Consent-driven design**: Users must explicitly consent to data collection and processing
@@ -133,6 +135,9 @@ For challenging security or ethical implementation questions, please:
 - [ ] **Plan for audit trails**: How are actions logged?
 - [ ] **Design for consent**: How does the user control their data?
 - [ ] **Test boundary enforcement**: Are ethical boundaries maintained?
+- [ ] **CRITICAL: Check for personal data**: Are any personal memories, facts, or user data in test files?
+- [ ] **Verify .gitignore**: Are personal data files properly excluded from commits?
+- [ ] **Anonymize test data**: Are all test examples using generic, non-personal data?
 
 #### For New Features:
 - [ ] **Security impact assessment**: What are the potential risks?

@@ -11,15 +11,15 @@ async function addMoreMemories() {
   console.log('🧠 추가 메모리 생성 중...\n');
 
   const memories = [
-    { type: 'fact', content: '나는 아침에 일하는 것을 선호한다', category: 'work_preference' },
-    { type: 'fact', content: 'JavaScript 프로그래밍을 배우고 있다', category: 'learning' },
-    { type: 'fact', content: '과학 소설을 좋아한다', category: 'hobby' },
+    { type: 'fact', content: '사용자는 아침에 일하는 것을 선호합니다', category: 'work_preference' },
+    { type: 'fact', content: '사용자는 프로그래밍을 배우고 있습니다', category: 'learning' },
+    { type: 'fact', content: '사용자는 독서를 좋아합니다', category: 'hobby' },
     { type: 'preference', preference: '음악 장르', value: '클래식' },
     { type: 'preference', preference: '커피 종류', value: '에스프레소' },
     { type: 'preference', preference: '작업 시간', value: '오전' },
-    { type: 'longterm', memory: '나는 창의적인 프로젝트를 즐긴다', category: 'personality', importance: 'high' },
-    { type: 'longterm', memory: '새로운 기술을 배우는 것을 좋아한다', category: 'learning', importance: 'medium' },
-    { type: 'longterm', memory: '팀워크를 중시한다', category: 'work_style', importance: 'high' }
+    { type: 'longterm', memory: '사용자는 창의적인 프로젝트를 즐깁니다', category: 'personality', importance: 'high' },
+    { type: 'longterm', memory: '사용자는 새로운 기술을 배우는 것을 좋아합니다', category: 'learning', importance: 'medium' },
+    { type: 'longterm', memory: '사용자는 팀워크를 중시합니다', category: 'work_style', importance: 'high' }
   ];
 
   try {
