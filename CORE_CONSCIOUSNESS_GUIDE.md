@@ -162,7 +162,6 @@ The consciousness score (0.0 - 1.0) is calculated based on:
 
 ### Documentation
 - **[Main README](README.md)** - Complete project overview
-- **[API Documentation](API_DOCUMENTATION.md)** - Detailed API reference
 - **[Security Guide](SECURITY_GUIDE.md)** - Security and privacy information
 
 ### Community
