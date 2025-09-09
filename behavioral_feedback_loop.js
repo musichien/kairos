@@ -350,7 +350,11 @@ class BehavioralFeedbackLoop extends EventEmitter {
             this.interventionHistory.get(interventionInstance.userId).push(interventionInstance);
 
             // Emit completion event
-            this.emit('interventionCompleted', interventionInstance);
+            this.emit('interventionCompleted', {
+                userId: interventionInstance.userId,
+                intervention: interventionInstance.intervention,
+                effectiveness: interventionInstance.effectiveness
+            });
 
             // Evaluate effectiveness
             await this.evaluateInterventionEffectiveness(interventionInstance);
@@ -405,21 +409,21 @@ class BehavioralFeedbackLoop extends EventEmitter {
         };
 
         // Calculate stress reduction
-        if (beforeState.physiological.stressLevel && afterState.physiological.stressLevel) {
+        if (typeof beforeState.physiological.stressLevel === 'number' && typeof afterState.physiological.stressLevel === 'number') {
             metrics.stressReduction = Math.max(0, 
                 beforeState.physiological.stressLevel - afterState.physiological.stressLevel
             );
         }
 
         // Calculate energy improvement
-        if (beforeState.physiological.energyLevel && afterState.physiological.energyLevel) {
+        if (typeof beforeState.physiological.energyLevel === 'number' && typeof afterState.physiological.energyLevel === 'number') {
             metrics.energyImprovement = Math.max(0,
                 afterState.physiological.energyLevel - beforeState.physiological.energyLevel
             );
         }
 
         // Calculate attention improvement
-        if (beforeState.behavioral.attentionLevel && afterState.behavioral.attentionLevel) {
+        if (beforeState.behavioral && afterState.behavioral && beforeState.behavioral.attentionLevel && afterState.behavioral.attentionLevel) {
             const attentionMap = { 'distracted': 0, 'focused': 1, 'hyperfocused': 1.2 };
             const beforeScore = attentionMap[beforeState.behavioral.attentionLevel] || 0.5;
             const afterScore = attentionMap[afterState.behavioral.attentionLevel] || 0.5;

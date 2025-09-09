@@ -359,10 +359,15 @@ class ConsciousnessMLEngine extends EventEmitter {
     }
 
     calculateAverageRelationshipStrength(userState) {
-        if (userState.relationships.length === 0) return 0;
-        
-        const totalStrength = userState.relationships.reduce((sum, rel) => sum + rel.strength, 0);
-        return totalStrength / userState.relationships.length;
+        // relationships can be Array of [key, value] or a Map
+        const rels = Array.isArray(userState.relationships)
+            ? userState.relationships.map(([key, value]) => value)
+            : (userState.relationships && typeof userState.relationships.forEach === 'function'
+                ? Array.from(userState.relationships.values())
+                : []);
+        if (rels.length === 0) return 0;
+        const totalStrength = rels.reduce((sum, rel) => sum + (rel.strength || 0), 0);
+        return totalStrength / rels.length;
     }
 
     calculateUserEngagement(userState) {

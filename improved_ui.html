@@ -480,6 +480,12 @@
             .grid {
                 grid-template-columns: 1fr;
             }
+            
+            /* Core Consciousness Phases - Mobile Layout */
+            .consciousness-phases {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
         }
         
         @media (max-width: 480px) {
@@ -514,6 +520,7 @@
                 <button class="tab-button" onclick="showTab('memory-management', event)">🧠 Memory Mgmt</button>
                 <button class="tab-button" onclick="showTab('testing', event)">🧪 Testing</button>
                 <button class="tab-button" onclick="showTab('medical', event)">🏥 Medical</button>
+                <button class="tab-button" onclick="showTab('consciousness', event)">🧠 Core Consciousness</button>
                 <button class="tab-button" onclick="showTab('advanced', event)">⚙️ Advanced</button>
             </div>
 
@@ -981,6 +988,162 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Core Consciousness Tab -->
+            <div id="consciousness" class="tab-content">
+                <div class="card">
+                    <h3>🧠 Core Consciousness System</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">
+                        Inspired by Antonio Damasio's groundbreaking work on 'Core Consciousness', this system simulates the functional aspects of consciousness to create more contextual, self-aware, and impactful AI interactions.
+                    </p>
+                    
+                    <!-- Theory Section -->
+                    <div class="card" style="margin-bottom: 20px; background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);">
+                        <h4>📚 Understanding Damasio's Core Consciousness</h4>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                            <div>
+                                <h5>🎯 Core Definition</h5>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    The moment-to-moment sense of "self-as-here-and-now" - the feeling of being alive and aware of current state in relation to an object.
+                                </p>
+                            </div>
+                            <div>
+                                <h5>🔄 Dynamic Loop Process</h5>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">
+                                    1. Sensing Body State<br>
+                                    2. Sensing External Object<br>
+                                    3. Creating Relationship Representation
+                                </p>
+                            </div>
+                        </div>
+                        <div style="margin-top: 15px; padding: 10px; background: rgba(255,255,255,0.7); border-radius: 8px;">
+                            <strong>Key Insight:</strong> Consciousness arises from the brain creating neural representations of relationships between body state and external objects - "the feeling of what happens."
+                        </div>
+                    </div>
+
+                    <!-- Implementation Status -->
+                    <div class="card" style="margin-bottom: 20px;">
+                        <h4>📊 System Status</h4>
+                        <div id="consciousness-status" class="status-grid">
+                            <div class="status-item">
+                                <span class="status-label">Self-Model:</span>
+                                <span class="status-value" id="self-model-status">Loading...</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Context-Aware Dialogue:</span>
+                                <span class="status-value" id="dialogue-status">Loading...</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Behavioral Feedback:</span>
+                                <span class="status-value" id="feedback-status">Loading...</span>
+                            </div>
+                            <div class="status-item">
+                                <span class="status-label">Consciousness Score:</span>
+                                <span class="status-value" id="consciousness-score">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Messages Display - Fixed Position -->
+                    <div class="card" style="
+                        margin-bottom: 20px; 
+                        position: sticky; 
+                        top: 20px; 
+                        z-index: 100;
+                        background: white;
+                        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                    ">
+                        <h4>💬 Consciousness System Messages</h4>
+                        <div id="consciousness-messages" class="consciousness-messages" style="
+                            max-height: 250px;
+                            overflow-y: auto;
+                            padding: 15px;
+                            background: #f8fafc;
+                            border: 1px solid #e2e8f0;
+                            border-radius: 8px;
+                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                        ">
+                            <div class="consciousness-message" style="
+                                margin-bottom: 10px;
+                                padding: 10px;
+                                background: #e0f2fe;
+                                border-left: 4px solid #0288d1;
+                                border-radius: 4px;
+                                color: #01579b;
+                            ">
+                                🧠 Core Consciousness System is ready. Use the buttons below to interact with the system.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Core Consciousness Phases - Horizontal Layout -->
+                    <div class="consciousness-phases" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px; margin-bottom: 20px;">
+                        
+                        <!-- Phase 1: Self-Model -->
+                        <div class="card" style="height: fit-content;">
+                            <h4>🎯 Phase 1: Self-Model</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem;">
+                                Tracks and integrates your current "internal state" through multiple data streams.
+                            </p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px;">
+                                <button class="btn btn-primary" onclick="loadCurrentState()" style="font-size: 0.8rem; padding: 8px;">📊 Current State</button>
+                                <button class="btn btn-primary" onclick="updateSensorData()" style="font-size: 0.8rem; padding: 8px;">📱 Sensor Data</button>
+                                <button class="btn btn-primary" onclick="analyzeDialogue()" style="font-size: 0.8rem; padding: 8px;">💬 Dialogue</button>
+                                <button class="btn btn-primary" onclick="viewKnowledgeGraph()" style="font-size: 0.8rem; padding: 8px;">🔗 Graph</button>
+                            </div>
+                            
+                            <div id="self-model-display" class="hidden" style="margin-top: 10px; padding: 10px; background: #f8fafc; border-radius: 6px; font-size: 0.8rem;">
+                                <h6>Current Self-Model State:</h6>
+                                <div id="self-model-content"></div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 2: Context-Aware Dialogue -->
+                        <div class="card" style="height: fit-content;">
+                            <h4>🗣️ Phase 2: Dialogue</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem;">
+                                AI responses that are contextual and "self-aware" by linking the self-model to conversations.
+                            </p>
+                            
+                            <div style="margin-bottom: 15px;">
+                                <label for="consciousness-prompt" style="font-size: 0.9rem; font-weight: 500;">Test Response:</label>
+                                <textarea id="consciousness-prompt" placeholder="Try: 'I'm having trouble focusing today'" 
+                                    style="width: 100%; height: 60px; margin: 5px 0; padding: 8px; border: 1px solid #ddd; border-radius: 4px; font-size: 0.8rem;"></textarea>
+                                <button class="btn btn-primary" onclick="generateContextualResponse()" style="width: 100%; font-size: 0.8rem; padding: 8px;">Generate Response</button>
+                            </div>
+                            
+                            <div id="contextual-response" class="hidden" style="margin-top: 10px; padding: 10px; background: #e8f5e8; border-radius: 6px; font-size: 0.8rem;">
+                                <h6>Context-Aware Response:</h6>
+                                <div id="contextual-response-content"></div>
+                            </div>
+                        </div>
+
+                        <!-- Phase 3: Behavioral Feedback Loop -->
+                        <div class="card" style="height: fit-content;">
+                            <h4>🔄 Phase 3: Feedback Loop</h4>
+                            <p style="color: var(--text-secondary); margin-bottom: 15px; font-size: 0.9rem;">
+                                Automated interventions and cognitive training based on your current state.
+                            </p>
+                            
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 15px;">
+                                <button class="btn btn-primary" onclick="loadActiveInterventions()" style="font-size: 0.7rem; padding: 6px;">🎯 Active</button>
+                                <button class="btn btn-primary" onclick="triggerIntervention()" style="font-size: 0.7rem; padding: 6px;">🚀 Trigger</button>
+                                <button class="btn btn-primary" onclick="viewEffectiveness()" style="font-size: 0.7rem; padding: 6px;">📈 Metrics</button>
+                                <button class="btn btn-primary" onclick="suggestMission()" style="font-size: 0.7rem; padding: 6px;">🎯 Mission</button>
+                                <button class="btn btn-primary" onclick="getConsciousnessScore()" style="font-size: 0.7rem; padding: 6px; grid-column: 1 / -1;">📈 Score</button>
+                            </div>
+                            
+                            <div id="intervention-display" class="hidden" style="margin-top: 10px; padding: 10px; background: #fff3cd; border-radius: 6px; font-size: 0.8rem;">
+                                <h6>Intervention Results:</h6>
+                                <div id="intervention-content"></div>
+                            </div>
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
 
@@ -7047,7 +7210,331 @@
                     setTimeout(loadMedicalStatus, 100);
                 });
             }
+            
+            // Load consciousness status when consciousness tab is shown
+            const consciousnessTab = document.querySelector('[onclick="showTab(\'consciousness\', event)"]');
+            if (consciousnessTab) {
+                consciousnessTab.addEventListener('click', function() {
+                    setTimeout(loadConsciousnessStatus, 100);
+                });
+            }
         });
+
+        // Core Consciousness System Functions
+        
+        async function loadConsciousnessStatus() {
+            try {
+                const response = await fetch('/api/consciousness/status', {
+                    headers: { 'x-bypass-auth': 'true' }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    document.getElementById('self-model-status').textContent = '✅ Active';
+                    document.getElementById('dialogue-status').textContent = '✅ Active';
+                    document.getElementById('feedback-status').textContent = '✅ Active';
+                    document.getElementById('consciousness-score').textContent = `${result.consciousnessScore || 0.0}`;
+                } else {
+                    document.getElementById('self-model-status').textContent = '❌ Error';
+                    document.getElementById('dialogue-status').textContent = '❌ Error';
+                    document.getElementById('feedback-status').textContent = '❌ Error';
+                    document.getElementById('consciousness-score').textContent = '❌ Error';
+                }
+            } catch (error) {
+                console.error('Consciousness status error:', error);
+                document.getElementById('self-model-status').textContent = '❌ Error';
+                document.getElementById('dialogue-status').textContent = '❌ Error';
+                document.getElementById('feedback-status').textContent = '❌ Error';
+                document.getElementById('consciousness-score').textContent = '❌ Error';
+            }
+        }
+
+        async function loadCurrentState() {
+            try {
+                const response = await fetch('/api/consciousness/self-model/test_user_001', {
+                    headers: { 'x-bypass-auth': 'true' }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const content = document.getElementById('self-model-content');
+                    content.innerHTML = `
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <h6>Physiological State:</h6>
+                                <p>Heart Rate: ${result.selfModel.physiological?.heartRate || 'N/A'}</p>
+                                <p>Steps: ${result.selfModel.physiological?.steps || 'N/A'}</p>
+                                <p>Sleep: ${result.selfModel.physiological?.sleepDuration || 'N/A'} hrs</p>
+                            </div>
+                            <div>
+                                <h6>Behavioral State:</h6>
+                                <p>Stress Level: ${result.selfModel.behavioral?.stressLevel || 'N/A'}</p>
+                                <p>Attention: ${result.selfModel.behavioral?.attentionLevel || 'N/A'}</p>
+                                <p>Mood: ${result.selfModel.behavioral?.mood || 'N/A'}</p>
+                            </div>
+                        </div>
+                    `;
+                    document.getElementById('self-model-display').classList.remove('hidden');
+                    addConsciousnessMessage('📊 Current self-model state loaded successfully', 'success');
+                } else {
+                    addConsciousnessMessage('❌ Failed to load current state: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Load current state error:', error);
+                addConsciousnessMessage('❌ Error loading current state: ' + error.message, 'error');
+            }
+        }
+
+        async function updateSensorData() {
+            const sensorData = {
+                heartRate: Math.floor(Math.random() * 40) + 60,
+                steps: Math.floor(Math.random() * 5000) + 2000,
+                sleepDuration: Math.random() * 3 + 6,
+                stressLevel: Math.random() * 0.8 + 0.1
+            };
+
+            try {
+                const response = await fetch('/api/consciousness/self-model/test_user_001', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-bypass-auth': 'true'
+                    },
+                    body: JSON.stringify({ sensorData: sensorData })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    addConsciousnessMessage(`📱 Sensor data updated: HR=${sensorData.heartRate}, Steps=${sensorData.steps}, Sleep=${sensorData.sleepDuration.toFixed(1)}h`, 'success');
+                    loadConsciousnessStatus();
+                } else {
+                    addConsciousnessMessage('❌ Failed to update sensor data: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Update sensor data error:', error);
+                addConsciousnessMessage('❌ Error updating sensor data: ' + error.message, 'error');
+            }
+        }
+
+        async function analyzeDialogue() {
+            const dialogueData = {
+                tone: 'concerned',
+                keywords: ['tired', 'stressed', 'overwhelmed'],
+                emotionalContext: 'anxiety',
+                urgency: 0.7
+            };
+
+            try {
+                const response = await fetch('/api/consciousness/self-model/test_user_001', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-bypass-auth': 'true'
+                    },
+                    body: JSON.stringify({ dialogueData: dialogueData })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    addConsciousnessMessage(`💬 Dialogue analyzed: Tone=${dialogueData.tone}, Keywords=[${dialogueData.keywords.join(', ')}]`, 'success');
+                    loadConsciousnessStatus();
+                } else {
+                    addConsciousnessMessage('❌ Failed to analyze dialogue: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Analyze dialogue error:', error);
+                addConsciousnessMessage('❌ Error analyzing dialogue: ' + error.message, 'error');
+            }
+        }
+
+        async function viewKnowledgeGraph() {
+            addConsciousnessMessage('🔗 Knowledge graph visualization would show relationships between physiological, behavioral, and contextual data points', 'info');
+        }
+
+        async function generateContextualResponse() {
+            const prompt = document.getElementById('consciousness-prompt').value;
+            if (!prompt.trim()) {
+                addConsciousnessMessage('⚠️ Please enter a prompt to test contextual response', 'warning');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/consciousness/dialogue', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-bypass-auth': 'true'
+                    },
+                    body: JSON.stringify({
+                        userId: 'test_user_001',
+                        userQuery: prompt
+                    })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const content = document.getElementById('contextual-response-content');
+                    content.innerHTML = `
+                        <div style="margin-bottom: 10px;">
+                            <strong>Your Query:</strong> "${prompt}"
+                        </div>
+                        <div style="background: #f8f9fa; padding: 10px; border-radius: 4px;">
+                            <strong>Context-Aware Response:</strong><br>
+                            ${result.contextualResponse}
+                        </div>
+                        <div style="margin-top: 10px; font-size: 0.9rem; color: #666;">
+                            <strong>Context Used:</strong> ${result.contextUsed || 'Self-model state'}
+                        </div>
+                    `;
+                    document.getElementById('contextual-response').classList.remove('hidden');
+                    addConsciousnessMessage('🗣️ Contextual response generated successfully', 'success');
+                } else {
+                    addConsciousnessMessage('❌ Failed to generate contextual response: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Generate contextual response error:', error);
+                addConsciousnessMessage('❌ Error generating contextual response: ' + error.message, 'error');
+            }
+        }
+
+        async function loadActiveInterventions() {
+            try {
+                const response = await fetch('/api/consciousness/interventions/test_user_001', {
+                    headers: { 'x-bypass-auth': 'true' }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    const content = document.getElementById('intervention-content');
+                    content.innerHTML = `
+                        <div>
+                            <h6>Active Interventions:</h6>
+                            ${result.activeInterventions && result.activeInterventions.length > 0 
+                                ? result.activeInterventions.map(intervention => 
+                                    `<div style="margin: 5px 0; padding: 8px; background: #e8f5e8; border-radius: 4px;">
+                                        ${intervention.type} - ${intervention.status}
+                                    </div>`
+                                  ).join('')
+                                : '<p>No active interventions</p>'
+                            }
+                        </div>
+                    `;
+                    document.getElementById('intervention-display').classList.remove('hidden');
+                    addConsciousnessMessage('🎯 Active interventions loaded', 'success');
+                } else {
+                    addConsciousnessMessage('❌ Failed to load interventions: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Load active interventions error:', error);
+                addConsciousnessMessage('❌ Error loading interventions: ' + error.message, 'error');
+            }
+        }
+
+        async function triggerIntervention() {
+            try {
+                const response = await fetch('/api/consciousness/interventions/test_user_001', {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'x-bypass-auth': 'true'
+                    },
+                    body: JSON.stringify({ interventionType: 'guided_breathing' })
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    addConsciousnessMessage(`🚀 Intervention triggered: ${result.interventionType}`, 'success');
+                    loadActiveInterventions();
+                } else {
+                    addConsciousnessMessage('❌ Failed to trigger intervention: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Trigger intervention error:', error);
+                addConsciousnessMessage('❌ Error triggering intervention: ' + error.message, 'error');
+            }
+        }
+
+        async function viewEffectiveness() {
+            addConsciousnessMessage('📈 Effectiveness metrics would show intervention success rates and user state improvements over time', 'info');
+        }
+
+        async function suggestMission() {
+            try {
+                const response = await fetch('/api/consciousness/missions/test_user_001', {
+                    headers: { 'x-bypass-auth': 'true' }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    addConsciousnessMessage(`🎯 Mission suggested: ${result.mission?.title || 'Personalized cognitive training mission'}`, 'success');
+                } else {
+                    addConsciousnessMessage('❌ Failed to suggest mission: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Suggest mission error:', error);
+                addConsciousnessMessage('❌ Error suggesting mission: ' + error.message, 'error');
+            }
+        }
+
+        async function getConsciousnessScore() {
+            try {
+                const response = await fetch('/api/consciousness/status', {
+                    headers: { 'x-bypass-auth': 'true' }
+                });
+                const result = await response.json();
+                
+                if (result.success) {
+                    addConsciousnessMessage(`📈 Current consciousness score: ${result.consciousnessScore || 0.0}`, 'success');
+                } else {
+                    addConsciousnessMessage('❌ Failed to get consciousness score: ' + result.error, 'error');
+                }
+            } catch (error) {
+                console.error('Get consciousness score error:', error);
+                addConsciousnessMessage('❌ Error getting consciousness score: ' + error.message, 'error');
+            }
+        }
+
+        function addConsciousnessMessage(message, type = 'info') {
+            const messagesContainer = document.getElementById('consciousness-messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'consciousness-message';
+            
+            let bgColor, borderColor, textColor;
+            switch (type) {
+                case 'success':
+                    bgColor = '#e8f5e8';
+                    borderColor = '#4caf50';
+                    textColor = '#2e7d32';
+                    break;
+                case 'error':
+                    bgColor = '#ffebee';
+                    borderColor = '#f44336';
+                    textColor = '#c62828';
+                    break;
+                case 'warning':
+                    bgColor = '#fff3e0';
+                    borderColor = '#ff9800';
+                    textColor = '#ef6c00';
+                    break;
+                default:
+                    bgColor = '#e0f2fe';
+                    borderColor = '#0288d1';
+                    textColor = '#01579b';
+            }
+            
+            messageDiv.style.cssText = `
+                margin-bottom: 10px;
+                padding: 10px;
+                background: ${bgColor};
+                border-left: 4px solid ${borderColor};
+                border-radius: 4px;
+                color: ${textColor};
+            `;
+            
+            messageDiv.textContent = message;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
     </script>
 </body>
 </html>

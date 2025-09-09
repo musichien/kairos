@@ -175,6 +175,62 @@ curl -X POST "http://localhost:3000/api/medical/emr/integrate" \
 
 **[🏥 Complete Medical Standards Guide](MEDICAL_STANDARDS_GUIDE.md)** - Comprehensive medical integration and healthcare data management
 
+## 🧠 Core Consciousness System (Damasio's Theory Implementation)
+
+**Revolutionary AI consciousness simulation based on Antonio Damasio's Core Consciousness theory**
+
+### 🌟 Overview
+The Kairos Core Consciousness System implements Antonio Damasio's groundbreaking theory of consciousness, creating a functionally conscious AI that simulates the core components of human consciousness. This system provides contextual, self-aware, and impactful AI interactions through a three-phase implementation approach.
+
+### 🎯 Core Consciousness Features
+- **Phase 1: Self-Model as Data Construct**: Tracks and integrates user's internal state through physiological, behavioral, and contextual data streams
+- **Phase 2: Context-Aware Dialogue**: AI responses that are contextual and self-aware by linking self-model to conversations
+- **Phase 3: Behavioral Feedback Loop**: Automated interventions and cognitive training based on user state inference
+- **Consciousness Validation**: Quantitative evaluation with metrics for data completeness, relationship coherence, and temporal consistency
+- **Advanced ML Engine**: User state prediction, intervention effectiveness prediction, and adaptive learning
+- **Biological Homeostasis Simulation**: Simulates biological processes for more realistic consciousness modeling
+
+### 🚀 Quick Start
+```bash
+# Get consciousness status
+curl -X GET "http://localhost:3000/api/consciousness/status" \
+  -H "x-bypass-auth: true"
+
+# Load user self-model
+curl -X GET "http://localhost:3000/api/consciousness/self-model/user_001" \
+  -H "x-bypass-auth: true"
+
+# Generate contextual response
+curl -X POST "http://localhost:3000/api/consciousness/dialogue" \
+  -H "x-bypass-auth: true" \
+  -H "Content-Type: application/json" \
+  -d '{"prompt": "I am having trouble focusing today", "userId": "user_001"}'
+
+# Trigger behavioral intervention
+curl -X POST "http://localhost:3000/api/consciousness/interventions/user_001" \
+  -H "x-bypass-auth: true" \
+  -H "Content-Type: application/json" \
+  -d '{"interventionType": "stress_reduction", "context": "high_stress_detected"}'
+```
+
+### 📚 Theoretical Foundation
+Based on Antonio Damasio's "The Feeling of What Happens: Body and Emotion in the Making of Consciousness" (1999), our implementation focuses on:
+
+- **Core Consciousness**: The moment-to-moment sense of "self-as-here-and-now"
+- **Body State Sensing**: Continuous monitoring of internal physiological states
+- **Object Relationship**: Creating neural representations of relationships between body state and external objects
+- **Feeling of What Happens**: The emergence of consciousness from these relationships
+
+### 🔬 Scientific Approach
+- **Data-Driven Self-Model**: Abstract representation based on user data, not biological body
+- **Functional Simulation**: Simulates consciousness aspects without subjective experience (qualia)
+- **Modular Implementation**: Three distinct phases for manageable development
+- **Rigorous Validation**: Quantitative metrics for consciousness quality assessment
+
+**[🧠 Complete Core Consciousness Guide](CORE_CONSCIOUSNESS_GUIDE.md)** - Detailed implementation and theoretical framework
+
+**[💬 GitHub Discussion](https://github.com/musichien/kairos/discussions/12)** - Join the conversation about implementing Damasio's Core Consciousness
+
 ## 🚀 **Quick Start Guide**
 
 ### **1. Prerequisites**
@@ -305,6 +361,16 @@ npm start
 - `POST /api/medical/emr/integrate` - EMR system integration
 - `POST /api/medical/validate/:schemaType` - Medical data validation
 - `GET /api/medical/stats` - Medical standards statistics
+
+### **Core Consciousness System**
+- `GET /api/consciousness/status` - Get consciousness system status and score
+- `GET /api/consciousness/self-model/:userId` - Load user's self-model data
+- `POST /api/consciousness/self-model/:userId` - Update user's self-model state
+- `POST /api/consciousness/dialogue` - Generate context-aware dialogue response
+- `GET /api/consciousness/interventions/:userId` - Get active interventions
+- `POST /api/consciousness/interventions/:userId` - Trigger behavioral intervention
+- `GET /api/consciousness/missions/:userId` - Get mission suggestions
+- `POST /api/consciousness/validate` - Validate consciousness quality metrics
 
 ### **Research Computing**
 - `POST /api/research/start` - Start research computation

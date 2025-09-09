@@ -247,16 +247,22 @@ class AdvancedConsciousnessSystem extends EventEmitter {
     }
 
     handleInterventionCompleted(data) {
-        const { userId, intervention, effectiveness } = data;
+        const userId = data.userId;
+        const intervention = data.intervention || (data.interventionInstance ? data.interventionInstance.intervention : data.intervention);
+        const effectiveness = data.effectiveness || data.effectiveness === 0 ? { overall: data.effectiveness } : (data.effectiveness || data.effectiveness === 0 ? data.effectiveness : (data.effectiveness ?? (data.effectiveness))); // keep compatibility
+        const overallEffectiveness = typeof (data.effectiveness && data.effectiveness.overall) === 'number'
+            ? data.effectiveness.overall
+            : (typeof data.effectiveness === 'number' ? data.effectiveness : (data.effectiveness && typeof data.effectiveness.overall === 'number' ? data.effectiveness.overall : 0));
         
         // 개입 완료 로깅
-        console.log(`✅ Intervention completed: ${intervention.name} for user ${userId}`);
+        const name = intervention && intervention.name ? intervention.name : (data.intervention && data.intervention.name ? data.intervention.name : 'Unknown Intervention');
+        console.log(`✅ Intervention completed: ${name} for user ${userId}`);
         
         // ML 학습 데이터 업데이트
         this.mlEngine.updateAdaptiveLearning(userId, {
             type: 'intervention_completed',
-            outcome: effectiveness.overall > 0.5 ? 'positive' : 'negative',
-            interventionType: intervention.type
+            outcome: overallEffectiveness > 0.5 ? 'positive' : 'negative',
+            interventionType: (intervention && intervention.type) ? intervention.type : 'unknown'
         });
     }
 

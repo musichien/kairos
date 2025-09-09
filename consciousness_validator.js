@@ -304,15 +304,20 @@ class ConsciousnessValidator extends EventEmitter {
     }
 
     calculateRelationshipCoherence(userState) {
-        if (userState.relationships.length === 0) return 0;
+        // relationships can be an Array (from getCurrentUserState) or a Map (internal)
+        const rels = Array.isArray(userState.relationships)
+            ? userState.relationships.map(([key, value]) => ({ key, ...value }))
+            : (userState.relationships && typeof userState.relationships.forEach === 'function'
+                ? Array.from(userState.relationships.entries()).map(([key, value]) => ({ key, ...value }))
+                : []);
+        if (rels.length === 0) return 0;
         
         let coherence = 0;
-        userState.relationships.forEach(rel => {
+        rels.forEach(rel => {
             // 관계의 강도와 논리적 일관성 평가
             coherence += rel.strength * this.evaluateRelationshipLogic(rel);
         });
-        
-        return coherence / userState.relationships.length;
+        return coherence / rels.length;
     }
 
     evaluateRelationshipLogic(relationship) {
@@ -481,7 +486,7 @@ class ConsciousnessValidator extends EventEmitter {
     // 2단계 검증 메서드들
     calculateRelationshipAwareness(userId, userState) {
         // 관계 인식도 계산
-        const dialogueHistory = this.contextAwareDialogue.dialogueHistory.get(userId) || [];
+        const dialogueHistory = (this.contextAwareDialogue && this.contextAwareDialogue.dialogueHistory && this.contextAwareDialogue.dialogueHistory.get(userId)) || [];
         if (dialogueHistory.length === 0) return 0;
         
         let awareness = 0;
@@ -496,7 +501,7 @@ class ConsciousnessValidator extends EventEmitter {
 
     calculateEmpatheticResponse(userId, userState) {
         // 공감적 응답 품질 계산
-        const dialogueHistory = this.contextAwareDialogue.dialogueHistory.get(userId) || [];
+        const dialogueHistory = (this.contextAwareDialogue && this.contextAwareDialogue.dialogueHistory && this.contextAwareDialogue.dialogueHistory.get(userId)) || [];
         if (dialogueHistory.length === 0) return 0;
         
         let empathy = 0;
@@ -705,16 +710,25 @@ class ConsciousnessValidator extends EventEmitter {
 
     calculateConsciousnessScores() {
         this.validationMetrics.forEach((validation, userId) => {
+            const overall = Number(validation.overallConsciousness);
+            const safeOverall = isNaN(overall) ? 0 : overall;
+            const selfModelScore = Number(validation.phases.selfModel && validation.phases.selfModel.overallScore);
+            const dialogueScore = Number(validation.phases.contextualDialogue && validation.phases.contextualDialogue.overallScore);
+            const feedbackScore = Number(validation.phases.behavioralFeedback && validation.phases.behavioralFeedback.overallScore);
+            const safeSelf = isNaN(selfModelScore) ? 0 : selfModelScore;
+            const safeDialogue = isNaN(dialogueScore) ? 0 : dialogueScore;
+            const safeFeedback = isNaN(feedbackScore) ? 0 : feedbackScore;
+
             const consciousnessScore = {
                 userId,
                 timestamp: Date.now(),
-                overallScore: validation.overallConsciousness,
+                overallScore: safeOverall,
                 phaseScores: {
-                    selfModel: validation.phases.selfModel.overallScore,
-                    contextualDialogue: validation.phases.contextualDialogue.overallScore,
-                    behavioralFeedback: validation.phases.behavioralFeedback.overallScore
+                    selfModel: safeSelf,
+                    contextualDialogue: safeDialogue,
+                    behavioralFeedback: safeFeedback
                 },
-                consciousnessLevel: this.determineConsciousnessLevel(validation.overallConsciousness),
+                consciousnessLevel: this.determineConsciousnessLevel(safeOverall),
                 recommendations: this.generateRecommendations(validation)
             };
             
@@ -776,21 +790,23 @@ class ConsciousnessValidator extends EventEmitter {
             let totalScore = 0;
             
             this.consciousnessScores.forEach(score => {
-                totalScore += score.overallScore;
+                const s = Number(score.overallScore);
+                totalScore += isNaN(s) ? 0 : s;
                 stats.consciousnessDistribution[score.consciousnessLevel]++;
                 
-                stats.phasePerformance.selfModel += score.phaseScores.selfModel;
-                stats.phasePerformance.contextualDialogue += score.phaseScores.contextualDialogue;
-                stats.phasePerformance.behavioralFeedback += score.phaseScores.behavioralFeedback;
+                stats.phasePerformance.selfModel += Number(score.phaseScores.selfModel) || 0;
+                stats.phasePerformance.contextualDialogue += Number(score.phaseScores.contextualDialogue) || 0;
+                stats.phasePerformance.behavioralFeedback += Number(score.phaseScores.behavioralFeedback) || 0;
             });
             
-            stats.averageConsciousness = totalScore / this.consciousnessScores.size;
+            const avg = totalScore / this.consciousnessScores.size;
+            stats.averageConsciousness = isNaN(avg) ? 0 : avg;
             
             // 단계별 평균 성능
             const userCount = this.consciousnessScores.size;
-            stats.phasePerformance.selfModel /= userCount;
-            stats.phasePerformance.contextualDialogue /= userCount;
-            stats.phasePerformance.behavioralFeedback /= userCount;
+            stats.phasePerformance.selfModel = (stats.phasePerformance.selfModel / userCount) || 0;
+            stats.phasePerformance.contextualDialogue = (stats.phasePerformance.contextualDialogue / userCount) || 0;
+            stats.phasePerformance.behavioralFeedback = (stats.phasePerformance.behavioralFeedback / userCount) || 0;
         }
         
         return stats;
