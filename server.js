@@ -4399,18 +4399,18 @@ app.get('/api/consciousness/interventions/:userId', authenticateToken, async (re
         id: intervention.id,
         type: intervention.intervention.type,
         name: intervention.intervention.name,
-        duration: intervention.intervention.duration,
-        startTime: intervention.startTime,
-        status: intervention.status,
+        duration: intervention?.intervention?.duration || 0,
+        startTime: intervention?.startTime || Date.now(),
+        status: intervention?.status || 'unknown',
         strategyType: intervention.strategyType
       })),
       interventionHistory: interventionHistory.slice(-10).map(intervention => ({
         id: intervention.id,
         type: intervention.intervention.type,
         name: intervention.intervention.name,
-        effectiveness: intervention.effectiveness,
-        startTime: intervention.startTime,
-        endTime: intervention.endTime
+        effectiveness: intervention?.effectiveness || 0,
+        startTime: intervention?.startTime || Date.now(),
+        endTime: intervention?.endTime || null
       })),
       timestamp: new Date().toISOString()
     });
@@ -4440,7 +4440,7 @@ app.post('/api/consciousness/interventions/:userId', authenticateToken, async (r
         name: intervention?.name || intervention?.intervention?.name || 'Unknown Intervention',
         duration: intervention?.duration || intervention?.intervention?.duration || 0,
         strategyType: intervention?.strategyType || 'unknown',
-        startTime: intervention.startTime
+        startTime: intervention?.startTime || Date.now()
       },
       message: 'Intervention triggered successfully',
       timestamp: new Date().toISOString()
