@@ -4439,7 +4439,7 @@ app.post('/api/consciousness/interventions/:userId', authenticateToken, async (r
         type: intervention?.type || intervention?.intervention?.type || 'unknown',
         name: intervention?.name || intervention?.intervention?.name || 'Unknown Intervention',
         duration: intervention?.duration || intervention?.intervention?.duration || 0,
-        strategyType: intervention.strategyType,
+        strategyType: intervention?.strategyType || 'unknown',
         startTime: intervention.startTime
       },
       message: 'Intervention triggered successfully',
