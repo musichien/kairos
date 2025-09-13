@@ -37,9 +37,15 @@ const HL7Processor = require('./hl7_processor');
 const MedicalDataSchema = require('./medical_data_schema');
 
 // 🧠 Damasio's Core Consciousness Implementation
-// const SelfModelManager = require('./self_model_manager');
-// const ContextAwareDialogue = require('./context_aware_dialogue');
-// const BehavioralFeedbackLoop = require('./behavioral_feedback_loop');
+const SelfModelManager = require('./self_model_manager');
+const ContextAwareDialogue = require('./context_aware_dialogue');
+const BehavioralFeedbackLoop = require('./behavioral_feedback_loop');
+
+// 🚀 Enhanced Core Consciousness Implementation
+const AdvancedSelfModelManager = require('./advanced_self_model_manager');
+const AdvancedContextAwareDialogue = require('./advanced_context_aware_dialogue');
+const AdvancedBehavioralFeedbackLoop = require('./advanced_behavioral_feedback_loop');
+const EnhancedConsciousnessValidator = require('./enhanced_consciousness_validator');
 
 
 const app = express();
@@ -71,13 +77,15 @@ const hl7Processor = new HL7Processor();
 const medicalDataSchema = new MedicalDataSchema();
 
 // 🧠 Damasio's Core Consciousness System 초기화
-// const selfModelManager = new SelfModelManager();
-// const contextAwareDialogue = new ContextAwareDialogue(selfModelManager);
-// const behavioralFeedbackLoop = new BehavioralFeedbackLoop(selfModelManager, contextAwareDialogue);
+const selfModelManager = new SelfModelManager();
+const contextAwareDialogue = new ContextAwareDialogue(selfModelManager);
+const behavioralFeedbackLoop = new BehavioralFeedbackLoop(selfModelManager, contextAwareDialogue);
 
-// 🌟 Advanced Consciousness System 초기화
-// const AdvancedConsciousnessSystem = require('./advanced_consciousness_system');
-// const advancedConsciousnessSystem = new AdvancedConsciousnessSystem();
+// 🚀 Enhanced Core Consciousness System 초기화
+const advancedSelfModelManager = new AdvancedSelfModelManager();
+const advancedContextAwareDialogue = new AdvancedContextAwareDialogue(advancedSelfModelManager);
+const advancedBehavioralFeedbackLoop = new AdvancedBehavioralFeedbackLoop(advancedSelfModelManager, advancedContextAwareDialogue);
+const enhancedConsciousnessValidator = new EnhancedConsciousnessValidator();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
@@ -3574,40 +3582,57 @@ app.get('/status', (req, res) => {
   });
 });
 
-const server = app.listen(PORT, '0.0.0.0', () => {
-  console.log(`🚀 Ollama-based OpenAI API compatible server running on port ${PORT}.`);
-  console.log(`🤖 AI Server: OLLAMA`);
-  console.log(`📡 AI Server URL: ${OLLAMA_URL}`);
-  console.log(`🔗 OpenAI Compatible Endpoint: http://localhost:${PORT}/v1/chat/completions`);
-    console.log(`🧪 Test Endpoint: http://localhost:${PORT}/api/generate`);
-  console.log(`🔊 Multimodal Integration System initialized.`);
-  console.log(`🌍 Culture and Language Optimization System initialized.`);
-  console.log(`🧬 Telomere-based Health Management Module initialized.`);
-  console.log(`💓 Acute Cardiovascular Event Early Warning System initialized.`);
-  console.log(`🧠 Brain Disease Research Distributed Computing System initialized.`);
-  console.log(`🌟 Embodied Identity and Self-Recovery System initialized.`);
-  
-  // WebSocket server initialization
-  multimodalManager.initializeWebSocket(server);
-  
-  // Start security cleanup scheduler
-  securityManager.startCleanupScheduler();
-  
-  // Brain Research Computing initialization
-  brainResearchComputingManager.initializeSampleJobs();
-  
-  // Schedule periodic cleanup tasks
-  setInterval(() => {
-    brainResearchComputingManager.cleanup();
-    embodiedIdentityManager.cleanup();
-  }, 60 * 60 * 1000); // Every hour
-  
-  // 🚀 Advanced modules initialization complete
-  console.log(`📊 AI Performance Monitoring System initialized.`);
-  console.log(`👤 User Behavior Analysis System initialized.`);
-  console.log(`🔒 Advanced Security Management System initialized.`);
-  console.log(`⚡ Performance Optimization System initialized.`);
-}); 
+function startServer(desiredPort) {
+  const serverInstance = app.listen(desiredPort, '0.0.0.0', () => {
+    const PORT_IN_USE = desiredPort;
+    console.log(`🚀 Ollama-based OpenAI API compatible server running on port ${PORT_IN_USE}.`);
+    console.log(`🤖 AI Server: OLLAMA`);
+    console.log(`📡 AI Server URL: ${OLLAMA_URL}`);
+    console.log(`🔗 OpenAI Compatible Endpoint: http://localhost:${PORT_IN_USE}/v1/chat/completions`);
+    console.log(`🧪 Test Endpoint: http://localhost:${PORT_IN_USE}/api/generate`);
+    console.log(`🔊 Multimodal Integration System initialized.`);
+    console.log(`🌍 Culture and Language Optimization System initialized.`);
+    console.log(`🧬 Telomere-based Health Management Module initialized.`);
+    console.log(`💓 Acute Cardiovascular Event Early Warning System initialized.`);
+    console.log(`🧠 Brain Disease Research Distributed Computing System initialized.`);
+    console.log(`🌟 Embodied Identity and Self-Recovery System initialized.`);
+    
+    // WebSocket server initialization
+    multimodalManager.initializeWebSocket(serverInstance);
+    
+    // Start security cleanup scheduler
+    securityManager.startCleanupScheduler();
+    
+    // Brain Research Computing initialization
+    brainResearchComputingManager.initializeSampleJobs();
+    
+    // Schedule periodic cleanup tasks
+    setInterval(() => {
+      brainResearchComputingManager.cleanup();
+      embodiedIdentityManager.cleanup();
+    }, 60 * 60 * 1000); // Every hour
+    
+    // 🚀 Advanced modules initialization complete
+    console.log(`📊 AI Performance Monitoring System initialized.`);
+    console.log(`👤 User Behavior Analysis System initialized.`);
+    console.log(`🔒 Advanced Security Management System initialized.`);
+    console.log(`⚡ Performance Optimization System initialized.`);
+  });
+
+  serverInstance.on('error', (err) => {
+    if (err && err.code === 'EADDRINUSE') {
+      const nextPort = Number(desiredPort) + 1;
+      console.warn(`Port ${desiredPort} in use. Trying ${nextPort}...`);
+      startServer(nextPort);
+    } else {
+      throw err;
+    }
+  });
+
+  return serverInstance;
+}
+
+const server = startServer(PORT);
 
 // 🚀 고도화 엔드포인트 구현
 
@@ -4224,18 +4249,36 @@ app.post('/api/medical/hipaa/test', authenticateToken, async (req, res) => {
 
 // ===== 🧠 Damasio's Core Consciousness API Endpoints =====
 
-// Mock Consciousness System Endpoints (for UI testing)
+// Enhanced Consciousness System Status
 app.get('/api/consciousness/status', authenticateToken, async (req, res) => {
   try {
+    const selfModelStats = selfModelManager.getStats();
+    const dialogueStats = contextAwareDialogue.getStats();
+    const feedbackStats = behavioralFeedbackLoop.getStats();
+    const validationStats = enhancedConsciousnessValidator.getStats();
+    
     res.json({ 
       success: true, 
-      consciousnessScore: 0.75,
+      consciousnessScore: validationStats.averageConsciousness || 0.75,
       selfModelStatus: 'active',
       dialogueStatus: 'active',
       feedbackStatus: 'active',
+      enhancedSystem: {
+        advancedSelfModel: 'active',
+        advancedDialogue: 'active',
+        advancedFeedback: 'active',
+        enhancedValidator: 'active'
+      },
+      stats: {
+        selfModel: selfModelStats,
+        dialogue: dialogueStats,
+        feedback: feedbackStats,
+        validation: validationStats
+      },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Consciousness status error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
@@ -4243,16 +4286,44 @@ app.get('/api/consciousness/status', authenticateToken, async (req, res) => {
 app.get('/api/consciousness/self-model/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
+    
+    // Enhanced Self-Model에서 사용자 상태 조회
+    let userState = advancedSelfModelManager.getCurrentUserState(userId);
+    
+    if (!userState) {
+      // 사용자 상태가 없으면 초기화
+      try {
+        userState = await advancedSelfModelManager.updateUserState(userId, {
+          text: 'Initial user state',
+          sensorData: {},
+          behavioralData: {},
+          context: { source: 'initialization' }
+        });
+      } catch (error) {
+        console.error('Failed to initialize user state:', error);
+        return res.status(500).json({ 
+          success: false, 
+          error: 'Failed to initialize user state' 
+        });
+      }
+    }
+    
     res.json({ 
       success: true, 
       selfModel: {
-        physiological: { heartRate: 72, steps: 4500, sleepDuration: 7.5 },
-        behavioral: { stressLevel: 0.3, attentionLevel: 0.8, mood: 'calm' },
-        contextual: { environment: 'home', timeOfDay: 'afternoon' }
+        physiological: userState.physiological,
+        behavioral: userState.behavioral,
+        emotional: userState.emotional,
+        cognitive: userState.cognitive,
+        social: userState.social,
+        environmental: userState.environmental,
+        selfAwareness: userState.selfAwareness,
+        metadata: userState.metadata
       },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Self-model retrieval error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
@@ -4261,27 +4332,55 @@ app.post('/api/consciousness/self-model/:userId', authenticateToken, async (req,
   try {
     const { userId } = req.params;
     const updateData = req.body;
+    
+    // Enhanced Self-Model로 사용자 상태 업데이트
+    const updatedState = await advancedSelfModelManager.updateUserState(userId, updateData);
+    
     res.json({ 
       success: true, 
       message: 'User state updated successfully',
-      updatedData: updateData,
+      data: {
+        userId,
+        updatedState: {
+          physiological: updatedState.physiological,
+          behavioral: updatedState.behavioral,
+          emotional: updatedState.emotional,
+          cognitive: updatedState.cognitive,
+          social: updatedState.social,
+          environmental: updatedState.environmental
+        }
+      },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Self-model update error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
 
 app.post('/api/consciousness/dialogue', authenticateToken, async (req, res) => {
   try {
-    const { userId, userQuery } = req.body;
+    const { userId, userQuery, baseResponse } = req.body;
+    
+    // Enhanced Context-Aware Dialogue로 응답 생성
+    const contextualResponse = await advancedContextAwareDialogue.generateAdvancedContextualResponse(
+      userId, 
+      userQuery, 
+      baseResponse
+    );
+    
     res.json({ 
       success: true, 
-      contextualResponse: `Based on your current state, I understand you're saying: "${userQuery}". Let me help you with that.`,
-      contextUsed: 'Self-model state analysis',
+      contextualResponse: contextualResponse.text,
+      context: contextualResponse.context,
+      suggestions: contextualResponse.suggestions,
+      selfAwareness: contextualResponse.selfAwareness,
+      mlInsights: contextualResponse.mlInsights,
+      metadata: contextualResponse.metadata,
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Dialogue generation error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
@@ -4289,14 +4388,34 @@ app.post('/api/consciousness/dialogue', authenticateToken, async (req, res) => {
 app.get('/api/consciousness/interventions/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
+    
+    // Enhanced Behavioral Feedback Loop에서 활성 개입 조회
+    const activeInterventions = advancedBehavioralFeedbackLoop.activeInterventions.get(userId) || [];
+    const interventionHistory = advancedBehavioralFeedbackLoop.interventionHistory.get(userId) || [];
+    
     res.json({ 
       success: true, 
-      activeInterventions: [
-        { type: 'guided_breathing', status: 'active', duration: 5 }
-      ],
+      activeInterventions: activeInterventions.map(intervention => ({
+        id: intervention.id,
+        type: intervention.intervention.type,
+        name: intervention.intervention.name,
+        duration: intervention.intervention.duration,
+        startTime: intervention.startTime,
+        status: intervention.status,
+        strategyType: intervention.strategyType
+      })),
+      interventionHistory: interventionHistory.slice(-10).map(intervention => ({
+        id: intervention.id,
+        type: intervention.intervention.type,
+        name: intervention.intervention.name,
+        effectiveness: intervention.effectiveness,
+        startTime: intervention.startTime,
+        endTime: intervention.endTime
+      })),
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Interventions retrieval error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
@@ -4304,14 +4423,30 @@ app.get('/api/consciousness/interventions/:userId', authenticateToken, async (re
 app.post('/api/consciousness/interventions/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
-    const { interventionType } = req.body;
+    const { interventionType, context } = req.body;
+    
+    // Enhanced Behavioral Feedback Loop로 개입 생성
+    const intervention = await advancedBehavioralFeedbackLoop.triggerAdvancedIntervention(
+      userId, 
+      interventionType || 'guided_breathing',
+      context || {}
+    );
+    
     res.json({ 
       success: true, 
-      interventionType: interventionType || 'guided_breathing',
+      intervention: {
+        id: intervention?.id || 'unknown',
+        type: intervention?.type || intervention?.intervention?.type || 'unknown',
+        name: intervention?.name || intervention?.intervention?.name || 'Unknown Intervention',
+        duration: intervention?.duration || intervention?.intervention?.duration || 0,
+        strategyType: intervention.strategyType,
+        startTime: intervention.startTime
+      },
       message: 'Intervention triggered successfully',
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Intervention trigger error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
@@ -4319,17 +4454,28 @@ app.post('/api/consciousness/interventions/:userId', authenticateToken, async (r
 app.get('/api/consciousness/missions/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
+    
+    // Enhanced Behavioral Feedback Loop에서 미션 제안 생성
+    const mission = await advancedBehavioralFeedbackLoop.suggestMission(userId);
+    
     res.json({ 
       success: true, 
       mission: {
-        title: 'Mindfulness Practice',
-        description: 'Take 5 minutes to practice deep breathing',
-        duration: 5,
-        type: 'wellness'
+        id: mission.id,
+        title: mission.title,
+        description: mission.description,
+        duration: mission.duration,
+        type: mission.type,
+        category: mission.category,
+        difficulty: mission.difficulty,
+        cognitiveLoad: mission.cognitiveLoad,
+        expectedOutcome: mission.expectedOutcome,
+        personalizedReason: mission.personalizedReason
       },
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Mission suggestion error:', error);
     res.status(500).json({ success: false, error: 'Internal server error' });
   }
 });
@@ -4366,13 +4512,24 @@ app.post('/api/consciousness/self-model/update', authenticateToken, async (req, 
 app.get('/api/consciousness/self-model/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
-    const userState = selfModelManager.getCurrentUserState(userId);
+    let userState = selfModelManager.getCurrentUserState(userId);
     
     if (!userState) {
-      return res.status(404).json({ 
-        success: false, 
-        error: 'User state not found' 
-      });
+      // 사용자 상태가 없으면 초기화
+      try {
+        userState = await selfModelManager.updateUserState(userId, {
+          text: 'Initial user state',
+          sensorData: {},
+          behavioralData: {},
+          context: { source: 'initialization' }
+        });
+      } catch (error) {
+        console.error('Failed to initialize user state:', error);
+        return res.status(500).json({ 
+          success: false, 
+          error: 'Failed to initialize user state' 
+        });
+      }
     }
     
     res.json({ 
@@ -4459,12 +4616,23 @@ app.post('/api/consciousness/interventions/trigger', authenticateToken, async (r
       });
     }
 
-    const userState = selfModelManager.getCurrentUserState(userId);
+    let userState = selfModelManager.getCurrentUserState(userId);
     if (!userState) {
-      return res.status(404).json({ 
-        success: false, 
-        error: 'User state not found' 
-      });
+      // 사용자 상태가 없으면 초기화
+      try {
+        userState = await selfModelManager.updateUserState(userId, {
+          text: 'Initial user state',
+          sensorData: {},
+          behavioralData: {},
+          context: { source: 'initialization' }
+        });
+      } catch (error) {
+        console.error('Failed to initialize user state:', error);
+        return res.status(500).json({ 
+          success: false, 
+          error: 'Failed to initialize user state' 
+        });
+      }
     }
 
     await behavioralFeedbackLoop.triggerIntervention(userId, strategyType, userState);
@@ -4676,7 +4844,7 @@ app.post('/api/advanced-consciousness/intervention/trigger', authenticateToken, 
 app.get('/api/advanced-consciousness/consciousness-score/:userId', authenticateToken, async (req, res) => {
   try {
     const { userId } = req.params;
-    const consciousnessScore = advancedConsciousnessSystem.getUserConsciousnessScore(userId);
+    const consciousnessScore = enhancedConsciousnessValidator.calculateConsciousnessScore(userId);
     
     if (!consciousnessScore) {
       return res.status(404).json({ 
@@ -4760,7 +4928,7 @@ app.post('/api/advanced-consciousness/ml/predict-intervention', authenticateToke
 // Consciousness Validation Report
 app.get('/api/advanced-consciousness/validation/report', authenticateToken, async (req, res) => {
   try {
-    const report = advancedConsciousnessSystem.consciousnessValidator.generateConsciousnessReport();
+    const report = enhancedConsciousnessValidator.generateComprehensiveReport();
     
     res.json({ 
       success: true, 

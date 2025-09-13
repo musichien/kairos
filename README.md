@@ -13,7 +13,7 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 **🚀 [Try Kairos Live Demo](https://kairos.musichien.com/) | 📱 [View Full UI Gallery](#-screenshots--ui-gallery)**
 
 
-## 🎯 **Core Features Overview (10 Core Features)**
+## 🎯 **Core Features Overview (11 Core Features)**
 
 ### 1. 🧠 **Long-term Memory & Contextualization Technology**
 **Develops time-based memory structures that naturally connect users' life events**
@@ -83,6 +83,16 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 - **Advanced Scheduling**: Weighted fair queuing with user quotas and priority levels
 - **Scientific Reports**: Auto-generated reports with DOI-style artifact IDs and reproducibility data
 - **Collaborative Research**: Join the global network advancing brain disease understanding
+
+### 9. 🧠 **Core Consciousness System (Damasio's Theory)**
+**Revolutionary AI consciousness simulation based on Antonio Damasio's Core Consciousness theory**
+
+- **Phase 1: Self-Model**: Tracks and integrates user's internal state through physiological, behavioral, and contextual data streams
+- **Phase 2: Context-Aware Dialogue**: AI responses that are contextual and self-aware by linking self-model to conversations
+- **Phase 3: Behavioral Feedback Loop**: Automated interventions and cognitive training based on user state inference
+- **Consciousness Validation**: Quantitative evaluation with metrics for data completeness, relationship coherence, and temporal consistency
+- **Advanced ML Engine**: User state prediction, intervention effectiveness prediction, and adaptive learning
+- **Biological Homeostasis Simulation**: Simulates biological processes for more realistic consciousness modeling
 
 ## 🏛️ Mnemosyne - Advanced Memory & Cultural Intelligence System
 
@@ -192,23 +202,23 @@ The Kairos Core Consciousness System implements Antonio Damasio's groundbreaking
 
 ### 🚀 Quick Start
 ```bash
-# Get consciousness status
-curl -X GET "http://localhost:3000/api/consciousness/status" \
-  -H "x-bypass-auth: true"
+# ⚠️ Set development mode first (bypasses authentication)
+$env:NODE_ENV="development"
+node server.js
 
-# Load user self-model
-curl -X GET "http://localhost:3000/api/consciousness/self-model/user_001" \
-  -H "x-bypass-auth: true"
+# Get consciousness status (no auth required in dev mode)
+curl -X GET "http://localhost:3000/api/consciousness/status"
 
-# Generate contextual response
+# Load user self-model (no auth required in dev mode)
+curl -X GET "http://localhost:3000/api/consciousness/self-model/user_001"
+
+# Generate contextual response (no auth required in dev mode)
 curl -X POST "http://localhost:3000/api/consciousness/dialogue" \
-  -H "x-bypass-auth: true" \
   -H "Content-Type: application/json" \
-  -d '{"prompt": "I am having trouble focusing today", "userId": "user_001"}'
+  -d '{"userId": "user_001", "userQuery": "I am having trouble focusing today", "baseResponse": "Let me help you with that"}'
 
-# Trigger behavioral intervention
+# Trigger behavioral intervention (no auth required in dev mode)
 curl -X POST "http://localhost:3000/api/consciousness/interventions/user_001" \
-  -H "x-bypass-auth: true" \
   -H "Content-Type: application/json" \
   -d '{"interventionType": "stress_reduction", "context": "high_stress_detected"}'
 ```
@@ -229,7 +239,9 @@ Based on Antonio Damasio's "The Feeling of What Happens: Body and Emotion in the
 
 **[🧠 Complete Core Consciousness Guide](CORE_CONSCIOUSNESS_GUIDE.md)** - Detailed implementation and theoretical framework
 
-**[💬 GitHub Discussion](https://github.com/musichien/kairos/discussions/12)** - Join the conversation about implementing Damasio's Core Consciousness
+**[💬 GitHub Discussion #12](https://github.com/musichien/kairos/discussions/12)** - Join the conversation about implementing Damasio's Core Consciousness
+
+**[💬 GitHub Discussion #14](https://github.com/musichien/kairos/discussions/14)** - Security & Ethical Development Guidelines
 
 ## 🚀 **Quick Start Guide**
 
@@ -247,9 +259,22 @@ cd kairos
 # Install dependencies
 npm install
 
-# Start the server
-npm start
+# ⚠️ IMPORTANT: Set development mode for testing
+# Windows PowerShell:
+$env:NODE_ENV="development"
+node server.js
+
+# Windows Command Prompt:
+set NODE_ENV=development
+node server.js
+
+# Linux/macOS:
+export NODE_ENV=development
+node server.js
 ```
+
+### **⚠️ Development Mode Security Notice**
+**NEVER use development mode in production!** Development mode bypasses authentication for easier testing. See [Development Setup Guide](./DEVELOPMENT_SETUP.md) for detailed security information.
 
 ### **3. Access the Platform**
 - **User-Friendly UI**: `http://localhost:3000` (Default)
