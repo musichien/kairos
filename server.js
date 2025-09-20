@@ -4,6 +4,7 @@ const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
+const session = require('express-session');
 const path = require('path');
 const moment = require('moment');
 require('dotenv').config();
@@ -274,6 +275,17 @@ app.use(cors({
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
+}));
+
+// 세션 설정
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'kairos-ai-secret-key-2024',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: false, // 개발 환경에서는 false
+    maxAge: 24 * 60 * 60 * 1000 // 24시간
+  }
 }));
 
 // 보안 강화된 인증 미들웨어
@@ -942,11 +954,15 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
 
     // AI 모델별 처리 분기
     let aiResponse;
+    console.log(`🤖 선택된 AI 모델: ${selectedAIModel}`);
+    
     if (selectedAIModel === AI_MODEL_OPTIONS.CHATGPT) {
       // ChatGPT API 호출
+      console.log('📡 ChatGPT API 호출 중...');
       aiResponse = await callChatGPTAPI(enhancedMessages, model, temperature, max_tokens, user_id);
     } else {
       // Ollama API 호출 (기본값)
+      console.log('🏠 Ollama API 호출 중...');
       aiResponse = await callOllamaAPI(enhancedMessages, model, temperature, max_tokens, user_id);
     }
 
@@ -1063,7 +1079,7 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
     console.log('Ollama Request:', JSON.stringify(ollamaRequest, null, 2));
 
     // AI 모델별 호출 (Ollama 또는 ChatGPT)
-    const aiResponse = await callOllamaAPI(enhancedMessages, model, temperature, max_tokens, user_id);
+    aiResponse = await callOllamaAPI(enhancedMessages, model, temperature, max_tokens, user_id);
     const chatResponse = aiResponse.data;
 
     // think 블록 제거 함수
@@ -1078,6 +1094,8 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
       object: 'chat.completion',
       created: Math.floor(Date.now() / 1000),
       model: model,
+      ai_model_used: selectedAIModel, // 사용된 AI 모델 정보 추가
+      privacy_status: selectedAIModel === AI_MODEL_OPTIONS.OLLAMA ? 'local' : 'external',
       choices: [
         {
           index: 0,

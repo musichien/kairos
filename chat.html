@@ -429,6 +429,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer your-secret-key-here'
                     },
+                    credentials: 'include', // 세션 쿠키 포함
                     body: JSON.stringify({ model: selectedModel })
                 });
 
@@ -490,6 +491,7 @@
                         'Content-Type': 'application/json',
                         'Authorization': 'Bearer your-secret-key-here'
                     },
+                    credentials: 'include', // 세션 쿠키 포함
                     body: JSON.stringify({
                         model: 'jinbora/deepseek-r1-Bllossom:8b',
                         messages: [
