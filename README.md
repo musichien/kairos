@@ -12,6 +12,16 @@ Welcome to Kairos! This project provides a **comprehensive AI platform** that co
 
 **🚀 [Try Kairos Live Demo](https://kairos.musichien.com/) | 📱 [View Full UI Gallery](#-screenshots--ui-gallery)**
 
+## 🚀 **Get Started in 3 Steps**
+
+**For General Users - No Technical Knowledge Required:**
+
+1. **📥 Download** - Clone or download this repository from GitHub
+2. **⚙️ Install** - Run `npm install` in the terminal
+3. **🎯 Launch** - Run `npm start` and open **http://localhost:3000** in your browser
+
+**That's it! You're now running Kairos AI locally on your computer!**
+
 
 ## 🎯 **Core Features Overview (11 Core Features)**
 
@@ -109,10 +119,42 @@ Mnemosyne represents the evolution of memory from mythology through education, s
 - **Data Security**: Encrypted storage with comprehensive access control
 
 ### 🚀 Quick Start
-```bash
-# Start the server
-npm start
 
+**For General Users - Easy Setup from GitHub:**
+
+1. **Download the Project**
+   ```bash
+   # Clone or download from GitHub
+   git clone https://github.com/musichien/kairos.git
+   cd kairos/v1-ollama_api_server
+   ```
+
+2. **Install Dependencies**
+   ```bash
+   # Install required packages
+   npm install
+   ```
+
+3. **Start the Server**
+   ```bash
+   # Start Kairos AI server
+   npm start
+   ```
+
+4. **Access Kairos AI**
+   - Open your browser and go to: **http://localhost:3000**
+   - The server will be running and ready to use!
+
+5. **Test the Connection**
+   ```bash
+   # Test if the server is working
+   curl http://localhost:3000/health
+   ```
+
+**🎉 That's it! You're now running Kairos AI locally!**
+
+**For Developers - API Access:**
+```bash
 # Access Mnemosyne features
 curl -X POST "http://localhost:3000/api/mnemosyne/training" \
   -H "Content-Type: application/json" \
@@ -137,6 +179,13 @@ The Kairos Security System provides enterprise-level security features designed 
 - **Privacy Protection**: Local data storage with complete user control
 
 ### 🚀 Quick Start
+
+**For General Users:**
+1. Start the server: `npm start`
+2. Open browser: **http://localhost:3000**
+3. Security features are automatically enabled
+
+**For Developers - API Access:**
 ```bash
 # Generate access token
 curl -X POST "http://localhost:3000/api/security/token" \
@@ -163,6 +212,13 @@ The Kairos Medical Standards Integration System provides seamless healthcare dat
 - **Terminology Services**: ValueSet expansion and code validation for medical standards
 
 ### 🚀 Quick Start
+
+**For General Users:**
+1. Start the server: `npm start`
+2. Open browser: **http://localhost:3000**
+3. Medical features are automatically available
+
+**For Developers - API Access:**
 ```bash
 # Create FHIR Patient
 curl -X POST "http://localhost:3000/api/medical/fhir/create/Patient" \
@@ -201,6 +257,13 @@ The Kairos Core Consciousness System implements Antonio Damasio's groundbreaking
 - **Biological Homeostasis Simulation**: Simulates biological processes for more realistic consciousness modeling
 
 ### 🚀 Quick Start
+
+**For General Users:**
+1. Start the server: `npm start`
+2. Open browser: **http://localhost:3000**
+3. Core Consciousness features are automatically available
+
+**For Developers - API Access:**
 ```bash
 # ⚠️ Set development mode first (bypasses authentication)
 $env:NODE_ENV="development"
