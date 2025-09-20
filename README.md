@@ -153,6 +153,23 @@ Mnemosyne represents the evolution of memory from mythology through education, s
 
 **🎉 That's it! You're now running Kairos AI locally!**
 
+**🤖 AI Model Options:**
+- **Ollama (Default)**: Local AI model with complete privacy protection
+- **ChatGPT API (Optional)**: External API for development/testing (⚠️ Data sent to external servers)
+
+**⚠️ ChatGPT API Setup (Development/Testing Only):**
+```bash
+# Set your OpenAI API key (optional - for development/testing)
+export OPENAI_API_KEY="your_openai_api_key_here"
+
+# Or create a .env file with:
+echo "OPENAI_API_KEY=your_openai_api_key_here" >> .env
+```
+
+**🔒 Privacy Notice:**
+- **Ollama (Recommended)**: All data stays on your local machine
+- **ChatGPT API**: Data is sent to OpenAI servers - use only for development/testing
+
 **For Developers - API Access:**
 ```bash
 # Access Mnemosyne features

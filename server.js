@@ -89,6 +89,82 @@ const enhancedConsciousnessValidator = new EnhancedConsciousnessValidator();
 const OLLAMA_URL = process.env.OLLAMA_URL || 'http://localhost:11434';
 const PORT = process.env.PORT || 3000;
 
+// AI 모델 선택 옵션
+const AI_MODEL_OPTIONS = {
+  OLLAMA: 'ollama',
+  CHATGPT: 'chatgpt'
+};
+
+// ChatGPT API 설정 (개발/테스트용)
+const CHATGPT_API_KEY = process.env.OPENAI_API_KEY;
+const CHATGPT_API_URL = 'https://api.openai.com/v1/chat/completions';
+
+// ChatGPT API 호출 함수
+async function callChatGPTAPI(messages, model, temperature, max_tokens, user_id) {
+  if (!CHATGPT_API_KEY) {
+    throw new Error('ChatGPT API key not configured');
+  }
+
+  const requestData = {
+    model: model || 'gpt-3.5-turbo',
+    messages: messages,
+    temperature: temperature || 0.7,
+    max_tokens: max_tokens || 1000
+  };
+
+  try {
+    const response = await axios.post(CHATGPT_API_URL, requestData, {
+      headers: {
+        'Authorization': `Bearer ${CHATGPT_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      timeout: 30000
+    });
+
+    return {
+      success: true,
+      data: response.data,
+      model: 'chatgpt',
+      warning: '⚠️ ChatGPT API 사용: 데이터가 외부로 전송되었습니다.'
+    };
+  } catch (error) {
+    console.error('ChatGPT API 호출 오류:', error.response?.data || error.message);
+    throw new Error(`ChatGPT API 호출 실패: ${error.response?.data?.error?.message || error.message}`);
+  }
+}
+
+// Ollama API 호출 함수
+async function callOllamaAPI(messages, model, temperature, max_tokens, user_id) {
+  const ollamaRequest = {
+    model: model || DEFAULT_MODEL,
+    messages: messages,
+    stream: false,
+    options: {
+      temperature: temperature || 0.7,
+      num_predict: max_tokens || 1000
+    }
+  };
+
+  try {
+    const response = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
+      timeout: 60000,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return {
+      success: true,
+      data: response.data,
+      model: 'ollama',
+      privacy: '✅ 로컬 처리: 데이터가 외부로 전송되지 않았습니다.'
+    };
+  } catch (error) {
+    console.error('Ollama API 호출 오류:', error.response?.data || error.message);
+    throw new Error(`Ollama API 호출 실패: ${error.response?.data?.error || error.message}`);
+  }
+}
+
 // 시스템 정보 가져오기
 const os = require('os');
 const { exec } = require('child_process');
@@ -771,6 +847,87 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+// AI 모델 선택 API
+app.get('/api/ai/models', authenticateToken, async (req, res) => {
+  try {
+    const models = {
+      available: [
+        {
+          id: 'ollama',
+          name: 'Ollama (Local)',
+          description: '로컬 Ollama 모델 - 완전한 프라이버시 보장',
+          type: 'local',
+          status: 'available',
+          privacy: 'high',
+          speed: 'medium'
+        },
+        {
+          id: 'chatgpt',
+          name: 'ChatGPT API (External)',
+          description: 'OpenAI ChatGPT API - 개발/테스트용 (⚠️ 보안 주의)',
+          type: 'external',
+          status: CHATGPT_API_KEY ? 'available' : 'requires_api_key',
+          privacy: 'low',
+          speed: 'fast',
+          warning: '⚠️ 외부 API 사용 시 데이터가 OpenAI로 전송됩니다. 개인정보 보호에 주의하세요.'
+        }
+      ],
+      default: 'ollama',
+      current: req.session?.aiModel || 'ollama'
+    };
+
+    res.json({
+      success: true,
+      models,
+      message: 'Available AI models retrieved successfully',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('AI models retrieval error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
+// AI 모델 설정 API
+app.post('/api/ai/model/select', authenticateToken, async (req, res) => {
+  try {
+    const { model } = req.body;
+    
+    if (!model || !Object.values(AI_MODEL_OPTIONS).includes(model)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid model selection'
+      });
+    }
+
+    // ChatGPT API 키 확인
+    if (model === AI_MODEL_OPTIONS.CHATGPT && !CHATGPT_API_KEY) {
+      return res.status(400).json({
+        success: false,
+        error: 'ChatGPT API key not configured. Please set OPENAI_API_KEY environment variable.',
+        requiresApiKey: true
+      });
+    }
+
+    // 세션에 모델 저장
+    if (!req.session) req.session = {};
+    req.session.aiModel = model;
+
+    res.json({
+      success: true,
+      selectedModel: model,
+      message: `AI model switched to ${model}`,
+      warning: model === AI_MODEL_OPTIONS.CHATGPT ? 
+        '⚠️ ChatGPT API 사용 중: 데이터가 외부로 전송될 수 있습니다.' : 
+        '✅ 로컬 Ollama 모델 사용 중: 완전한 프라이버시 보장',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('AI model selection error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
 // OpenAI API 호환 엔드포인트 (메모리 기능 포함)
 app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
   // 🚀 성능 모니터링 시작
@@ -779,6 +936,19 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
   
   try {
     const { messages, model = DEFAULT_MODEL, temperature = 0.7, max_tokens, stream = false, user_id, language = 'en' } = req.body;
+
+    // AI 모델 선택 (세션에서 가져오거나 기본값 사용)
+    const selectedAIModel = req.session?.aiModel || AI_MODEL_OPTIONS.OLLAMA;
+
+    // AI 모델별 처리 분기
+    let aiResponse;
+    if (selectedAIModel === AI_MODEL_OPTIONS.CHATGPT) {
+      // ChatGPT API 호출
+      aiResponse = await callChatGPTAPI(enhancedMessages, model, temperature, max_tokens, user_id);
+    } else {
+      // Ollama API 호출 (기본값)
+      aiResponse = await callOllamaAPI(enhancedMessages, model, temperature, max_tokens, user_id);
+    }
 
     // 메시지가 없으면 에러
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
@@ -892,18 +1062,9 @@ app.post('/v1/chat/completions', authenticateToken, async (req, res) => {
 
     console.log('Ollama Request:', JSON.stringify(ollamaRequest, null, 2));
 
-    // Ollama API 직접 호출 (모델별 적절한 타임아웃 설정)
-    const timeout = getModelTimeout(model);
-    console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
-    
-    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
-      timeout: timeout,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    const chatResponse = ollamaResponse.data;
+    // AI 모델별 호출 (Ollama 또는 ChatGPT)
+    const aiResponse = await callOllamaAPI(enhancedMessages, model, temperature, max_tokens, user_id);
+    const chatResponse = aiResponse.data;
 
     // think 블록 제거 함수
     function removeThinkBlocks(content) {
@@ -1039,14 +1200,10 @@ app.post('/api/generate', async (req, res) => {
     const timeout = getModelTimeout(model);
     console.log(`⏱️ 모델 ${model}에 대한 타임아웃: ${timeout/1000}초`);
 
-    const ollamaResponse = await axios.post(`${OLLAMA_URL}/api/chat`, ollamaRequest, {
-      timeout: timeout,
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-
-    res.json(ollamaResponse.data);
+    // AI 모델별 호출 (Ollama 또는 ChatGPT)
+    const aiResponse = await callOllamaAPI(enhancedMessages, model, temperature, max_tokens, user_id);
+    
+    res.json(aiResponse.data);
 
   } catch (error) {
     console.error('Ollama 직접 호출 에러:', error.message);
@@ -3576,6 +3733,10 @@ app.get('/status', (req, res) => {
       '/api/optimization/cache': '캐시 상태 및 통계',
       '/api/optimization/load-balancer': '로드 밸런서 상태',
       '/api/optimization/recommendations': '최적화 권장사항',
+
+      // 🤖 AI 모델 선택 API
+      '/api/ai/models': '사용 가능한 AI 모델 목록 조회',
+      '/api/ai/model/select': 'AI 모델 선택 및 변경',
 
       '/health': '서버 상태 확인'
     }
